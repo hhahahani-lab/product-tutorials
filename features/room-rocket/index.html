@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Room Rocket Demo V9</title>
+<style>
+:root{
+  --bg:#040812;
+  --panel:#091325;
+  --panel2:#0d1931;
+  --line:rgba(255,255,255,.10);
+  --text:#f7fbff;
+  --muted:#8f9db2;
+  --cyan:#4be7ff;
+  --gold:#ffd86f;
+  --purple:#8b6cff;
+  --green:#73efb0;
+  --rocketA:#54e8ff;
+  --rocketB:#756dff;
+  --rocketC:#c76dff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#02040a;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{min-height:100vh;display:flex;justify-content:center}
+button{font:inherit}
+.app{
+  width:min(100vw,430px);
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 70% 18%,rgba(37,168,196,.10),transparent 24%),
+    radial-gradient(circle at 20% 38%,rgba(96,72,180,.08),transparent 28%),
+    linear-gradient(180deg,#07101b,#03070d);
+}
+
+/* fake room */
+.room{position:absolute;inset:0}
+.roomTop{padding:20px 16px;opacity:.52}
+.status{display:flex;justify-content:space-between;font-weight:800;font-size:14px}
+.roomHeader{display:flex;align-items:center;gap:10px;margin-top:14px}
+.avatar{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#654eff,#35d3ff);display:grid;place-items:center;font-weight:900}
+.meta{flex:1}.meta b{display:block}.meta span{font-size:11px;color:#96a1b1}
+.seats{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 10px;margin-top:32px}
+.seat{text-align:center;color:#8490a3;font-size:10px}
+.seat i{display:grid;place-items:center;width:60px;height:60px;margin:auto;border-radius:50%;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);font-style:normal;font-size:24px}
+.chat{position:absolute;left:14px;right:100px;bottom:96px;opacity:.35}
+.chat div{width:max-content;max-width:100%;padding:5px 8px;margin-top:5px;border-radius:10px;background:rgba(0,0,0,.25);font-size:11px}
+.bottom{position:absolute;left:0;right:0;bottom:0;height:72px;background:rgba(3,7,13,.94);border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-around;align-items:center;font-size:22px;color:#a6afbe}
+.gift{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#ffcd4f,#ff8040);display:grid;place-items:center}
+.entry{
+  position:absolute;right:14px;bottom:96px;width:80px;height:108px;border-radius:24px;
+  border:1px solid rgba(75,231,255,.30);background:linear-gradient(180deg,#12263f,#07111f);
+  color:#fff;z-index:3;box-shadow:0 14px 34px rgba(0,0,0,.46)
+}
+.entry .r{display:block;font-size:40px}
+.entry .lv{font-size:11px;font-weight:900;color:var(--gold)}
+.entryBar{height:6px;border-radius:99px;background:#24324a;overflow:hidden;margin:5px 9px 3px}
+.entryBar span{display:block;width:46%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--gold))}
+.entry .pct{font-size:9px;color:#a7b3c5}
+
+/* bottom gameplay overlay */
+.overlay{
+  position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.56);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;transition:.2s
+}
+.overlay.show{opacity:1;pointer-events:auto}
+.sheet{
+  position:absolute;left:0;right:0;bottom:0;height:75vh;max-height:75vh;
+  overflow-y:auto;overscroll-behavior:contain;
+  border-radius:28px 28px 0 0;border-top:1px solid rgba(255,255,255,.11);
+  background:
+    radial-gradient(circle at 50% 12%,rgba(76,231,255,.12),transparent 22%),
+    radial-gradient(circle at 50% 34%,rgba(139,108,255,.13),transparent 28%),
+    linear-gradient(180deg,#06111f 0%,#060a17 58%,#040711 100%);
+  box-shadow:0 -22px 50px rgba(0,0,0,.45);
+  transform:translateY(8%);transition:.24s
+}
+.overlay.show .sheet{transform:translateY(0)}
+.handle{height:12px;display:grid;place-items:end center;position:sticky;top:0;z-index:8;background:linear-gradient(180deg,rgba(4,8,16,.96),rgba(4,8,16,.55),transparent)}
+.handle span{width:42px;height:4px;border-radius:99px;background:rgba(255,255,255,.26);margin-bottom:3px}
+
+/* floating utility buttons */
+.tools{
+  position:absolute;right:12px;top:42px;z-index:9;display:flex;flex-direction:column;gap:10px
+}
+.tool{
+  width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(5,12,24,.72);color:#fff;font-weight:900
+}
+.tool.close{border-color:rgba(255,116,116,.32);color:#ff8d8d}
+
+/* rocket area */
+.rocketArea{padding:8px 14px 2px;position:relative}
+.stage{
+  height:330px;position:relative;overflow:hidden;border-radius:24px;
+  background:
+    radial-gradient(circle at 50% 54%,rgba(76,231,255,.13),transparent 24%),
+    radial-gradient(circle at 50% 30%,rgba(120,96,255,.14),transparent 28%);
+}
+.glow{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(84,232,255,.16),rgba(117,109,255,.08) 45%,transparent 68%);filter:blur(4px)}
+.rocketArt{position:absolute;left:50%;top:20px;transform:translateX(-50%);width:172px;height:208px;filter:drop-shadow(0 22px 30px rgba(86,124,255,.30));transition:.22s}
+.rocketArt svg{width:100%;height:100%}
+.rocketTitle{
+  position:absolute;left:18px;bottom:80px;font-size:15px;font-weight:900
+}
+.reset{
+  position:absolute;right:18px;bottom:82px;font-size:9px;color:#9aa7ba
+}
+
+/* competitor-like battery progress */
+.progressWrap{position:absolute;left:18px;right:18px;bottom:20px}
+.battery{
+  height:22px;border-radius:999px;background:#1a263a;border:1px solid rgba(255,255,255,.14);
+  overflow:hidden;position:relative;box-shadow:inset 0 0 10px rgba(0,0,0,.35)
+}
+.battery:before,.battery:after{
+  content:"";position:absolute;top:6px;width:5px;height:10px;background:#9ca9b8;opacity:.45
+}
+.battery:before{left:-3px;border-radius:3px 0 0 3px}.battery:after{right:-3px;border-radius:0 3px 3px 0}
+.batteryFill{height:100%;width:46%;background:linear-gradient(90deg,var(--cyan),var(--rocketB),var(--gold));box-shadow:0 0 15px rgba(76,231,255,.24);transition:.25s}
+.batteryPct{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;font-weight:900;text-shadow:0 1px 3px #000}
+.energyText{text-align:center;font-size:9px;color:#8897aa;margin-top:4px}
+
+/* levels below rocket */
+.levels{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:14px 4px 2px
+}
+.levelBtn{
+  position:relative;border:none;background:transparent;color:#7e8ba0;padding:0;cursor:pointer
+}
+.levelRocket{
+  width:56px;height:56px;margin:auto;border-radius:50%;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.035);
+  display:grid;place-items:center;font-size:25px;
+  transition:.2s
+}
+.levelBtn .lv{font-size:9px;font-weight:900;margin-top:4px}
+.levelBtn.current:after{
+  content:"";position:absolute;top:-1px;right:11px;width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)
+}
+.levelBtn.selected .levelRocket{
+  border-color:rgba(255,216,111,.72);
+  background:linear-gradient(180deg,rgba(255,216,111,.13),rgba(139,108,255,.08));
+  box-shadow:0 0 20px rgba(255,216,111,.14);
+  transform:translateY(-2px)
+}
+.levelBtn.selected .lv{color:#fff}
+.levelBtn.past .levelRocket{opacity:.72}
+.levelBtn.future .levelRocket{opacity:.58}
+
+/* sections */
+.section{
+  margin:16px 14px 0;border-radius:20px;border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(13,25,49,.97),rgba(7,14,29,.97));overflow:hidden
+}
+.sectionHead{
+  padding:14px 14px 11px;display:flex;align-items:center;justify-content:center;position:relative
+}
+.sectionHead h3{margin:0;font-size:14px;font-weight:900}
+.sectionHead small{position:absolute;right:14px;font-size:9px;color:#8390a5}
+.rewardTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:0 10px 8px}
+.rewardTab{
+  border:none;border-bottom:2px solid transparent;background:transparent;color:#7f8da4;
+  padding:8px 3px;font-size:10px;font-weight:900
+}
+.rewardTab.active{color:#fff;border-bottom-color:var(--cyan);background:rgba(76,231,255,.04)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 12px 14px}
+.card{
+  min-height:92px;border-radius:14px;border:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(180deg,#142441,#0c1730);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px 5px
+}
+.card .ico{font-size:28px}.card .name{font-size:9px;color:#8f9cb1;margin-top:5px}.card .amt{font-size:10px;font-weight:900;margin-top:2px}
+
+.rankList{padding:2px 12px 14px}
+.rank{
+  display:flex;align-items:center;gap:12px;padding:12px 6px;border-bottom:1px solid rgba(255,255,255,.06)
+}
+.rank:last-child{border-bottom:none}
+.no{width:24px;text-align:center;font-size:15px;font-weight:950;color:var(--gold)}
+.ra{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff90bd,#6d7cff);display:grid;place-items:center;font-weight:900}
+.rm{flex:1}.rm b{font-size:12px}
+.score b{font-size:12px}
+
+/* demo only */
+.demo{margin:10px 14px 26px;padding:8px;border:1px dashed rgba(255,255,255,.10);border-radius:14px}
+.demoBtns{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.demoBtns button{border:none;border-radius:10px;padding:8px 4px;background:#18243d;color:#fff;font-size:9px;font-weight:800}
+.demoBtns button:last-child{background:linear-gradient(135deg,#675cff,#36d9ff)}
+
+/* modal */
+.modalMask{position:absolute;inset:0;z-index:50;background:rgba(0,0,0,.72);display:none;align-items:flex-end}
+.modalMask.show{display:flex}
+.modal{width:100%;max-height:68vh;overflow:auto;background:#0b1323;border-radius:26px 26px 0 0;border-top:1px solid rgba(255,255,255,.12);padding:16px 15px 24px}
+.modalTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modalTop h3{font-size:16px;margin:0}
+.rule p{font-size:11px;line-height:1.58;color:#d5ddea;margin:0 0 11px}.rule b{color:#fff}
+.record{display:flex;align-items:center;gap:10px;padding:11px;border-radius:14px;background:#111b31;border:1px solid rgba(255,255,255,.06);margin-bottom:8px}
+.ri{width:42px;height:42px;border-radius:12px;background:#182541;display:grid;place-items:center;font-size:22px}.rmain{flex:1}.rmain b{font-size:11px;display:block}.rmain span{font-size:9px;color:#8794a9}.rtime{font-size:9px;color:#8390a5}
+
+
+.worldBanner{
+  position:absolute;left:18px;right:18px;top:72px;z-index:95;
+  min-height:58px;border-radius:18px;
+  display:flex;align-items:center;gap:10px;padding:8px 52px 8px 10px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 88% 50%,rgba(255,244,170,.82),transparent 18%),
+    linear-gradient(90deg,rgba(130,72,10,.96),rgba(255,153,37,.98) 55%,rgba(116,56,8,.96));
+  border:1px solid rgba(255,224,135,.7);
+  box-shadow:0 10px 28px rgba(0,0,0,.42),0 0 26px rgba(255,164,52,.24);
+  transform:translateY(-110px);opacity:0;pointer-events:none;
+  transition:.34s cubic-bezier(.2,.8,.2,1);
+  overflow:hidden
+}
+.worldBanner.show{transform:translateY(0);opacity:1}
+.worldBanner:before{
+  content:"🚀";position:absolute;right:9px;top:50%;transform:translateY(-50%) rotate(8deg);
+  font-size:36px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.28))
+}
+.worldBanner:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 0 35%,rgba(255,255,255,.24) 46%,transparent 58% 100%);
+  transform:translateX(-110%);
+}
+.worldBanner.show:after{animation:bannerShine 1.1s ease .15s}
+@keyframes bannerShine{to{transform:translateX(110%)}}
+.worldAvatar{
+  width:40px;height:40px;border-radius:50%;flex:0 0 40px;
+  display:grid;place-items:center;font-weight:900;
+  background:linear-gradient(135deg,#6f58ff,#40d9ff);
+  border:2px solid rgba(255,255,255,.78)
+}
+.worldText{min-width:0;line-height:1.2}
+.worldText b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.worldText span{display:block;margin-top:3px;font-size:10px;color:#fff4d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.launch{position:absolute;inset:0;z-index:80;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.95),rgba(88,215,255,.55) 19%,rgba(105,75,255,.28) 34%,rgba(0,0,0,.9) 72%);opacity:0;pointer-events:none;transition:.18s}
+.launch.show{opacity:1}.launchBox{text-align:center}.launchBox .e{font-size:92px}.launchBox h1{margin:4px 0;font-size:28px}.launchBox p{margin:0;font-size:11px;color:#d6e1ef}
+.toast{position:absolute;left:50%;bottom:88px;z-index:90;transform:translateX(-50%) translateY(16px);opacity:0;transition:.2s;padding:9px 13px;border-radius:999px;background:#121c2f;border:1px solid rgba(255,255,255,.1);font-size:10px;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="room">
+    <div class="roomTop">
+      <div class="status"><span>14:50</span><span>▮▮▮ Wi‑Fi 🔋</span></div>
+      <div class="roomHeader"><div class="avatar">Y</div><div class="meta"><b>Yaloka Night Party</b><span>Room ID: 207 · Live</span></div><div>↗ &nbsp; ⏻</div></div>
+      <div class="seats">
+        <div class="seat"><i>🎤</i>No.1</div><div class="seat"><i>👩</i>No.2</div><div class="seat"><i>🎙️</i>No.3</div><div class="seat"><i>👨</i>No.4</div>
+        <div class="seat"><i>🎤</i>No.5</div><div class="seat"><i>👩‍🦰</i>No.6</div><div class="seat"><i>🎙️</i>No.7</div><div class="seat"><i>🧑</i>No.8</div>
+      </div>
+    </div>
+    <div class="chat"><div>Ariana sent Galaxy Gift ×1</div><div>Rocket Lv.3 reached 46%</div><div>Mika joined the room</div></div>
+    <button class="entry" id="entry">
+      <span class="r">🚀</span><div class="lv" id="entryLv">Lv.3</div>
+      <div class="entryBar"><span id="entryFill"></span></div><div class="pct" id="entryPct">46%</div>
+    </button>
+    <div class="bottom"><span>💬</span><span>🪑</span><span class="gift">🎁</span><span>🎮</span><span>◉</span></div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="sheet" id="sheet">
+      <div class="handle"><span></span></div>
+
+      <div class="tools">
+        <button class="tool close" id="close">✕</button>
+        <button class="tool" id="rulesBtn">?</button>
+        <button class="tool" id="recordBtn">◷</button>
+      </div>
+
+      <div class="rocketArea">
+        <div class="stage">
+          <div class="glow"></div>
+          <div class="rocketArt" id="rocketArt">
+            <svg viewBox="0 0 210 250" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="bodyG" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#e6fdff"/>
+                  <stop id="g1" offset=".35" stop-color="#54e8ff"/>
+                  <stop id="g2" offset=".74" stop-color="#756dff"/>
+                  <stop id="g3" offset="1" stop-color="#c76dff"/>
+                </linearGradient>
+                <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1a6"/><stop offset="1" stop-color="#ffb64f"/></linearGradient>
+                <linearGradient id="flameG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6b7"/><stop offset=".4" stop-color="#ffb84e"/><stop offset="1" stop-color="#7f5cff"/></linearGradient>
+              </defs>
+              <ellipse cx="105" cy="229" rx="73" ry="13" fill="rgba(73,230,255,.12)"/>
+              <path d="M105 16 C135 37 151 78 147 135 L132 190 H78 L63 135 C59 78 75 37 105 16Z" fill="url(#bodyG)" stroke="#d8fbff" stroke-width="3"/>
+              <path d="M105 16 C105 16 118 31 125 49 H85 C92 31 105 16 105 16Z" fill="url(#goldG)"/>
+              <circle cx="105" cy="90" r="22" fill="#0a1a2c" stroke="#f6f8ff" stroke-width="4"/>
+              <circle cx="105" cy="90" r="14" fill="#49e6ff" opacity=".65"/>
+              <path d="M73 128 L39 159 L55 198 L84 178Z" fill="#627dff" stroke="#c8f7ff" stroke-width="3"/>
+              <path d="M137 128 L171 159 L155 198 L126 178Z" fill="#9d6cff" stroke="#e7d8ff" stroke-width="3"/>
+              <path d="M88 187 L79 214 H96 L105 190 L114 214 H131 L122 187Z" fill="#17233c" stroke="#a9b7d3" stroke-width="2"/>
+              <path d="M87 211 C91 229 96 238 105 247 C114 238 119 229 123 211Z" fill="url(#flameG)"/>
+            </svg>
+          </div>
+
+          <div class="rocketTitle" id="rocketTitle">Rocket Lv.3</div>
+          <div class="reset">Reset in <b>15:59:49</b></div>
+
+          <div class="progressWrap">
+            <div class="battery"><div class="batteryFill" id="batteryFill"></div><div class="batteryPct" id="batteryPct">46%</div></div>
+            <div class="energyText" id="energyText">368,000 / 800,000</div>
+          </div>
+        </div>
+
+        <div class="levels" id="levels"></div>
+      </div>
+
+      <section class="section">
+        <div class="sectionHead"><h3>Rewards</h3><small id="rewardLv">Lv.3</small></div>
+        <div class="rewardTabs">
+          <button class="rewardTab active" data-type="top1">Top 1</button>
+          <button class="rewardTab" data-type="top2">Top 2</button>
+          <button class="rewardTab" data-type="top3">Top 3</button>
+          <button class="rewardTab" data-type="room">In Room</button>
+        </div>
+        <div class="cards" id="cards"></div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHead"><h3>Ranking</h3><small id="rankLv">Lv.3</small></div>
+        <div class="rankList" id="rankList"></div>
+      </section>
+
+      <div class="demo">
+        <div class="demoBtns">
+          <button id="regular">+50K Gift</button>
+          <button id="lucky">+50K Lucky</button>
+          <button id="full">Fill to 100%</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalMask" id="rulesModal">
+    <div class="modal">
+      <div class="modalTop"><h3>Room Rocket Rules</h3><button class="tool modalClose">✕</button></div>
+      <div class="rule">
+        <p><b>1. Charge the Rocket</b><br>Regular Gifts count at 100%, while Lucky Gifts count at 10%.</p>
+        <p><b>2. Launch</b><br>The Rocket launches automatically when Energy reaches 100%.</p>
+        <p><b>3. Ranking Rewards</b><br>Top 3 contributors can receive fixed rewards after meeting the minimum contribution requirement.</p>
+        <p><b>4. Lucky Rewards</b><br>Eligible users in the room may receive random rewards when the Rocket launches.</p>
+        <p><b>5. Daily Reset</b><br>Reset every day at 00:00 (UTC+5).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalMask" id="recordModal">
+    <div class="modal">
+      <div class="modalTop"><h3>Winning Record</h3><button class="tool modalClose">✕</button></div>
+      <div id="records">
+        <div class="record"><div class="ri">🖼️</div><div class="rmain"><b>Rocket Frame ×1 Day</b><span>Ranking Reward · Lv.2</span></div><div class="rtime">Today 11:42</div></div>
+        <div class="record"><div class="ri">🪙</div><div class="rmain"><b>Coins ×5,000</b><span>Lucky Reward · Lv.2</span></div><div class="rtime">Today 11:42</div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="worldBanner" id="worldBanner">
+    <div class="worldAvatar">Y</div>
+    <div class="worldText">
+      <b>Yaloka Night Party</b>
+      <span id="worldBannerText">launched Rocket Lv.3!</span>
+    </div>
+  </div>
+
+  <div class="launch" id="launch">
+    <div class="launchBox"><div class="e">🚀</div><h1>Rocket Launched!</h1><p id="launchText">Lv.3 completed</p></div>
+  </div>
+
+  <div class="toast" id="toast">Rocket Energy +50,000</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+
+const overlay=$('overlay');
+const entry=$('entry');
+const closeBtn=$('close');
+const rulesBtn=$('rulesBtn');
+const recordBtn=$('recordBtn');
+const rulesModal=$('rulesModal');
+const recordModal=$('recordModal');
+const levelsBox=$('levels');
+const cards=$('cards');
+const rankList=$('rankList');
+const batteryFill=$('batteryFill');
+const batteryPct=$('batteryPct');
+const energyText=$('energyText');
+const rocketTitle=$('rocketTitle');
+const rewardLv=$('rewardLv');
+const rankLv=$('rankLv');
+const entryLv=$('entryLv');
+const entryPct=$('entryPct');
+const entryFill=$('entryFill');
+const launch=$('launch');
+const worldBanner=$('worldBanner');
+const worldBannerText=$('worldBannerText');
+const launchText=$('launchText');
+const records=$('records');
+const toast=$('toast');
+const g1=$('g1'), g2=$('g2'), g3=$('g3');
+
+const levels=[
+  {lv:1,target:100000, colors:['#6deaff','#46bfff','#7d7bff']},
+  {lv:2,target:300000, colors:['#73ffd0','#45d8bd','#39a3ff']},
+  {lv:3,target:800000, colors:['#54e8ff','#756dff','#c76dff']},
+  {lv:4,target:2000000,colors:['#ff78c8','#9b68ff','#ffbc63']},
+  {lv:5,target:5000000,colors:['#fff0a0','#ffbf4d','#ff7d45']}
+];
+
+const rewardMap={
+  1:{top1:[['🪙','Coins','5,000'],['✨','EXP','500'],['🎫','Effect','1 Day']],top2:[['🪙','Coins','3,000'],['✨','EXP','300'],['🎫','Effect','1 Day']],top3:[['🪙','Coins','1,000'],['✨','EXP','200'],['🎫','Effect','1 Day']],room:[['🪙','Coins','500–2K'],['✨','EXP','100–500'],['🎫','Effect','Chance']]},
+  2:{top1:[['🖼️','Frame','1 Day'],['🪙','Coins','8,000'],['✨','EXP','1,000']],top2:[['🪙','Coins','5,000'],['✨','EXP','600'],['🎫','Effect','1 Day']],top3:[['🪙','Coins','2,000'],['✨','EXP','300'],['🎫','Effect','1 Day']],room:[['🪙','Coins','500–3K'],['✨','EXP','200–800'],['🖼️','Frame','Chance']]},
+  3:{top1:[['🖼️','Frame','3 Days'],['🪙','Coins','20,000'],['✨','EXP','3,000']],top2:[['🖼️','Frame','1 Day'],['🪙','Coins','10,000'],['✨','EXP','2,000']],top3:[['🪙','Coins','5,000'],['✨','EXP','1,000'],['🎫','Effect','1 Day']],room:[['🪙','Coins','1K–10K'],['✨','EXP','500–2K'],['🏎️','Vehicle','Rare']]},
+  4:{top1:[['🏎️','Vehicle','3 Days'],['🪙','Coins','40,000'],['✨','EXP','5,000']],top2:[['🖼️','Frame','3 Days'],['🪙','Coins','20,000'],['✨','EXP','3,000']],top3:[['🪙','Coins','10,000'],['✨','EXP','2,000'],['🎫','Effect','3 Days']],room:[['🪙','Coins','2K–15K'],['🖼️','Frame','Chance'],['🏎️','Vehicle','Chance']]},
+  5:{top1:[['🏎️','Vehicle','7 Days'],['🪙','Coins','80,000'],['✨','EXP','10,000']],top2:[['🏎️','Vehicle','3 Days'],['🪙','Coins','40,000'],['✨','EXP','6,000']],top3:[['🖼️','Frame','3 Days'],['🪙','Coins','20,000'],['✨','EXP','3,000']],room:[['🪙','Coins','5K–20K'],['🖼️','Frame','Rare'],['🏎️','Vehicle','Rare']]}
+};
+
+const rankMap={
+  1:[['Ariana','38,000'],['Mika','24,000'],['Nova','16,500']],
+  2:[['Ariana','92,000'],['You','61,000'],['Mika','47,500']],
+  3:[['Ariana','126,000'],['You','86,000'],['Mika','7,500']],
+  4:[['—','—'],['—','—'],['—','—']],
+  5:[['—','—'],['—','—'],['—','—']]
+};
+
+let currentIndex=2;
+let selectedIndex=2;
+let currentEnergy=368000;
+
+function fmt(n){return n.toLocaleString('en-US')}
+
+function renderLevels(){
+  levelsBox.innerHTML='';
+  levels.forEach((item,i)=>{
+    const b=document.createElement('button');
+    b.className='levelBtn '+(i<currentIndex?'past':i>currentIndex?'future':'current')+(i===selectedIndex?' selected':'');
+    b.innerHTML=`<div class="levelRocket">🚀</div><div class="lv">Lv.${item.lv}</div>`;
+    b.onclick=()=>{selectedIndex=i;renderAll()};
+    levelsBox.appendChild(b);
+  });
+}
+
+function renderProgress(){
+  const item=levels[selectedIndex];
+  let value=0;
+  if(selectedIndex<currentIndex) value=item.target;
+  else if(selectedIndex===currentIndex) value=currentEnergy;
+  const pct=Math.min(100,Math.round(value/item.target*100));
+
+  batteryFill.style.width=pct+'%';
+  batteryPct.textContent=pct+'%';
+  energyText.textContent=fmt(value)+' / '+fmt(item.target);
+  rocketTitle.textContent='Rocket Lv.'+item.lv;
+  rewardLv.textContent='Lv.'+item.lv;
+  rankLv.textContent='Lv.'+item.lv;
+
+  g1.setAttribute('stop-color',item.colors[0]);
+  g2.setAttribute('stop-color',item.colors[1]);
+  g3.setAttribute('stop-color',item.colors[2]);
+}
+
+function renderRewards(){
+  const active=document.querySelector('.rewardTab.active')?.dataset.type || 'top1';
+  const list=rewardMap[levels[selectedIndex].lv][active];
+  cards.innerHTML=list.map(x=>`<div class="card"><div class="ico">${x[0]}</div><div class="name">${x[1]}</div><div class="amt">${x[2]}</div></div>`).join('');
+}
+
+function renderRanking(){
+  const list=rankMap[levels[selectedIndex].lv];
+  const medals=['1','2','3'];
+  const initials=['A','Y','M'];
+  rankList.innerHTML=list.map((x,i)=>`
+    <div class="rank">
+      <div class="no">${medals[i]}</div>
+      <div class="ra">${x[0]==='—'?'—':initials[i]}</div>
+      <div class="rm"><b>${x[0]}</b></div>
+      <div class="score"><b>${x[1]}</b></div>
+    </div>`).join('');
+}
+
+function renderEntry(){
+  const item=levels[currentIndex];
+  const pct=Math.min(100,Math.round(currentEnergy/item.target*100));
+  entryLv.textContent='Lv.'+item.lv;
+  entryPct.textContent=pct+'%';
+  entryFill.style.width=pct+'%';
+}
+
+function renderAll(){
+  renderLevels();
+  renderProgress();
+  renderRewards();
+  renderRanking();
+  renderEntry();
+}
+
+document.querySelectorAll('.rewardTab').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.rewardTab').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderRewards();
+  };
+});
+
+entry.onclick=()=>overlay.classList.add('show');
+closeBtn.onclick=()=>overlay.classList.remove('show');
+overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('show')});
+
+rulesBtn.onclick=()=>rulesModal.classList.add('show');
+recordBtn.onclick=()=>recordModal.classList.add('show');
+document.querySelectorAll('.modalClose').forEach(b=>b.onclick=()=>b.closest('.modalMask').classList.remove('show'));
+document.querySelectorAll('.modalMask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+
+function showToast(t){
+  toast.textContent=t;toast.classList.add('show');
+  clearTimeout(showToast.t);
+  showToast.t=setTimeout(()=>toast.classList.remove('show'),1300);
+}
+function addEnergy(v){
+  const target=levels[currentIndex].target;
+  currentEnergy=Math.min(target,currentEnergy+v);
+  selectedIndex=currentIndex;
+  renderAll();
+  showToast('Rocket Energy +'+fmt(v));
+  if(currentEnergy>=target)setTimeout(launchRocket,350);
+}
+$('regular').onclick=()=>addEnergy(50000);
+$('lucky').onclick=()=>addEnergy(5000);
+$('full').onclick=()=>addEnergy(levels[currentIndex].target-currentEnergy);
+
+
+function showWorldBanner(level){
+  worldBannerText.textContent='launched Rocket Lv.'+level+'!';
+  worldBanner.classList.add('show');
+  clearTimeout(showWorldBanner.t);
+  showWorldBanner.t=setTimeout(()=>worldBanner.classList.remove('show'),3800);
+}
+
+function launchRocket(){
+  const old=levels[currentIndex].lv;
+  launchText.textContent='Lv.'+old+' completed';
+  launch.classList.add('show');
+  showWorldBanner(old);
+  setTimeout(()=>{
+    if(currentIndex<levels.length-1) currentIndex++;
+    selectedIndex=currentIndex;
+    currentEnergy=0;
+    renderAll();
+    launch.classList.remove('show');
+  },1500);
+}
+
+renderAll();
+</script>
+</body>
+</html>
