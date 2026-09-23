@@ -253,6 +253,22 @@ button{font:inherit}
   height:0;
 }
 
+
+.roomLaunch{
+  position:absolute;inset:0;z-index:70;display:grid;place-items:center;
+  background:rgba(0,0,0,.34);
+  opacity:0;pointer-events:none;transition:.22s
+}
+.roomLaunch.show{opacity:1}
+.roomLaunchBox{
+  text-align:center;transform:scale(.82);transition:.22s;
+  filter:drop-shadow(0 16px 26px rgba(76,231,255,.22))
+}
+.roomLaunch.show .roomLaunchBox{transform:scale(1)}
+.roomLaunchBox .rocketFx{font-size:112px;line-height:1}
+.roomLaunchBox b{display:block;margin-top:8px;font-size:20px}
+.roomLaunchBox span{display:block;margin-top:3px;font-size:11px;color:#d7e3ef}
+
 </style>
 </head>
 <body>
@@ -343,7 +359,7 @@ button{font:inherit}
         <div class="demoBtns">
           <button id="regular">+50K Gift</button>
           <button id="lucky">+50K Lucky</button>
-          <button id="full">Fill to 100%</button>
+          <button id="full">Trigger Upgrade</button>
         </div>
       </div>
     </div>
@@ -373,6 +389,15 @@ button{font:inherit}
   </div>
 
 
+
+  <div class="roomLaunch" id="roomLaunch">
+    <div class="roomLaunchBox">
+      <div class="rocketFx">🚀</div>
+      <b id="roomLaunchTitle">Rocket Lv.3 Launched!</b>
+      <span>Rewards distributed</span>
+    </div>
+  </div>
+
   <div class="worldBanner" id="worldBanner">
     <div class="worldAvatar">Y</div>
     <div class="worldText">
@@ -380,11 +405,6 @@ button{font:inherit}
       <span id="worldBannerText">launched Rocket Lv.3!</span>
     </div>
   </div>
-
-  <div class="launch" id="launch">
-    <div class="launchBox"><div class="e">🚀</div><h1>Rocket Launched!</h1><p id="launchText">Lv.3 completed</p></div>
-  </div>
-
   <div class="toast" id="toast">Rocket Energy +50,000</div>
 </div>
 
@@ -409,10 +429,10 @@ const rankLv=$('rankLv');
 const entryLv=$('entryLv');
 const entryPct=$('entryPct');
 const entryFill=$('entryFill');
-const launch=$('launch');
 const worldBanner=$('worldBanner');
+const roomLaunch=$('roomLaunch');
+const roomLaunchTitle=$('roomLaunchTitle');
 const worldBannerText=$('worldBannerText');
-const launchText=$('launchText');
 const records=$('records');
 const toast=$('toast');
 const g1=$('g1'), g2=$('g2'), g3=$('g3');
@@ -555,16 +575,27 @@ function showWorldBanner(level){
 
 function launchRocket(){
   const old=levels[currentIndex].lv;
-  launchText.textContent='Lv.'+old+' completed';
-  launch.classList.add('show');
+
+  // Close the Rocket sheet first so the upgrade effect is shown directly in the room.
+  overlay.classList.remove('show');
+
+  roomLaunchTitle.textContent='Rocket Lv.'+old+' Launched!';
+  roomLaunch.classList.add('show');
   showWorldBanner(old);
+
+  const rec=document.createElement('div');
+  rec.className='record';
+  rec.innerHTML='<div class="ri">🏆</div><div class="rmain"><b>Top 2 Reward</b><span>Ranking Reward · Lv.'+old+'</span></div><div class="rtime">Now</div>';
+  records.prepend(rec);
+
   setTimeout(()=>{
     if(currentIndex<levels.length-1) currentIndex++;
     selectedIndex=currentIndex;
     currentEnergy=0;
     renderAll();
-    launch.classList.remove('show');
-  },1500);
+    roomLaunch.classList.remove('show');
+    showToast('Rocket upgraded to Lv.'+levels[currentIndex].lv);
+  },1700);
 }
 
 renderAll();
