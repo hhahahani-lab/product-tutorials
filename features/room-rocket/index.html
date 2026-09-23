@@ -240,6 +240,19 @@ button{font:inherit}
 .launch{position:absolute;inset:0;z-index:80;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.95),rgba(88,215,255,.55) 19%,rgba(105,75,255,.28) 34%,rgba(0,0,0,.9) 72%);opacity:0;pointer-events:none;transition:.18s}
 .launch.show{opacity:1}.launchBox{text-align:center}.launchBox .e{font-size:92px}.launchBox h1{margin:4px 0;font-size:28px}.launchBox p{margin:0;font-size:11px;color:#d6e1ef}
 .toast{position:absolute;left:50%;bottom:88px;z-index:90;transform:translateX(-50%) translateY(16px);opacity:0;transition:.2s;padding:9px 13px;border-radius:999px;background:#121c2f;border:1px solid rgba(255,255,255,.1);font-size:10px;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Hide scrollbars but keep scrolling */
+.sheet,.modal{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.sheet::-webkit-scrollbar,
+.modal::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
 </style>
 </head>
 <body>
@@ -267,7 +280,6 @@ button{font:inherit}
       <div class="handle"><span></span></div>
 
       <div class="tools">
-        <button class="tool close" id="close">✕</button>
         <button class="tool" id="rulesBtn">?</button>
         <button class="tool" id="recordBtn">◷</button>
       </div>
@@ -381,7 +393,6 @@ const $=id=>document.getElementById(id);
 
 const overlay=$('overlay');
 const entry=$('entry');
-const closeBtn=$('close');
 const rulesBtn=$('rulesBtn');
 const recordBtn=$('recordBtn');
 const rulesModal=$('rulesModal');
@@ -510,7 +521,6 @@ document.querySelectorAll('.rewardTab').forEach(b=>{
 });
 
 entry.onclick=()=>overlay.classList.add('show');
-closeBtn.onclick=()=>overlay.classList.remove('show');
 overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('show')});
 
 rulesBtn.onclick=()=>rulesModal.classList.add('show');
