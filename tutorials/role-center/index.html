@@ -410,6 +410,65 @@ body.sheet-open{
   height:42px;
 }
 
+
+/* Screenshot rendering fix: preserve native aspect ratio */
+.media{
+  align-items:flex-start;
+  align-content:flex-start;
+}
+.shot{
+  display:block;
+  max-width:100%;
+  height:auto !important;
+  object-fit:contain;
+  align-self:flex-start;
+  flex:0 0 auto;
+}
+.double .shot,
+.quad .shot{
+  height:auto !important;
+  object-fit:contain;
+  align-self:flex-start;
+}
+@media(max-width:820px){
+  .quad .shot{
+    width:min(100%,340px);
+  }
+}
+
+
+
+/* Multi-image layout: side-by-side, independent natural heights */
+.media.double,
+.media.quad{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  align-items:start !important;
+  justify-items:stretch;
+}
+.media.double .shot,
+.media.quad .shot{
+  width:100% !important;
+  max-width:none !important;
+  height:auto !important;
+  aspect-ratio:auto !important;
+  object-fit:contain !important;
+  align-self:start !important;
+  flex:none !important;
+}
+@media(max-width:820px){
+  .media.double,
+  .media.quad{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+  .media.double .shot,
+  .media.quad .shot{
+    width:100% !important;
+  }
+}
+
 </style>
 </head>
 <body>
