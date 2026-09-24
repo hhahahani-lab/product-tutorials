@@ -1208,6 +1208,7 @@ function launchRocket(){
 
   // 100% reached: this round is locked and the world banner is sent immediately.
   overlay.classList.remove('show');
+  demoFloat.classList.remove('show');
   pendingLaunchLevel=old;
   drawDeadline=Date.now()+10000;
   drawResult=null;
