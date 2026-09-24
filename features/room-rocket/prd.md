@@ -2,213 +2,243 @@
 
 ## 一、功能说明
 
-用户在房间内送礼为 Rocket 累积 Energy。
+房间内新增 Room Rocket 玩法。
 
-Rocket Energy 达到当前等级目标后，触发火箭发射及 World Banner，并进入本轮开奖流程。
+用户在房间内送礼可增加当前火箭 Energy。Energy 达到目标值后，火箭自动发射并结算奖励，随后进入下一等级。
 
-每个 Rocket Level 独立统计：
+核心流程：
 
-- Rocket Energy
-- Contribution Ranking
-- Ranking Reward
-- In Room Reward
-
-当前等级完成后进入下一等级；最高等级完成后可继续重复最高等级，直至每日重置。
+**送礼 → 火箭充能 → 满值发射 → 发放奖励 → 进入下一等级**
 
 ---
 
 ## 二、Rocket Energy
 
-### 1. Energy 计算
+### 2.1 Energy 计算
 
-- Regular Gift：**1 Coin = 1 Energy**
-- Lucky Gift：按礼物 Coins 的 **10%** 计入 Rocket Energy
-- 免费礼物 / 非 Coins 礼物不计入
+房间内任意用户收到礼物增加 Rocket Energy：
 
-用户 Contribution 与实际计入的 Rocket Energy 使用同一口径。
+- Regular Gift：1 Coin = 1 Energy
+- Lucky Gift：按礼物 Coins 的 10% 计入
 
-示例：
-
-- Regular Gift 100,000 Coins → +100,000 Energy
-- Lucky Gift 100,000 Coins → +10,000 Energy
+用户对应增加相同数值的 Contribution。
 
 ---
 
 ## 三、Rocket Level
 
-等级及目标 Energy 后台可配置。
+火箭共设置多个等级。
 
 | Level | Target Energy |
-| ----- | -------------:|
-| Lv1   | 100,000       |
-| Lv2   | 300,000       |
-| Lv3   | 800,000       |
-| Lv4   | 2,000,000     |
-| Lv5   | 5,000,000     |
+|---|---:|
+| 1 | 100,000 |
+| 2 | 300,000 |
+| 3 | 800,000 |
+| 4 | 2,000,000 |
+| 5 | 5,000,000 |
 
-每个 Level 独立统计，不继承上一等级数据。
+具体等级数量、Target Energy 及奖励均由服务端配置。
 
----
+每个等级独立计算：
 
-## 四、超额送礼
+- Rocket Energy
+- Contribution Ranking
+- Ranking Reward
+- Lucky Reward
 
-当单笔礼物使当前 Rocket Energy 超出 Target Energy 时：
+当前等级完成后，下一等级 Energy 从 0 开始重新累计。
 
-- Rocket Energy 最多累计至当前等级 Target
-- 用户 Contribution 按该笔礼物实际有效 Energy **完整累计**
-- 超出的 Energy **不继承至下一等级**
-
-示例：
-
-Lv3 当前：
-
-**790,000 / 800,000**
-
-用户送出 Regular Gift：
-
-**100,000 Coins**
-
-则：
-
-- Rocket Energy → 800,000
-- 用户 Contribution → +100,000
-- 剩余 90,000 Energy 不进入 Lv4
+最高等级完成后可继续循环最高等级，直到每日重置。
 
 ---
 
-## 五、Rocket Launch
+## 四、Rocket Launch
 
-当前 Rocket Energy 达到 **100%** 时：
+当当前 Rocket Energy 达到 Target Energy 后，当前火箭自动发射。发射后：
 
-1. 当前 Level 立即完成
-2. 当前 Level Contribution Ranking 锁定
-3. 立即触发 World Banner
-4. 进入本轮 Rocket Launch / Reward Draw 流程
-5. 本轮开奖完成后进入下一 Rocket Level
+1. 结算当前 Level Contribution Ranking
+2. 发放 Ranking Reward
+3. 进入 In Room Lucky Reward 开奖流程
+4. 当前房间播放 Rocket Launch Animation
+5. 触发 World Banner
+6. 本轮开奖完成后进入下一 Rocket Level
+
+---
+
+## 五、超额送礼
+
+若单笔礼物超过当前 Rocket 剩余 Energy，超出的 Energy 不转入下一等级，下一等级仍从 0 开始。
 
 ---
 
 ## 六、Contribution Ranking
 
-每个 Rocket Level 独立统计 Contribution Ranking。
+每个 Rocket Level 独立统计。
 
-排序规则：
+Contribution：用户在当前 Rocket Level 内累计贡献的有效 Rocket Energy。
 
-1. Contribution 高 → 排名靠前
-2. Contribution 相同时，优先达到该 Contribution 的用户排名靠前
+排序：按贡献值从高到低；数值相同时，先达到该值的用户排名靠前。
 
-### 开奖前
+榜单：
 
-展示 **Top 10**：
-
-- Top1–Top3：使用 **2-1-3 山形布局**
-- Top4–Top10：使用普通列表
-
-展示字段：
-
-- Rank
-- Avatar
-- Nickname
-- Contribution
-
-### Level 已完成后
-
-历史 Level 仅展示：
-
-- Top1
-- Top2
-- Top3
-
-继续使用 **2-1-3 山形布局**。
+- 开奖前展示 **Top 10** 用户
+- Level 已完成后仅展示 **Top 3** 用户
 
 ---
 
 ## 七、Ranking Reward
 
-Top1 / Top2 / Top3 分别配置固定 Ranking Reward。
+每个 Rocket Level 发射后，向符合条件的：
 
-每个排名可配置：
+**Top 1 / Top 2 / Top 3** 用户发放对应固定奖励。
 
-- 奖励内容
-- 奖励数量 / 时长
-- Minimum Contribution
+### 奖励资格
 
-若对应用户 Contribution 未达到 Minimum Contribution：
+服务端配置 Minimum Contribution。
 
-- 不获得该排名奖励
-- 奖励不顺延给下一名
-
-当前 Level 达到 100% 时，Ranking 锁定，并按最终排名结算 Ranking Reward。
+未达到最低贡献要求的排名不获得奖励，奖励不向后顺延。
 
 ---
 
-## 八、In Room Reward
+## 八、In Room Lucky Reward
 
-Rocket 发射后进入本轮 In Room Reward 开奖流程。
+Rocket 发射后进入本轮 In Room Reward 开奖。
 
 ### 开奖流程
 
 **Rocket 100% → World Banner → 点击进入房间 → Rocket Launch Animation → 10s Countdown → 自动开奖**
 
-不需要用户手动点击 Claim。
-
 ### Eligible Users
 
-倒计时结束瞬间，仍在当前房间且符合参与条件的用户，进入本轮 In Room Reward Eligible Pool。
+倒计时结束瞬间：
 
-因此：
+仍在当前房间且符合参与条件的用户，进入本轮 In Room Reward Eligible Pool。
 
 - 倒计时期间进入房间 → 可以参与
 - 倒计时结束前离开房间 → 不参与
 - 开奖完成后进入房间 → 不参与本轮
 
-### 开奖时间
+服务端：
 
-**最终中奖用户在 10s Countdown = 0 时确定。**
-
-由服务端：
-
-1. 获取开奖瞬间的 Eligible Users
-2. 根据配置规则确定中奖用户
-3. 确定各中奖用户奖励
-4. 自动发放奖励
-5. 返回开奖结果
+- 获取开奖瞬间的 Eligible Users
+- 根据配置规则（获奖人数、Reward Pool、奖励权重 / 概率）确定中奖用户以及奖励
+- 自动发放奖励
+- 返回开奖结果
 
 同一用户单次 Rocket Launch 最多获得一次 In Room Reward。
 
 ---
 
-## 九、开奖结果
+## 九、奖励类型
 
-Countdown 结束后自动展示开奖弹窗。
+支持配置：
 
-### 当前用户
+- 金币、金豆
+- Wealth EXP
+- 头像框、发言气泡、徽章、名片框、座驾
+- 房间边框、卡片、背景、标签
 
-展示：
-
-- 是否中奖
-- 奖励缩略图
-- 奖励名称
-- 奖励数量 / 时长
-
-未中奖时展示对应未中奖状态。
-
-### Other Winners
-
-同时展示本轮其他中奖用户：
-
-- 用户头像
-- 用户昵称
-- 奖励缩略图
-- 奖励名称 / 数量
-
-中奖用户的奖励自动到账，无需再次点击领取。
-
-中奖记录写入 Winning Record；未中奖不写入。
+不同 Rocket Level 可配置不同奖励。
 
 ---
 
-## 十、Rocket Launch Animation
+## 十、Daily Reset
+
+每天 **00:00（UTC+5）** 重置 Rocket：
+
+- Rocket Level → Lv.1
+- Current Energy → 0
+- Current Contribution Ranking → 清空
+- 当日奖励次数 → 清零
+
+Winning Record 保留。
+
+---
+
+## 十一、房间 Rocket 挂件
+
+房间内增加 Rocket 挂件入口，展示：
+
+- 当前 Rocket 等级和进度
+
+点击挂件，打开 Room Rocket 页面。
+
+Rocket Energy 变化时实时更新进度；Rocket 发射并进入下一等级后，挂件同步更新。
+
+---
+
+## 十二、Room Rocket 玩法主页面
+
+展示 Rocket 信息：
+
+- 当前查看的 Rocket Level
+- Rocket 主视觉
+- Energy 进度条
+- Current Energy / Target Energy
+- Energy Percentage
+- Reset Countdown
+
+### Rocket Level
+
+- 每次进入 Room Rocket 页面时，默认选中当前正在进行中的 Rocket Level
+- 所有等级均支持点击查看
+- 当前查看的 Level 使用高亮选中态
+- 切换 Level 后，同步切换对应的：
+  - Rocket 主视觉
+  - Energy 进度
+  - Rewards
+  - Ranking
+- 已完成 Level 显示 100%
+- 当前进行中的 Level 显示实时进度
+- 未开始 Level 显示 0%
+
+### Rewards
+
+展示当前查看 Rocket Level 对应的奖励：
+
+- Top 1 Reward
+- Top 2 Reward
+- Top 3 Reward
+- In Room Lucky Reward
+
+通过 Tab 切换查看对应奖励。
+
+### Ranking
+
+展示当前查看 Level 的 Top 10 Contribution Ranking：
+
+- 排名
+- 用户头像
+- 昵称
+- 贡献值
+
+---
+
+## 十三、房间发射反馈
+
+Rocket 达到 100% 后，在房间页面展示发射效果。
+
+展示：
+
+- Rocket Launch Animation
+- 当前 Rocket Level 发射完成
+- 房间挂件在本轮开奖完成并进入下一等级后同步切换
+
+---
+
+## 十四、World Banner
+
+每次 Rocket 成功发射后，触发一条全服 World Banner。点击 World Banner 可进入对应房间。
+
+展示：
+
+- 触发用户昵称 launched Lv.X Rocket in 房间名称!
+
+触发用户：**最后一笔有效送礼使 Rocket Energy 达到 100% 的用户**
+
+---
+
+## 十五、Rocket Launch Animation
 
 用户通过 World Banner 进入对应房间后展示 Rocket Launch Animation。
 
@@ -217,7 +247,7 @@ Countdown 结束后自动展示开奖弹窗。
 - 展示当前 Rocket
 - 固定展示本轮 **Top1 用户头像**
 - Top1 Avatar 固定在画面上方，不随 Rocket 动画移动
-- Avatar 下方展示 `TOP 1`
+- Avatar 下方展示 TOP 1
 - 不展示 Top1 用户昵称
 - 播放 Rocket 发射动画
 - 同步展示本轮统一 Countdown
@@ -226,17 +256,9 @@ Countdown 仅展示数字：
 
 **10 → 9 → 8 → … → 1**
 
-无需增加：
-
-- Reward Draw
-- Drawing
-- Lucky Draw
-
-等额外文案。
-
 ---
 
-## 十一、统一开奖倒计时
+## 十六、统一开奖倒计时
 
 10s Countdown 为**本轮 Rocket 的统一服务端时间**，不是用户进入房间后重新开始。
 
@@ -258,261 +280,52 @@ Rocket Launch：
 
 ---
 
-## 十二、World Banner
+## 十七、开奖结果
 
-Rocket Energy 达到 100% 后立即触发 World Banner。
+Countdown 结束后自动展示开奖弹窗。
+
+### 当前用户
 
 展示：
 
-- 本轮触发 Rocket 100% 的用户 Avatar
-- 用户 Nickname
+- 是否中奖
+- 奖励缩略图
+- 奖励名称
+- 奖励数量 / 时长
+
+未中奖时展示对应未中奖状态。
+
+### Other Winners
+
+同时展示本轮其他中奖用户：
+
+- 用户头像
+- 用户昵称
+- 奖励缩略图
+- 奖励名称 / 数量 / 时长
+
+中奖用户的奖励自动到账，无需再次点击领取。
+
+中奖记录写入 Winning Record；未中奖不写入。
+
+---
+
+## 十八、Winning Record
+
+Room Rocket 页面提供 Winning Record 入口。
+
+点击后打开底部弹窗，展示用户自己的 Rocket 获奖记录。
+
+记录列表：
+
+- 奖励名称 × 数量（单位，如有）
+- 类型：Ranking / Lucky
 - Rocket Level
-- Room Name
-
-示例：
-
-`Alex launched Rocket Lv.3 in Yaloka Night Party!`
-
-点击 World Banner：
-
-→ 进入对应 Room  
-→ 展示当前 Rocket Launch / Countdown 状态
-
-World Banner 展示的用户是**触发最后一笔有效 Energy 的用户**，不代表其额外获得 Final Hit Reward。
+- Time：YYYY/MM/DD HH:mm:ss
 
 ---
 
-## 十三、Daily Reset
-
-每天：
-
-**00:00 UTC+5**
-
-重置：
-
-- Rocket Level → Lv1
-- Rocket Energy → 0
-- Contribution Ranking → Clear
-- 当日 Reward 相关计数 → Clear
-
-Winning Record 不清除。
-
----
-
-## 十四、Room Rocket 挂件
-
-房间内固定展示 Rocket 入口挂件。
-
-展示：
-
-- 当前 Rocket 缩略图
-- 当前 Rocket Level
-- 当前 Energy %
-
-Rocket Energy / Level 变化时实时更新。
-
-点击进入 Room Rocket 页面。
-
----
-
-## 十五、Room Rocket 主玩法页面
-
-Room Rocket 使用房间内 **Bottom Sheet / Overlay** 展示。
-
-最大高度：
-
-**75vh**
-
-保留房间背景可见。
-
-主页面从上到下固定为：
-
-1. 主视觉区
-2. Rewards
-3. Ranking
-
-### 1. 主视觉区
-
-核心内容：
-
-- 中间：Current Rocket 主视觉
-- 左侧：Rocket Energy 竖向进度
-- 右侧：Lv1–Lv5 Level Selector
-- 主视觉下方：当前查看 Level
-- Reset Countdown
-- 左下：Rules
-- 右下：Winning Record
-
-进入 Room Rocket 时：
-
-默认选中 **当前进行中的 Rocket Level**。
-
-所有 Level 均可点击查看。
-
-切换 Level 后同步更新：
-
-- Rocket Visual
-- Energy
-- Rewards
-- Ranking
-
-状态：
-
-- 已完成 Level → Energy 100%
-- 当前 Level → 实时 Energy
-- 未来 Level → Energy 0%
-
-无需额外增加“Current Level”提示，选中状态即可表达。
-
----
-
-## 十六、Rewards 区
-
-位于**主视觉区下方**。
-
-结构：
-
-**Rewards → Reward Tabs → Reward Cards**
-
-Tabs：
-
-- Top 1
-- Top 2
-- Top 3
-- In Room
-
-每个 Tab 奖励数量尽量**补满一整行**。
-
-当前 Demo 采用：
-
-**4 个奖励 / 行**
-
-单个奖励卡仅展示：
-
-- Reward Thumbnail
-- Reward Name
-- Amount / Duration
-
-不增加额外规则说明。
-
-### 已完成 Level
-
-查看历史已完成 Rocket Level 时：
-
-**隐藏 Rewards 模块**
-
-仅展示最终 Ranking。
-
----
-
-## 十七、Ranking 区
-
-位于 **Rewards 区下方**。
-
-因此主页面固定顺序为：
-
-**主视觉区 → Rewards → Ranking**
-
-### 当前 / 未完成 Level
-
-展示：
-
-- Top1–Top3：2-1-3 山形卡片
-- Top4–Top10：列表
-
-Top1 / Top2 / Top3：
-
-- 每名用户独立使用卡片容器
-- 排名数字不单独增加 Badge / 外框
-- Avatar
-- Nickname
-- Contribution
-
-### 已完成 Level
-
-仅展示 Top3：
-
-**Top2 – Top1 – Top3**
-
-不展示 Top4–Top10。
-
----
-
-## 十八、Rules
-
-Rules 使用独立 Bottom Sheet。
-
-高度约：
-
-**主玩法页高度的 1/2**
-
-即约：
-
-**37.5vh**
-
-内容可内部滚动。
-
----
-
-## 十九、Winning Record
-
-Winning Record 使用独立 Bottom Sheet。
-
-与 Rules 高度一致。
-
-展示用户实际获得的奖励记录。
-
-字段：
-
-- Reward
-- Reward Source
-  - Ranking
-  - In Room
-- Rocket Level
-- Time
-
-Time 格式：
-
-**YYYY/MM/DD HH:mm:ss**
-
-例如：
-
-**2026/09/24 10:35:26**
-
----
-
-## 二十、后台配置
-
-### Rocket Level
-
-- Level
-- Target Energy
-- Rocket Visual
-
-### Ranking Reward
-
-- Top1 Reward
-- Top2 Reward
-- Top3 Reward
-- Minimum Contribution
-
-### In Room Reward
-
-- Reward Pool
-- Reward Quantity
-- Probability / Weight
-- Winning User Count
-- User Winning Limit
-
-### General
-
-- Launch Countdown
-- World Banner
-- Daily Reset Time
-
----
-
-## 二十一、关键规则汇总
+## 十九、关键规则汇总
 
 - Regular Gift：100% 计入 Energy
 - Lucky Gift：10% 计入 Energy
@@ -526,16 +339,3 @@ Time 格式：
 - 奖励自动到账
 - 每个 Level 独立 Ranking / Reward
 - 每日 00:00 UTC+5 重置
-
----
-
-## 二十二、V1 暂不包含
-
-- Final Hit / Last Contributor Reward
-- 全服 Rocket Ranking
-- Room Rocket PK
-- Agency / Guild Rocket
-- 多 Rocket 并行
-- 跨房累计 Energy
-- 用户主动触发发射
-- 剩余 Energy 跨 Level 继承
