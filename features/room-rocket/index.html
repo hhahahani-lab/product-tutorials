@@ -1043,7 +1043,13 @@ document.querySelectorAll('.rewardTab').forEach(b=>{
   };
 });
 
-entry.onclick=()=>overlay.classList.add('show');
+entry.onclick=()=>{
+  overlay.classList.add('show');
+  demoFloat.classList.add('show');
+  demoPanel.classList.remove('demoCollapsed');
+  selectedIndex=currentIndex;
+  renderAll();
+};
 overlay.addEventListener('click',e=>{if(e.target===overlay){overlay.classList.remove('show');demoFloat.classList.remove('show')}});
 
 rulesBtn.onclick=()=>rulesModal.classList.add('show');
