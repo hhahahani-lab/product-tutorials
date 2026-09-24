@@ -324,13 +324,14 @@ button{font:inherit}
 
 /* demo only */
 .demoFloat{
-  position:absolute;left:12px;top:24px;z-index:20;
-  display:flex;align-items:center;gap:6px;
+  position:absolute;left:12px;top:168px;z-index:120;
+  display:none;align-items:center;gap:6px;
 }
+.demoFloat.show{display:flex}
 .demoToggle{
-  width:38px;height:28px;border:none;border-radius:9px;
-  background:rgba(255,166,72,.92);color:#2a1600;font-size:9px;font-weight:950;
-  box-shadow:0 6px 16px rgba(0,0,0,.22)
+  width:42px;height:28px;border:none;border-radius:9px;
+  background:rgba(255,166,72,.96);color:#2a1600;font-size:9px;font-weight:950;
+  box-shadow:0 6px 16px rgba(0,0,0,.28)
 }
 .demo{
   padding:5px;border:1px solid rgba(255,255,255,.10);
@@ -648,20 +649,21 @@ button{font:inherit}
     <div class="bottom"><span>💬</span><span>🪑</span><span class="gift">🎁</span><span>🎮</span><span>◉</span></div>
   </div>
 
+  <div class="demoFloat">
+    <button class="demoToggle" id="demoToggle">SIM</button>
+    <div class="demo" id="demoPanel">
+      <div class="demoBtns">
+        <button id="regular">+50K Gift</button>
+        <button id="lucky">+50K Lucky</button>
+        <button id="full">Trigger Upgrade</button>
+      </div>
+    </div>
+  </div>
+
   <div class="overlay" id="overlay">
     <div class="sheet" id="sheet">
       <div class="handle"><span></span></div>
 
-      <div class="demoFloat">
-        <button class="demoToggle" id="demoToggle">SIM</button>
-        <div class="demo" id="demoPanel">
-          <div class="demoBtns">
-            <button id="regular">+50K Gift</button>
-            <button id="lucky">+50K Lucky</button>
-            <button id="full">Trigger Upgrade</button>
-          </div>
-        </div>
-      </div>
 
       <div class="rocketArea">
         <div class="stage">
@@ -849,6 +851,7 @@ const drawOkBtn=$('drawOkBtn');
 const worldBannerText=$('worldBannerText');
 const records=$('records');
 const toast=$('toast');
+const demoFloat=document.querySelector('.demoFloat');
 const demoToggle=$('demoToggle');
 const demoPanel=$('demoPanel');
 const g1=$('g1'), g2=$('g2'), g3=$('g3');
@@ -1041,7 +1044,7 @@ document.querySelectorAll('.rewardTab').forEach(b=>{
 });
 
 entry.onclick=()=>overlay.classList.add('show');
-overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('show')});
+overlay.addEventListener('click',e=>{if(e.target===overlay){overlay.classList.remove('show');demoFloat.classList.remove('show')}});
 
 rulesBtn.onclick=()=>rulesModal.classList.add('show');
 recordBtn.onclick=()=>recordModal.classList.add('show');
