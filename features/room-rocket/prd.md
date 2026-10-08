@@ -27,10 +27,10 @@
 
 ## 三、Rocket Level
 
-火箭共设置多个等级。
+火箭共设置多个等级：
 
 | Level | Target Energy |
-|---|---:|
+| --- | ---: |
 | 1 | 100,000 |
 | 2 | 300,000 |
 | 3 | 800,000 |
@@ -44,30 +44,37 @@
 - Rocket Energy
 - Contribution Ranking
 - Ranking Reward
-- Lucky Reward
+- In Room Lucky Reward
 
 当前等级完成后，下一等级 Energy 从 0 开始重新累计。
 
-最高等级完成后可继续循环最高等级，直到每日重置。
+最高等级完成后，Rocket Level 回到 Lv1，开启新一轮 Rocket，并继续循环至每日重置。
+
+进入新一轮后，各 Level 的 Rocket Energy、Contribution Ranking 重新统计，上一轮数据不继承；已发放奖励及 Winning Record 保留。
 
 ---
 
 ## 四、Rocket Launch
 
-当当前 Rocket Energy 达到 Target Energy 后，当前火箭自动发射。发射后：
+当当前 Rocket Energy 达到 Target Energy 后，当前火箭自动发射。触发后：
 
 1. 结算当前 Level Contribution Ranking
 2. 发放 Ranking Reward
-3. 进入 In Room Lucky Reward 开奖流程
-4. 当前房间播放 Rocket Launch Animation
-5. 触发 World Banner
+3. 触发 World Banner
+4. 当前房间进入 Rocket Launch Animation / 10s Countdown
+5. Countdown 结束后结算并发放 In Room Lucky Reward
 6. 本轮开奖完成后进入下一 Rocket Level
 
 ---
 
 ## 五、超额送礼
 
-若单笔礼物超过当前 Rocket 剩余 Energy，超出的 Energy 不转入下一等级，下一等级仍从 0 开始。
+若单笔礼物超过当前 Rocket Level 剩余 Energy：
+
+- 当前 Rocket Energy 最多累计至 Target Energy
+- 用户 Contribution 仅累计实际计入当前 Rocket Level 的有效 Energy
+- 超出的 Energy 不计入当前 Level Contribution，也不转入下一等级
+- 下一等级 Energy 与 Contribution 均从 0 开始
 
 ---
 
@@ -102,7 +109,7 @@ Contribution：用户在当前 Rocket Level 内累计贡献的有效 Rocket Ener
 
 ## 八、In Room Lucky Reward
 
-Rocket 发射后进入本轮 In Room Reward 开奖。
+Rocket 发射后进入本轮 In Room Lucky Reward 开奖。
 
 ### 开奖流程
 
@@ -112,7 +119,7 @@ Rocket 发射后进入本轮 In Room Reward 开奖。
 
 倒计时结束瞬间：
 
-仍在当前房间且符合参与条件的用户，进入本轮 In Room Reward Eligible Pool。
+仍在当前房间且符合参与条件的用户，进入本轮 In Room Lucky Reward Eligible Pool。
 
 - 倒计时期间进入房间 → 可以参与
 - 倒计时结束前离开房间 → 不参与
@@ -121,11 +128,11 @@ Rocket 发射后进入本轮 In Room Reward 开奖。
 服务端：
 
 - 获取开奖瞬间的 Eligible Users
-- 根据配置规则（获奖人数、Reward Pool、奖励权重 / 概率）确定中奖用户以及奖励
+- 根据配置规则（获奖人数、Reward Pool、奖励权重 / 概率）确定中奖用户及奖励
 - 自动发放奖励
 - 返回开奖结果
 
-同一用户单次 Rocket Launch 最多获得一次 In Room Reward。
+同一用户单次 Rocket Launch 最多获得一次 In Room Lucky Reward。
 
 ---
 
@@ -146,10 +153,9 @@ Rocket 发射后进入本轮 In Room Reward 开奖。
 
 每天 **00:00（UTC+5）** 重置 Rocket：
 
-- Rocket Level → Lv.1
+- Rocket Level → Lv1
 - Current Energy → 0
 - Current Contribution Ranking → 清空
-- 当日奖励次数 → 清零
 
 Winning Record 保留。
 
@@ -330,12 +336,14 @@ Room Rocket 页面提供 Winning Record 入口。
 - Regular Gift：100% 计入 Energy
 - Lucky Gift：10% 计入 Energy
 - 超额 Energy 不跨 Level
-- Contribution 按实际有效礼物完整累计
+- Contribution 仅累计实际计入当前 Rocket Level 的有效 Energy
 - 当前 Level 100% 时锁定 Ranking
 - 100% 时立即触发 World Banner
-- In Room Reward 在统一 10s Countdown 结束时开奖
+- In Room Lucky Reward 在统一 10s Countdown 结束时开奖
 - 开奖瞬间仍在房间的 Eligible Users 才参与
+- 同一用户单次 Rocket Launch 最多获得一次 In Room Lucky Reward
 - 无手动 Claim
 - 奖励自动到账
 - 每个 Level 独立 Ranking / Reward
+- 最高等级完成后回到 Lv1 开启新一轮
 - 每日 00:00 UTC+5 重置
