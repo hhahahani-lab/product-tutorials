@@ -4,11 +4,11 @@
 
 房间内新增 Room Rocket 玩法。
 
-用户在房间内送礼可增加当前火箭 Energy。Energy 达到目标值后，火箭自动发射并结算奖励，随后进入下一等级。
+用户在房间内送礼可增加当前火箭 Energy。Energy 达到目标值后，当前火箭进入发射流程，并立即切换至下一等级；上一等级奖励按对应流程继续结算。
 
 核心流程：
 
-**送礼 → 火箭充能 → 满值发射 → 发放奖励 → 进入下一等级**
+**送礼 → 火箭充能 → 满值发射 → 立即进入下一等级 → 上一等级奖励结算**
 
 ---
 
@@ -46,11 +46,18 @@
 - Ranking Reward
 - In Room Lucky Reward
 
-当前等级完成后，下一等级 Energy 从 0 开始重新累计。
+当前等级 Energy 达到 Target Energy 后：
+
+- 当前 Level 标记为发射中
+- 当前 Level 的 Energy 与 Contribution 数据锁定
+- 系统立即切换至下一 Rocket Level
+- 下一等级 Energy 与 Contribution 从 0 开始重新累计
+
+上一 Level 的 Ranking Reward 与 In Room Lucky Reward 继续异步结算，不影响下一等级继续充能。
 
 最高等级完成后，Rocket Level 回到 Lv1，开启新一轮 Rocket，并继续循环至每日重置。
 
-进入新一轮后，各 Level 的 Rocket Energy、Contribution Ranking 重新统计，上一轮数据不继承；已发放奖励及 Winning Record 保留。
+进入新一轮后，各 Level 的 Rocket Energy、Contribution Ranking 重新统计，上一轮数据不继承。
 
 ---
 
@@ -58,12 +65,15 @@
 
 当当前 Rocket Energy 达到 Target Energy 后，当前火箭自动发射。触发后：
 
-1. 结算当前 Level Contribution Ranking
-2. 发放 Ranking Reward
-3. 触发 World Banner
-4. 当前房间进入 Rocket Launch Animation / 10s Countdown
-5. Countdown 结束后结算并发放 In Room Lucky Reward
-6. 本轮开奖完成后进入下一 Rocket Level
+1. 当前 Level 标记为发射中，并锁定当前 Level 的 Energy 与 Contribution 数据
+2. 立即切换至下一 Rocket Level，并同步切换对应缓存、Energy、Contribution Ranking 等数据
+3. 发送房间消息，通知客户端进入 Rocket Launch Animation / 10s Countdown
+4. 同时触发 World Banner，全服广播；点击可进入对应房间
+5. 队列异步结算上一 Level Contribution Ranking，并发放 Ranking Reward
+6. 10s Countdown 结束后，基于开奖时刻的 Eligible Users 结算并发放 In Room Lucky Reward
+7. 发送本轮 In Room Lucky Reward 开奖结果，仅包含中奖用户及对应奖励数据
+
+Countdown 期间，下一 Rocket Level 已正常开启，用户送礼继续累计至下一 Level 的 Energy 与 Contribution。
 
 ---
 
@@ -88,14 +98,16 @@ Contribution：用户在当前 Rocket Level 内累计贡献的有效 Rocket Ener
 
 榜单：
 
-- 开奖前展示 **Top 10** 用户
-- Level 已完成后仅展示 **Top 3** 用户
+- 当前 Level 进行中展示 **Top 10** 用户
+- Level 满值并锁榜后仅展示 **Top 3** 用户
 
 ---
 
 ## 七、Ranking Reward
 
-每个 Rocket Level 发射后，向符合条件的：
+每个 Rocket Level 满值后，对已锁定的 Contribution Ranking 进行结算。
+
+向符合条件的：
 
 **Top 1 / Top 2 / Top 3** 用户发放对应固定奖励。
 
@@ -105,15 +117,19 @@ Contribution：用户在当前 Rocket Level 内累计贡献的有效 Rocket Ener
 
 未达到最低贡献要求的排名不获得奖励，奖励不向后顺延。
 
+Ranking Reward 的结算与发放不阻塞下一 Rocket Level 的 Energy 累计。
+
 ---
 
 ## 八、In Room Lucky Reward
 
-Rocket 发射后进入本轮 In Room Lucky Reward 开奖。
+当前 Rocket Level 满值后进入本轮 In Room Lucky Reward 开奖。
+
+此时系统已切换至下一 Rocket Level，本轮 In Room Lucky Reward 仍归属于刚完成的上一 Level。
 
 ### 开奖流程
 
-**Rocket 100% → World Banner → 点击进入房间 → Rocket Launch Animation → 10s Countdown → 自动开奖**
+**Rocket 100% → 当前 Level 锁定并立即切换下一 Level → 房间消息 / World Banner → Rocket Launch Animation → 10s Countdown → 自动开奖**
 
 ### Eligible Users
 
@@ -128,11 +144,13 @@ Rocket 发射后进入本轮 In Room Lucky Reward 开奖。
 服务端：
 
 - 获取开奖瞬间的 Eligible Users
-- 根据配置规则（获奖人数、Reward Pool、奖励权重 / 概率）确定中奖用户及奖励
+- 根据配置规则（获奖人数、Reward Pool、奖励权重 / 概率）确定中奖用户以及奖励
 - 自动发放奖励
-- 返回开奖结果
+- 返回开奖结果，仅包含本轮 In Room Lucky Reward 的中奖数据
 
 同一用户单次 Rocket Launch 最多获得一次 In Room Lucky Reward。
+
+Countdown 期间，下一 Rocket Level 已正常进行，用户送礼继续计入下一 Level 的 Energy 与 Contribution。
 
 ---
 
@@ -169,7 +187,7 @@ Winning Record 保留。
 
 点击挂件，打开 Room Rocket 页面。
 
-Rocket Energy 变化时实时更新进度；Rocket 发射并进入下一等级后，挂件同步更新。
+Rocket Energy 变化时实时更新进度；当前等级满值后立即切换至下一等级，挂件同步更新为下一 Rocket Level。
 
 ---
 
@@ -228,7 +246,7 @@ Rocket 达到 100% 后，在房间页面展示发射效果。
 
 - Rocket Launch Animation
 - 当前 Rocket Level 发射完成
-- 房间挂件在本轮开奖完成并进入下一等级后同步切换
+- 当前等级满值后，房间挂件立即切换至下一 Rocket Level
 
 ---
 
@@ -267,6 +285,8 @@ Countdown 仅展示数字：
 ## 十六、统一开奖倒计时
 
 10s Countdown 为**本轮 Rocket 的统一服务端时间**，不是用户进入房间后重新开始。
+
+Countdown 期间，下一 Rocket Level 已正常进行，用户送礼继续计入下一 Level 的 Energy 与 Contribution。
 
 示例：
 
@@ -337,8 +357,9 @@ Room Rocket 页面提供 Winning Record 入口。
 - Lucky Gift：10% 计入 Energy
 - 超额 Energy 不跨 Level
 - Contribution 仅累计实际计入当前 Rocket Level 的有效 Energy
-- 当前 Level 100% 时锁定 Ranking
-- 100% 时立即触发 World Banner
+- 当前 Level 100% 时锁定 Ranking，并立即切换至下一 Rocket Level
+- 下一 Rocket Level 不等待上一 Level 奖励结算，可继续累计 Energy 与 Contribution
+- Ranking Reward 异步结算，不阻塞下一 Level
 - In Room Lucky Reward 在统一 10s Countdown 结束时开奖
 - 开奖瞬间仍在房间的 Eligible Users 才参与
 - 同一用户单次 Rocket Launch 最多获得一次 In Room Lucky Reward
