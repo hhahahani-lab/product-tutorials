@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pumpkin Party</title><style>html{box-sizing:border-box;-webkit-text-size-adjust:100%}body{margin:0;background:#160924}button{font-family:inherit}#pumpkin-preview .preview-note{padding:8px;color:#c5bad4!important;margin:0}</style></head><body>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pumpkin Party</title><style>html{box-sizing:border-box;-webkit-text-size-adjust:100%}body{margin:0;background:#160924}button{font-family:inherit}#pumpkin-preview .preview-note{padding:8px;color:#c5bad4!important;margin:0}
+#pumpkin-preview .play-subtitle{text-align:center;font-size:11px;color:#c6a3d0;margin:-10px 0 18px;letter-spacing:.5px}#pumpkin-preview .main-tabs button{min-height:46px;padding:12px 3px}
+</style></head><body>
 <div id="pumpkin-preview" class="viz-dotted-background">
   <p class="preview-note">Interactive preview · Sample progress, rankings & countdown</p>
   <main lang="en" class="party" aria-label="Pumpkin Party event page">
@@ -12,25 +14,25 @@
     </section>
     <section class="gift-section"><div class="section-kicker">✦ LUCKY GIFTS ✦</div><div class="gift-row" id="gift-display"></div></section>
     <nav class="main-tabs" aria-label="Event activities" role="tablist">
-      <button role="tab" id="tab-host" aria-controls="panel-host" aria-selected="true" data-tab="host" class="selected">Ghost Gala<small>Host Tasks</small></button>
-      <button role="tab" id="tab-send" aria-controls="panel-send" aria-selected="false" data-tab="send">Magic Treats<small>Gift Rewards</small></button>
-      <button role="tab" id="tab-rank" aria-controls="panel-rank" aria-selected="false" data-tab="rank">Pumpkin Throne<small>Rankings</small></button>
+      <button role="tab" id="tab-host" aria-controls="panel-host" aria-selected="true" data-tab="host" class="selected">Ghost Gala</button>
+      <button role="tab" id="tab-send" aria-controls="panel-send" aria-selected="false" data-tab="send">Magic Treats</button>
+      <button role="tab" id="tab-rank" aria-controls="panel-rank" aria-selected="false" data-tab="rank">Pumpkin Throne</button>
     </nav>
     <div class="content">
       <section id="panel-host" role="tabpanel" aria-labelledby="tab-host">
-        <div class="ornament">✦ Ghost Gala ✦</div>
+        <div class="ornament">✦ Ghost Gala ✦</div><p class="play-subtitle">Host Tasks</p>
         <div class="progress-card"><div class="progress-head"><span>Today’s Points</span><button data-action="host-rules">Rules ⓘ</button></div><div class="progress-number">235,000 <small>/ 500,000</small></div><div class="track"><div style="width:47%"></div></div><p>Next tier: <strong>265,000</strong> points to go</p><div class="settle">🏆 Highest tier · Next-day rewards</div></div>
         <div class="subheading"><h3>Targets & Rewards</h3></div><div class="tier-table-wrap"><table class="tier-table"><thead><tr><th>Points</th><th>Rewards</th></tr></thead><tbody id="task-list"></tbody></table></div>
       </section>
       <section id="panel-send" role="tabpanel" aria-labelledby="tab-send" hidden>
-        <div class="ornament">✦ Magic Treats ✦</div>
+        <div class="ornament">✦ Magic Treats ✦</div><p class="play-subtitle">Gift Rewards</p>
         <div class="treats-module">
           <div class="treats-module-head"><span>Send</span><span>→</span><span>1 random reward · 1d</span></div>
           <div class="treats-columns"><div class="spell-tickets" id="gift-triggers"></div><div class="reward-grid" id="reward-grid"></div></div>
         </div>
       </section>
       <section id="panel-rank" role="tabpanel" aria-labelledby="tab-rank" hidden>
-        <div class="ornament">✦ Pumpkin Throne ✦</div>
+        <div class="ornament">✦ Pumpkin Throne ✦</div><p class="play-subtitle">Rankings</p>
         <div class="rank-tabs" aria-label="Ranking period"><button data-rank="daily" aria-pressed="true" class="selected">Daily</button><button data-rank="total" aria-pressed="false">Overall</button></div>
         <div class="rank-countdown"><span id="countdown-label">Daily settlement in</span><div id="countdown-digits" aria-label="Time until settlement"></div><small>UTC+5</small></div><div class="podium" id="podium"></div><div class="rank-list" id="rank-list"></div>
       </section>
@@ -87,6 +89,8 @@
 #pumpkin-preview .info-copy p{overflow-wrap:anywhere}
 @media(min-width:601px){#pumpkin-preview{container-type:normal}#pumpkin-preview .hero{height:430px}#pumpkin-preview h1{font-size:54px}}
 @media(max-width:340px){#pumpkin-preview .tier-table td{padding:10px 5px}#pumpkin-preview .dock-avatar{width:39px;height:39px}#pumpkin-preview .rank-line{gap:6px}#pumpkin-preview .rank-line .mini-avatar{width:35px;height:35px}#pumpkin-preview .rank-line>small{font-size:10px}}
+
+#pumpkin-preview .play-subtitle{text-align:center;font-size:11px;color:#c6a3d0;margin:-10px 0 18px;letter-spacing:.5px}#pumpkin-preview .main-tabs button{min-height:46px;padding:12px 3px}
 </style>
 <script>
 (()=>{const root=document.getElementById('pumpkin-preview');const q=s=>root.querySelector(s);const gifts=[['🧹','Golden Broom',100,100,68],['🎩','Magic Hat',200,50,12],['👻','Little Ghost',500,20,8],['🎃','Pumpkin Chest',1000,10,3]];const rewards=[['🪞','Avatar Frame','40%'],['🏅','Badge','30%'],['🛸','Ride','20%'],['💎','VIP1','6%'],['💎','VIP2','2.5%'],['💎','VIP3','1%'],['💎','VIP4','0.5%']];const tiers=[[70000,1000,0,0],[210000,3000,1,3],[500000,6000,2,3],[1000000,10000,3,3],[2000000,15000,3,5],[3000000,20000,3,7]];const fmt=n=>n.toLocaleString('en-US');let selectedGift=0,rank='daily',lastFocus;const saved=window.openai?.widgetState?.privateContent||{};let active=['host','send','rank'].includes(saved.tab)?saved.tab:'host';
