@@ -3,6 +3,8 @@
 #pumpkin-preview .play-subtitle{text-align:center;font-size:11px;color:#c6a3d0;margin:-10px 0 18px;letter-spacing:.5px}#pumpkin-preview .main-tabs button{min-height:46px;padding:12px 3px}
 
 #pumpkin-preview .treats-module-head{display:block;text-align:center;padding:15px 16px;font-size:12px;line-height:1.6;color:#ffe0a0}
+
+#pumpkin-preview .host-intro{text-align:center;font-size:12px;line-height:1.65;color:#e1c9e6;margin:-4px 6px 18px}#pumpkin-preview .host-intro span{font-size:11px;color:#c6a3d0}
 </style></head><body>
 <div id="pumpkin-preview" class="viz-dotted-background">
   <p class="preview-note">Interactive preview · Sample progress, rankings & countdown</p>
@@ -22,7 +24,7 @@
     </nav>
     <div class="content">
       <section id="panel-host" role="tabpanel" aria-labelledby="tab-host">
-        <div class="ornament">✦ Ghost Gala ✦</div><p class="play-subtitle">Host Tasks</p>
+        <div class="ornament">✦ Ghost Gala ✦</div><p class="play-subtitle">Host Tasks</p><p class="host-intro">Receive event gifts to earn points and unlock daily rewards.<br><span>10% of gift value counts as points.</span></p>
         <div class="progress-card"><div class="progress-head"><span>Today’s Points</span><button data-action="host-rules">Rules ⓘ</button></div><div class="progress-number">235,000 <small>/ 500,000</small></div><div class="track"><div style="width:47%"></div></div><p>Next tier: <strong>265,000</strong> points to go</p></div>
         <div class="subheading"><h3>Targets & Rewards</h3></div><div class="tier-table-wrap"><table class="tier-table"><thead><tr><th>Points</th><th>Rewards</th></tr></thead><tbody id="task-list"></tbody></table></div>
       </section>
@@ -95,6 +97,8 @@
 #pumpkin-preview .play-subtitle{text-align:center;font-size:11px;color:#c6a3d0;margin:-10px 0 18px;letter-spacing:.5px}#pumpkin-preview .main-tabs button{min-height:46px;padding:12px 3px}
 
 #pumpkin-preview .treats-module-head{display:block;text-align:center;padding:15px 16px;font-size:12px;line-height:1.6;color:#ffe0a0}
+
+#pumpkin-preview .host-intro{text-align:center;font-size:12px;line-height:1.65;color:#e1c9e6;margin:-4px 6px 18px}#pumpkin-preview .host-intro span{font-size:11px;color:#c6a3d0}
 </style>
 <script>
 (()=>{const root=document.getElementById('pumpkin-preview');const q=s=>root.querySelector(s);const gifts=[['🧹','Golden Broom',100,100,68],['🎩','Magic Hat',200,50,12],['👻','Little Ghost',500,20,8],['🎃','Pumpkin Chest',1000,10,3]];const rewards=[['🪞','Avatar Frame','40%'],['🏅','Badge','30%'],['🛸','Ride','20%'],['💎','VIP1','6%'],['💎','VIP2','2.5%'],['💎','VIP3','1%'],['💎','VIP4','0.5%']];const tiers=[[70000,1000,0,0],[210000,3000,1,3],[500000,6000,2,3],[1000000,10000,3,3],[2000000,15000,3,5],[3000000,20000,3,7]];const fmt=n=>n.toLocaleString('en-US');let selectedGift=0,rank='daily',lastFocus;const saved=window.openai?.widgetState?.privateContent||{};let active=['host','send','rank'].includes(saved.tab)?saved.tab:'host';
