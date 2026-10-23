@@ -5,6 +5,8 @@
 #pumpkin-preview .treats-module-head{display:block;text-align:center;padding:15px 16px;font-size:12px;line-height:1.6;color:#ffe0a0}
 
 #pumpkin-preview .host-intro{text-align:center;font-size:12px;line-height:1.65;color:#e1c9e6;margin:-4px 6px 18px}#pumpkin-preview .host-intro span{font-size:11px;color:#c6a3d0}
+
+#pumpkin-preview .treats-module .treats-columns{padding-top:14px}
 </style></head><body>
 <div id="pumpkin-preview" class="viz-dotted-background">
   <p class="preview-note">Interactive preview · Sample progress, rankings & countdown</p>
@@ -29,14 +31,14 @@
         <div class="subheading"><h3>Targets & Rewards</h3></div><div class="tier-table-wrap"><table class="tier-table"><thead><tr><th>Points</th><th>Rewards</th></tr></thead><tbody id="task-list"></tbody></table></div>
       </section>
       <section id="panel-send" role="tabpanel" aria-labelledby="tab-send" hidden>
-        <div class="ornament">✦ Magic Treats ✦</div><p class="play-subtitle">Gift Rewards</p>
+        <div class="ornament">✦ Magic Treats ✦</div><p class="play-subtitle">Gift Rewards</p><p class="host-intro">Send the required number of event gifts to receive a random reward.<br><span>Each reward lasts 1 day.</span></p>
         <div class="treats-module">
-          <div class="treats-module-head">Send the required number of event gifts to receive one random reward below.</div>
+          
           <div class="treats-columns"><div class="spell-tickets" id="gift-triggers"></div><div class="reward-grid" id="reward-grid"></div></div>
         </div>
       </section>
       <section id="panel-rank" role="tabpanel" aria-labelledby="tab-rank" hidden>
-        <div class="ornament">✦ Pumpkin Throne ✦</div><p class="play-subtitle">Rankings</p>
+        <div class="ornament">✦ Pumpkin Throne ✦</div><p class="play-subtitle">Rankings</p><p class="host-intro">Send event gifts to climb the Daily and Overall rankings.<br><span>1 Coin of gift value = 1 point.</span></p>
         <div class="rank-tabs" aria-label="Ranking period"><button data-rank="daily" aria-pressed="true" class="selected">Daily</button><button data-rank="total" aria-pressed="false">Overall</button></div>
         <div class="rank-countdown"><span id="countdown-label">Daily settlement in</span><div id="countdown-digits" aria-label="Time until settlement"></div><small>UTC+5</small></div><div class="podium" id="podium"></div><div class="rank-list" id="rank-list"></div>
       </section>
@@ -99,6 +101,8 @@
 #pumpkin-preview .treats-module-head{display:block;text-align:center;padding:15px 16px;font-size:12px;line-height:1.6;color:#ffe0a0}
 
 #pumpkin-preview .host-intro{text-align:center;font-size:12px;line-height:1.65;color:#e1c9e6;margin:-4px 6px 18px}#pumpkin-preview .host-intro span{font-size:11px;color:#c6a3d0}
+
+#pumpkin-preview .treats-module .treats-columns{padding-top:14px}
 </style>
 <script>
 (()=>{const root=document.getElementById('pumpkin-preview');const q=s=>root.querySelector(s);const gifts=[['🧹','Golden Broom',100,100,68],['🎩','Magic Hat',200,50,12],['👻','Little Ghost',500,20,8],['🎃','Pumpkin Chest',1000,10,3]];const rewards=[['🪞','Avatar Frame','40%'],['🏅','Badge','30%'],['🛸','Ride','20%'],['💎','VIP1','6%'],['💎','VIP2','2.5%'],['💎','VIP3','1%'],['💎','VIP4','0.5%']];const tiers=[[70000,1000,0,0],[210000,3000,1,3],[500000,6000,2,3],[1000000,10000,3,3],[2000000,15000,3,5],[3000000,20000,3,7]];const fmt=n=>n.toLocaleString('en-US');let selectedGift=0,rank='daily',lastFocus;const saved=window.openai?.widgetState?.privateContent||{};let active=['host','send','rank'].includes(saved.tab)?saved.tab:'host';
