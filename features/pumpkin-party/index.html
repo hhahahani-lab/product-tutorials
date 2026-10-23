@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pumpkin Party</title><style>body{margin:0;background:#160924}button{font-family:inherit}#pumpkin-preview{padding-top:0!important}#pumpkin-preview .party{border-radius:0!important}#pumpkin-preview .preview-note{padding:10px;color:#c5bad4!important}</style></head><body>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pumpkin Party</title><style>html{box-sizing:border-box;-webkit-text-size-adjust:100%}body{margin:0;background:#160924}button{font-family:inherit}#pumpkin-preview .preview-note{padding:8px;color:#c5bad4!important;margin:0}</style></head><body>
 <div id="pumpkin-preview" class="viz-dotted-background">
   <p class="preview-note">Interactive preview · Sample progress, rankings & countdown</p>
   <main lang="en" class="party" aria-label="Pumpkin Party event page">
@@ -53,6 +53,40 @@
 #pumpkin-preview .treats-module{border:1px solid #b08296;border-radius:18px;background:radial-gradient(ellipse at top right,#69337666,transparent 65%),#321540;overflow:hidden;margin-bottom:18px;box-shadow:inset 0 0 0 3px #472050}#pumpkin-preview .treats-module-head{display:grid;grid-template-columns:1fr 18px 2fr;align-items:center;padding:15px 8px;background:#51265e;border-bottom:1px solid #98697f;color:#ffe0a0;font-size:11px;text-align:center;gap:0}#pumpkin-preview .treats-module-head>span:nth-child(2){color:#d4a3b3;font-size:15px}#pumpkin-preview .treats-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);padding:10px 8px;gap:0}#pumpkin-preview .treats-columns #gift-triggers{display:flex;flex-direction:column;justify-content:space-between;gap:10px;margin:0;padding:5px 9px 5px 1px;border-right:1px solid #81547b}#pumpkin-preview .treats-columns .spell-ticket{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;min-height:99px;padding:12px 3px 9px;border:0;border-radius:12px;background:linear-gradient(#67357577,#40204c55);box-shadow:none;overflow:visible}#pumpkin-preview .treats-columns .ticket-number{display:none}#pumpkin-preview .treats-columns .ticket-gift,#pumpkin-preview .treats-columns .ticket-gift img{width:40px;height:40px}#pumpkin-preview .treats-columns .ticket-copy{text-align:center;width:100%}#pumpkin-preview .treats-columns .ticket-copy>b{font-size:10px;font-weight:400;color:#dac1e3;line-height:1.4;overflow-wrap:anywhere}#pumpkin-preview .treats-columns .ticket-qty{margin-top:5px;font-size:21px;color:#ffdf9d}#pumpkin-preview .treats-columns .ticket-qty>span{display:none}#pumpkin-preview .treats-columns #reward-grid{display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding:3px 0 3px 11px;margin:0;border:0;border-radius:0;background:none;box-shadow:none}#pumpkin-preview .treat-prize-row{display:flex;align-items:center;gap:9px;width:100%;min-height:56px;padding:7px 9px;border:1px solid #7c5281;border-radius:11px;background:linear-gradient(115deg,#65376c66,#3a1d4b);color:#edd6e9;text-align:left}#pumpkin-preview .treat-prize-art{position:relative;width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;border-radius:8px;background:#6b3e7355}#pumpkin-preview .treat-prize-art img{width:32px;height:32px;object-fit:contain}#pumpkin-preview .treat-prize-art>b{position:absolute;bottom:-2px;right:-2px;background:#e5c084;border:1px solid #ffe8b5;border-radius:50%;font-size:9px;width:15px;height:15px;color:#4b2147;display:grid;place-items:center}#pumpkin-preview .treat-prize-row>span{flex:1;min-width:0;font-size:11px;line-height:1.3}#pumpkin-preview .treat-prize-row>small{font-size:10px;color:#c5a1cf;flex-shrink:0}@media(max-width:360px){#pumpkin-preview .treats-module-head{font-size:10px}#pumpkin-preview .treat-prize-row{gap:6px;padding:7px 6px}#pumpkin-preview .treat-prize-row>span{font-size:10px}#pumpkin-preview .treat-prize-art{width:32px;height:32px}#pumpkin-preview .treat-prize-art img{width:28px;height:28px}#pumpkin-preview .treats-columns #reward-grid{padding-left:8px}#pumpkin-preview .treats-columns #gift-triggers{padding-right:7px}}
 
 #pumpkin-preview .info-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 21px}#pumpkin-preview .info-tabs button{min-height:42px;padding:10px;border:1px solid #825483;border-radius:11px;background:#442053;color:#bfa2cc;font-size:13px}#pumpkin-preview .info-tabs button.selected{background:#724078;border-color:#e2bb88;color:#ffe9bd}#pumpkin-preview .info-copy h3{font-size:14px;font-weight:650;color:#ffe0a5;margin:23px 0 9px}#pumpkin-preview .info-copy h3:first-child{margin-top:0}#pumpkin-preview .info-copy p{font-size:12px;line-height:1.85;margin:0 0 11px;color:#dec8e5}#pumpkin-preview .info-copy b{font-weight:600;color:#efd9ec}
+/* Mobile layout */
+#pumpkin-preview{width:100%;padding:0 0 16px;container-type:inline-size}
+#pumpkin-preview .party{width:100%;max-width:600px;border-radius:0;min-width:0}
+#pumpkin-preview .hero{height:clamp(295px,90cqw,430px)}
+#pumpkin-preview h1{font-size:clamp(30px,9.8cqw,54px);white-space:nowrap;letter-spacing:0}
+#pumpkin-preview .hero-art{top:38%}
+#pumpkin-preview .pumpkin{font-size:clamp(120px,36cqw,180px)}
+#pumpkin-preview .ghost{font-size:clamp(48px,17cqw,82px);left:5%}
+#pumpkin-preview .hat{font-size:clamp(45px,15cqw,75px);right:10%}
+#pumpkin-preview .small-pumpkin{font-size:clamp(44px,15cqw,75px)}
+#pumpkin-preview .content,#pumpkin-preview .main-tabs{padding-left:clamp(8px,3cqw,18px);padding-right:clamp(8px,3cqw,18px)}
+#pumpkin-preview .main-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#pumpkin-preview .main-tabs button{font-size:clamp(11px,3.1cqw,16px);min-width:0;overflow-wrap:anywhere;min-height:55px}
+#pumpkin-preview .main-tabs small{font-size:10px;letter-spacing:0}
+#pumpkin-preview .gift-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+#pumpkin-preview .gift-item{min-width:0}
+#pumpkin-preview .gift-item b{font-size:clamp(10px,2.65cqw,13px);min-height:30px;display:flex;align-items:center;justify-content:center;line-height:1.3}
+#pumpkin-preview .tier-table th:first-child{width:26%}
+#pumpkin-preview .tier-table th:nth-child(2){width:74%}
+#pumpkin-preview .tier-prizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+#pumpkin-preview .prize-picture{min-width:0;width:100%;max-width:none}
+#pumpkin-preview .prize-picture img{width:clamp(30px,9cqw,46px);height:clamp(30px,9cqw,46px)}
+#pumpkin-preview .tier-table td:first-child{white-space:nowrap;font-size:clamp(10px,2.8cqw,13px)}
+#pumpkin-preview .treats-columns{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+#pumpkin-preview .treat-prize-row{min-width:0}
+#pumpkin-preview .treat-prize-row>span{overflow-wrap:anywhere}
+#pumpkin-preview .rank-dock{width:min(600px,100%);padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+#pumpkin-preview .has-rank-dock{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+#pumpkin-preview .overlay{position:fixed;inset:0;align-items:center;padding:12px;overflow-y:auto;overscroll-behavior:contain}
+#pumpkin-preview .sheet{max-width:560px;max-height:calc(100dvh - 24px);overflow-y:auto;min-width:0;padding:16px;overscroll-behavior:contain}
+#pumpkin-preview .sheet-head{position:sticky;top:-16px;background:#351447;z-index:2;padding:14px 0}
+#pumpkin-preview .info-copy p{overflow-wrap:anywhere}
+@media(min-width:601px){#pumpkin-preview{container-type:normal}#pumpkin-preview .hero{height:430px}#pumpkin-preview h1{font-size:54px}}
+@media(max-width:340px){#pumpkin-preview .tier-table td{padding:10px 5px}#pumpkin-preview .dock-avatar{width:39px;height:39px}#pumpkin-preview .rank-line{gap:6px}#pumpkin-preview .rank-line .mini-avatar{width:35px;height:35px}#pumpkin-preview .rank-line>small{font-size:10px}}
 </style>
 <script>
 (()=>{const root=document.getElementById('pumpkin-preview');const q=s=>root.querySelector(s);const gifts=[['🧹','Golden Broom',100,100,68],['🎩','Magic Hat',200,50,12],['👻','Little Ghost',500,20,8],['🎃','Pumpkin Chest',1000,10,3]];const rewards=[['🪞','Avatar Frame','40%'],['🏅','Badge','30%'],['🛸','Ride','20%'],['💎','VIP1','6%'],['💎','VIP2','2.5%'],['💎','VIP3','1%'],['💎','VIP4','0.5%']];const tiers=[[70000,1000,0,0],[210000,3000,1,3],[500000,6000,2,3],[1000000,10000,3,3],[2000000,15000,3,5],[3000000,20000,3,7]];const fmt=n=>n.toLocaleString('en-US');let selectedGift=0,rank='daily',lastFocus;const saved=window.openai?.widgetState?.privateContent||{};let active=['host','send','rank'].includes(saved.tab)?saved.tab:'host';
