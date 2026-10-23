@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pumpkin Party</title><style>html{box-sizing:border-box;-webkit-text-size-adjust:100%}body{margin:0;background:#160924}button{font-family:inherit}#pumpkin-preview .preview-note{padding:8px;color:#c5bad4!important;margin:0}
 #pumpkin-preview .play-subtitle{text-align:center;font-size:11px;color:#c6a3d0;margin:-10px 0 18px;letter-spacing:.5px}#pumpkin-preview .main-tabs button{min-height:46px;padding:12px 3px}
+
+#pumpkin-preview .treats-module-head{display:block;text-align:center;padding:15px 16px;font-size:12px;line-height:1.6;color:#ffe0a0}
 </style></head><body>
 <div id="pumpkin-preview" class="viz-dotted-background">
   <p class="preview-note">Interactive preview · Sample progress, rankings & countdown</p>
@@ -27,7 +29,7 @@
       <section id="panel-send" role="tabpanel" aria-labelledby="tab-send" hidden>
         <div class="ornament">✦ Magic Treats ✦</div><p class="play-subtitle">Gift Rewards</p>
         <div class="treats-module">
-          <div class="treats-module-head"><span>Send</span><span>→</span><span>1 random reward · 1d</span></div>
+          <div class="treats-module-head">Send the required number of event gifts to receive one random reward below.</div>
           <div class="treats-columns"><div class="spell-tickets" id="gift-triggers"></div><div class="reward-grid" id="reward-grid"></div></div>
         </div>
       </section>
@@ -91,6 +93,8 @@
 @media(max-width:340px){#pumpkin-preview .tier-table td{padding:10px 5px}#pumpkin-preview .dock-avatar{width:39px;height:39px}#pumpkin-preview .rank-line{gap:6px}#pumpkin-preview .rank-line .mini-avatar{width:35px;height:35px}#pumpkin-preview .rank-line>small{font-size:10px}}
 
 #pumpkin-preview .play-subtitle{text-align:center;font-size:11px;color:#c6a3d0;margin:-10px 0 18px;letter-spacing:.5px}#pumpkin-preview .main-tabs button{min-height:46px;padding:12px 3px}
+
+#pumpkin-preview .treats-module-head{display:block;text-align:center;padding:15px 16px;font-size:12px;line-height:1.6;color:#ffe0a0}
 </style>
 <script>
 (()=>{const root=document.getElementById('pumpkin-preview');const q=s=>root.querySelector(s);const gifts=[['🧹','Golden Broom',100,100,68],['🎩','Magic Hat',200,50,12],['👻','Little Ghost',500,20,8],['🎃','Pumpkin Chest',1000,10,3]];const rewards=[['🪞','Avatar Frame','40%'],['🏅','Badge','30%'],['🛸','Ride','20%'],['💎','VIP1','6%'],['💎','VIP2','2.5%'],['💎','VIP3','1%'],['💎','VIP4','0.5%']];const tiers=[[70000,1000,0,0],[210000,3000,1,3],[500000,6000,2,3],[1000000,10000,3,3],[2000000,15000,3,5],[3000000,20000,3,7]];const fmt=n=>n.toLocaleString('en-US');let selectedGift=0,rank='daily',lastFocus;const saved=window.openai?.widgetState?.privateContent||{};let active=['host','send','rank'].includes(saved.tab)?saved.tab:'host';
