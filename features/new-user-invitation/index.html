@@ -1,0 +1,2961 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Yaloka Invite Rewards</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+
+</head>
+<body>
+<iframe id="codex-visualization" sandbox="allow-scripts" referrerpolicy="no-referrer" title="Yaloka Invite Rewards" data-srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Yaloka Invite Rewards&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 16px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans:
+    -apple-system-body, ui-sans-serif, -apple-system, system-ui, &quot;Segoe UI&quot;,
+    Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;,
+    &quot;Segoe UI Symbol&quot;;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 8px);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-weight: var(--font-weight-normal);
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  font-weight: inherit;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+.table {
+  font-family: var(--font-sans);
+}
+
+h1 {
+  font-size: calc(var(--font-size-base) * 1.5);
+  line-height: 1.3333333333;
+}
+
+h2 {
+  font-size: calc(var(--font-size-base) * 1.25);
+  line-height: 1.4;
+}
+h3 {
+  font-size: calc(var(--font-size-base) * 1.125);
+  line-height: 1.5555555556;
+}
+h4 {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+h5,
+h6 {
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong,
+th {
+  font-weight: 600;
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+pre,
+pre code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-family: var(--font-sans);
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+.table :is(th, td):not(:last-child) {
+  padding-inline-end: calc(var(--font-size-base) * 1.5);
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead :is(th, td) {
+  border-bottom-color: var(--border-strong, var(--input));
+  padding-block: calc(var(--font-size-base) / 2);
+  line-height: var(--font-size-base);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+.table tbody :is(th, td) {
+  padding-block: calc(var(--font-size-base) * 0.625);
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 8px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+.widget {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  box-shadow: 0 0 0 0.5px var(--border-strong, var(--border));
+  color: var(--foreground);
+  background: var(--background);
+}
+
+#widget &gt; :not(.card, .widget, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  border: 1px solid var(--border);
+  corner-shape: var(--corner-shape);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-sans);
+  padding: 5px 12px;
+  border-color: color-mix(
+    in oklab,
+    light-dark(var(--primary-foreground), var(--foreground)) 5%,
+    transparent
+  );
+  border-radius: var(--radius-2xl);
+  color: light-dark(var(--primary-foreground), var(--foreground));
+  background: light-dark(var(--foreground), var(--popover));
+  box-shadow: 0 8px 18px rgb(15 23 42 / 20%);
+  letter-spacing: -0.15px;
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: color-mix(in srgb, var(--foreground) 40%, var(--muted-foreground));
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-family: var(--font-sans);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1;
+}
+
+small,
+.text-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+/* Match inline alignment without overriding a containing flex or grid layout. */
+.btn,
+.nav-link,
+.form-control,
+.form-select,
+.form-range,
+.form-check {
+  vertical-align: middle;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: inherit;
+  font-family: var(--font-sans);
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  border-color: transparent;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.btn {
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+.btn-primary {
+  border-color: var(--border);
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: border-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: border-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--muted-foreground);
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+/* Shared preview chrome; product styles stay inside each variant. */
+.viz-dotted-background {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--foreground) 14%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-position: center;
+  background-size: 16px 16px;
+}
+
+.viz-carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.viz-carousel:has(&gt; .viz-carousel-controls) {
+  min-height: calc(60px + var(--viz-carousel-picker-height, 0px));
+  padding-bottom: 60px;
+}
+
+.viz-carousel &gt; [data-variant][hidden] {
+  display: none !important;
+}
+
+.viz-carousel &gt; [data-variant] {
+  isolation: isolate;
+}
+
+.viz-carousel-controls {
+  --viz-carousel-hover: light-dark(
+    color-mix(in srgb, var(--foreground) 5.4%, transparent),
+    color-mix(in srgb, var(--foreground) 7.8%, transparent)
+  );
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  /* Leave room for the host&#x27;s design-controls launcher at the trailing edge. */
+  max-width: calc(100% - 96px);
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  /* Match the settings dropdown chrome independently of the content font size. */
+  font-size: 13px;
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+  transform: translateX(-50%);
+  user-select: none;
+}
+
+/* Keep authored mockup button styles out of the shared carousel chrome. */
+.viz-carousel-controls button,
+.viz-carousel-picker &gt; summary {
+  display: flex !important;
+  height: auto !important;
+  min-height: 30px;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  padding: 0 6px !important;
+  -webkit-app-region: no-drag;
+  border: 0 !important;
+  border-radius: 14px !important;
+  color: inherit !important;
+  background: transparent !important;
+  font: inherit !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viz-carousel-controls &gt; button,
+.viz-carousel-picker &gt; summary {
+  position: relative;
+  isolation: isolate;
+}
+
+.viz-carousel-controls &gt; button {
+  --icon-size: 16px;
+  width: 30px !important;
+  padding: 0 !important;
+}
+
+.viz-carousel-picker &gt; summary {
+  padding-inline: 12px !important;
+}
+
+.viz-carousel-controls .viz-carousel-caret {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin: 0;
+  color: inherit;
+  transform: rotate(180deg);
+}
+
+.viz-carousel-controls &gt; button &gt; svg,
+.viz-carousel-controls .viz-carousel-caret,
+.viz-carousel-count {
+  opacity: 0.5;
+}
+
+.viz-carousel-controls &gt; button::before,
+.viz-carousel-picker &gt; summary::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border-radius: 12px;
+  content: &quot;&quot;;
+  pointer-events: none;
+}
+
+.viz-carousel-controls &gt; button:hover::before,
+.viz-carousel-picker &gt; summary:hover::before {
+  background: var(--viz-carousel-hover);
+}
+
+.viz-carousel-controls &gt; button,
+.viz-carousel-controls [data-lucide],
+.viz-carousel-controls .lucide {
+  flex-shrink: 0;
+}
+
+.viz-carousel-picker {
+  min-width: 0;
+}
+
+.viz-carousel-picker &gt; summary {
+  min-width: 0;
+  list-style: none;
+}
+
+.viz-carousel-picker &gt; summary::-webkit-details-marker {
+  display: none;
+}
+
+.viz-carousel-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viz-carousel-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viz-carousel-options {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  max-height: 240px;
+  flex-direction: column;
+  gap: 2px;
+  overflow: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+  box-shadow: 0 4px 12px light-dark(rgb(0 0 0 / 6%), rgb(0 0 0 / 25%));
+}
+
+.viz-carousel-options &gt; button {
+  border-radius: max(0px, calc(var(--radius-lg) - 5px)) !important;
+  width: 100% !important;
+  min-height: 28px;
+  justify-content: flex-start !important;
+  padding: 4px 8px !important;
+  font-size: var(--font-size-small) !important;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.viz-carousel-options &gt; [aria-current=&quot;true&quot;],
+.viz-carousel-options &gt; button:hover {
+  background: var(--viz-carousel-hover) !important;
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: calc(4px + var(--control-spacing, 12px) / 2);
+  border-color: var(--input);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--popover) 96%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.4285714286;
+}
+.form-control:is(
+  [type=&quot;file&quot;],
+  [type=&quot;date&quot;],
+  [type=&quot;datetime-local&quot;],
+  [type=&quot;month&quot;],
+  [type=&quot;week&quot;],
+  [type=&quot;color&quot;]
+) {
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  line-height: 18px;
+}
+.form-control:is(
+  [type=&quot;date&quot;],
+  [type=&quot;datetime-local&quot;],
+  [type=&quot;month&quot;],
+  [type=&quot;week&quot;]
+) {
+  padding-inline: var(--control-spacing, 12px);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+  padding: 0;
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+  min-height: calc(10px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  margin-inline-end: var(--control-spacing, 12px);
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  resize: vertical;
+  min-height: 96px;
+  padding: 8px 10px;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: none;
+}
+.form-control:disabled {
+  color: var(--muted-foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  opacity: 1;
+}
+.form-control[aria-invalid=&quot;true&quot;] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 20%, transparent);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  margin: 0;
+  /* The secondary icon role is 14px at compact density and 16px at web density. */
+  --icon-size: calc(10px + var(--control-spacing, 12px) / 2);
+  /* Settings dropdowns retain a 12px inset and a 4px text-to-chevron gap. */
+  padding: 0 calc(16px + var(--icon-size)) 0 12px;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    );
+  background-position:
+    calc(100% - 12px - var(--icon-size) / 2) 50%,
+    calc(100% - 12px - var(--icon-size) * 0.18) 50%;
+  background-repeat: no-repeat;
+  background-size: calc(var(--icon-size) * 0.32) calc(var(--icon-size) * 0.32);
+  cursor: var(--cursor-interaction, default);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.form-select option {
+  color: var(--popover-foreground);
+  background-color: var(--popover);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.form-select:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+.form-select:disabled {
+  opacity: 0.4;
+}
+
+.form-check {
+  display: flex;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  corner-shape: round;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  width: calc(10px + var(--control-spacing, 12px) / 2);
+  height: calc(10px + var(--control-spacing, 12px) / 2);
+  border-color: var(--border-strong, var(--input));
+  border-radius: calc(var(--radius-sm) / 2);
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:is(:checked, :indeterminate) {
+  border-color: var(--border-strong, var(--input));
+  background-color: color-mix(in srgb, var(--popover) 96%, transparent);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+  background-color: var(--foreground);
+}
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:indeterminate::before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 65%;
+  height: 6.65%;
+  margin: auto;
+  border-radius: var(--radius-full);
+  background: var(--foreground);
+  mask: none;
+  content: &quot;&quot;;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  border-radius: var(--radius-full);
+  width: 16px;
+  height: 16px;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--input);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 0;
+  background: radial-gradient(
+    circle,
+    var(--primary-foreground) 0 3px,
+    var(--foreground) 3px
+  );
+  box-shadow: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:focus-visible {
+  border-color: var(--ring);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+.form-check:not(.form-switch) .form-check-input[type=&quot;radio&quot;]:disabled,
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;radio&quot;]:disabled
+  + .form-check-label {
+  opacity: 0.5;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  border-color: #fff;
+  background: #fff;
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--blue);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+  outline: none;
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  accent-color: var(--primary);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  outline: none;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: transparent;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  margin-top: -9px;
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Outline the native track and thumb, preserving the larger input hit area. */
+.form-range:focus-visible::-webkit-slider-runnable-track {
+  outline: 2px auto Highlight;
+  outline-color: -webkit-focus-ring-color;
+}
+
+.form-range::-moz-range-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.form-range:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--blue);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.viz-carousel-controls :is(button, summary):focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Web recipes are the default, including on renderers without inline style queries. */
+@supports (border-radius: if(style(--corner-shape: round): 1px; else: 2px)) {
+  /* Match the host&#x27;s proportional text-sm scale at every text preference. */
+  .tooltip,
+  .viz-badge,
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 14 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 13 / 14), 1px)
+    );
+  }
+
+  .btn,
+  .nav-link,
+  .form-select {
+    border-radius: if(
+      style(--corner-shape: round): var(--radius-full); else: var(--radius-lg)
+    );
+  }
+
+  .form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+    border-radius: if(
+      style(--corner-shape: round): calc(var(--radius-sm) / 2);
+        else: calc(var(--radius-lg) * 0.4)
+    );
+  }
+
+  .tooltip {
+    font-weight: if(
+      style(--corner-shape: round): 600; else: var(--font-weight-normal)
+    );
+  }
+}
+
+@media (pointer: coarse) {
+  .viz-carousel:has(&gt; .viz-carousel-controls) {
+    min-height: calc(76px + var(--viz-carousel-picker-height, 0px));
+    padding-bottom: 76px;
+  }
+
+  .btn,
+  .nav-link,
+  .viz-carousel-controls button,
+  .viz-carousel-picker &gt; summary,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+  .form-control:is(
+    [type=&quot;file&quot;],
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;week&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;color&quot;]
+  ) {
+    height: 44px;
+    min-height: 44px;
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;codex-visualization-widget-state&quot;&gt;__CODEX_VISUALIZATION_WIDGET_STATE__&lt;/script&gt;
+&lt;script&gt;(() =&gt; {
+  const root = document.documentElement;
+  const mediaQuery = globalThis.matchMedia(&quot;(prefers-color-scheme: dark)&quot;);
+  const apply = Reflect.apply;
+  const isArray = Array.isArray;
+  const hasOwn = Object.hasOwn;
+  const parentWindow = globalThis.parent;
+  const stringify = JSON.stringify;
+  const parse = JSON.parse;
+  const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+  const initialStateElement = document.getElementById(
+    &quot;codex-visualization-widget-state&quot;,
+  );
+  const initialGlobals = parse(initialStateElement?.textContent ?? &quot;{}&quot;);
+  initialStateElement?.remove();
+  /** @type {Record&lt;string, unknown&gt; | null} */
+  let state = initialGlobals.widgetState ?? null;
+  const statePersistence = initialGlobals.statePersistence ?? &quot;none&quot;;
+  let nextStateRequestId = 0;
+  /** @type {Map&lt;number, { resolve: () =&gt; void; reject: (error: Error) =&gt; void; timeout: ReturnType&lt;typeof globalThis.setTimeout&gt;; serializedState: string }&gt;} */
+  const pendingStateWrites = new Map();
+  const persistenceError = () =&gt;
+    Object.assign(
+      new Error(&quot;The host could not persist the widget state update&quot;),
+      {
+        code: -32000,
+        data: { code: &quot;widget_state_persistence_failed&quot;, retryable: false },
+      },
+    );
+  /**
+   * @param {object} prototype
+   * @param {string} property
+   */
+  const getPrototypeGetter = (prototype, property) =&gt; {
+    // oxlint-disable-next-line typescript/unbound-method -- invoked through captured Reflect.apply
+    const getter = Object.getOwnPropertyDescriptor(prototype, property)?.get;
+    if (getter == null) {
+      throw new Error(`Missing ${property} getter`);
+    }
+    return getter;
+  };
+  const getMessageData = getPrototypeGetter(MessageEvent.prototype, &quot;data&quot;);
+  const getMessagePorts = getPrototypeGetter(MessageEvent.prototype, &quot;ports&quot;);
+  const getMessageSource = getPrototypeGetter(MessageEvent.prototype, &quot;source&quot;);
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const addHostMessageListener = MessagePort.prototype.addEventListener;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const postHostMessage = MessagePort.prototype.postMessage;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const startHostPort = MessagePort.prototype.start;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const stopMessagePropagation = Event.prototype.stopImmediatePropagation;
+  /** @type {MessagePort | null} */
+  let hostPort = null;
+  const postToHost = (type, payload) =&gt; {
+    if (hostPort != null) {
+      apply(postHostMessage, hostPort, [{ type, ...payload }]);
+    }
+  };
+  const openExternal = ({ href }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;open-external&quot;, { href });
+    }
+  };
+  const sendFollowUpMessage = ({ context, prompt, title }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;follow-up&quot;, { context, prompt, title });
+    }
+    return Promise.resolve();
+  };
+  /**
+   * @param {Record&lt;string, unknown&gt; | ((previous: Record&lt;string, unknown&gt; | null) =&gt; Record&lt;string, unknown&gt;)} next
+   * @returns {Promise&lt;void&gt;}
+   */
+  const setWidgetState = async (next) =&gt; {
+    const nextState = typeof next === &quot;function&quot; ? next(state) : next;
+    if (
+      nextState == null ||
+      typeof nextState !== &quot;object&quot; ||
+      isArray(nextState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const inputState = stringify(
+      nextState,
+      (_key, /** @type {unknown} */ value) =&gt; {
+        if (
+          typeof value === &quot;undefined&quot; ||
+          typeof value === &quot;function&quot; ||
+          typeof value === &quot;symbol&quot; ||
+          (typeof value === &quot;number&quot; &amp;&amp; !Number.isFinite(value))
+        ) {
+          throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+        }
+        return value;
+      },
+    );
+    const parsedState = parse(inputState);
+    if (
+      parsedState == null ||
+      typeof parsedState !== &quot;object&quot; ||
+      isArray(parsedState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const storedState = {
+      modelContent: null,
+      privateContent: null,
+      ...parsedState,
+    };
+    const serializedState = stringify(storedState);
+    if (encode(serializedState).length &gt; 16 * 1024) {
+      throw new TypeError(
+        &quot;Widget state must be a JSON object of at most 16 KiB&quot;,
+      );
+    }
+    if (
+      hasOwn(storedState, &quot;imageIds&quot;) &amp;&amp;
+      (!isArray(storedState.imageIds) ||
+        storedState.imageIds.some(
+          (/** @type {unknown} */ id) =&gt; typeof id !== &quot;string&quot;,
+        ))
+    ) {
+      throw new TypeError(&quot;Widget state imageIds must be an array of strings&quot;);
+    }
+    if (storedState.imageIds?.length &gt; 0) {
+      throw Object.assign(
+        new TypeError(&quot;Visualization state does not support image attachments&quot;),
+        { code: -32602, data: { code: &quot;images_unsupported&quot; } },
+      );
+    }
+    state = storedState;
+    globalThis.openai.widgetState = state;
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: { widgetState: state } },
+      }),
+    );
+    if (statePersistence === &quot;none&quot;) {
+      throw persistenceError();
+    }
+    const id = ++nextStateRequestId;
+    return new Promise((resolve, reject) =&gt; {
+      const timeout = globalThis.setTimeout(() =&gt; {
+        pendingStateWrites.delete(id);
+        reject(persistenceError());
+      }, 30_000);
+      pendingStateWrites.set(id, { resolve, reject, timeout, serializedState });
+      postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+    });
+  };
+  const syncTheme = () =&gt; {
+    const theme = mediaQuery.matches ? &quot;dark&quot; : &quot;light&quot;;
+    root.dataset.theme = theme;
+    globalThis.openai = {
+      ...globalThis.openai,
+      openExternal,
+      sendFollowUpMessage,
+      setWidgetState,
+      theme,
+      visualizationStyleVariables: {},
+      visualizationTheme: theme,
+      widgetState: state,
+      statePersistence,
+      stateModelContext: &quot;none&quot;,
+    };
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: globalThis.openai },
+      }),
+    );
+  };
+  const sendHeight = () =&gt; {
+    postToHost(&quot;height&quot;, {
+      height: Math.ceil(
+        Math.max(
+          document.body.scrollHeight,
+          document.body.getBoundingClientRect().height,
+        ),
+      ),
+    });
+  };
+
+  globalThis.addEventListener(
+    &quot;message&quot;,
+    (event) =&gt; {
+      const data = apply(getMessageData, event, []);
+      const ports = apply(getMessagePorts, event, []);
+      const source = apply(getMessageSource, event, []);
+      if (
+        hostPort != null ||
+        source !== parentWindow ||
+        typeof data !== &quot;object&quot; ||
+        data?.type !== &quot;codex-visualization-initialize&quot; ||
+        !isArray(ports) ||
+        ports.length !== 1
+      ) {
+        return;
+      }
+      apply(stopMessagePropagation, event, []);
+      const nextHostPort = ports[0];
+      try {
+        apply(addHostMessageListener, nextHostPort, [
+          &quot;message&quot;,
+          (event) =&gt; {
+            const data = apply(getMessageData, event, []);
+            if (typeof data === &quot;object&quot; &amp;&amp; data?.type === &quot;measure&quot;) {
+              sendHeight();
+            } else if (
+              typeof data === &quot;object&quot; &amp;&amp;
+              data?.type === &quot;widget-state-result&quot;
+            ) {
+              /** @type {unknown} */
+              const id = data.id;
+              if (typeof id !== &quot;number&quot;) {
+                return;
+              }
+              const pending = pendingStateWrites.get(id);
+              if (pending != null) {
+                pendingStateWrites.delete(id);
+                globalThis.clearTimeout(pending.timeout);
+                if (data.ok === true) {
+                  pending.resolve();
+                } else {
+                  pending.reject(persistenceError());
+                }
+              }
+            }
+          },
+        ]);
+        apply(startHostPort, nextHostPort, []);
+      } catch {
+        return;
+      }
+      hostPort = nextHostPort;
+      for (const [id, { serializedState }] of pendingStateWrites) {
+        postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+      }
+      sendHeight();
+    },
+    { capture: true },
+  );
+  document.currentScript?.remove();
+  mediaQuery.addEventListener(&quot;change&quot;, syncTheme);
+  globalThis.addEventListener(&quot;click&quot;, (event) =&gt; {
+    if (event.defaultPrevented) {
+      return;
+    }
+    let element = null;
+    if (event.target instanceof globalThis.Element) {
+      element = event.target;
+    } else if (event.target instanceof globalThis.Node) {
+      element = event.target.parentElement;
+    }
+    const link = element?.closest(&quot;a[href]&quot;);
+    const href = link?.getAttribute(&quot;href&quot;);
+    if (href == null) {
+      return;
+    }
+    if (href.startsWith(&quot;#&quot;)) {
+      let id;
+      try {
+        id = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const target = id.length === 0 ? root : document.getElementById(id);
+      if (
+        target == null ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      event.preventDefault();
+      postToHost(&quot;scroll-to&quot;, {
+        top: target.getBoundingClientRect().top + globalThis.scrollY,
+      });
+      return;
+    }
+    event.preventDefault();
+    openExternal({ href });
+  });
+  new ResizeObserver(sendHeight).observe(document.body);
+  syncTheme();
+})();
+&lt;/script&gt;
+&lt;div lang=&quot;en&quot; id=&quot;yaloka-invite-preview&quot; class=&quot;viz-dotted-background&quot;&gt;
+&lt;style&gt;
+#yaloka-invite-preview{padding:16px 6px 24px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,sans-serif;color-scheme:dark}
+#yaloka-invite-preview *{box-sizing:border-box}#yaloka-invite-preview [hidden]{display:none!important}
+#yaloka-invite-preview .phone{--page:#0c2922;--surface:#153c31;--raised:#1d4b3c;--ink:#f4f4e9;--muted:#b6cbbf;--gold:#eed18c;--line:#315747;--on-gold:#20362b;position:relative;max-width:430px;margin:auto;background:var(--page);color:var(--ink);border-radius:24px;overflow:hidden}
+#yaloka-invite-preview button{font:inherit;color:inherit;cursor:inherit}#yaloka-invite-preview button:focus-visible,#yaloka-invite-preview summary:focus-visible{outline:2px solid #eed18c;outline-offset:3px}#yaloka-invite-preview button:disabled{opacity:.35;cursor:default}#yaloka-invite-preview svg{width:20px;height:20px;stroke-width:1.7}#yaloka-invite-preview .preview-label{max-width:430px;margin:0 auto 10px;color:light-dark(#53665c,#b6cbbf);font-size:11px}#yaloka-invite-preview .preview-label:empty{display:none}
+#yaloka-invite-preview .top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px 4px;min-height:48px}#yaloka-invite-preview .top strong{font-size:14px;font-weight:500;flex:1}#yaloka-invite-preview .plain{border:0;background:transparent;padding:8px 0;font-size:12px;color:var(--muted)}#yaloka-invite-preview .content{padding:0 18px 18px}#yaloka-invite-preview .invite-hero{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:27px 0 29px;min-height:166px}#yaloka-invite-preview .hero-wordmark{color:var(--muted);font-size:11px;margin-bottom:10px}#yaloka-invite-preview .invite-hero h1{font-size:30px;line-height:1.08;letter-spacing:-1px;color:var(--gold);font-weight:650;margin:0}#yaloka-invite-preview .invite-pass{position:relative;width:103px;height:118px;background:#e8cb87;color:#243d2d;border-radius:12px;transform:rotate(10deg);flex-shrink:0;padding:14px 12px;box-shadow:5px 7px 0 #54754b}#yaloka-invite-preview .invite-pass:before,#yaloka-invite-preview .invite-pass:after{content:&#x27;&#x27;;position:absolute;top:79px;width:13px;height:13px;border-radius:50%;background:var(--page)}#yaloka-invite-preview .invite-pass:before{left:-7px}#yaloka-invite-preview .invite-pass:after{right:-7px}#yaloka-invite-preview .pass-star{display:block;font-size:34px;line-height:1;margin-bottom:14px}#yaloka-invite-preview .invite-pass small{display:block;font-size:9px;letter-spacing:1px}#yaloka-invite-preview .invite-pass strong{display:block;font-size:12px;font-weight:600;margin-top:7px}
+#yaloka-invite-preview .reward-switch{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;background:#12362b;border-radius:12px;margin:0 0 20px}#yaloka-invite-preview .reward-switch button{border:0;background:transparent;color:var(--muted);font-size:13px;min-height:42px;border-radius:9px}#yaloka-invite-preview .reward-switch button[aria-selected=true]{background:var(--gold);color:var(--on-gold);font-weight:600}
+#yaloka-invite-preview .code-only{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);padding:1px 2px 14px}#yaloka-invite-preview .code-only button{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--ink);padding:7px 0;font-size:14px;letter-spacing:1px}#yaloka-invite-preview .code-only svg{width:15px;height:15px;color:var(--muted)}#yaloka-invite-preview .earned-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:25px}#yaloka-invite-preview .earned-card{background:var(--surface);padding:18px 14px;border-radius:14px;min-width:0}#yaloka-invite-preview .earned-card span{font-size:11px;color:var(--muted);display:block;margin-bottom:11px}#yaloka-invite-preview .earned-card strong{font-size:27px;letter-spacing:-.6px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums;display:block}
+#yaloka-invite-preview .tasks-title{font-size:18px;font-weight:600;margin:0 0 18px;letter-spacing:-.3px}#yaloka-invite-preview .task-group-label{font-size:12px;color:var(--muted);margin:19px 0 11px}#yaloka-invite-preview .task-group-label:first-child{margin-top:0}#yaloka-invite-preview .unified-tasks .compact-task{display:flex;align-items:center;gap:11px;border:0;width:100%;border-radius:14px;background:var(--surface);padding:15px 12px;min-height:78px;text-align:left;margin:0 0 9px}#yaloka-invite-preview .icon{display:grid;place-items:center;width:34px;height:38px;color:var(--gold);flex-shrink:0}#yaloka-invite-preview .compact-task .icon{background:#214c3b;border-radius:10px}#yaloka-invite-preview .compact-task .label{min-width:0;flex:1}#yaloka-invite-preview .compact-task .label strong{display:block;font-size:13px;line-height:1.4;font-weight:500}#yaloka-invite-preview .compact-task .label small{display:block;color:var(--muted);font-size:11px;margin-top:5px;line-height:1.45}#yaloka-invite-preview .offer{color:var(--gold);font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}#yaloka-invite-preview .offer&gt;span{margin-left:6px;color:var(--muted)}#yaloka-invite-preview .ongoing-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}#yaloka-invite-preview .ongoing-pair [data-task]{border:0;border-radius:14px;background:#204b38;text-align:left;min-width:0;padding:16px 13px}#yaloka-invite-preview .pair-heading{display:flex;align-items:center;gap:6px;font-size:12px;line-height:1.4}#yaloka-invite-preview .pair-heading svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}#yaloka-invite-preview .ongoing-pair [data-task]&gt;strong{font-size:34px;font-weight:600;letter-spacing:-1px;color:var(--gold);display:block;margin:16px 0 13px}#yaloka-invite-preview .pair-unit{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}
+#yaloka-invite-preview .footer{background:var(--page);padding:15px 18px 19px;position:sticky;bottom:0;z-index:2}#yaloka-invite-preview .primary{width:100%;min-height:48px;background:var(--gold);color:var(--on-gold);font-size:15px;font-weight:600;border:0;border-radius:13px;padding:13px}#yaloka-invite-preview .hint{font-size:11px;color:var(--muted);line-height:1.6;text-align:center;margin:9px 0 0}#yaloka-invite-preview .muted{font-size:12px;color:var(--muted);line-height:1.7}#yaloka-invite-preview .notice{background:var(--surface);color:var(--muted);padding:14px;border-radius:12px;font-size:12px;line-height:1.6}#yaloka-invite-preview .sheet{padding:18px;background:var(--surface);border-radius:14px;margin-bottom:14px}#yaloka-invite-preview .sheet h3{margin:0 0 13px;color:var(--gold);font-size:16px}#yaloka-invite-preview .rules{font-size:12px;line-height:1.8;color:var(--muted);padding-left:18px;margin:0}#yaloka-invite-preview .rules li+li{margin-top:12px}
+#yaloka-invite-preview .newcomer-preview{text-align:center;padding:35px 15px}#yaloka-invite-preview .newcomer-symbol{display:grid;place-items:center;width:64px;height:64px;background:var(--surface);border-radius:18px;margin:0 auto 22px;color:var(--gold)}#yaloka-invite-preview .newcomer-symbol svg{width:30px;height:30px}#yaloka-invite-preview .newcomer-preview h3{font-size:19px;font-weight:500;margin:0 0 12px}#yaloka-invite-preview .newcomer-preview p{font-size:12px;color:var(--muted)}#yaloka-invite-preview .draft-placeholder{text-align:center;background:var(--surface);border-radius:14px;padding:20px;color:var(--muted);font-size:12px;margin-bottom:20px}#yaloka-invite-preview .draft-placeholder small{display:block;font-size:11px;margin-top:6px}
+#yaloka-invite-preview .ranking-v2{display:flex;flex-direction:column;height:640px;max-height:calc(100dvh - 110px);min-height:400px}#yaloka-invite-preview .rank-period{display:flex;align-items:center;gap:6px;background:#12362b;padding:4px;border-radius:20px;margin-bottom:18px;flex-shrink:0}#yaloka-invite-preview .rank-period button{flex:1;border:0;border-radius:17px;padding:10px;font-size:12px;background:transparent;color:var(--muted)}#yaloka-invite-preview .rank-period button[aria-pressed=true]{background:#365e44;color:var(--gold)}#yaloka-invite-preview .ranking-scroll{overflow-y:auto;min-height:0;flex:1;overscroll-behavior:contain;scrollbar-width:thin;padding:0 1px 12px}#yaloka-invite-preview .rank-prizes{display:flex;gap:10px}#yaloka-invite-preview .rank-prizes&gt;div{flex:1;background:var(--surface);border-radius:14px;padding:18px 6px;text-align:center;min-width:0}#yaloka-invite-preview .rank-prizes span{display:block;color:var(--gold);margin-bottom:10px}#yaloka-invite-preview .rank-prizes svg{width:29px;height:29px}#yaloka-invite-preview .rank-prizes strong{font-size:11px;font-weight:500}#yaloka-invite-preview .settlement-clock{display:flex;justify-content:center;gap:8px;margin-top:21px}#yaloka-invite-preview .settlement-clock&gt;span{min-width:38px;text-align:center}#yaloka-invite-preview .settlement-clock b{display:block;border-radius:8px;background:var(--surface);font-size:20px;color:var(--gold);padding:8px;font-weight:500}#yaloka-invite-preview .settlement-clock small{display:block;color:var(--muted);font-size:10px;margin-top:6px}#yaloka-invite-preview .rank-caption{font-size:11px;color:var(--muted);text-align:center;line-height:1.6;margin:13px 0}#yaloka-invite-preview .rank-score-label{text-align:center;font-size:16px;color:var(--ink);margin:23px 0 7px;font-weight:500}#yaloka-invite-preview .rank-formula{text-align:center;color:var(--muted);font-size:11px}
+#yaloka-invite-preview .rank-podium{display:grid;grid-template-columns:1fr 1.12fr 1fr;align-items:end;gap:7px;margin:22px 0 14px}#yaloka-invite-preview .podium-person{display:flex;align-items:center;flex-direction:column;min-width:0;background:var(--surface);padding:13px 4px 16px;border-radius:40px 40px 13px 13px;min-height:191px}#yaloka-invite-preview .podium-1{background:#3e5938;min-height:215px;padding-top:18px}#yaloka-invite-preview .podium-crown{color:var(--gold);height:24px;margin-bottom:6px}#yaloka-invite-preview .rank-avatar,#yaloka-invite-preview .mini-avatar{display:grid;place-items:center;border-radius:50%;background:#34654b;color:var(--ink);flex-shrink:0}#yaloka-invite-preview .rank-avatar{width:46px;height:46px;font-size:18px;outline:2px solid #bba568;outline-offset:2px;margin:3px 0 12px}#yaloka-invite-preview .podium-1 .rank-avatar{width:52px;height:52px;outline-color:var(--gold)}#yaloka-invite-preview .podium-person&gt;strong{font-size:12px;font-weight:500;margin:0 0 5px;max-width:100%;overflow-wrap:anywhere}#yaloka-invite-preview .podium-block{margin-top:auto;padding-top:10px;text-align:center;color:var(--gold)}#yaloka-invite-preview .podium-block span{display:block;font-size:10px;opacity:.8;margin-bottom:5px}#yaloka-invite-preview .podium-block strong{display:block;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}#yaloka-invite-preview .room-entry{display:flex;gap:3px;align-items:center;justify-content:center;border:0;background:transparent;color:var(--gold);font-size:10px;padding:5px 0;min-height:24px;white-space:nowrap}#yaloka-invite-preview .room-entry svg{width:11px;height:11px}#yaloka-invite-preview .room-offline{font-size:10px;color:var(--muted);padding:5px 0;min-height:24px}#yaloka-invite-preview .mini-avatar{width:32px;height:32px;font-size:12px}#yaloka-invite-preview .rank-row{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:12px;padding:13px 11px;margin-bottom:8px;min-height:70px;font-size:12px}#yaloka-invite-preview .rank-row&gt;span:first-child{width:20px;color:var(--gold);text-align:center;flex-shrink:0}#yaloka-invite-preview .rank-person{flex:1;min-width:0}#yaloka-invite-preview .rank-person strong{display:block;font-size:12px;font-weight:500;overflow-wrap:anywhere}#yaloka-invite-preview .rank-person small{display:block;font-size:11px;color:var(--muted);margin-top:5px}#yaloka-invite-preview .rank-row b{color:var(--gold);font-weight:500;font-variant-numeric:tabular-nums}#yaloka-invite-preview .rank-my-fixed{display:flex;gap:11px;align-items:center;background:#244f3a;padding:14px 12px;min-height:76px;border-radius:14px 14px 0 0;flex-shrink:0;font-size:13px;box-shadow:0 -8px 18px #081d1655}#yaloka-invite-preview .my-place{width:20px;text-align:center;color:var(--gold)}#yaloka-invite-preview .rank-my-fixed b{font-size:16px;color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums}
+#yaloka-invite-preview.records-mode .top,#yaloka-invite-preview.records-mode .footer{display:none}#yaloka-invite-preview.records-mode #yi-content{padding:0}#yaloka-invite-preview.records-mode #yi-content&gt;:not(.record-backdrop){display:none}#yaloka-invite-preview .record-backdrop{background:#081c16;padding-top:48px}#yaloka-invite-preview .record-drawer{padding:10px 16px 22px;background:#153c30;border-radius:22px 22px 0 0;max-height:min(680px,calc(100dvh - 85px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}#yaloka-invite-preview .drawer-handle{width:32px;height:4px;border-radius:4px;background:#547865;margin:0 auto 8px}#yaloka-invite-preview .drawer-header{position:sticky;top:0;background:#153c30;z-index:2;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0 33px}#yaloka-invite-preview .drawer-header h3{font-size:16px;font-weight:500;margin:0;text-align:center}#yaloka-invite-preview .drawer-header button{position:absolute;right:0;top:3px;width:36px;height:36px;border:0;background:transparent;font-size:24px;color:var(--muted)}#yaloka-invite-preview .drawer-total{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 13px;background:#204b38;border-radius:12px;margin:12px 0}#yaloka-invite-preview .drawer-total&gt;span{font-size:12px;color:var(--muted)}#yaloka-invite-preview .drawer-total strong{font-size:21px;color:var(--gold);font-weight:500;font-variant-numeric:tabular-nums}#yaloka-invite-preview .drawer-total small{font-size:12px}
+#yaloka-invite-preview .date-selector{margin:4px 0 6px}#yaloka-invite-preview .date-selector-row{display:flex;align-items:center;gap:8px;min-height:44px}#yaloka-invite-preview .date-trigger{display:flex;align-items:center;gap:7px;background:transparent;border:0;font-size:13px;padding:10px 0;min-height:44px;font-variant-numeric:tabular-nums}#yaloka-invite-preview .date-trigger svg{width:15px;height:15px;color:var(--muted)}#yaloka-invite-preview .date-selector-row&gt;small{font-size:11px;color:var(--muted);flex:1}#yaloka-invite-preview .all-dates-action{margin-left:auto;padding:10px 0;border:0;background:transparent;color:var(--gold);font-size:12px;min-height:44px}#yaloka-invite-preview .query-retention{font-size:11px;color:var(--muted);padding:2px 0 10px}#yaloka-invite-preview .reward-record{display:flex;align-items:center;gap:9px;padding:15px 0;min-height:78px;border-bottom:1px solid var(--line)}#yaloka-invite-preview .record-avatar{display:grid;place-items:center;background:#32634a;color:var(--ink);width:30px;height:30px;border-radius:50%;font-size:12px;flex-shrink:0}#yaloka-invite-preview .record-who{flex:1;min-width:0}#yaloka-invite-preview .record-who strong{display:block;font-size:13px;font-weight:500;overflow-wrap:anywhere}#yaloka-invite-preview .record-who small{display:block;font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px;font-variant-numeric:tabular-nums}#yaloka-invite-preview .record-value{text-align:right;max-width:46%;min-width:0}#yaloka-invite-preview .record-value strong{display:block;font-size:12px;color:var(--gold);font-weight:500;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}#yaloka-invite-preview .record-value small{display:block;font-size:11px;color:var(--muted);line-height:1.5;margin-top:4px}#yaloka-invite-preview .record-empty{text-align:center;padding:38px 0;font-size:12px;color:var(--muted)}#yaloka-invite-preview .record-page-status{text-align:center;font-size:11px;color:var(--muted);padding:17px 0;min-height:44px}#yaloka-invite-preview .paged-record-list{max-height:310px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#547865 transparent}#yaloka-invite-preview .drawer-note{font-size:11px;color:var(--muted);line-height:1.65;margin-top:14px}#yaloka-invite-preview .record-drawer&gt;.primary{margin-top:12px}
+#yaloka-invite-preview .calendar-modal{color:#f4f4e9;background:#1b4837;border:0;border-radius:18px;padding:18px;width:calc(100% - 36px);max-width:340px;max-height:calc(100dvh - 48px);overflow-y:auto;box-shadow:0 18px 60px #03130baa;margin:auto}#yaloka-invite-preview .calendar-modal::backdrop{background:#04170dbb}#yaloka-invite-preview .calendar-modal-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}#yaloka-invite-preview .calendar-modal-title strong{font-size:16px;font-weight:500}#yaloka-invite-preview .calendar-modal-title button{width:36px;height:36px;border:0;background:transparent;color:#b6cbbf;font-size:24px}#yaloka-invite-preview .date-popover header{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}#yaloka-invite-preview .date-popover header strong{font-size:14px;font-weight:500}#yaloka-invite-preview .date-popover header button{width:38px;height:38px;border:0;background:transparent;color:#eed18c;font-size:23px}#yaloka-invite-preview .calendar-week,#yaloka-invite-preview .calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center;gap:3px}#yaloka-invite-preview .calendar-week{font-size:11px;color:#b6cbbf;padding:8px 0 12px}#yaloka-invite-preview .calendar-days button{height:38px;min-width:0;font-size:13px;border:0;border-radius:50%;background:transparent;padding:0}#yaloka-invite-preview .calendar-days button[aria-pressed=true]{background:#eed18c;color:#20362b}#yaloka-invite-preview .calendar-days button:disabled{color:#7b9585;opacity:.4}
+#yaloka-invite-preview .next-card{background:var(--surface);padding:14px;border-radius:12px;margin-bottom:14px}#yaloka-invite-preview .next-card summary{font-size:12px;color:var(--gold)}#yaloka-invite-preview .next-card strong{font-size:12px}#yaloka-invite-preview .next-card p{font-size:12px;line-height:1.7;color:var(--muted)}#yaloka-invite-preview .poster{text-align:center;background:var(--surface);padding:29px 15px;border-radius:16px;margin:15px 0}#yaloka-invite-preview .eyebrow{font-size:12px;color:var(--muted)}#yaloka-invite-preview .poster h2{font-size:23px;line-height:1.25;color:var(--gold);margin:15px 0}#yaloka-invite-preview .invitecode{padding-top:20px}#yaloka-invite-preview .invitecode h3{font-size:23px;letter-spacing:3px;color:var(--ink)}#yaloka-invite-preview .channels{display:grid;grid-template-columns:1fr 1fr;gap:10px}#yaloka-invite-preview .channels button{background:var(--surface);border:0;border-radius:11px;min-height:46px;padding:10px;font-size:12px}#yaloka-invite-preview .status{font-size:12px;line-height:1.6;color:var(--gold);margin:13px 0}#yaloka-invite-preview .empty{padding:25px 0;text-align:center}
+@media(max-width:360px){#yaloka-invite-preview .content{padding-inline:14px}#yaloka-invite-preview .top{padding-inline:16px}#yaloka-invite-preview .invite-hero h1{font-size:27px}#yaloka-invite-preview .invite-pass{width:86px;height:108px;padding:12px 10px}#yaloka-invite-preview .invite-pass small{font-size:8px}#yaloka-invite-preview .invite-pass strong{font-size:10px}#yaloka-invite-preview .earned-card{padding:16px 12px}#yaloka-invite-preview .earned-card strong{font-size:24px}#yaloka-invite-preview .unified-tasks .compact-task{padding:14px 10px;gap:8px}#yaloka-invite-preview .compact-task .icon{width:30px;height:34px}#yaloka-invite-preview .offer{font-size:12px}#yaloka-invite-preview .compact-task .label strong{font-size:12px}#yaloka-invite-preview .record-avatar{display:none}#yaloka-invite-preview .podium-block strong{font-size:12px}#yaloka-invite-preview .rank-row{gap:7px}}
+@media(prefers-reduced-motion:no-preference){#yaloka-invite-preview button{transition:background-color .15s ease}#yaloka-invite-preview .compact-task:hover,#yaloka-invite-preview .channels button:hover{background:#20503d}#yaloka-invite-preview .calendar-days button:not(:disabled):not([aria-pressed=true]):hover{background:#32634a}}
+
+#yaloka-invite-preview .phone *{scrollbar-width:none!important}
+#yaloka-invite-preview .phone *::-webkit-scrollbar{display:none;width:0;height:0}
+#yaloka-invite-preview.ranking-mode .phone{height:auto;display:flex;flex-direction:column;overflow:clip}
+#yaloka-invite-preview.ranking-mode .top{flex-shrink:0}
+#yaloka-invite-preview.ranking-mode .content{flex:1;min-height:0;overflow:visible;padding-bottom:16px}
+#yaloka-invite-preview.ranking-mode .ranking-panel{height:auto;max-height:none;min-height:0}
+#yaloka-invite-preview.ranking-mode .ranking-scroll{overflow:visible;flex:none;padding-bottom:0}
+#yaloka-invite-preview.ranking-mode .phone&gt;.rank-my-fixed{width:100%;flex-shrink:0;margin:0;border-radius:0;position:sticky;bottom:0;z-index:3;padding:14px 18px max(14px,env(safe-area-inset-bottom))}
+&lt;/style&gt;
+
+&lt;style&gt;
+#yaloka-invite-preview .phone{background:radial-gradient(ellipse at 90% 0,#30674944,transparent 480px),#0c2922}#yaloka-invite-preview .invite-hero{min-height:205px;position:relative;padding:30px 0 35px;gap:0}#yaloka-invite-preview .hero-copy{position:relative;z-index:2}#yaloka-invite-preview .hero-wordmark{color:#c8d4b6}#yaloka-invite-preview .invite-hero h1{font-size:31px;font-weight:750;letter-spacing:-1px;color:#ffe2a0;text-shadow:0 2px 0 #8e622a,0 4px 0 #493f20,0 9px 20px #031b16}#yaloka-invite-preview .hero-treasure{position:relative;width:130px;height:145px;flex-shrink:0;margin-right:0;background:radial-gradient(ellipse at 50% 65%,#c1b75a29,transparent 70%)}#yaloka-invite-preview .treasure-box{position:absolute;bottom:15px;left:24px;width:83px;height:73px;background:linear-gradient(115deg,#6dba87,#30835b 58%,#1c6046);border:1px solid #98d39c;border-radius:5px 5px 13px 13px;transform:rotate(-9deg);box-shadow:inset 4px 0 8px #d2ffbd40,inset -9px -7px 10px #07433177,7px 10px 0 #143c2c,9px 17px 16px #03150c66}#yaloka-invite-preview .treasure-lid{position:absolute;top:-10px;left:-6px;width:95px;height:20px;background:linear-gradient(#a0d99c,#418c60);border:1px solid #c6e8ae;border-radius:5px;box-shadow:0 4px 3px #1d5a3b}#yaloka-invite-preview .treasure-ribbon{position:absolute;left:34px;top:-9px;width:17px;height:81px;background:linear-gradient(90deg,#bb8a36,#ffe4a0 45%,#d9af57);box-shadow:1px 0 0 #fff0b9aa}#yaloka-invite-preview .treasure-bow{position:absolute;top:-31px;width:32px;height:25px;border:7px solid #edc56c;box-shadow:inset 0 1px 0 #fff0b8,0 2px 0 #91722e;border-radius:60% 60% 15% 60%}#yaloka-invite-preview .bow-left{left:13px;transform:rotate(12deg)}#yaloka-invite-preview .bow-right{left:42px;transform:rotate(80deg)}#yaloka-invite-preview .hero-coin{position:absolute;width:43px;height:43px;background:linear-gradient(130deg,#fff0b8,#efc65c 50%,#bb8430);color:#a17424;border:3px solid #f7dda0;border-radius:50%;display:grid;place-items:center;font-size:28px;line-height:1;box-shadow:3px 4px 0 #9b712e,5px 8px 12px #09201366,inset 0 0 0 2px #bd8e37;text-shadow:1px 1px 0 #ffefa4}#yaloka-invite-preview .coin-back{right:5px;top:14px;transform:rotate(18deg)}#yaloka-invite-preview .coin-front{left:1px;bottom:14px;transform:rotate(-20deg);z-index:2;width:38px;height:38px;font-size:24px}#yaloka-invite-preview .treasure-spark{position:absolute;left:21px;top:12px;color:#ffe5a5;font-size:26px;text-shadow:0 0 15px #f8df96aa}
+#yaloka-invite-preview .reward-switch{background:linear-gradient(#173d30,#102f25);box-shadow:inset 0 1px 0 #51725a55}#yaloka-invite-preview .reward-switch button[aria-selected=true]{background:linear-gradient(#fff0bc,#dfbb6a);box-shadow:inset 0 1px 0 #fff5d4,0 2px 4px #081b1555}#yaloka-invite-preview .earned-card{background:radial-gradient(ellipse at right top,#b5b7751a,transparent 80%),linear-gradient(130deg,#255441,#143c2c);box-shadow:inset 0 1px 0 #80a27a77,0 6px 12px #041b1333}#yaloka-invite-preview .earned-card strong{text-shadow:0 2px 2px #082b1b}#yaloka-invite-preview .unified-tasks .compact-task{background:linear-gradient(110deg,#204b39,#153d2d);box-shadow:inset 0 1px 0 #6b997166,0 4px 10px #031d1438}#yaloka-invite-preview .compact-task .icon{background:linear-gradient(135deg,#477d53,#28583b);box-shadow:inset 0 1px 0 #a4bc6f77,inset 0 -2px 0 #153d2a77;color:#ffe4a3}#yaloka-invite-preview .ongoing-pair [data-task]{background:radial-gradient(ellipse at 70% 0,#c8b56822,transparent 80%),linear-gradient(125deg,#356446,#1a4430);box-shadow:inset 0 1px 0 #a0a86d88,0 5px 13px #031d1444}#yaloka-invite-preview .ongoing-pair [data-task]&gt;strong{color:#ffe3a0;text-shadow:0 2px 0 #5b5a2c,0 4px 9px #173b27}#yaloka-invite-preview .primary{background:linear-gradient(#ffe9a8,#e3b95c);box-shadow:inset 0 1px 0 #fff6d6,0 3px 0 #937438,0 7px 14px #051d1633}#yaloka-invite-preview .footer{background:linear-gradient(#0c292200,#0c2922 14px)}
+#yaloka-invite-preview .podium-person{background:linear-gradient(150deg,#44715b,#244a3c 64%,#18382f);box-shadow:inset 0 1px 0 #aec4a377,inset 0 -4px 0 #082c22,0 8px 12px #031b1444;position:relative}#yaloka-invite-preview .podium-1{background:linear-gradient(150deg,#b9a263,#747340 52%,#395235);box-shadow:inset 0 2px 0 #ffe9a8,inset 0 -4px 0 #63582b,0 8px 18px #061a1255}#yaloka-invite-preview .podium-3{background:linear-gradient(150deg,#8f8260,#526547 55%,#2b4734);box-shadow:inset 0 1px 0 #d8c29a99,inset 0 -4px 0 #35432a,0 8px 12px #031b1444}#yaloka-invite-preview .rank-avatar{outline:0;background:linear-gradient(#37654d,#173d2c);border:3px solid #d6d9ba;box-shadow:0 0 0 3px #4b6b52,0 5px 8px #0b271b66}#yaloka-invite-preview .podium-1 .rank-avatar{border-color:#ffdfa1;box-shadow:0 0 0 3px #907538,0 0 0 5px #eac97877,0 5px 12px #3c3c2266}#yaloka-invite-preview .podium-3 .rank-avatar{border-color:#ddbb8e;box-shadow:0 0 0 3px #786449,0 5px 8px #0b271b66}#yaloka-invite-preview .podium-block{width:100%;position:relative;margin-top:9px;padding-top:11px;background:linear-gradient(180deg,#081e0e00,#081e0e22);border-radius:8px}#yaloka-invite-preview .podium-block strong{color:#ffe7b0;text-shadow:0 2px 1px #293b28}#yaloka-invite-preview .rank-row{background:linear-gradient(110deg,#204b39,#153d2d);box-shadow:inset 0 1px 0 #69967744}#yaloka-invite-preview .rank-my-fixed{background:linear-gradient(115deg,#3c6542,#234b35);box-shadow:inset 0 1px 0 #c1b07599,0 -6px 18px #061e1555}#yaloka-invite-preview .rank-prizes&gt;div{background:linear-gradient(135deg,#365b3c,#1e4230);box-shadow:inset 0 1px 0 #b6ad7588}#yaloka-invite-preview .rank-prizes span{color:#ffdfa1;filter:drop-shadow(0 3px 2px #0a2a1b)}
+@media(max-width:360px){#yaloka-invite-preview .invite-hero{min-height:193px}#yaloka-invite-preview .invite-hero h1{font-size:27px}#yaloka-invite-preview .hero-treasure{width:106px;transform:scale(.85);transform-origin:right center;margin-left:-9px}}
+#yaloka-invite-preview .phone{overflow:clip}
+#yaloka-invite-preview .footer{position:sticky;top:auto;bottom:0;z-index:5;background:linear-gradient(transparent,#0c2922 12px);padding:16px 18px max(20px,env(safe-area-inset-bottom));box-shadow:none}
+#yaloka-invite-preview .footer .hint{display:none}
+/* A stable mobile viewport: scrolling content and bottom action are siblings. */
+#yaloka-invite-preview.inviter-mode .phone{height:740px;display:flex;flex-direction:column;overflow:hidden}
+#yaloka-invite-preview.inviter-mode .top{flex-shrink:0}
+#yaloka-invite-preview.inviter-mode .content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:106px}
+#yaloka-invite-preview.inviter-mode .footer{position:absolute;left:0;right:0;bottom:0;top:auto;margin:0;z-index:5}
+#yaloka-invite-preview .rank-avatar,#yaloka-invite-preview .mini-avatar{position:relative;overflow:visible}
+#yaloka-invite-preview .room-entry{position:absolute;right:-5px;bottom:-4px;display:grid;place-items:center;width:21px;height:21px;min-height:0;padding:0;border-radius:50%;background:#e6c675;color:#174631;box-shadow:0 0 0 2px #204b39;z-index:1}
+#yaloka-invite-preview .room-entry svg{width:13px;height:13px;stroke-width:2.3}
+#yaloka-invite-preview .mini-avatar .room-entry{width:17px;height:17px;right:-4px;bottom:-3px}
+#yaloka-invite-preview .mini-avatar .room-entry svg{width:11px;height:11px}
+#yaloka-invite-preview .tab-play-guide{font-size:12px;line-height:1.6;color:var(--muted);text-align:center;margin:2px 0 18px;padding:0 4px}
+#yaloka-invite-preview .task-shell{position:relative;min-width:0}
+#yaloka-invite-preview .task-shell&gt;[data-task]{width:100%}
+#yaloka-invite-preview .task-title&gt;.task-help-trigger{position:relative;flex-shrink:0;width:24px;height:24px;min-height:0;border:0;padding:0;background:transparent;box-shadow:none;display:grid;place-items:center;color:var(--muted);font-size:13px;line-height:1}
+#yaloka-invite-preview .task-help-trigger:before{content:&#x27;&#x27;;position:absolute;inset:4px;border:1px solid currentColor;border-radius:50%}
+#yaloka-invite-preview .reward-kind{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}
+#yaloka-invite-preview .compact-task .offer{display:block;text-align:right}
+#yaloka-invite-preview .task-help-dialog{color:var(--ink);background:#173f31;border:0;border-radius:20px;padding:22px;width:calc(100% - 32px);max-width:360px;max-height:85vh;overflow:auto;box-shadow:0 15px 50px #04170daa}
+#yaloka-invite-preview .task-help-dialog::backdrop{background:#04170dbb}
+#yaloka-invite-preview .task-help-dialog header{display:flex;align-items:center;gap:12px;justify-content:space-between}
+#yaloka-invite-preview .task-help-dialog h3{margin:0;color:var(--gold);font-size:17px}
+#yaloka-invite-preview .task-help-dialog header button{border:0;background:transparent;font-size:26px;padding:4px;color:var(--muted)}
+#yaloka-invite-preview .task-help-dialog p{font-size:13px;line-height:1.65;color:var(--muted);margin:16px 0 0}
+#yaloka-invite-preview .task-title{display:flex!important;align-items:center;gap:4px}
+#yaloka-invite-preview .task-reward{display:block;margin-top:7px;color:var(--gold);font-size:14px}
+#yaloka-invite-preview .task-chevron{margin-left:auto;flex-shrink:0;color:var(--muted);font-size:22px}
+#yaloka-invite-preview .compact-task{border:0;text-align:left}
+#yaloka-invite-preview .compact-task .label{flex:1;min-width:0}
+#yaloka-invite-preview .compact-task .label small{margin-top:5px}
+#yaloka-invite-preview .ongoing-pair .pair-unit{display:flex;align-items:center}
+#yaloka-invite-preview .task-reward{line-height:1.6}
+#yaloka-invite-preview .task-condition{font-size:12px;color:var(--muted)}
+#yaloka-invite-preview .task-help-dialog header{position:relative;display:block;padding:0 28px;text-align:center;min-height:32px}
+#yaloka-invite-preview .task-help-dialog h3{text-align:center;line-height:1.4}
+#yaloka-invite-preview .task-help-dialog header button{position:absolute;right:-8px;top:-9px;width:36px;height:36px}
+#yaloka-invite-preview .task-help-dialog p{text-align:center}
+#yaloka-invite-preview #yi-back{font-size:28px;line-height:1;min-width:32px;min-height:40px;text-align:left}
+#yaloka-invite-preview .currency-icon{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;width:22px;height:22px;margin:0 3px;color:#ffe18d}
+#yaloka-invite-preview .currency-icon svg{width:20px;height:20px;stroke-width:2}
+#yaloka-invite-preview .currency-icon.beans{color:#f2bd61}
+#yaloka-invite-preview .currency-icon.beans svg{fill:#c18c3944}
+#yaloka-invite-preview .pair-unit .currency-icon{width:25px;height:25px}
+/* Solid gold currency token. */
+#yaloka-invite-preview .currency-icon.coins{position:relative;width:21px;height:21px;border-radius:50%;border:2px solid #ffe9a4;background:linear-gradient(135deg,#fff0af 0%,#f4ca58 45%,#d89a25 100%);box-shadow:1px 2px 0 #9a671b,inset 0 0 0 1px #bf8b2c;flex-shrink:0}
+#yaloka-invite-preview .currency-icon.coins&gt;svg,#yaloka-invite-preview .currency-icon.coins&gt;i{display:none}
+#yaloka-invite-preview .currency-icon.coins:after{content:&#x27;★&#x27;;display:block;color:#a76d17;font-size:12px;line-height:1;text-shadow:0 1px 0 #fff0a8}
+/* Gold bean uses the same metallic palette as the coin. */
+#yaloka-invite-preview .currency-icon.beans{position:relative;width:21px;height:21px;flex-shrink:0;isolation:isolate}
+#yaloka-invite-preview .currency-icon.beans&gt;svg,#yaloka-invite-preview .currency-icon.beans&gt;i{display:none}
+#yaloka-invite-preview .currency-icon.beans:before{content:&#x27;&#x27;;position:absolute;inset:1px 2px;border-radius:65% 38% 60% 42%;transform:rotate(32deg);border:2px solid #ffe9a4;background:linear-gradient(135deg,#fff0af 0%,#f4ca58 45%,#d89a25 100%);box-shadow:1px 2px 0 #9a671b,inset 0 0 0 1px #bf8b2c}
+#yaloka-invite-preview .currency-icon.beans:after{content:&#x27;&#x27;;position:absolute;width:7px;height:13px;left:8px;top:4px;border-left:2px solid #a76d17;border-radius:65% 0 0 60%;transform:rotate(28deg);filter:drop-shadow(1px 0 0 #fff0a8)}
+#yaloka-invite-preview .pair-rate-row{display:flex;align-items:center;gap:6px;margin-top:16px}
+#yaloka-invite-preview .pair-rate-row&gt;strong{font-size:34px;line-height:1.2;font-weight:600;letter-spacing:-1px;color:#ffe3a0;text-shadow:0 2px 0 #5b5a2c,0 4px 9px #173b27}
+#yaloka-invite-preview .pair-rate-row .currency-icon{margin:0}
+#yaloka-invite-preview .pair-rate-row&gt;.task-chevron{margin-left:auto}
+#yaloka-invite-preview .earned-card&gt;.earned-label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+#yaloka-invite-preview .earned-card .earned-label&gt;.currency-icon{display:inline-flex;margin:0;flex-shrink:0}
+#yaloka-invite-preview .bind-floating{position:absolute;right:12px;bottom:104px;z-index:6;border:1px solid #d9c48a;border-radius:22px;background:#28553b;color:#ffe3a0;font-size:11px;padding:11px 14px;box-shadow:0 4px 12px #031b1466}
+#yaloka-invite-preview .inviter-bind-form,#yaloka-invite-preview .inviter-bound{padding:18px;background:#204b39;border-radius:14px;margin-bottom:16px}
+#yaloka-invite-preview .inviter-bind-form label,#yaloka-invite-preview .inviter-bound strong{display:block;font-size:16px;color:var(--gold);font-weight:500}
+#yaloka-invite-preview .inviter-bind-form p,#yaloka-invite-preview .inviter-bound small{font-size:12px;color:var(--muted);line-height:1.6}
+#yaloka-invite-preview .bind-input-row{display:flex;gap:8px;align-items:center;margin-top:14px}
+#yaloka-invite-preview .bind-input-row input{width:0;flex:1;min-width:0;background:#12382a;border:1px solid #52775c;border-radius:10px;color:var(--ink);padding:12px;font:inherit;font-size:16px}
+#yaloka-invite-preview .bind-input-row button{border:0;border-radius:10px;background:var(--gold);color:var(--on-gold);padding:12px 16px;font-size:13px;min-height:44px}
+#yaloka-invite-preview .bind-error{font-size:12px;color:#ffe3a0;margin-top:8px}
+#yaloka-invite-preview .binding-dialog .inviter-bind-form{background:transparent;padding:0;margin:0;text-align:center}
+#yaloka-invite-preview .binding-dialog .inviter-bind-form&gt;label{display:none}
+#yaloka-invite-preview .tab-rules-entry{display:flex;justify-content:flex-end;margin:-5px 0 3px}
+#yaloka-invite-preview .tab-rules-entry button{min-height:36px;padding:6px 0 6px 14px;color:var(--gold)}
+#yaloka-invite-preview .tab-rules-entry{display:flex;justify-content:flex-end;margin:-10px 0 14px}
+#yaloka-invite-preview .tab-rules-entry button{min-height:36px;padding:7px 16px;border:1px solid #8d9863;border-radius:18px;background:linear-gradient(#345b3e,#234a34);color:var(--gold);font-size:12px;box-shadow:inset 0 1px 0 #d5cf8a33}
+#yaloka-invite-preview .tab-rules-entry{position:absolute;right:0;bottom:10px;margin:0;z-index:3}
+#yaloka-invite-preview .tab-rules-entry{right:-18px;bottom:10px;margin:0}
+#yaloka-invite-preview .tab-rules-entry button{min-height:39px;padding:9px 19px 9px 16px;border:1px solid #b0a66c;border-right:0;border-radius:14px 0 0 14px;background:linear-gradient(115deg,#365d3f,#173e2c);color:#eed18c;box-shadow:inset 0 1px 0 #eadc9844,0 3px 9px #041b1433;font-size:13px}
+/* One viewport for every tab and subpage. Desktop uses a stable phone preview. */
+#yaloka-invite-preview .phone,
+#yaloka-invite-preview.inviter-mode .phone,
+#yaloka-invite-preview.ranking-mode .phone{height:740px;height:min(820px,calc(100dvh - 64px));min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#yaloka-invite-preview .top{flex-shrink:0}
+#yaloka-invite-preview .content,
+#yaloka-invite-preview.inviter-mode .content,
+#yaloka-invite-preview.ranking-mode .content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:18px}
+#yaloka-invite-preview .footer,
+#yaloka-invite-preview.inviter-mode .footer{position:relative;inset:auto;flex-shrink:0;padding:12px 18px max(18px,env(safe-area-inset-bottom));background:#0c2922}
+#yaloka-invite-preview.ranking-mode .phone&gt;.rank-my-fixed{position:relative;inset:auto;flex-shrink:0;width:100%}
+#yaloka-invite-preview .bind-floating{bottom:100px}
+#yaloka-invite-preview.records-mode .content{overflow:hidden;display:flex;flex-direction:column}
+#yaloka-invite-preview .record-backdrop{height:100%;min-height:0;padding-top:30px;display:flex;flex-direction:column}
+#yaloka-invite-preview .record-drawer{flex:1;min-height:0;max-height:none;overflow-y:auto}
+#yaloka-invite-preview .record-list.paged-record-list{max-height:none;overflow:visible}
+@media(max-width:480px){#yaloka-invite-preview{padding:0}#yaloka-invite-preview .phone,#yaloka-invite-preview.inviter-mode .phone,#yaloka-invite-preview.ranking-mode .phone{height:100dvh;max-width:none;border-radius:0}}
+#yaloka-invite-preview .rank-prizes&gt;div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 8px}
+#yaloka-invite-preview .rank-prizes&gt;div&gt;span{display:flex;align-items:center;justify-content:center;width:100%;margin:0}
+#yaloka-invite-preview .rank-prizes svg{width:50px;height:50px;stroke-width:1.5}
+#yaloka-invite-preview .rank-prizes strong{font-size:10px;line-height:1.4;font-weight:400;text-align:center}
+#yaloka-invite-preview .newbie-preview-control{display:inline-flex;gap:7px;align-items:center;margin-left:12px;flex-wrap:wrap}#yaloka-invite-preview .newbie-preview-control select{font:inherit;background:#173f31;color:#e2d9ad;border:1px solid #47654b;border-radius:6px;padding:4px}
+#yaloka-invite-preview .newbie-earned{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 24px}#yaloka-invite-preview .newbie-earned&gt;div{background:linear-gradient(130deg,#255441,#143c2c);box-shadow:inset 0 1px 0 #80a27a77;border-radius:14px;padding:16px 12px;min-width:0}#yaloka-invite-preview .newbie-earned span{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px;min-height:24px}#yaloka-invite-preview .newbie-earned strong{display:block;margin-top:9px;color:var(--gold);font-size:23px;font-weight:600;font-variant-numeric:tabular-nums}
+#yaloka-invite-preview .newbie-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}#yaloka-invite-preview .newbie-section-title h3{font-size:17px;margin:0}#yaloka-invite-preview .newbie-section-title small{font-size:11px;color:var(--muted)}
+#yaloka-invite-preview .newbie-card{border-radius:16px;background:linear-gradient(120deg,#28553e,#143d2d);box-shadow:inset 0 1px 0 #90a47566,0 5px 12px #031b1422;margin-bottom:14px;padding:15px}#yaloka-invite-preview .newbie-card header{display:flex;align-items:center;gap:7px}#yaloka-invite-preview .newbie-card h3{font-size:14px;font-weight:500;margin:0}#yaloka-invite-preview .newbie-task-icon{color:var(--gold);display:flex}#yaloka-invite-preview .newbie-card .task-help-trigger{position:relative;width:24px;height:24px;background:transparent;border:0;color:var(--muted);padding:0;font-size:13px;flex-shrink:0}#yaloka-invite-preview .newbie-tier-count{margin-left:auto;color:var(--muted);font-size:11px;white-space:nowrap}
+#yaloka-invite-preview .newbie-card-body{position:relative;display:block;width:100%;text-align:left;background:transparent;border:0;padding:15px 20px 0 0}#yaloka-invite-preview .newbie-progress{display:block;font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}#yaloka-invite-preview .newbie-progress small{font-size:11px;color:var(--muted)}#yaloka-invite-preview .newbie-next-reward{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:10px}#yaloka-invite-preview .newbie-next-reward b{display:inline-flex;align-items:center;font-size:13px;font-weight:500;color:var(--gold)}#yaloka-invite-preview .newbie-card-status{display:block;color:var(--muted);font-size:11px;margin-top:9px}#yaloka-invite-preview .newbie-card-chevron{position:absolute;right:0;top:30px;color:var(--gold);font-size:23px}
+#yaloka-invite-preview .newbie-detail-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 0;color:var(--muted);font-size:12px}#yaloka-invite-preview .newbie-detail-heading button{border:0;background:transparent;color:var(--gold);font-size:12px;padding:10px 0;white-space:nowrap}#yaloka-invite-preview .newbie-tier-list{background:#173f31;border-radius:14px;padding:0 13px}#yaloka-invite-preview .newbie-tier{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:17px 0;border-bottom:1px solid var(--line)}#yaloka-invite-preview .newbie-tier:last-child{border-bottom:0}#yaloka-invite-preview .newbie-tier strong{display:block;font-size:13px;font-weight:500}#yaloka-invite-preview .newbie-tier small{display:block;font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4;font-variant-numeric:tabular-nums}#yaloka-invite-preview .newbie-tier-reward{text-align:right;flex-shrink:0}#yaloka-invite-preview .newbie-tier-reward b{display:flex;align-items:center;justify-content:flex-end;color:var(--gold);font-size:13px;font-weight:500;white-space:nowrap}#yaloka-invite-preview .newbie-notice{background:#204b39;border-radius:12px;color:var(--muted);padding:18px;text-align:center;font-size:13px}
+#yaloka-invite-preview .newbie-task-action{margin-top:18px;margin-bottom:8px}
+#yaloka-invite-preview .newbie-card button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+#yaloka-invite-preview .newbie-card{padding:15px 13px}
+#yaloka-invite-preview .newbie-records-link{margin-left:auto;background:transparent;border:0;padding:8px 0 8px 5px;color:var(--gold);font-size:11px;white-space:nowrap}
+#yaloka-invite-preview .milestone-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 8px;color:var(--gold);font-size:17px;font-variant-numeric:tabular-nums}
+#yaloka-invite-preview .milestone-summary small{font-size:11px;color:var(--muted)}
+#yaloka-invite-preview .milestone-scroll{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x pan-y;scrollbar-width:none;padding:7px 0 10px;position:relative}
+#yaloka-invite-preview .milestone-rail{display:flex;width:max-content;min-width:100%;position:relative}
+#yaloka-invite-preview .milestone-item{width:108px;flex-shrink:0;position:relative;display:flex;flex-direction:column;align-items:center;gap:11px;padding:0 5px}
+#yaloka-invite-preview .milestone-segment{position:absolute;top:44px;left:-50%;width:100%;height:5px;background:linear-gradient(to right,#eed18c var(--segment-fill),#4c705a var(--segment-fill));z-index:0}
+#yaloka-invite-preview .milestone-item:first-child .milestone-segment{left:0;width:50%}
+#yaloka-invite-preview .milestone-reward{height:28px;display:flex;align-items:center;justify-content:center;gap:2px;white-space:nowrap;border-radius:8px;background:#315c40;color:var(--gold);padding:5px 7px;font-size:11px;position:relative;font-variant-numeric:tabular-nums}
+#yaloka-invite-preview .milestone-dot{width:15px;height:15px;border-radius:50%;background:#4c705a;color:#244532;position:relative;z-index:1;display:grid;place-items:center;font-size:10px;font-weight:600}
+#yaloka-invite-preview .milestone-item.is-complete .milestone-dot{background:#eed18c}
+#yaloka-invite-preview .milestone-item.is-next .milestone-reward{background:#4b7045;color:#ffe6a0}
+#yaloka-invite-preview .milestone-target{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+#yaloka-invite-preview .milestone-item.is-complete .milestone-target{color:var(--gold)}
+#yaloka-invite-preview .milestone-reward .currency-icon{width:17px;height:17px;margin:0 0 0 2px}
+#yaloka-invite-preview .milestone-reward .currency-icon.coins:after{font-size:9px}
+#yaloka-invite-preview .milestone-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+#yaloka-invite-preview .milestone-card-footer&gt;span{font-size:10px;line-height:1.5;color:var(--muted)}
+#yaloka-invite-preview .milestone-card-footer&gt;button{background:linear-gradient(#ffe6a0,#d9b15b);color:#23422d;border:0;border-radius:15px;padding:8px 13px;font-size:12px;min-height:36px;white-space:nowrap}
+#yaloka-invite-preview .newbie-card{min-width:0;max-width:100%;overflow:hidden}
+#yaloka-invite-preview .milestone-scroll{width:100%;max-width:100%;min-width:0;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none}
+#yaloka-invite-preview .milestone-scroll .currency-icon,#yaloka-invite-preview .milestone-scroll i,#yaloka-invite-preview .milestone-scroll svg{pointer-events:none}
+#yaloka-invite-preview .currency-icon.exp{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:29px;height:20px;min-height:0;margin:0 3px;border:1px solid #ffe4a1;border-radius:5px;background:linear-gradient(135deg,#ffdf88,#ecad4e 55%,#bc742a);box-shadow:1px 2px 0 #845127,inset 0 1px 0 #fff1c2;color:#65401f;vertical-align:middle}
+#yaloka-invite-preview .currency-icon.exp:after{content:&#x27;EXP&#x27;;font-size:9px;font-weight:750;letter-spacing:-.3px;line-height:1;text-shadow:0 1px 0 #ffe8a0}
+#yaloka-invite-preview .milestone-reward .currency-icon.exp{width:26px;height:18px;margin-left:3px}
+#yaloka-invite-preview .newbie-earned .currency-icon.exp{width:29px;height:20px;min-height:0}
+&lt;/style&gt;
+&lt;div class=&quot;preview-label&quot;&gt;Invite Rewards · Demo data &lt;label class=&quot;newbie-preview-control&quot;&gt;Newcomer state &lt;select id=&quot;newbie-preview-state&quot;&gt;&lt;option value=&quot;unbound&quot;&gt;Not linked&lt;/option&gt;&lt;option value=&quot;active&quot;&gt;In progress&lt;/option&gt;&lt;option value=&quot;completed&quot;&gt;All completed&lt;/option&gt;&lt;option value=&quot;expired&quot;&gt;Expired&lt;/option&gt;&lt;option value=&quot;ineligible&quot;&gt;Not eligible&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;
+&lt;div class=&quot;phone&quot; aria-label=&quot;Yaloka Invite Center&quot;&gt;&lt;header class=&quot;top&quot;&gt;&lt;button class=&quot;plain back cursor-interaction&quot; id=&quot;yi-back&quot; aria-label=&quot;Back to Invite Rewards&quot; hidden&gt;‹&lt;/button&gt;&lt;strong id=&quot;yi-title&quot;&gt;Invite Rewards&lt;/strong&gt;&lt;/header&gt;&lt;div id=&quot;yi-content&quot; class=&quot;content&quot;&gt;&lt;/div&gt;&lt;div class=&quot;footer&quot; id=&quot;yi-footer&quot;&gt;&lt;button class=&quot;primary cursor-interaction&quot; id=&quot;yi-invite&quot;&gt;Invite Friends&lt;/button&gt;&lt;p class=&quot;hint&quot;&gt;Invite friends. Earn rewards. Credited automatically.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div id=&quot;yi-feedback&quot; class=&quot;preview-label&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+(()=&gt;{
+const root=document.getElementById(&#x27;yaloka-invite-preview&#x27;);const content=root.querySelector(&#x27;#yi-content&#x27;);const title=root.querySelector(&#x27;#yi-title&#x27;);const back=root.querySelector(&#x27;#yi-back&#x27;);const footer=root.querySelector(&#x27;#yi-footer&#x27;);const msg=root.querySelector(&#x27;#yi-feedback&#x27;);content.after(footer);
+const tasks=[
+{id:&#x27;bind&#x27;,name:&#x27;Friends Join via Your Invite&#x27;,desc:&#x27;Once per invited friend&#x27;,reward:&#x27;200 Beans&#x27;,icon:&#x27;user-plus&#x27;,earned:600,currency:&#x27;Beans&#x27;,rule:&#x27;Friends must link within 24 hours of registration and pass account and device eligibility checks. Activity before binding does not count.&#x27;},
+{id:&#x27;first&#x27;,name:&#x27;Friends’ First Recharge&#x27;,desc:&#x27;First base recharge ≥14,000 Coins&#x27;,reward:&#x27;1,400 Coins&#x27;,icon:&#x27;wallet&#x27;,earned:1400,currency:&#x27;Coins&#x27;,rule:&#x27;Friends must bind before their first-ever valid recharge. The first recharge must include at least 14,000 eligible recharge Coins. Once per friend. A recharge made before binding disqualifies the first-recharge reward.&#x27;},
+{id:&#x27;charge&#x27;,name:&#x27;Friends’ Recharge Rebate&#x27;,desc:&#x27;Up to 140,000 Coins per friend&#x27;,reward:&#x27;5% Coins&#x27;,icon:&#x27;coins&#x27;,earned:145000,currency:&#x27;Coins&#x27;,rule:&#x27;Earn 5% of eligible recharge Coins, using the calculation basis for each channel. The first-recharge reward can stack with the recharge rebate. The rebate cap excludes the first-recharge reward.&#x27;},
+{id:&#x27;game&#x27;,name:&#x27;Competitive Game Rebate&#x27;,desc:&#x27;Per friend: 1,000/day · 20,000 total Beans&#x27;,reward:&#x27;1% Beans&#x27;,icon:&#x27;gamepad-2&#x27;,earned:12800,currency:&#x27;Beans&#x27;,rule:&#x27;Earn Beans equal to 1% of valid Coins spent in eligible Competitive Games, before deducting winnings. Beans wagers and cancelled or returned wagers do not count. Daily cap resets at 00:00 UTC+5.&#x27;},
+{id:&#x27;gift&#x27;,name:&#x27;Friends Send Gifts&#x27;,desc:&#x27;Regular Gifts: 100% · Lucky Gifts: 10%&#x27;,reward:&#x27;Regular 5% · Lucky 0.5%&#x27;,icon:&#x27;gift&#x27;,earned:500,currency:&#x27;Coins&#x27;,rule:&#x27;Earn 5% of qualifying gift Coins, with no cap for now. Gifts paid with promotional Coins also count.&#x27;},
+{id:&#x27;share&#x27;,name:&#x27;Share Daily&#x27;,desc:&#x27;Credited after a confirmed share · Once daily&#x27;,reward:&#x27;200 Beans&#x27;,icon:&#x27;share-2&#x27;,earned:0,currency:&#x27;Beans&#x27;,rule:&#x27;Earn rewards only when the share channel confirms success. Copying a link, saving a poster or opening a channel does not count. Rewards count on the confirmation date. Supported channels are pending integration; screenshot submission is not enabled.&#x27;}];
+const state={sample:true,page:&#x27;home&#x27;,filter:&#x27;All&#x27;,selected:&#x27;bind&#x27;,rewardTab:&#x27;inviter&#x27;};const saved=window.openai?.widgetState?.privateContent;if(saved&amp;&amp;typeof saved.sample===&#x27;boolean&#x27;)state.sample=saved.sample;if([&#x27;inviter&#x27;,&#x27;newcomer&#x27;,&#x27;ranking&#x27;].includes(saved?.rewardTab))state.rewardTab=saved.rewardTab;
+let homeMarkup=&#x27;&#x27;;const nf=n=&gt;n.toLocaleString(&#x27;en-US&#x27;);const amount=t=&gt;state.sample?t.earned:0;const icon=n=&gt;`&lt;i data-lucide=&quot;${n}&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;`;
+
+const taskHelp={
+bind:[&#x27;Earn 200 Beans for each new friend who successfully links your invite.&#x27;,&#x27;Only users registered after launch qualify. Linking must finish within 24 hours of registration. Account and device eligibility checks apply.&#x27;,&#x27;Once per friend. Credited automatically.&#x27;],
+first:[&#x27;Earn 1,400 Coins when a friend’s first-ever valid recharge contains at least 14,000 eligible recharge Coins.&#x27;,&#x27;Recharge must occur after binding and within 7 × 24 hours of binding. A first recharge before binding or below the target does not qualify.&#x27;,&#x27;In-app uses credited recharge Coins; H5 uses basic Coins excluding bonuses; Coin Trader uses the Coins actually credited to the newcomer. Once per friend.&#x27;],
+charge:[&#x27;Earn 5% of your friend’s eligible recharge Coins as Coins.&#x27;,&#x27;After binding, within 30 × 24 hours of registration. In-app uses credited recharge Coins, H5 uses basic Coins excluding bonuses, and Coin Trader uses the Coins actually credited to the newcomer.&#x27;,&#x27;Up to 140,000 Coins per friend. The newcomer’s $100 task limit does not stop your rebate. Your rebate continues until its cap or the 30-day window ends. Stacks with the first-recharge reward.&#x27;],
+game:[&#x27;Earn 1% in Beans from your invited friend’s eligible competitive-game Coins wagers, before deducting winnings.&#x27;,&#x27;After binding, within 30 × 24 hours of registration. Beans wagers and cancelled or returned wagers do not count.&#x27;,&#x27;Per friend: up to 1,000 Beans daily and 20,000 Beans total. Daily cap resets at 00:00 UTC+5.&#x27;,&#x27;Rewards are totaled per friend each UTC+5 day, rounded down and credited the next day. Fractions do not carry over to another day.&#x27;],
+gift:[&#x27;Earn Coins when your invited friend sends gifts to anyone.&#x27;,&#x27;Regular Gifts: 5% of gift Coins. Lucky Gifts: 0.5% of gift Coins. Gifts sent to you use the same rates, with no extra rebate.&#x27;,&#x27;After binding, within 30 × 24 hours of registration. No cap.&#x27;,&#x27;Regular and Lucky Gift rebates are combined per friend each UTC+5 day, rounded down and credited the next day. Fractions do not carry over to another day.&#x27;],
+share:[&#x27;Earn 200 Beans after the sharing channel confirms a successful share.&#x27;,&#x27;Once daily, based on the callback date in UTC+5.&#x27;,&#x27;Copying links, saving posters or opening a sharing channel does not qualify.&#x27;]};
+function showTaskHelp(id){const t=tasks.find(t=&gt;t.id===id);const d=document.createElement(&#x27;dialog&#x27;);d.className=&#x27;task-help-dialog&#x27;;d.setAttribute(&#x27;aria-label&#x27;,t.name);d.innerHTML=`&lt;header&gt;&lt;h3&gt;${t.name}&lt;/h3&gt;&lt;button aria-label=&quot;Close&quot;&gt;×&lt;/button&gt;&lt;/header&gt;${taskHelp[id].map(x=&gt;`&lt;p&gt;${x}&lt;/p&gt;`).join(&#x27;&#x27;)}`;root.querySelector(&#x27;.phone&#x27;).append(d);d.querySelector(&#x27;button&#x27;).onclick=()=&gt;d.close();d.addEventListener(&#x27;click&#x27;,e=&gt;{if(e.target===d)d.close();});d.addEventListener(&#x27;close&#x27;,()=&gt;d.remove());d.showModal();}
+root.addEventListener(&#x27;click&#x27;,e=&gt;{const help=e.target.closest(&#x27;[data-task-help]&#x27;);if(help)showTaskHelp(help.dataset.taskHelp);});
+
+
+const newcomerTasks={
+recharge:{name:&#x27;Recharge&#x27;,icon:&#x27;wallet&#x27;,unit:&#x27;Coins&#x27;,levels:[14000,42000,70000,98000,140000,210000,420000,700000,1400000],rewards:[1120,2240,2240,2240,1960,4900,14700,12600,28000],sample:70000,help:[&#x27;In-app: credited recharge Coins. H5: basic Coins excluding bonuses. Coin Trader: Coins actually credited to you.&#x27;,&#x27;Only recharges after linking and within 30 × 24 hours of registration count.&#x27;,&#x27;Each tier grants its own fixed Coins reward once. Rewards stack and are credited automatically. Reaching several tiers at once awards all unfinished tiers.&#x27;]},
+games:{name:&#x27;Competitive games&#x27;,icon:&#x27;gamepad-2&#x27;,unit:&#x27;EXP&#x27;,levels:[14000,42000,70000,98000,140000,210000,420000,700000,1400000],rewards:[21000,63000,105000,147000,210000,315000,630000,1050000,2100000],sample:98000,help:[&#x27;Only valid Coins wagers in eligible competitive games count, before deducting winnings. Beans wagers and cancelled or returned wagers are excluded.&#x27;,&#x27;Only activity after linking and within 30 × 24 hours of registration counts. Reward Coins used in eligible games also count.&#x27;,&#x27;Each tier grants its own fixed EXP reward once. Rewards stack and are credited automatically; this is a milestone reward, not a daily rebate.&#x27;]},
+gifts:{name:&#x27;Send gifts&#x27;,icon:&#x27;gift&#x27;,unit:&#x27;Coins&#x27;,levels:[14000,42000,84000,140000,210000,420000,700000,1000000,1400000],rewards:[1000,2000,3000,4000,5000,7000,10000,15000,20000],sample:84000,help:[&#x27;Gifts sent to anyone count, including your inviter. Regular Gifts count at 100% of gift Coins; Lucky Gifts count at 10%.&#x27;,&#x27;Only gifts after linking and within 30 × 24 hours of registration count. Reward Coins spent on gifts also count.&#x27;,&#x27;Each tier grants its own fixed Coins reward once. Rewards stack and are credited automatically; your inviter’s daily rebate is calculated separately.&#x27;]}
+};
+function newcomerProgress(id){if(!state.boundInviter||!state.sample||state.newbieScenario===&#x27;ineligible&#x27;)return 0;return state.newbieScenario===&#x27;completed&#x27;?1400000:newcomerTasks[id].sample;}
+function newcomerEarned(id){const t=newcomerTasks[id],p=newcomerProgress(id);return t.rewards.reduce((sum,r,i)=&gt;sum+(p&gt;=t.levels[i]?r:0),0);}
+function enableMilestoneDrag(rail){let drag=null;rail.addEventListener(&#x27;pointerdown&#x27;,e=&gt;{if(e.pointerType!==&#x27;mouse&#x27;||e.button!==0)return;drag={x:e.clientX,y:e.clientY,left:rail.scrollLeft,moved:false};rail.setPointerCapture(e.pointerId);});rail.addEventListener(&#x27;pointermove&#x27;,e=&gt;{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved&amp;&amp;Math.abs(dx)&lt;5)return;if(!drag.moved&amp;&amp;Math.abs(dy)&gt;Math.abs(dx)){drag=null;return;}drag.moved=true;e.preventDefault();rail.scrollLeft=drag.left-dx;});const finish=()=&gt;{drag=null;};rail.addEventListener(&#x27;pointerup&#x27;,finish);rail.addEventListener(&#x27;pointercancel&#x27;,finish);rail.addEventListener(&#x27;lostpointercapture&#x27;,finish);rail.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;ArrowLeft&#x27;||e.key===&#x27;ArrowRight&#x27;){e.preventDefault();rail.scrollBy({left:e.key===&#x27;ArrowLeft&#x27;?-108:108,behavior:&#x27;smooth&#x27;});}});}
+function newcomerMilestones(id){const t=newcomerTasks[id],p=newcomerProgress(id),done=t.levels.filter(x=&gt;p&gt;=x).length;return `&lt;div class=&quot;milestone-scroll&quot; data-milestone-scroll=&quot;${id}&quot; aria-label=&quot;${t.name} reward milestones, swipe for more&quot; tabindex=&quot;0&quot;&gt;&lt;div class=&quot;milestone-rail&quot; style=&quot;--milestone-count:${t.levels.length}&quot;&gt;${t.levels.map((v,i)=&gt;{const previous=i?t.levels[i-1]:0,fill=Math.max(0,Math.min(1,(p-previous)/(v-previous)));return `&lt;div class=&quot;milestone-item ${p&gt;=v?&#x27;is-complete&#x27;:&#x27;&#x27;} ${i===done?&#x27;is-next&#x27;:&#x27;&#x27;}&quot; ${i===done?&#x27;data-next-milestone&#x27;:&#x27;&#x27;}&gt;&lt;span class=&quot;milestone-segment&quot; style=&quot;--segment-fill:${fill*100}%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;milestone-reward&quot;&gt;+${nf(t.rewards[i])} ${t.unit}&lt;/span&gt;&lt;span class=&quot;milestone-dot&quot; aria-label=&quot;${p&gt;=v?&#x27;Credited&#x27;:&#x27;Not reached&#x27;}&quot;&gt;${p&gt;=v?&#x27;✓&#x27;:&#x27;&#x27;}&lt;/span&gt;&lt;span class=&quot;milestone-target&quot;&gt;${nf(v)}&lt;/span&gt;&lt;/div&gt;`;}).join(&#x27;&#x27;)}&lt;/div&gt;&lt;/div&gt;`;}
+function newcomerHome(){const linked=!!state.boundInviter,expired=state.newbieScenario===&#x27;expired&#x27;,blocked=state.newbieScenario===&#x27;ineligible&#x27;;return `${blocked?&#x27;&lt;div class=&quot;newbie-notice&quot;&gt;Not eligible for newcomer rewards&lt;/div&gt;&#x27;:bindingForm()}&lt;div class=&quot;newbie-earned&quot;&gt;&lt;div&gt;&lt;span&gt;Total earned Coins&lt;/span&gt;&lt;strong&gt;${nf(newcomerEarned(&#x27;recharge&#x27;)+newcomerEarned(&#x27;gifts&#x27;))}&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;Total earned EXP&lt;/span&gt;&lt;strong&gt;${nf(newcomerEarned(&#x27;games&#x27;))}&lt;/strong&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;newbie-section-title&quot;&gt;&lt;h3&gt;Newcomer tasks&lt;/h3&gt;&lt;small&gt;${expired?&#x27;Ended&#x27;:linked?&#x27;25d left&#x27;:&#x27;Link within 24h&#x27;}&lt;/small&gt;&lt;/div&gt;${Object.entries(newcomerTasks).map(([id,t])=&gt;{const p=newcomerProgress(id),done=t.levels.filter(v=&gt;p&gt;=v).length;return `&lt;section class=&quot;newbie-card&quot;&gt;&lt;header&gt;&lt;span class=&quot;newbie-task-icon&quot;&gt;${icon(t.icon)}&lt;/span&gt;&lt;h3&gt;${t.name}&lt;/h3&gt;&lt;button class=&quot;task-help-trigger&quot; data-newbie-help=&quot;${id}&quot; aria-label=&quot;${t.name} conditions&quot;&gt;?&lt;/button&gt;&lt;button class=&quot;newbie-records-link&quot; data-newbie-records=&quot;${id}&quot;&gt;Records ›&lt;/button&gt;&lt;/header&gt;&lt;div class=&quot;milestone-summary&quot;&gt;&lt;span&gt;${nf(p)} &lt;small&gt;/ ${nf(t.levels[8])} Coins&lt;/small&gt;&lt;/span&gt;&lt;small&gt;${done}/9&lt;/small&gt;&lt;/div&gt;${newcomerMilestones(id)}&lt;div class=&quot;milestone-card-footer&quot;&gt;&lt;span&gt;${blocked?&#x27;Not eligible&#x27;:expired?&#x27;Activity ended&#x27;:!linked?&#x27;Link an inviter to start&#x27;:done===9?&#x27;All tiers completed&#x27;:&#x27;Rewards credited automatically&#x27;}&lt;/span&gt;&lt;button data-newbie-go=&quot;${id}&quot; ${blocked||expired||done===9?&#x27;disabled&#x27;:&#x27;&#x27;}&gt;${!linked?&#x27;Link&#x27;:id===&#x27;recharge&#x27;?&#x27;Recharge&#x27;:id===&#x27;games&#x27;?&#x27;Play&#x27;:&#x27;Send gifts&#x27;}&lt;/button&gt;&lt;/div&gt;&lt;/section&gt;`;}).join(&#x27;&#x27;)}`;}
+function renderNewcomerTask(){const id=state.newbieTask||&#x27;recharge&#x27;,t=newcomerTasks[id],p=newcomerProgress(id);title.textContent=t.name;content.innerHTML=`&lt;div class=&quot;newbie-detail-heading&quot;&gt;&lt;span&gt;${nf(p)} Coins accumulated&lt;/span&gt;&lt;button data-newbie-records=&quot;${id}&quot;&gt;Records ›&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;newbie-tier-list&quot;&gt;${t.levels.map((v,i)=&gt;`&lt;div class=&quot;newbie-tier&quot;&gt;&lt;div&gt;&lt;strong&gt;${nf(v)} Coins&lt;/strong&gt;&lt;small&gt;Tier ${i+1}&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;newbie-tier-reward&quot;&gt;&lt;b&gt;+${nf(t.rewards[i])} ${t.unit}&lt;/b&gt;&lt;small&gt;${p&gt;=v?&#x27;Credited&#x27;:state.newbieScenario===&#x27;ineligible&#x27;?&#x27;Not eligible&#x27;:state.newbieScenario===&#x27;expired&#x27;?&#x27;Ended&#x27;:!state.boundInviter?&#x27;Not linked&#x27;:&#x27;Not reached&#x27;}&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;button class=&quot;primary newbie-task-action&quot; data-newbie-go=&quot;${id}&quot; ${[&#x27;expired&#x27;,&#x27;ineligible&#x27;].includes(state.newbieScenario)||p&gt;=t.levels[8]?&#x27;disabled&#x27;:&#x27;&#x27;}&gt;${!state.boundInviter?&#x27;Link inviter&#x27;:id===&#x27;recharge&#x27;?&#x27;Recharge&#x27;:id===&#x27;games&#x27;?&#x27;Play games&#x27;:&#x27;Send gifts&#x27;}&lt;/button&gt;`;}
+function renderNewcomerRecords(){const id=state.newbieTask||&#x27;recharge&#x27;,t=newcomerTasks[id],p=newcomerProgress(id);title.textContent=t.name+&#x27; records&#x27;;const records=t.levels.map((v,i)=&gt;({v,i})).filter(x=&gt;p&gt;=x.v);content.innerHTML=`&lt;div class=&quot;drawer-total&quot;&gt;&lt;span&gt;Total earned&lt;/span&gt;&lt;strong&gt;${nf(newcomerEarned(id))} &lt;small&gt;${t.unit}&lt;/small&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;newbie-record-list&quot;&gt;${records.length?records.slice().reverse().slice(0,4).map(x=&gt;newcomerRecordRow(id,x)).join(&#x27;&#x27;):&#x27;&lt;div class=&quot;record-empty&quot;&gt;No records&lt;/div&gt;&#x27;}&lt;div class=&quot;record-page-status&quot;&gt;${records.length&gt;4?&#x27;&#x27;:records.length?&#x27;No more records&#x27;:&#x27;&#x27;}&lt;/div&gt;&lt;/div&gt;`;if(records.length&gt;4){const list=content.querySelector(&#x27;.newbie-record-list&#x27;),status=list.querySelector(&#x27;.record-page-status&#x27;);let offset=4,loading=false;content.onscroll=()=&gt;{if(loading||offset&gt;=records.length||content.scrollHeight-content.scrollTop-content.clientHeight&gt;40)return;loading=true;status.textContent=&#x27;Loading…&#x27;;setTimeout(()=&gt;{if(!list.isConnected)return;const all=records.slice().reverse();status.insertAdjacentHTML(&#x27;beforebegin&#x27;,all.slice(offset,offset+4).map(x=&gt;newcomerRecordRow(id,x)).join(&#x27;&#x27;));offset+=4;loading=false;status.textContent=offset&gt;=records.length?&#x27;No more records&#x27;:&#x27;&#x27;;decorateCurrencies(content);},250);};setTimeout(()=&gt;{if(list.isConnected&amp;&amp;content.scrollHeight&lt;=content.clientHeight)content.onscroll();},0);}}
+function newcomerRecordRow(id,{i}){const t=newcomerTasks[id];return `&lt;div class=&quot;newbie-tier&quot;&gt;&lt;div&gt;&lt;strong&gt;Tier ${i+1}&lt;/strong&gt;&lt;small&gt;2026-10-22 16:30:${String(i*5+10).padStart(2,&#x27;0&#x27;)}&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;newbie-tier-reward&quot;&gt;&lt;b&gt;+${nf(t.rewards[i])} ${t.unit}&lt;/b&gt;&lt;small&gt;Credited&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;`;}
+function showNewcomerHelp(id){const t=newcomerTasks[id],d=document.createElement(&#x27;dialog&#x27;);d.className=&#x27;task-help-dialog&#x27;;d.setAttribute(&#x27;aria-label&#x27;,t.name+&#x27; rules&#x27;);d.innerHTML=`&lt;header&gt;&lt;h3&gt;${t.name}&lt;/h3&gt;&lt;button aria-label=&quot;Close&quot;&gt;×&lt;/button&gt;&lt;/header&gt;${t.help.map(x=&gt;`&lt;p&gt;${x}&lt;/p&gt;`).join(&#x27;&#x27;)}`;root.querySelector(&#x27;.phone&#x27;).append(d);d.querySelector(&#x27;button&#x27;).onclick=()=&gt;d.close();d.addEventListener(&#x27;click&#x27;,e=&gt;{if(e.target===d)d.close();});d.addEventListener(&#x27;close&#x27;,()=&gt;d.remove());d.showModal();}
+root.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;button&#x27;);if(!b)return;if(b.dataset.newbieGo){if(!state.boundInviter)openBinding();else msg.textContent=&#x27;Preview: &#x27;+({recharge:&#x27;Recharge&#x27;,games:&#x27;Games&#x27;,gifts:&#x27;Gifting&#x27;})[b.dataset.newbieGo]+&#x27; destination selected. Live app navigation is not connected.&#x27;;}if(b.dataset.newbieHelp)showNewcomerHelp(b.dataset.newbieHelp);if(b.dataset.newbieTask){state.newbieTask=b.dataset.newbieTask;go(&#x27;newbie-task&#x27;);}if(b.dataset.newbieRecords){state.newbieTask=b.dataset.newbieRecords;go(&#x27;newbie-records&#x27;);}});
+function bindingForm(){if(state.newbieScenario===&#x27;expired&#x27;&amp;&amp;!state.boundInviter)return &#x27;&lt;div class=&quot;newbie-notice&quot;&gt;The 24-hour linking period has ended.&lt;/div&gt;&#x27;;return state.boundInviter?`&lt;div class=&quot;inviter-bound&quot;&gt;&lt;strong&gt;Inviter linked&lt;/strong&gt;&lt;p&gt;${state.boundInviter}&lt;/p&gt;&lt;small&gt;Your inviter cannot be changed.&lt;/small&gt;&lt;/div&gt;`:`&lt;form class=&quot;inviter-bind-form&quot;&gt;&lt;label&gt;Bind Your Inviter&lt;/label&gt;&lt;p&gt;Enter your inviter’s code within 24 hours of signing up.&lt;/p&gt;&lt;div class=&quot;bind-input-row&quot;&gt;&lt;input name=&quot;invitationCode&quot; aria-label=&quot;Invitation code&quot; placeholder=&quot;Invitation code&quot; autocomplete=&quot;off&quot; required&gt;&lt;button type=&quot;submit&quot;&gt;Bind&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;bind-error&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;&lt;/form&gt;`;}
+function openBinding(){const d=document.createElement(&#x27;dialog&#x27;);d.className=&#x27;task-help-dialog binding-dialog&#x27;;d.setAttribute(&#x27;aria-label&#x27;,&#x27;Bind Your Inviter&#x27;);d.innerHTML=`&lt;header&gt;&lt;h3&gt;Bind Your Inviter&lt;/h3&gt;&lt;button type=&quot;button&quot; aria-label=&quot;Close&quot;&gt;×&lt;/button&gt;&lt;/header&gt;${bindingForm()}`;root.querySelector(&#x27;.phone&#x27;).append(d);d.querySelector(&#x27;header button&#x27;).onclick=()=&gt;d.close();d.addEventListener(&#x27;click&#x27;,e=&gt;{if(e.target===d)d.close();});d.addEventListener(&#x27;close&#x27;,()=&gt;d.remove());d.showModal();}
+root.addEventListener(&#x27;click&#x27;,e=&gt;{if(e.target.closest(&#x27;[data-bind-inviter]&#x27;))openBinding();});
+root.addEventListener(&#x27;submit&#x27;,e=&gt;{if(!e.target.matches(&#x27;.inviter-bind-form&#x27;))return;e.preventDefault();const form=e.target,code=form.elements.invitationCode.value.trim(),error=form.querySelector(&#x27;.bind-error&#x27;);if(!code){error.textContent=&#x27;Enter an invitation code.&#x27;;return;}if(code.toUpperCase()===&#x27;YL826419&#x27;){error.textContent=&#x27;You cannot bind your own code.&#x27;;return;}if(!/^[a-z0-9]+$/i.test(code)){error.textContent=&#x27;Invalid invitation code.&#x27;;return;}state.boundInviter=code;state.newbieScenario=&#x27;active&#x27;;root.querySelector(&#x27;.binding-dialog&#x27;)?.close();render();msg.textContent=&#x27;Demo: Binding shown locally. Server eligibility checks and rewards are not connected.&#x27;;});
+
+function decorateCurrencies(scope){scope.querySelectorAll(&#x27;.earned-card,.task-reward,.pair-unit,.drawer-total,.record-value,.newbie-earned,.newbie-next-reward,.newbie-tier-reward,.milestone-reward&#x27;).forEach(el=&gt;{const walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const nodes=[];while(walk.nextNode())if(/\b(Coins|Beans|EXP)\b/.test(walk.currentNode.nodeValue))nodes.push(walk.currentNode);nodes.forEach(node=&gt;{const frag=document.createDocumentFragment();node.nodeValue.split(/\b(Coins|Beans|EXP)\b/).forEach(part=&gt;{if(part===&#x27;Coins&#x27;||part===&#x27;Beans&#x27;||part===&#x27;EXP&#x27;){const token=document.createElement(&#x27;span&#x27;);token.className=&#x27;currency-icon &#x27;+part.toLowerCase();token.setAttribute(&#x27;role&#x27;,&#x27;img&#x27;);token.setAttribute(&#x27;aria-label&#x27;,part);token.setAttribute(&#x27;title&#x27;,part);token.innerHTML=part===&#x27;EXP&#x27;?&#x27;&#x27;:icon(part===&#x27;Coins&#x27;?&#x27;coins&#x27;:&#x27;bean&#x27;);frag.append(token);}else frag.append(document.createTextNode(part));});node.replaceWith(frag);});});
+if(globalThis.lucide)lucide.createIcons();}
+function remember(){window.openai?.setWidgetState({modelContent:{page:state.page,selected:state.selected,rewardTab:state.rewardTab},privateContent:{sample:state.sample,rewardTab:state.rewardTab}})?.catch(()=&gt;{});}
+function go(page,id){if(page!==state.page||id!==state.selected)state.recordDate=&#x27;&#x27;;if(page===&#x27;detail&#x27;&amp;&amp;id===&#x27;bind&#x27;)page=&#x27;friends&#x27;;state.page=page;if(id)state.selected=id;render();if([&#x27;newbie-task&#x27;,&#x27;newbie-records&#x27;].includes(page))content.scrollTop=0;remember();}
+function inviteHero(){return `&lt;section class=&quot;invite-hero&quot;&gt;&lt;div class=&quot;hero-copy&quot;&gt;&lt;div class=&quot;hero-wordmark&quot;&gt;Yaloka · Invite rewards&lt;/div&gt;&lt;h1&gt;Invite friends.&lt;br&gt;Earn rewards.&lt;/h1&gt;&lt;/div&gt;&lt;div class=&quot;hero-treasure&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;hero-coin coin-back&quot;&gt;✦&lt;/span&gt;&lt;span class=&quot;hero-coin coin-front&quot;&gt;✦&lt;/span&gt;&lt;div class=&quot;treasure-box&quot;&gt;&lt;div class=&quot;treasure-lid&quot;&gt;&lt;/div&gt;&lt;div class=&quot;treasure-ribbon&quot;&gt;&lt;/div&gt;&lt;span class=&quot;treasure-bow bow-left&quot;&gt;&lt;/span&gt;&lt;span class=&quot;treasure-bow bow-right&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;treasure-spark&quot;&gt;✧&lt;/span&gt;&lt;/div&gt;&lt;/section&gt;`;}
+function queryBounds(){const end=new Intl.DateTimeFormat(&#x27;en-CA&#x27;,{timeZone:&#x27;Etc/GMT-5&#x27;,year:&#x27;numeric&#x27;,month:&#x27;2-digit&#x27;,day:&#x27;2-digit&#x27;}).format(new Date());const d=new Date(end+&#x27;T00:00:00Z&#x27;);d.setUTCDate(d.getUTCDate()-29);return {start:d.toISOString().slice(0,10),end};}
+function dateQuery(value,id){
+const bounds=queryBounds();
+const wanted=state.calendarMonth||value.slice(0,7)||bounds.end.slice(0,7);const month=wanted&lt;bounds.start.slice(0,7)?bounds.start.slice(0,7):wanted&gt;bounds.end.slice(0,7)?bounds.end.slice(0,7):wanted;const [year,mo]=month.split(&#x27;-&#x27;).map(Number);const start=new Date(Date.UTC(year,mo-1,1)).getUTCDay(),count=new Date(Date.UTC(year,mo,0)).getUTCDate();
+return `&lt;div class=&quot;date-selector&quot;&gt;&lt;div class=&quot;date-selector-row&quot;&gt;&lt;button class=&quot;date-trigger&quot; data-calendar-toggle aria-expanded=&quot;${!!state.calendarOpen}&quot; aria-controls=&quot;record-calendar&quot;&gt;${icon(&#x27;calendar-days&#x27;)}&lt;span&gt;${value||&#x27;Select date&#x27;}&lt;/span&gt;${icon(&#x27;chevron-down&#x27;)}&lt;/button&gt;${value?&#x27;&lt;button class=&quot;all-dates-action&quot; data-action=&quot;all-dates&quot;&gt;Reset&lt;/button&gt;&#x27;:&#x27;&#x27;}&lt;/div&gt;${state.calendarOpen?`&lt;dialog class=&quot;calendar-modal&quot; aria-label=&quot;Select record date&quot;&gt;&lt;section id=&quot;record-calendar&quot; class=&quot;date-popover&quot;&gt;&lt;div class=&quot;calendar-modal-title&quot;&gt;&lt;strong&gt;Select date&lt;/strong&gt;&lt;button data-calendar-cancel aria-label=&quot;Close calendar&quot;&gt;×&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;query-retention&quot;&gt;UTC+5 · Last 30 days&lt;/p&gt;&lt;header&gt;&lt;button data-month-step=&quot;-1&quot; ${month&lt;=bounds.start.slice(0,7)?&#x27;disabled&#x27;:&#x27;&#x27;} aria-label=&quot;Previous month&quot;&gt;‹&lt;/button&gt;&lt;strong&gt;${new Date(Date.UTC(year,mo-1,1)).toLocaleString(&#x27;en-US&#x27;,{month:&#x27;long&#x27;,year:&#x27;numeric&#x27;,timeZone:&#x27;UTC&#x27;})}&lt;/strong&gt;&lt;button data-month-step=&quot;1&quot; ${month&gt;=bounds.end.slice(0,7)?&#x27;disabled&#x27;:&#x27;&#x27;} aria-label=&quot;Next month&quot;&gt;›&lt;/button&gt;&lt;/header&gt;&lt;div class=&quot;calendar-week&quot;&gt;${[&#x27;Su&#x27;,&#x27;Mo&#x27;,&#x27;Tu&#x27;,&#x27;We&#x27;,&#x27;Th&#x27;,&#x27;Fr&#x27;,&#x27;Sa&#x27;].map(d=&gt;`&lt;span&gt;${d}&lt;/span&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;div class=&quot;calendar-days&quot;&gt;${&#x27;&lt;span&gt;&lt;/span&gt;&#x27;.repeat(start)}${Array.from({length:count},(_,i)=&gt;{const date=`${month}-${String(i+1).padStart(2,&#x27;0&#x27;)}`;return `&lt;button data-select-date=&quot;${date}&quot; ${date&lt;bounds.start||date&gt;bounds.end?&#x27;disabled&#x27;:&#x27;&#x27;} aria-label=&quot;${date}&quot; aria-pressed=&quot;${value===date}&quot;&gt;${i+1}&lt;/button&gt;`;}).join(&#x27;&#x27;)}&lt;/div&gt;&lt;/section&gt;&lt;/dialog&gt;`:&#x27;&#x27;}&lt;/div&gt;`;
+}
+function ongoingPair(){return `&lt;div class=&quot;ongoing-pair&quot;&gt;${[[&#x27;charge&#x27;,&#x27;coins&#x27;,&#x27;Recharge&#x27;,&#x27;5%&#x27;,&#x27;Coins&#x27;],[&#x27;game&#x27;,&#x27;gamepad-2&#x27;,&#x27;Games&#x27;,&#x27;1%&#x27;,&#x27;Beans&#x27;]].map(([id,ic,name,rate,unit])=&gt;`&lt;div role=&quot;button&quot; tabindex=&quot;0&quot; class=&quot;cursor-interaction&quot; data-task=&quot;${id}&quot;&gt;&lt;span class=&quot;pair-heading task-title&quot;&gt;${icon(ic)} ${name}&lt;/span&gt;&lt;span class=&quot;pair-rate-row&quot;&gt;&lt;strong&gt;${rate}&lt;/strong&gt;&lt;span class=&quot;pair-unit&quot;&gt;${unit}&lt;/span&gt;&lt;span class=&quot;task-chevron&quot; aria-hidden=&quot;true&quot;&gt;›&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;`;}
+function earnedCards(){return `&lt;div class=&quot;earned-cards&quot; aria-label=&quot;Total earned&quot;&gt;&lt;div class=&quot;earned-card&quot;&gt;&lt;span class=&quot;earned-label&quot;&gt;Total earned Coins&lt;/span&gt;&lt;strong&gt;${state.sample?&#x27;146,900&#x27;:&#x27;0&#x27;}&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;earned-card&quot;&gt;&lt;span class=&quot;earned-label&quot;&gt;Total earned Beans&lt;/span&gt;&lt;strong&gt;${state.sample?&#x27;13,400&#x27;:&#x27;0&#x27;}&lt;/strong&gt;&lt;/div&gt;&lt;/div&gt;`;}
+const rankScore=p=&gt;p.coins+p.beans+p.invites*5;
+const rankNumber=n=&gt;n&lt;=9999999?nf(n):(Math.floor(n/100)/10).toFixed(1)+&#x27;k&#x27;;
+function rankingPanel(){
+const period=state.rankPeriod||&#x27;Weekly&#x27;,daily=period===&#x27;Daily&#x27;;
+const leaders=state.sample?[{name:&#x27;Lina&#x27;,coins:daily?12000:520000,beans:daily?3000:62000,invites:daily?5:36,room:true},{name:&#x27;Omar&#x27;,coins:daily?9000:420000,beans:daily?1800:48000,invites:daily?3:28,room:false},{name:&#x27;Nia&#x27;,coins:daily?6000:340000,beans:daily?1300:36000,invites:daily?2:21,room:true},{name:&#x27;Leo&#x27;,coins:daily?3000:230000,beans:daily?1000:28000,invites:daily?1:17,room:false},{name:&#x27;Sara&#x27;,coins:daily?1000:180000,beans:daily?1000:20000,invites:daily?0:12,room:false}].sort((a,b)=&gt;rankScore(b)-rankScore(a)):[];
+const me=state.sample?{coins:daily?0:146900,beans:daily?1800:13400,invites:daily?0:3}:{coins:0,beans:0,invites:0};
+const room=p=&gt;p.room?`&lt;button class=&quot;room-entry&quot; data-demo-room=&quot;${p.name}&quot; aria-label=&quot;Enter ${p.name}&#x27;s room&quot;&gt;${icon(&#x27;audio-lines&#x27;)}&lt;/button&gt;`:&#x27;&#x27;;
+return `&lt;section class=&quot;ranking-panel ranking-v2&quot;&gt;&lt;div class=&quot;rank-period&quot;&gt;${[&#x27;Daily&#x27;,&#x27;Weekly&#x27;].map(x=&gt;`&lt;button data-rank-period=&quot;${x}&quot; aria-pressed=&quot;${period===x}&quot;&gt;${x}&lt;/button&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;div class=&quot;ranking-scroll&quot;&gt;&lt;div class=&quot;rank-prizes&quot;&gt;&lt;div&gt;&lt;span&gt;${icon(&#x27;scan-face&#x27;)}&lt;/span&gt;&lt;strong&gt;Avatar frames&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;${icon(&#x27;award&#x27;)}&lt;/span&gt;&lt;strong&gt;Permanent badges&lt;/strong&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;settlement-clock&quot; aria-label=&quot;Settlement countdown pending configuration&quot;&gt;${[&#x27;Days&#x27;,&#x27;Hours&#x27;,&#x27;Min&#x27;,&#x27;Sec&#x27;].map(x=&gt;`&lt;span&gt;&lt;b&gt;—&lt;/b&gt;&lt;small&gt;${x}&lt;/small&gt;&lt;/span&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;${leaders.length?`&lt;div class=&quot;rank-podium&quot;&gt;${[1,0,2].map(i=&gt;`&lt;div class=&quot;podium-person podium-${i+1}&quot;&gt;&lt;span class=&quot;podium-crown&quot;&gt;${icon(i===0?&#x27;crown&#x27;:&#x27;medal&#x27;)}&lt;/span&gt;&lt;span class=&quot;rank-avatar&quot;&gt;${leaders[i].name[0]}${room(leaders[i])}&lt;/span&gt;&lt;strong&gt;${leaders[i].name}&lt;/strong&gt;&lt;div class=&quot;podium-block&quot;&gt;&lt;span&gt;#${i+1}&lt;/span&gt;&lt;strong&gt;${rankNumber(rankScore(leaders[i]))}&lt;/strong&gt;&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;div class=&quot;rank-list&quot;&gt;${leaders.slice(3,50).map((p,i)=&gt;`&lt;div class=&quot;rank-row&quot;&gt;&lt;span&gt;${i+4}&lt;/span&gt;&lt;span class=&quot;mini-avatar&quot;&gt;${p.name[0]}${room(p)}&lt;/span&gt;&lt;div class=&quot;rank-person&quot;&gt;&lt;strong&gt;${p.name}&lt;/strong&gt;&lt;/div&gt;&lt;b&gt;${rankNumber(rankScore(p))}&lt;/b&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;&lt;div class=&quot;rank-caption&quot;&gt;Top 50 · Demo data&lt;/div&gt;`:&#x27;&lt;div class=&quot;empty&quot;&gt;No rankings yet&lt;/div&gt;&#x27;}&lt;/div&gt;&lt;div class=&quot;rank-my-fixed&quot;&gt;&lt;span class=&quot;my-place&quot;&gt;${rankScore(me)&gt;0?&#x27;6&#x27;:&#x27;-&#x27;}&lt;/span&gt;&lt;span class=&quot;mini-avatar&quot;&gt;Y&lt;/span&gt;&lt;div class=&quot;rank-person&quot;&gt;&lt;strong&gt;My&lt;/strong&gt;&lt;/div&gt;&lt;b&gt;${rankNumber(rankScore(me))}&lt;/b&gt;&lt;/div&gt;&lt;/section&gt;`;
+}
+function render(){content.onscroll=null;msg.textContent=&#x27;&#x27;;back.hidden=state.page===&#x27;home&#x27;;footer.hidden=!(state.page===&#x27;home&#x27;&amp;&amp;state.rewardTab===&#x27;inviter&#x27;);title.textContent=({home:&#x27;Invite Rewards&#x27;,friends:&#x27;Invited Friends&#x27;,detail:&#x27;Reward Details&#x27;,records:&#x27;Reward History&#x27;,rules:&#x27;Event Rules&#x27;,share:&#x27;Invite Friends&#x27;})[state.page];
+if(state.page===&#x27;share&#x27;){content.innerHTML=`&lt;div class=&quot;notice&quot;&gt;Share daily for 200 Beans · Not completed today&lt;/div&gt;&lt;div class=&quot;poster&quot;&gt;&lt;span class=&quot;eyebrow&quot;&gt;YALOKA&lt;/span&gt;&lt;h2&gt;Meet new friends in rooms&lt;br&gt;Play together. Win together.&lt;/h2&gt;&lt;div class=&quot;muted&quot;&gt;Chat · Competitive Games · Gifts&lt;/div&gt;&lt;div class=&quot;invitecode&quot;&gt;&lt;div class=&quot;muted&quot;&gt;My Invitation Code&lt;/div&gt;&lt;h3 style=&quot;margin:8px 0&quot;&gt;YL826419&lt;/h3&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;channels&quot;&gt;&lt;button class=&quot;cursor-interaction&quot; data-channel=&quot;WhatsApp&quot;&gt;WhatsApp&lt;/button&gt;&lt;button class=&quot;cursor-interaction&quot; data-channel=&quot;Facebook&quot;&gt;Facebook&lt;/button&gt;&lt;button class=&quot;cursor-interaction&quot; data-action=&quot;copy&quot;&gt;Copy Invite Link&lt;/button&gt;&lt;button class=&quot;cursor-interaction&quot; data-action=&quot;save&quot;&gt;Save Poster&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;Channel confirmation required. Copying or saving earns no reward.&lt;/p&gt;&lt;div class=&quot;status&quot; id=&quot;yi-share-status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;`;}
+if(state.page===&#x27;home&#x27;){
+const hero=inviteHero();
+const compact=(id,label,sub)=&gt;{const t=tasks.find(t=&gt;t.id===id);const fixed=[&#x27;bind&#x27;,&#x27;first&#x27;,&#x27;share&#x27;].includes(id);const reward=fixed?`+${t.reward}/${id===&#x27;share&#x27;?&#x27;day&#x27;:&#x27;friend&#x27;}`:t.reward;return `&lt;div class=&quot;compact-task cursor-interaction&quot; role=&quot;button&quot; tabindex=&quot;0&quot; data-task=&quot;${id}&quot;&gt;&lt;span class=&quot;icon&quot;&gt;${icon(id===&#x27;gift&#x27;?&#x27;gift&#x27;:t.icon)}&lt;/span&gt;&lt;span class=&quot;label&quot;&gt;&lt;strong class=&quot;task-title&quot;&gt;${label}&lt;/strong&gt;&lt;span class=&quot;task-reward&quot;&gt;${reward}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;task-chevron&quot; aria-hidden=&quot;true&quot;&gt;›&lt;/span&gt;&lt;/div&gt;`;};
+const inviter=state.rewardTab===&#x27;inviter&#x27;;
+content.innerHTML=`${hero.replace(&#x27;&lt;/section&gt;&#x27;,&#x27;&lt;div class=&quot;tab-rules-entry&quot;&gt;&lt;button data-tab-rules&gt;Rules&lt;/button&gt;&lt;/div&gt;&lt;/section&gt;&#x27;)}&lt;div class=&quot;reward-switch&quot; role=&quot;tablist&quot; aria-label=&quot;Reward recipient&quot;&gt;&lt;button id=&quot;yi-tab-inviter&quot; role=&quot;tab&quot; data-reward-tab=&quot;inviter&quot; aria-selected=&quot;${inviter}&quot; aria-controls=&quot;yi-reward-panel&quot;&gt;Inviter&lt;/button&gt;&lt;button id=&quot;yi-tab-newcomer&quot; role=&quot;tab&quot; data-reward-tab=&quot;newcomer&quot; aria-selected=&quot;${state.rewardTab===&#x27;newcomer&#x27;}&quot; aria-controls=&quot;yi-reward-panel&quot;&gt;Newcomer&lt;/button&gt;&lt;button id=&quot;yi-tab-ranking&quot; role=&quot;tab&quot; data-reward-tab=&quot;ranking&quot; aria-selected=&quot;${state.rewardTab===&#x27;ranking&#x27;}&quot; aria-controls=&quot;yi-reward-panel&quot;&gt;Ranking&lt;/button&gt;&lt;/div&gt;&lt;section id=&quot;yi-reward-panel&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;yi-tab-${state.rewardTab}&quot;&gt;&lt;p class=&quot;tab-play-guide&quot;&gt;${inviter?&#x27;Invite friends and earn rewards as they recharge, play and send gifts.&#x27;:state.rewardTab===&#x27;ranking&#x27;?&#x27;Invitation score: 1 Coin or Bean earned = 1 point · 1 friend invited = 5 points.&#x27;:&#x27;Link your inviter within 24 hours of signing up to join newcomer tasks.&#x27;}&lt;/p&gt;${inviter?`&lt;div class=&quot;code-only&quot;&gt;&lt;span&gt;My code&lt;/span&gt;&lt;button data-action=&quot;copy&quot;&gt;YL826419 ${icon(&#x27;copy&#x27;)}&lt;/button&gt;&lt;/div&gt;${earnedCards()}&lt;h3 class=&quot;tasks-title&quot;&gt;Task rewards&lt;/h3&gt;&lt;div class=&quot;unified-tasks&quot;&gt;&lt;div class=&quot;task-group-label&quot;&gt;Fixed rewards&lt;/div&gt;${compact(&#x27;bind&#x27;,&#x27;Invite a friend&#x27;,&#x27;Once per friend&#x27;)}${compact(&#x27;first&#x27;,&#x27;First recharge&#x27;,&#x27;Within 7 days of binding&#x27;)}${compact(&#x27;share&#x27;,&#x27;Share daily&#x27;,&#x27;Once daily&#x27;)}&lt;div class=&quot;task-group-label&quot;&gt;Ongoing rebates&lt;/div&gt;${ongoingPair()}${compact(&#x27;gift&#x27;,&#x27;Friend → Anyone&#x27;,&#x27;Gift rebate&#x27;)}&lt;/div&gt;`:state.rewardTab===&#x27;ranking&#x27;?rankingPanel():newcomerHome()}&lt;/section&gt;`;
+footer.hidden=!inviter;
+root.querySelector(&#x27;#yi-footer .hint&#x27;).textContent=&#x27;Rewards credited automatically&#x27;;
+homeMarkup=content.innerHTML;
+}
+if(state.page===&#x27;rules&#x27;){content.innerHTML=`&lt;div class=&quot;sheet&quot;&gt;&lt;ol class=&quot;rules&quot;&gt;&lt;li&gt;On the invitation landing page, tapping Download copies invitation information. After registration, the app reads it and links the inviter after eligibility checks. If recognition fails, the newcomer can enter the inviter’s code within 24 hours of registration.&lt;/li&gt;&lt;li&gt;Only new users registered after launch qualify. Attribution or code binding must finish within 24 hours of registration. The inviter must register earlier. A confirmed relationship cannot be replaced.&lt;/li&gt;&lt;li&gt;The first-ever valid recharge must happen after binding and within 7×24 hours of binding, with at least 14,000 eligible recharge Coins, to earn 1,400 Coins. Earlier recharges or a first recharge below the target cannot be replaced by later payments.&lt;/li&gt;&lt;li&gt;Other recharge, game and gift rewards count only after binding and before 30×24 hours from registration. Binding does not extend this window.&lt;/li&gt;&lt;li&gt;In-app uses credited recharge Coins, H5 uses basic Coins excluding bonuses, and Coin Trader uses the Coins actually credited to the newcomer. In-app purchases have no top-up bonus. Activity rewards themselves do not count as recharge. Spending qualifying Coins counts regardless of source.&lt;/li&gt;&lt;li&gt;Earn 5% in Coins on Regular Gifts and 0.5% on Lucky Gifts sent by your invited friend to anyone, including you. No extra rebate applies. Gifts you send to the newcomer do not earn a rebate.&lt;/li&gt;&lt;li&gt;The same account may be both an invitee and an inviter. Each device supports one participating account. Devices used to sign in after participation are linked to that account; other accounts registered on those devices cannot gain eligibility by switching devices. Device conflicts are subject to review.&lt;/li&gt;&lt;li&gt;Cheating may lead to disqualification, account bans or reward recovery. Specific enforcement is pending technical assessment.&lt;/li&gt;&lt;li&gt;Records cover today and the previous 29 calendar days in UTC+5, newest first. Daily rebates are listed by activity date. All-time earned totals include the full history.&lt;/li&gt;&lt;li&gt;Game and gift rebates are totaled per friend and reward type each UTC+5 day, rounded down and automatically credited the next day. Fractions do not carry over between days. Recharge rebates accumulate and round down per friend. Unpaid earned rewards count toward caps; failed payments are retried without duplication.&lt;/li&gt;&lt;li&gt;Game daily caps and daily sharing reset at 00:00 UTC+5. Sharing earns rewards only after an explicit success callback.&lt;/li&gt;&lt;li&gt;Daily and Weekly ranking rewards include avatar frames and badges. This activity and the Host invitation program may both reward eligible users independently.&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;`;}
+if(state.page===&#x27;share&#x27;){content.insertAdjacentHTML(&#x27;afterbegin&#x27;,`&lt;div class=&quot;next-card&quot;&gt;&lt;strong&gt;Invite in two ways&lt;/strong&gt;&lt;p&gt;1. Share your link → Friend taps Download to copy invite information → Registers → App reads the clipboard and links the inviter after eligibility checks.&lt;/p&gt;&lt;p&gt;2. Friend registers → Enters your invitation code.&lt;/p&gt;&lt;strong&gt;Complete linking within 24h of registration&lt;/strong&gt;&lt;p&gt;Only new users qualify. Account and device eligibility checks apply.&lt;/p&gt;&lt;/div&gt;`);}
+root.classList.toggle(&#x27;records-mode&#x27;,[&#x27;friends&#x27;,&#x27;detail&#x27;].includes(state.page));
+if([&#x27;friends&#x27;,&#x27;detail&#x27;].includes(state.page)){
+const id=state.page===&#x27;friends&#x27;?&#x27;bind&#x27;:state.selected,t=tasks.find(t=&gt;t.id===id);
+const titles={bind:&#x27;Invite a friend&#x27;,first:&#x27;First recharge&#x27;,charge:&#x27;Recharge rebate&#x27;,game:&#x27;Game rebate&#x27;,gift:&#x27;Friend → Anyone&#x27;,share:&#x27;Daily sharing&#x27;};
+let records=[];
+if(id===&#x27;bind&#x27;)records=[[&#x27;Aisha&#x27;,&#x27;Oct 20 · 12:00&#x27;,&#x27;+200 Beans&#x27;,&#x27;Credited&#x27;],[&#x27;Rohan&#x27;,&#x27;Oct 20 · 14:00&#x27;,&#x27;+200 Beans&#x27;,&#x27;Credited&#x27;],[&#x27;Maya&#x27;,&#x27;Oct 11 · 11:00&#x27;,&#x27;+200 Beans&#x27;,&#x27;Credited&#x27;]];
+if(id===&#x27;first&#x27;)records=[[&#x27;Aisha&#x27;,&#x27;Oct 21 · 16:30&#x27;,&#x27;+1,400 Coins&#x27;,&#x27;Credited&#x27;],[&#x27;Rohan&#x27;,&#x27;3d 8h remaining&#x27;,&#x27;1,400 Coins&#x27;,&#x27;Not completed&#x27;],[&#x27;Maya&#x27;,&#x27;First recharge before binding&#x27;,&#x27;—&#x27;,&#x27;Not eligible&#x27;]];
+if(id===&#x27;charge&#x27;)records=[[&#x27;Maya&#x27;,&#x27;Oct 22 · 10:00 · Base 2,800,000&#x27;,&#x27;+140,000 Coins&#x27;,&#x27;Cap reached&#x27;],[&#x27;Aisha&#x27;,&#x27;Oct 21 · 16:30 · Base 100,000&#x27;,&#x27;+5,000 Coins&#x27;,&#x27;135,000 left&#x27;]];
+if(id===&#x27;game&#x27;)records=[[&#x27;Maya&#x27;,&#x27;Oct 23 · Daily rebate&#x27;,&#x27;+1,000 Beans&#x27;,&#x27;Credited&#x27;],[&#x27;Aisha&#x27;,&#x27;Oct 23 · Daily rebate&#x27;,&#x27;+800 Beans&#x27;,&#x27;Credited&#x27;],...Array.from({length:11},(_,i)=&gt;[&#x27;Maya&#x27;,`Oct ${22-i} · Daily rebate`,&#x27;+1,000 Beans&#x27;,&#x27;Credited&#x27;])];
+if(id===&#x27;gift&#x27;)records=[[&#x27;Aisha&#x27;,&#x27;Oct 22 · Daily rebate&#x27;,&#x27;+500 Coins&#x27;,&#x27;Credited&#x27;]];
+records=records.map((r,i)=&gt;{const m=r[1].match(/^Oct (\d+) · (?:(\d{2}:\d{2})|Daily rebate)/);if(m){r[4]=`2026-10-${m[1].padStart(2,&#x27;0&#x27;)}`;const time=m[2]?`${m[2]}:${String((i*13+24)%60).padStart(2,&#x27;0&#x27;)}`:&#x27;18:20:15&#x27;;r[1]=[&#x27;game&#x27;,&#x27;gift&#x27;].includes(id)?`${r[4]} · Daily rebate&lt;br&gt;Credited ${new Date(Date.UTC(2026,9,Number(m[1])+1)).toISOString().slice(0,10)} 00:00:00`: `${r[4]} ${time}`;}return r;});
+
+const bounds=queryBounds();records=records.filter(r=&gt;(!r[4]||(r[4]&gt;=bounds.start&amp;&amp;r[4]&lt;=bounds.end))).sort((a,b)=&gt;(b[4]||&#x27;&#x27;).localeCompare(a[4]||&#x27;&#x27;)||b[1].localeCompare(a[1]));
+const row=r=&gt;`&lt;div class=&quot;reward-record&quot;&gt;&lt;span class=&quot;record-avatar&quot;&gt;${r[0][0]}&lt;/span&gt;&lt;div class=&quot;record-who&quot;&gt;&lt;strong&gt;${r[0]}&lt;/strong&gt;&lt;small&gt;${r[1]}&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;record-value&quot;&gt;&lt;strong&gt;${r[2]}&lt;/strong&gt;&lt;small&gt;${r[3]}&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;`;
+const visible=records.slice(0,4);
+content.innerHTML=`${homeMarkup}&lt;div class=&quot;record-backdrop&quot;&gt;&lt;section class=&quot;record-drawer&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-label=&quot;${titles[id]}&quot;&gt;&lt;div class=&quot;drawer-handle&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;header class=&quot;drawer-header&quot;&gt;&lt;h3&gt;${titles[id]}&lt;/h3&gt;&lt;button data-action=&quot;close&quot; aria-label=&quot;Close&quot;&gt;×&lt;/button&gt;&lt;/header&gt;&lt;div class=&quot;drawer-total&quot;&gt;&lt;span&gt;All-time earned&lt;/span&gt;&lt;strong&gt;${nf(amount(t))} &lt;small&gt;${t.currency}&lt;/small&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;record-list ${state.sample&amp;&amp;records.length&gt;4?&#x27;paged-record-list&#x27;:&#x27;&#x27;}&quot;&gt;${state.sample&amp;&amp;records.length?visible.map(row).join(&#x27;&#x27;):`&lt;div class=&quot;record-empty&quot;&gt;No records&lt;/div&gt;`}${state.sample&amp;&amp;records.length?`&lt;div class=&quot;record-page-status&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;${records.length&gt;4?&#x27;&#x27;:&#x27;No more records&#x27;}&lt;/div&gt;`:&#x27;&#x27;}&lt;/div&gt;${id===&#x27;share&#x27;?&#x27;&lt;button class=&quot;primary&quot; data-action=&quot;share&quot;&gt;Share now&lt;/button&gt;&#x27;:&#x27;&#x27;}&lt;/section&gt;&lt;/div&gt;`;
+if(state.sample&amp;&amp;records.length&gt;4){
+const list=content.querySelector(&#x27;.record-list&#x27;),status=list.querySelector(&#x27;.record-page-status&#x27;);let offset=4,loading=false;
+const scroller=content.querySelector(&#x27;.record-drawer&#x27;);scroller.addEventListener(&#x27;scroll&#x27;,()=&gt;{if(loading||offset&gt;=records.length||scroller.scrollHeight-scroller.scrollTop-scroller.clientHeight&gt;35)return;loading=true;list.setAttribute(&#x27;aria-busy&#x27;,&#x27;true&#x27;);status.textContent=&#x27;Loading…&#x27;;setTimeout(()=&gt;{if(!list.isConnected)return;const next=records.slice(offset,offset+4);status.insertAdjacentHTML(&#x27;beforebegin&#x27;,next.map(row).join(&#x27;&#x27;));decorateCurrencies(list);offset+=next.length;loading=false;list.setAttribute(&#x27;aria-busy&#x27;,&#x27;false&#x27;);status.textContent=offset&gt;=records.length?&#x27;No more records&#x27;:&#x27;&#x27;;if(scroller.scrollHeight&lt;=scroller.clientHeight)scroller.dispatchEvent(new Event(&#x27;scroll&#x27;));},300);});setTimeout(()=&gt;{if(scroller.isConnected&amp;&amp;scroller.scrollHeight&lt;=scroller.clientHeight)scroller.dispatchEvent(new Event(&#x27;scroll&#x27;));},0);
+}
+}
+
+if(state.page===&#x27;rules&#x27;){
+const tab=state.rewardTab;title.textContent=({inviter:&#x27;Inviter Rules&#x27;,newcomer:&#x27;Newcomer Rules&#x27;,ranking:&#x27;Ranking Rules&#x27;})[tab];
+if(tab===&#x27;ranking&#x27;)content.innerHTML=`&lt;div class=&quot;sheet&quot;&gt;&lt;ol class=&quot;rules&quot;&gt;&lt;li&gt;Daily and Weekly rankings use UTC+5 and show the Top 50.&lt;/li&gt;&lt;li&gt;Score = invitation Coins rewards + invitation Beans rewards + successfully invited friends ×5. Rewards count as earned, rather than when credited. Share reward eligibility for scoring is not yet configured.&lt;/li&gt;&lt;li&gt;Game and gift scores belong to the activity date. Current rankings are provisional; daily rankings are finalized after the previous day’s rebate settlement. Weekly rankings are finalized after the last day’s settlement.&lt;/li&gt;&lt;li&gt;A failed reward payment does not remove earned points. Retrying payment does not add points again.&lt;/li&gt;&lt;li&gt;Ties rank by the earliest time the score is reached. Ranking prizes are delivered the day after the period settles; exact schedules and prize tiers are not yet configured.&lt;/li&gt;&lt;li&gt;Scores above 9,999,999 display in k, rounded down to one decimal. Other scores display in full.&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;`;
+else if(tab===&#x27;newcomer&#x27;)content.innerHTML=`&lt;div class=&quot;sheet&quot;&gt;&lt;ol class=&quot;rules&quot;&gt;&lt;li&gt;Only users registered after activity launch may link an inviter. Linking must finish within 24 hours of registration.&lt;/li&gt;&lt;li&gt;The app can recognize invitation information copied from the download page. If recognition fails, enter your inviter’s code in Newcomer.&lt;/li&gt;&lt;li&gt;Your inviter must have registered earlier. Each newcomer can link one inviter; a confirmed relationship cannot be changed.&lt;/li&gt;&lt;li&gt;Account and device eligibility checks apply. The same account may also invite other eligible newcomers.&lt;/li&gt;&lt;/ol&gt;&lt;p class=&quot;muted&quot;&gt;Recharge and gift tasks reward Coins; competitive-game tasks reward EXP. Each tier grants an additional fixed reward once. Rewards stack and are credited automatically. Only eligible activity after linking and before 30 × 24 hours from registration counts.&lt;/p&gt;&lt;/div&gt;`;
+else {content.querySelector(&#x27;.rules li:last-child&#x27;).textContent=&#x27;This activity and the Host invitation program may both reward eligible users independently.&#x27;;}
+}
+if(state.page===&#x27;newbie-task&#x27;)renderNewcomerTask();if(state.page===&#x27;newbie-records&#x27;)renderNewcomerRecords();
+root.querySelector(&#x27;.phone &gt; .rank-my-fixed&#x27;)?.remove();
+root.classList.toggle(&#x27;inviter-mode&#x27;,state.page===&#x27;home&#x27;&amp;&amp;state.rewardTab===&#x27;inviter&#x27;);
+root.classList.toggle(&#x27;ranking-mode&#x27;,state.page===&#x27;home&#x27;&amp;&amp;state.rewardTab===&#x27;ranking&#x27;);
+if(root.classList.contains(&#x27;ranking-mode&#x27;)){const dock=content.querySelector(&#x27;.rank-my-fixed&#x27;);if(dock)root.querySelector(&#x27;.phone&#x27;).append(dock);}
+if(state.page===&#x27;home&#x27;&amp;&amp;state.rewardTab===&#x27;inviter&#x27;)content.querySelectorAll(&#x27;[data-task]&#x27;).forEach(card=&gt;{const shell=document.createElement(&#x27;div&#x27;);shell.className=&#x27;task-shell&#x27;;card.before(shell);shell.append(card);const help=document.createElement(&#x27;button&#x27;);help.className=&#x27;task-help-trigger&#x27;;help.dataset.taskHelp=card.dataset.task;help.setAttribute(&#x27;aria-label&#x27;,&#x27;Task conditions and limits&#x27;);help.textContent=&#x27;?&#x27;;card.querySelector(&#x27;.task-title&#x27;).append(help);});
+decorateCurrencies(content);
+if(state.page===&#x27;home&#x27;&amp;&amp;state.rewardTab===&#x27;newcomer&#x27;)content.querySelectorAll(&#x27;[data-milestone-scroll]&#x27;).forEach(rail=&gt;{enableMilestoneDrag(rail);const next=rail.querySelector(&#x27;[data-next-milestone]&#x27;);rail.scrollLeft=next?Math.max(0,next.offsetLeft-rail.querySelector(&#x27;.milestone-rail&#x27;).offsetLeft-110):rail.scrollWidth;});
+root.querySelectorAll(&#x27;button&#x27;).forEach(b=&gt;b.classList.add(&#x27;cursor-interaction&#x27;));if(globalThis.lucide)lucide.createIcons();const calendar=root.querySelector(&#x27;.calendar-modal&#x27;);if(calendar){calendar.showModal();calendar.addEventListener(&#x27;cancel&#x27;,e=&gt;{e.preventDefault();state.calendarOpen=false;render();root.querySelector(&#x27;.date-trigger&#x27;)?.focus();});calendar.addEventListener(&#x27;click&#x27;,e=&gt;{if(e.target===calendar){state.calendarOpen=false;render();root.querySelector(&#x27;.date-trigger&#x27;)?.focus();}});}}
+root.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;button&#x27;);if(b?.dataset.rankPeriod){state.rankPeriod=b.dataset.rankPeriod;render();remember();}if(b?.dataset.demoRoom)msg.textContent=&#x27;Preview: Room entry selected. Live rooms are not connected.&#x27;;});
+root.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;button&#x27;);if(!b)return;if(b.dataset.rewardTab){state.rewardTab=b.dataset.rewardTab;go(&#x27;home&#x27;);}if(b.dataset.action===&#x27;identity&#x27;)go(&#x27;identity&#x27;);});
+root.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;button&#x27;);if(!b||b.disabled)return;if(b.hasAttribute(&#x27;data-calendar-cancel&#x27;)){state.calendarOpen=false;render();root.querySelector(&#x27;.date-trigger&#x27;)?.focus();}else if(b.hasAttribute(&#x27;data-calendar-toggle&#x27;)){state.calendarOpen=!state.calendarOpen;state.calendarMonth=state.calendarMonth||state.recordDate?.slice(0,7)||&#x27;2026-10&#x27;;render();}else if(b.dataset.monthStep){const [y,m]=(state.calendarMonth||&#x27;2026-10&#x27;).split(&#x27;-&#x27;).map(Number);const d=new Date(Date.UTC(y,m-1+Number(b.dataset.monthStep),1));state.calendarMonth=d.toISOString().slice(0,7);render();}else if(b.dataset.selectDate){state.recordDate=b.dataset.selectDate;state.calendarOpen=false;render();remember();root.querySelector(&#x27;.date-trigger&#x27;)?.focus();}else if(b.dataset.action===&#x27;all-dates&#x27;){state.recordDate=&#x27;&#x27;;state.calendarOpen=false;render();remember();}else if(state.calendarOpen&amp;&amp;!b.closest(&#x27;.date-selector&#x27;)){state.calendarOpen=false;}});
+root.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Escape&#x27;&amp;&amp;state.calendarOpen){state.calendarOpen=false;render();root.querySelector(&#x27;.date-trigger&#x27;)?.focus();}});
+root.addEventListener(&#x27;keydown&#x27;,e=&gt;{const b=e.target.closest(&#x27;[data-reward-tab]&#x27;);if(b&amp;&amp;[&#x27;ArrowLeft&#x27;,&#x27;ArrowRight&#x27;].includes(e.key)){e.preventDefault();const tabs=[&#x27;inviter&#x27;,&#x27;newcomer&#x27;,&#x27;ranking&#x27;];state.rewardTab=tabs[(tabs.indexOf(state.rewardTab)+(e.key===&#x27;ArrowRight&#x27;?1:2))%3];go(&#x27;home&#x27;);root.querySelector(&#x27;#yi-tab-&#x27;+state.rewardTab).focus();}});
+root.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;button,[data-task]&#x27;);if(!b)return;if(b.dataset.task)go(&#x27;detail&#x27;,b.dataset.task);else if(b.dataset.record){state.filter=b.dataset.record;go(&#x27;records&#x27;);}else if(b.dataset.filter){state.filter=b.dataset.filter;render();remember();}else if(b.dataset.channel){root.querySelector(&#x27;#yi-share-status&#x27;).textContent=`${b.dataset.channel}: Demo only. Real sharing is not connected; no reward is issued.`;}else if(b.dataset.action===&#x27;close&#x27;)go(&#x27;home&#x27;);else if(b.dataset.action===&#x27;friends&#x27;)go(&#x27;friends&#x27;);else if(b.dataset.action===&#x27;share&#x27;)go(&#x27;share&#x27;);else if(b.dataset.action===&#x27;copy&#x27;)msg.textContent=&#x27;Preview: Copy selected. No share reward earned; the system clipboard was not changed.&#x27;;else if(b.dataset.action===&#x27;save&#x27;)msg.textContent=&#x27;Preview: Save selected. No share reward earned; no image was generated.&#x27;;});
+root.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.target.matches(&#x27;[data-task]&#x27;)&amp;&amp;[&#x27;Enter&#x27;,&#x27; &#x27;].includes(e.key)){e.preventDefault();go(&#x27;detail&#x27;,e.target.dataset.task);}});
+back.addEventListener(&#x27;click&#x27;,()=&gt;go(&#x27;home&#x27;));root.addEventListener(&#x27;click&#x27;,e=&gt;{if(e.target.closest(&#x27;[data-tab-rules]&#x27;))go(&#x27;rules&#x27;);});root.querySelector(&#x27;#yi-invite&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;go(&#x27;share&#x27;));
+window.addEventListener(&#x27;openai:set_globals&#x27;,e=&gt;{const s=e.detail?.globals?.widgetState?.privateContent;if(s&amp;&amp;typeof s.sample===&#x27;boolean&#x27;){state.sample=s.sample;render();}});
+root.querySelector(&#x27;#newbie-preview-state&#x27;).addEventListener(&#x27;change&#x27;,e=&gt;{state.newbieScenario=e.target.value;state.boundInviter=[&#x27;active&#x27;,&#x27;completed&#x27;,&#x27;expired&#x27;].includes(state.newbieScenario)?&#x27;YL135790&#x27;:null;state.rewardTab=&#x27;newcomer&#x27;;go(&#x27;home&#x27;);});
+render();if(globalThis.Tweak){const tweak=new Tweak({container:root.querySelector(&#x27;.phone&#x27;),onChange:()=&gt;{render();remember();}});tweak.addToggle(state,&#x27;sample&#x27;,{label:&#x27;Show demo records&#x27;});}
+})();
+&lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (event) =&gt; {
+    for (const target of event.composedPath()) {
+      if (target?.nodeType === Node.ELEMENT_NODE) {
+        const trigger = target.closest(&quot;[data-tooltip]&quot;);
+        if (trigger) return trigger;
+      }
+    }
+    return null;
+  };
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handlers = {
+    pointerover: handlePointerOpen,
+    pointerdown: handlePointer,
+    pointercancel: handlePointer,
+    click: handleTouchClick,
+    pointerout: handleLeave,
+    focusin: handleFocusIn,
+    focusout: handleLeave,
+    keydown: handleKeyDown,
+    contextmenu: handleContextMenu,
+  };
+  const roots = new Map();
+  const handledEvents = new WeakSet();
+  const handleEvent = (event) =&gt; {
+    if (handledEvents.has(event)) return;
+    handledEvents.add(event);
+    handlers[event.type](event);
+  };
+  const discoverRoots = (node) =&gt; {
+    if (node.shadowRoot) listen(node.shadowRoot);
+    for (const element of node.querySelectorAll(&quot;*&quot;)) {
+      if (element.shadowRoot) listen(element.shadowRoot);
+    }
+  };
+  const listen = (root) =&gt; {
+    if (roots.has(root)) return;
+    for (const type of Object.keys(handlers)) root.addEventListener(type, handleEvent);
+    const observer = new window.MutationObserver((records) =&gt; {
+      for (const { addedNodes } of records) {
+        for (const node of addedNodes) {
+          if (node.nodeType === Node.ELEMENT_NODE) discoverRoots(node);
+        }
+      }
+      for (const [root, cleanup] of roots) {
+        if (root.host &amp;&amp; !root.host.isConnected) {
+          cleanup();
+          roots.delete(root);
+        }
+      }
+      if (activeTrigger &amp;&amp; !activeTrigger.isConnected) closeTooltip(false);
+    });
+    observer.observe(root, { childList: true, subtree: true });
+    roots.set(root, () =&gt; {
+      observer.disconnect();
+      for (const type of Object.keys(handlers)) root.removeEventListener(type, handleEvent);
+    });
+    discoverRoots(root);
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    for (const cleanup of roots.values()) cleanup();
+    roots.clear();
+    tooltip = null;
+  };
+
+  // Events between children of one shadow root never reach the document.
+  listen(document);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = &#x27;.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]&#x27;;
+  const disabled = &#x27;:disabled,[aria-disabled=&quot;true&quot;]&#x27;;
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;)) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll(&#x27;.nav[role=&quot;tablist&quot;]&#x27;)) {
+    const selected =
+      list.querySelector(&#x27;[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;].active&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;]&#x27;);
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-carousel&quot;&gt;
+  (() =&gt; {
+    for (const root of document.querySelectorAll(&quot;.viz-carousel&quot;)) {
+      const panels = Array.from(
+        root.querySelectorAll(&quot;:scope &gt; [data-variant]&quot;),
+      );
+      if (panels.length === 0) {
+        continue;
+      }
+      root.setAttribute(&quot;role&quot;, &quot;group&quot;);
+      panels.forEach((panel, index) =&gt; {
+        panel.hidden = index !== 0;
+        panel.setAttribute(&quot;role&quot;, &quot;group&quot;);
+        if (!panel.hasAttribute(&quot;aria-label&quot;)) {
+          panel.setAttribute(&quot;aria-label&quot;, panel.dataset.variant);
+        }
+      });
+      root.dataset.activeVariant = panels[0].dataset.variant;
+      if (panels.length === 1) {
+        continue;
+      }
+
+      const controls = document.createElement(&quot;div&quot;);
+      controls.className = &quot;viz-carousel-controls&quot;;
+      // Portable copy of the settings dropdown&#x27;s legacy glyph; no 14px icon-package preset matches it.
+      // https://github.com/openai/openai/blob/master/codex/codex-apps/webview/src/icons/chevron.svg
+      controls.innerHTML = `
+      &lt;button type=&quot;button&quot; class=&quot;viz-carousel-previous cursor-interaction&quot;&gt;&lt;i data-lucide=&quot;chevron-left&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;details class=&quot;viz-carousel-picker&quot;&gt;
+        &lt;summary class=&quot;cursor-interaction&quot;&gt;
+          &lt;span class=&quot;viz-carousel-count tabular-nums&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;viz-carousel-name&quot;&gt;&lt;/span&gt;
+          &lt;svg class=&quot;viz-carousel-caret&quot; width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 20 21&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+            &lt;path d=&quot;M15.2793 7.71101C15.539 7.45131 15.961 7.45131 16.2207 7.71101C16.4804 7.97071 16.4804 8.39272 16.2207 8.65242L10.4707 14.4024C10.211 14.6621 9.78902 14.6621 9.52932 14.4024L3.77932 8.65242L3.69436 8.54792C3.52385 8.28979 3.55205 7.93828 3.77932 7.71101C4.00659 7.48374 4.3581 7.45554 4.61623 7.62605L4.72073 7.71101L10 12.9903L15.2793 7.71101Z&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;0.6&quot; /&gt;
+          &lt;/svg&gt;
+        &lt;/summary&gt;
+        &lt;div class=&quot;viz-carousel-options&quot;&gt;&lt;/div&gt;
+      &lt;/details&gt;
+      &lt;button type=&quot;button&quot; class=&quot;viz-carousel-next cursor-interaction&quot;&gt;&lt;i data-lucide=&quot;chevron-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/button&gt;`;
+      const previous = controls.querySelector(&quot;.viz-carousel-previous&quot;);
+      const next = controls.querySelector(&quot;.viz-carousel-next&quot;);
+      const picker = controls.querySelector(&quot;.viz-carousel-picker&quot;);
+      const summary = picker.querySelector(&quot;summary&quot;);
+      const count = controls.querySelector(&quot;.viz-carousel-count&quot;);
+      const name = controls.querySelector(&quot;.viz-carousel-name&quot;);
+      const options = controls.querySelector(&quot;.viz-carousel-options&quot;);
+      const status = document.createElement(&quot;span&quot;);
+      status.className = &quot;sr-only&quot;;
+      status.setAttribute(&quot;role&quot;, &quot;status&quot;);
+      status.setAttribute(&quot;aria-live&quot;, &quot;polite&quot;);
+      status.setAttribute(&quot;aria-atomic&quot;, &quot;true&quot;);
+      previous.setAttribute(
+        &quot;aria-label&quot;,
+        root.dataset.previousLabel ?? &quot;Previous variant&quot;,
+      );
+      next.setAttribute(&quot;aria-label&quot;, root.dataset.nextLabel ?? &quot;Next variant&quot;);
+
+      let active = 0;
+      let mousePointerId = null;
+      let summaryPointerHandled = false;
+      summary.addEventListener(&quot;pointerdown&quot;, (event) =&gt; {
+        summaryPointerHandled =
+          event.pointerType === &quot;mouse&quot; &amp;&amp; event.button === 0 &amp;&amp; !event.ctrlKey;
+        if (!summaryPointerHandled) {
+          return;
+        }
+        event.preventDefault();
+        summary.focus({ preventScroll: true });
+        picker.open = !picker.open;
+        mousePointerId = picker.open ? event.pointerId : null;
+      });
+      summary.addEventListener(&quot;click&quot;, (event) =&gt; {
+        if (summaryPointerHandled &amp;&amp; event.detail &gt; 0) {
+          event.preventDefault();
+        }
+      });
+      const choices = panels.map((panel, index) =&gt; {
+        const choice = document.createElement(&quot;button&quot;);
+        choice.type = &quot;button&quot;;
+        choice.className = &quot;cursor-interaction&quot;;
+        choice.textContent = panel.dataset.variant;
+        choice.addEventListener(&quot;click&quot;, () =&gt; {
+          select(index);
+          summary.focus();
+        });
+        choice.addEventListener(&quot;pointerup&quot;, (event) =&gt; {
+          if (
+            picker.open &amp;&amp;
+            event.pointerType === &quot;mouse&quot; &amp;&amp;
+            event.button === 0 &amp;&amp;
+            event.pointerId === mousePointerId
+          ) {
+            choice.click();
+          }
+        });
+        options.appendChild(choice);
+        return choice;
+      });
+      const select = (index) =&gt; {
+        const changed = active !== index;
+        active = index;
+        panels.forEach((panel, position) =&gt; {
+          panel.hidden = position !== active;
+          choices[position].setAttribute(
+            &quot;aria-current&quot;,
+            String(position === active),
+          );
+        });
+        root.dataset.activeVariant = panels[active].dataset.variant;
+        count.textContent = `${active + 1} / ${panels.length}`;
+        name.textContent = panels[active].dataset.variant;
+        picker.open = false;
+        mousePointerId = null;
+        if (changed) {
+          status.textContent = `${count.textContent}: ${name.textContent}`;
+        }
+      };
+      previous.addEventListener(&quot;click&quot;, () =&gt;
+        select((active + panels.length - 1) % panels.length),
+      );
+      next.addEventListener(&quot;click&quot;, () =&gt;
+        select((active + 1) % panels.length),
+      );
+      picker.addEventListener(&quot;keydown&quot;, (event) =&gt; {
+        if (event.key === &quot;Escape&quot; &amp;&amp; picker.open) {
+          event.preventDefault();
+          picker.open = false;
+          mousePointerId = null;
+          summary.focus();
+          return;
+        }
+        if (event.altKey || event.ctrlKey || event.metaKey) {
+          return;
+        }
+        const index = choices.indexOf(document.activeElement);
+        let nextIndex;
+        if (event.key === &quot;ArrowDown&quot;) {
+          nextIndex = index &lt; 0 ? active : (index + 1) % choices.length;
+        } else if (event.key === &quot;ArrowUp&quot;) {
+          nextIndex = index &lt; 0 ? active : (index + choices.length - 1) % choices.length;
+        } else if (picker.open &amp;&amp; event.key === &quot;Home&quot;) {
+          nextIndex = 0;
+        } else if (picker.open &amp;&amp; event.key === &quot;End&quot;) {
+          nextIndex = choices.length - 1;
+        } else {
+          return;
+        }
+        event.preventDefault();
+        picker.open = true;
+        choices[nextIndex].focus();
+      });
+      picker.addEventListener(&quot;focusout&quot;, (event) =&gt; {
+        if (!picker.contains(event.relatedTarget)) {
+          picker.open = false;
+          mousePointerId = null;
+        }
+      });
+      const dismiss = (event) =&gt; {
+        if (!summary.contains(event.target)) {
+          mousePointerId = null;
+        }
+        if (!picker.contains(event.target)) {
+          picker.open = false;
+        }
+      };
+      const endPointerSelection = () =&gt; {
+        mousePointerId = null;
+      };
+      const sizePicker = () =&gt; {
+        root.style.setProperty(
+          &quot;--viz-carousel-picker-height&quot;,
+          `${picker.open ? options.offsetHeight : 0}px`,
+        );
+      };
+      picker.addEventListener(&quot;toggle&quot;, sizePicker);
+      window.addEventListener(&quot;resize&quot;, sizePicker);
+      document.addEventListener(&quot;pointerdown&quot;, dismiss);
+      document.addEventListener(&quot;pointerup&quot;, endPointerSelection);
+      document.addEventListener(&quot;pointercancel&quot;, endPointerSelection);
+      window.addEventListener(&quot;blur&quot;, endPointerSelection);
+      window.addEventListener(
+        &quot;pagehide&quot;,
+        () =&gt; {
+          document.removeEventListener(&quot;pointerdown&quot;, dismiss);
+          document.removeEventListener(&quot;pointerup&quot;, endPointerSelection);
+          document.removeEventListener(&quot;pointercancel&quot;, endPointerSelection);
+          window.removeEventListener(&quot;blur&quot;, endPointerSelection);
+          window.removeEventListener(&quot;resize&quot;, sizePicker);
+        },
+        { once: true },
+      );
+      root.append(controls, status);
+      select(0);
+    }
+  })();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+
+<script>(() => {
+  const frame = document.getElementById("codex-visualization");
+  if (!(frame instanceof HTMLIFrameElement)) {
+    return;
+  }
+  const isShare = document.documentElement.classList.contains(
+    "visualization-share-root",
+  );
+  let viewportHeight = globalThis.innerHeight;
+  let sizeFingerprint = null;
+  let sizeWriteTimeout;
+  let lastSize = null;
+  let pendingSize = null;
+  const storageKey = `codex:visualization-widget-state-v2:${JSON.stringify([
+    globalThis.location.pathname,
+    globalThis.location.search,
+  ])}`;
+  const sizeStorageKey = `${storageKey}:share-size-v1`;
+  const parseState = (serializedState) => {
+    if (
+      typeof serializedState !== "string" ||
+      new TextEncoder().encode(serializedState).length > 16 * 1024
+    ) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    /** @type {unknown} */
+    const state = JSON.parse(serializedState);
+    if (
+      state == null ||
+      typeof state !== "object" ||
+      Array.isArray(state) ||
+      ("imageIds" in state &&
+        (!Array.isArray(state.imageIds) || state.imageIds.length > 0))
+    ) {
+      throw new TypeError("Widget state must be a JSON object");
+    }
+    const storedState = { modelContent: null, privateContent: null, ...state };
+    const canonicalState = JSON.stringify(
+      storedState,
+      (_key, /** @type {unknown} */ value) => {
+        if (typeof value === "number" && !Number.isFinite(value)) {
+          throw new TypeError("Widget state must contain finite numbers");
+        }
+        return value;
+      },
+    );
+    if (new TextEncoder().encode(canonicalState).length > 16 * 1024) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    return storedState;
+  };
+  let storage = null;
+  let state = null;
+  try {
+    const localStorage = globalThis.localStorage;
+    const probeKey = `${storageKey}:probe`;
+    localStorage.setItem(probeKey, "1");
+    localStorage.removeItem(probeKey);
+    storage = localStorage;
+    const savedState = storage.getItem(storageKey);
+    if (savedState != null) {
+      try {
+        state = parseState(savedState);
+      } catch {
+        // Invalid saved state does not disable future writes.
+      }
+    }
+  } catch {
+    storage = null;
+  }
+  const persistSize = () => {
+    globalThis.clearTimeout(sizeWriteTimeout);
+    if (pendingSize == null) {
+      return;
+    }
+    try {
+      storage?.setItem(sizeStorageKey, pendingSize);
+    } catch {
+      // A denied or full cache must not affect the visualization.
+    }
+    pendingSize = null;
+  };
+  if (isShare) {
+    globalThis.addEventListener("pagehide", persistSize);
+  }
+  const initialGlobals = {
+    widgetState: state,
+    statePersistence: storage == null ? "none" : "local",
+  };
+
+  const channel = new MessageChannel();
+  channel.port1.addEventListener("message", (event) => {
+    const data = event.data;
+    if (typeof data !== "object" || data == null) {
+      return;
+    }
+    if (data.type === "widget-state-write") {
+      if (!Number.isSafeInteger(data.id) || data.id <= 0) {
+        return;
+      }
+      let ok = false;
+      try {
+        if (storage != null) {
+          const state = parseState(data.state);
+          storage.setItem(storageKey, JSON.stringify(state));
+          ok = true;
+        }
+      } catch {
+        // Storage denial, quota limits, and invalid state return a failed receipt.
+      }
+      channel.port1.postMessage({
+        type: "widget-state-result",
+        id: data.id,
+        ok,
+      });
+      return;
+    }
+    if (data.type === "height") {
+      const height = data.height;
+      if (
+        typeof height !== "number" ||
+        !Number.isFinite(height) ||
+        height < 0
+      ) {
+        return;
+      }
+      if (height <= 10_000) {
+        const width = isShare && storage != null ? frame.clientWidth : null;
+        frame.style.height = Math.ceil(height) + "px";
+        if (isShare && storage != null) {
+          const size = JSON.stringify({
+            fingerprint: sizeFingerprint,
+            width,
+            viewportHeight: globalThis.innerHeight,
+            dark: globalThis.matchMedia("(prefers-color-scheme: dark)").matches,
+            scale: globalThis.devicePixelRatio,
+            height: Math.ceil(height),
+          });
+          if (size !== lastSize) {
+            lastSize = size;
+            pendingSize = size;
+            globalThis.clearTimeout(sizeWriteTimeout);
+            sizeWriteTimeout = globalThis.setTimeout(persistSize, 100);
+          }
+        }
+      }
+      if (isShare) {
+        // Keep unusually tall content accessible without accepting an unbounded height.
+        if (height > 10_000 && Number.parseFloat(frame.style.height) === 0) {
+          frame.style.removeProperty("height");
+        }
+        frame.scrolling = height > 10_000 ? "auto" : "no";
+        document.documentElement.classList.add("visualization-share-ready");
+      }
+      return;
+    }
+    if (data.type === "scroll-to") {
+      const top = data.top;
+      if (
+        typeof top === "number" &&
+        Number.isFinite(top) &&
+        top >= 0 &&
+        globalThis.navigator.userActivation?.isActive === true
+      ) {
+        globalThis.scrollTo({
+          top: Math.ceil(
+            globalThis.scrollY + frame.getBoundingClientRect().top + top,
+          ),
+        });
+      }
+      return;
+    }
+    if (data.type === "open-external") {
+      const rawHref = data.href;
+      if (typeof rawHref !== "string") {
+        return;
+      }
+      let href;
+      try {
+        const url = new URL(rawHref, document.baseURI);
+        if (url.protocol !== "https:") {
+          return;
+        }
+        href = url.href;
+      } catch {
+        return;
+      }
+      if (globalThis.navigator.userActivation?.isActive === true) {
+        const anchor = document.createElement("a");
+        anchor.href = href;
+        anchor.rel = "noopener noreferrer";
+        anchor.target = "_blank";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+      return;
+    }
+    if (data.type === "follow-up") {
+      const prompt = data.prompt;
+      if (
+        typeof prompt !== "string" ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      const title = data.title;
+      globalThis.prompt(typeof title === "string" ? title : prompt, prompt);
+    }
+  });
+  channel.port1.start();
+  const srcdoc = frame.dataset.srcdoc;
+  if (srcdoc == null) {
+    return;
+  }
+  globalThis.addEventListener("resize", () => {
+    const height = Number.parseFloat(frame.style.height);
+    if (!isShare && (!Number.isFinite(height) || height <= viewportHeight)) {
+      frame.style.removeProperty("height");
+    }
+    viewportHeight = globalThis.innerHeight;
+    channel.port1.postMessage({ type: "measure" });
+  });
+  frame.addEventListener(
+    "load",
+    () => {
+      frame.contentWindow?.postMessage(
+        { type: "codex-visualization-initialize" },
+        "*",
+        [channel.port2],
+      );
+    },
+    { once: true },
+  );
+  // Match the trusted bootstrap element, not the same text in an authored title.
+  const frameHtml = srcdoc.replace(
+    '<script type="application/json" id="codex-visualization-widget-state">__CODEX_VISUALIZATION_WIDGET_STATE__<\/script>',
+    () =>
+      '<script type="application/json" id="codex-visualization-widget-state">' +
+      JSON.stringify(initialGlobals).replaceAll("<", "\\u003c") +
+      "<\/script>",
+  );
+  if (isShare && storage != null) {
+    // Fingerprint the rendered document, including restored widget state, without
+    // storing its content. This is a layout cache, not a security identity.
+    let hash = 5381;
+    for (let index = 0; index < frameHtml.length; index += 1) {
+      hash = (hash * 33 + frameHtml.charCodeAt(index)) % 4_294_967_296;
+    }
+    sizeFingerprint = hash.toString(36);
+    try {
+      const size = JSON.parse(storage.getItem(sizeStorageKey) ?? "null");
+      if (
+        size?.fingerprint === sizeFingerprint &&
+        size.width === frame.clientWidth &&
+        size.viewportHeight === globalThis.innerHeight &&
+        size.dark ===
+          globalThis.matchMedia("(prefers-color-scheme: dark)").matches &&
+        size.scale === globalThis.devicePixelRatio &&
+        typeof size.height === "number" &&
+        Number.isFinite(size.height) &&
+        size.height >= 0 &&
+        size.height <= 10_000
+      ) {
+        frame.style.height = size.height + "px";
+      }
+    } catch {
+      // Ignore missing or invalid cache entries and measure the live frame.
+    }
+  }
+  frame.srcdoc = frameHtml;
+  delete frame.dataset.srcdoc;
+})();
+</script>
+</body>
+</html>
