@@ -497,7 +497,10 @@ function getRechargeTarget(){
   const skipped=!held && (getState().skippedLevels || []).includes(selected);
   const atExpiry=current>=0 && selected<=current;
   let homeTip,tip;
-  if(skipped){
+  if(current>=0 && selected<current && remain===0){
+    homeTip='Target met · View details';
+    tip='Level determined at expiry.';
+  }else if(skipped){
     homeTip=lv.name+' not obtained';
     tip=lv.name+' skipped. Exclusive decorations not obtained.';
     if(remain===0 && atExpiry) tip+=' Target met. Level determined at expiry.';
