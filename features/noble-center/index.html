@@ -493,30 +493,20 @@ function getRechargeTarget(){
   const coins=getCurrentRecharge();
   const remain=Math.max(0,lv.coins-coins);
   const current=getCurrentLevelIndex();
-  const held=getHeldLevel(selected);
-  const skipped=!held && (getState().skippedLevels || []).includes(selected);
   const atExpiry=current>=0 && selected<=current;
-  let homeTip,tip;
-  if(skipped){
-    homeTip=lv.name+' not obtained';
-    tip=lv.name+' skipped. Exclusive decorations not obtained.';
-    if(remain===0 && atExpiry) tip+=' Target met. Level determined at expiry.';
-  }else if(remain>0){
+  let homeTip='';
+  let tip='';
+  if(remain>0){
     const action=current<0 ? 'unlock' : selected>current ? 'upgrade' : selected===current ? 'renew' : 'reach this target';
     homeTip=fmt(remain)+' Coins to '+action;
-    tip=homeTip+'.';
-    if(atExpiry) tip+=' Level determined at expiry.';
+    tip=homeTip;
   }else if(atExpiry){
     homeTip=selected===current ? 'Renewal target met' : 'Target met · View details';
-    tip=selected===current ? 'Renewal target met. Renewal takes effect at expiry.' : 'Target met. Level determined at expiry.';
-  }else{
-    homeTip='';
-    tip='';
+    tip='Level determined at expiry.';
   }
   return {
     ratio:Math.min(100,coins/lv.coins*100),
-    percent:Math.min(100,Math.round(coins/lv.coins*100)),
-    skipped,
+    percent:Math.min(100,Math.floor(coins/lv.coins*100)),
     homeTip,
     tip
   };
@@ -671,10 +661,7 @@ function openLevelDetail(){
   document.getElementById('detailPercent').textContent=target.percent+'%';
   document.getElementById('detailCoins').textContent=fmt(currentRecharge)+' / '+fmt(lv.coins)+' Coins';
   document.getElementById('detailFill').style.width=target.ratio+'%';
-  document.getElementById('detailTip').textContent=
-    selected<=getCurrentLevelIndex() && currentRecharge>=lv.coins
-      ? 'Level determined at expiry.'
-      : target.skipped ? 'Not obtained.' : target.homeTip;
+  document.getElementById('detailTip').textContent=target.tip;
   document.getElementById('detailTip').hidden=!document.getElementById('detailTip').textContent;
 
   document.getElementById('levelOverlay').classList.add('show');
