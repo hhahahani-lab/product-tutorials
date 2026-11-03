@@ -9,6 +9,8 @@
 
 展示本人邀请码、累计已到账 Coins／Beans 及六项任务，支持查看任务说明、奖励记录和邀请侧 Rules。
 
+**Total earned**：本人以邀请人身份在本活动中累计已到账的 Coins／Beans，包含每日分享奖励，不含本人新人任务奖励及榜单奖品。不按日、周清零，不因消费或记录查询期限而减少。
+
 ### 1. 邀请与奖励
 
 用户进入活动后，主动点击 Get invitation code 并确认获取。每位用户只能拥有一个邀请码。服务端校验账号和当前设备资格，通过后激活邀请人资格、占用当前设备并生成专属邀请码；失败不生成、不占用；可修正问题允许重试，已识别为重复用户的账号不得通过换机或换网重新取得资格。重复获取返回原邀请码，不重复激活；仅注册、登录或浏览活动不激活。
@@ -134,7 +136,7 @@ EXP 为财富等级经验值，完成九档合计 4,641,000 EXP。
 
 ## 三、Ranking｜邀请人榜单
 
-沿用[活动榜单通用规则](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/rules/activity-ranking-common.md)，本节仅写活动特有规则。
+沿用[活动榜单通用规则](../../pending-rules/activity-ranking-common.md)，本节仅写活动特有规则。
 
 ### 1. 周期与计分
 
@@ -202,11 +204,11 @@ EXP 为财富等级经验值，完成九档合计 4,641,000 EXP。
 
 ## 五、管理后台统计
 
-新增邀请活动统计列表，按邀请人汇总拉新、受邀新人消费和活动已发奖励；可查看受邀新人；列表及新人明细的奖励金额仅展示，暂不提供流水跳转。字段、筛选及统计口径见[后台统计列表](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/admin-statistics.md)（原型评审稿）。
+新增邀请活动统计列表，按邀请人汇总拉新、受邀新人消费和活动已发奖励；可查看受邀新人；列表及新人明细的奖励金额仅展示，暂不提供流水跳转。字段、筛选及统计口径见[后台统计列表](admin-statistics.md)（原型评审稿）。
 
 ## 关联规则
 
-- [现行渠道币值及H5九档](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/rules/currency-by-channel.md)
-- [现行Host邀请活动](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/rules/invitation-rewards.md)
-- [移动端布局及信息简洁约定](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/rules/mobile-page-layout-common.md)
-- [榜单通用规则](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/rules/activity-ranking-common.md)
+- [现行渠道币值及H5九档](../../current-rules/currency-by-channel.md)
+- [现行Host邀请活动](../../current-rules/invitation-rewards.md)
+- [移动端布局及信息简洁约定](../../pending-rules/mobile-page-layout-common.md)
+- [榜单通用规则](../../pending-rules/activity-ranking-common.md)
