@@ -1,7 +1,7 @@
 # 邀请新人活动 PRD
 
 - 产品：Yaloka / MeMe
-- 版本：V1.15，2026-11-02
+- 版本：V1.16，2026-11-03
 - 状态：开发评审稿，未上线；待定事项见第四节。
 - [交互 Demo](https://hhahahani-lab.github.io/product-tutorials/features/new-user-invitation/)
 
@@ -201,7 +201,7 @@ EXP 为财富等级经验值，完成九档合计 4,641,000 EXP。
 
 ## 五、管理后台统计
 
-新增邀请活动统计列表，按邀请人汇总拉新、受邀新人消费和活动已发奖励；可查看受邀新人，并跳转原有金币／金豆流水。字段、筛选及统计口径见[后台统计列表](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/admin-statistics.md)（原型评审稿）。
+新增邀请活动统计列表，按邀请人汇总拉新、受邀新人消费和活动已发奖励；可查看受邀新人；列表及新人明细的奖励金额仅展示，暂不提供流水跳转。字段、筛选及统计口径见[后台统计列表](https://ws-gitlab.ha7mi.com/yaloka-changpin/prototype/-/blob/master/new-user-invitation/admin-statistics.md)（原型评审稿）。
 
 ## 关联规则
 
