@@ -158,6 +158,17 @@ EXP 为财富等级经验值，完成九档合计 4,641,000 EXP。
 - 最终排名确认前，先完成周期内游戏／送礼返利计算；当日预估排名以最终结果为准。
 - 锁榜前收到的有效迟到事件归原业务日计入；锁榜后迟到事件不补榜、不转入下一周期。
 
+**奖励到账系统消息**
+
+榜单奖励到账后发送，同一期奖励合并为一条消息，不设单独标题。仅展示实际到账的奖励，重试不重复通知。
+
+`「{activityName}」 Congrats! You finished at rank {rankNum} in the {rank_type}! Reward: {rewardInfo}. Check Outfits~`
+
+- `{activityName}` 填 `Invite Rewards`。
+- `{rankNum}` 填实际名次数字，本期为 `1`。
+- `{rank_type}` 日榜填 `Daily Ranking`，周榜填 `Weekly Ranking`。
+- `{rewardInfo}` 按 `{rewardName} {rewardType} x {duration}` 拼接，多项用「，」分隔。装扮名称为 `Social King`，类型使用 `Avatar Frame`、`Badge` 或 `Ride`，有效期使用 `1 day` 或 `7 days`。
+
 ## 四、共用规则与配置
 
 ### 1. 账号、设备与风控
