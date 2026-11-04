@@ -2035,7 +2035,7 @@ function financeDetail(base, adjustment, reason, final, label = 'Original Salary
 
 managerSalaryBillsMarkup = function () {
   return financeBills().filter(bill => bill.published).map(bill => {
-    const coins = bill.total > 0 && bill.total < 10;
+    const coins = bill.total > 0 && bill.total < 5;
     return `<article class="salaryCard">
       <div class="salaryHead"><span><b>${bill.start} – ${bill.end}</b><small>Payout cycle · 4 weeks</small></span>
         <span class="statusPill ${managerSettlementClass(bill.settlement)}">${({1: 'Pending Confirmation', 2: 'Confirmed', 3: 'Rejected', 4: 'Paid'})[bill.settlement]}</span></div>
@@ -2061,7 +2061,7 @@ managerSalaryBillsMarkup = function () {
 confirmManagerBill = function (id) {
   const bill = financeBills().find(item => item.id === id);
   if (!bill || bill.settlement !== 1) return;
-  const coins = bill.total > 0 && bill.total < 10;
+  const coins = bill.total > 0 && bill.total < 5;
   showBillConfirm(`<div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.total)}</b></div>
     ${financeDetail(bill.subtotal, bill.adj, bill.reason, bill.total)}
     Payment: ${coins ? 'Coins' : managerPayName(bill.payeeType)}<br>${financeEscape(coins ? demoConfig().id : bill.payee)}`,
@@ -2571,7 +2571,7 @@ renderSalaryRules = function () {
     <p>Settlement Amount = Sum of adjusted weekly salaries + Monthly Adjustment. Each payout cycle contains 4 weeks. All times follow UTC+5.</p>
     <p>Weekly Agency Salary, level, commission and base assessment follow the existing policy. Effective Hosts completion uses the host count required for the weekly role and level.</p>
     <p>Published bills show actual financial adjustments and expandable reasons. Review the bill and its weekly details before confirming or rejecting it.</p>
-    <p>Positive payouts below $10 follow the existing Coins settlement rule at 1 USD = 20,000 Coins.</p>
+    <p>Positive payouts below $5 follow the existing Coins settlement rule at 1 USD = 20,000 Coins.</p>
   </div></section>`;
 };
 render();
@@ -2644,5 +2644,7 @@ render();
 .salaryActionsNew,.sourceBillActions{padding:0 12px 14px;gap:8px}.salaryActionsNew button,.sourceBillActions button{min-height:40px;border-radius:22px;font-size:12px}.salaryActionsNew .approveAction,.sourceBillActions .confirmBill{flex:1}.salaryActionsNew .rejectAction,.sourceBillActions .rejectBill{flex:1}
 .salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
 </style>
+<link rel="stylesheet" href="assets/role-payment.css?v=20261104">
+<script src="assets/role-payment.js?v=20261104"></script>
 </body>
 </html>
