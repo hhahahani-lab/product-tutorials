@@ -287,8 +287,633 @@
 .managementMemberCard .relationHint.direct{color:#69dca9}
 .managementMemberCard .relationHint.indirect{color:#b49bc0}
 </style>
+<style id="salary-bill-theme">
+/* Salary Bill visual baseline, shared by both complete role centers. */
+body.salaryTheme {
+  --bg: #140c24;
+  --panel: #312442;
+  --panel2: #504360;
+  --text: #ffffff;
+  --muted: #c2b6cd;
+  --line: #54445f;
+  --gold: #ffe500;
+  --primary: #a365ff;
+  --success: #38cf70;
+  --danger: #ff604c;
+  margin: 0;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 system-ui, sans-serif;
+}
+body.salaryTheme * { box-sizing: border-box; }
+body.salaryTheme button,
+body.salaryTheme input,
+body.salaryTheme select,
+body.salaryTheme textarea { font-family: inherit; }
+body.salaryTheme button { cursor: pointer; }
+body.salaryTheme .app {
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0 auto;
+  background: var(--bg);
+  color: var(--text);
+}
+body.salaryTheme .app > .page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body.salaryTheme #root.app > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+body.salaryTheme #root.app > div > section {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body.salaryTheme .top {
+  flex: 0 0 auto;
+  position: relative;
+  min-height: 72px;
+  height: auto;
+  padding: 20px 60px;
+  background: linear-gradient(140deg, #37348b, #140c24);
+  border: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme .top .l,
+body.salaryTheme .top .r {
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #d8c6ec;
+  font-size: 28px;
+  padding: 0;
+}
+body.salaryTheme .top .l { left: 14px; }
+body.salaryTheme .top .r { right: 14px; }
+body.salaryTheme :is(.panelCard, .roleCard, .section, .hostMemberCard, .teamMemberCard,
+  .teamFilterCard, .teamCard, .sourceAnalysisHost, .reviewCard, .reviewApplyCard,
+  .memberInfoCard, .sourceHostCard, .rewardCard, .records, .hostSearch) {
+  background: var(--panel);
+  border-color: transparent;
+  border-radius: 18px;
+  box-shadow: none;
+  min-width: 0;
+}
+body.salaryTheme .roleCard {
+  background: linear-gradient(100deg, #7143a8, #240b43);
+  border: 1px solid #8056a5;
+}
+body.salaryTheme :is(.roleNameLine, .roleMain, .memberHead, .sectionHead, .dashSectionHead) {
+  min-width: 0;
+  gap: 10px;
+}
+body.salaryTheme :is(.roleIdentity, .identity, .reviewUser, .reviewApplyUser) { min-width: 0; }
+body.salaryTheme :is(.roleId, .roleIdentity small, .identity small, .scopeMiniNote, .smallnote) {
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme :is(.sectionHead, .dashSectionHead) > b,
+body.salaryTheme :is(.sectionHead, .dashSectionHead) > div > b {
+  color: #fff;
+  font-size: 19px;
+  font-weight: 600;
+}
+body.salaryTheme :is(.sectionHead, .dashSectionHead) > span,
+body.salaryTheme :is(.sectionHead, .dashSectionHead) > div > span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+body.salaryTheme :is(.sectionHead, .dashSectionHead, .roleNameLine) { flex-wrap: wrap; }
+body.salaryTheme :is(.toolTile, .menu .item) {
+  background: var(--panel);
+  border: 0;
+  border-radius: 18px;
+  color: #fff;
+}
+body.salaryTheme .toolTile b { font-size: 12px; line-height: 1.5; }
+body.salaryTheme :is(.toolTileIcon, .inviteActionIcon, .roleAvatar) {
+  background: #65418a;
+  border-color: transparent;
+  color: #e9d4ff;
+}
+body.salaryTheme :is(.goldBtn, .goldbtn, .homeSectionAction, .sectionHeadAction,
+  .teamWorkingHead > button, .reviewSearchBtn, .teamFilterSearch > button,
+  .paySave, .approveAction, .confirmBill, .payConfirmBtn, .claim.active) {
+  background: var(--primary);
+  border-color: transparent;
+  color: #fff;
+  border-radius: 24px;
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  height: auto;
+  white-space: normal;
+}
+body.salaryTheme :is(.billingPeriodSwitch, .analysisTabs, .analysis-tabs, .reviewApplyTabs) {
+  background: #2d233c;
+  border: 0;
+  border-radius: 24px;
+  padding: 4px;
+  gap: 4px;
+}
+body.salaryTheme :is(.billingPeriodSwitch, .analysisTabs, .analysis-tabs, .reviewApplyTabs) > button {
+  flex: 1;
+  min-width: 0;
+  min-height: 42px;
+  height: auto;
+  padding: 9px 8px;
+  border: 0;
+  border-radius: 21px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: normal;
+}
+body.salaryTheme :is(.billingPeriodSwitch, .analysisTabs, .analysis-tabs, .reviewApplyTabs) > button.active {
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+}
+body.salaryTheme :is(.workingGrid, .homeWorkingGrid, .salaryRecordGrid, .hostSalaryGridNew,
+  .sourceAnalysisGrid, .analysisProductionGrid, .cleanProductionGrid) {
+  gap: 8px;
+  padding: 16px;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+body.salaryTheme :is(.workingGrid, .homeWorkingGrid, .sourceAnalysisGrid,
+  .analysisProductionGrid, .cleanProductionGrid) > div {
+  min-width: 0;
+  background: var(--panel2);
+  border: 0;
+  border-radius: 12px;
+  padding: 12px;
+}
+body.salaryTheme .workingGrid b { color: #fff; font-size: 21px; }
+body.salaryTheme .workingGrid span { color: var(--muted); font-size: 12px; }
+body.salaryTheme :is(.workingGroupTitle, .teamWorkingMeta, .inviteCompactTop, .inviteActionGrid) {
+  border-color: var(--line);
+  background: transparent;
+}
+body.salaryTheme :is(.inviteActionGrid b, .teamWorkingMeta b, .inviteLinkInline b) { font-size: 12px; }
+body.salaryTheme :is(.inviteLinkBlock > span, .inviteActionGrid small, .workingGroupTitle) {
+  font-size: 12px;
+  color: var(--muted);
+}
+body.salaryTheme :is(input:not([type=checkbox]):not([type=radio]), select, textarea, .input) {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid #685076;
+  border-radius: 12px;
+  background: #2d203e;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+}
+body.salaryTheme :is(input:not([type=checkbox]):not([type=radio]), select) { min-height: 44px; }
+body.salaryTheme textarea { min-height: 80px; }
+body.salaryTheme :is(.paySheetPanel, .paySheetTop, .payCard, .modal, .countryPanel,
+  .countrySheet, .naturalWeekPanel, .calendarCard, .waConfigPanel, .billConfirmCard,
+  .dataConfirmCard) {
+  background: var(--panel);
+  color: #fff;
+  border-color: var(--line);
+  box-shadow: none;
+}
+body.salaryTheme :is(.paySheetTitle, .payCardTitle, .modal h3, .waConfigTitle) {
+  color: #fff;
+  font-weight: 600;
+}
+body.salaryTheme :is(.modalBack, .paySheet, .payOverlay, .countryOverlay, .countryMask,
+  .naturalWeekOverlay, .calendarOverlay, .waConfigOverlay, .billConfirmOverlay, .dataConfirmOverlay) {
+  width: min(100%, 430px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+body.salaryTheme :is(.paymentMethodRow, .payRow, .paymentMainRow) { min-width: 0; }
+body.salaryTheme :is(.paymentMethodMain, .paymentMainRow > span:nth-child(2), .payValue) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme .paymentMethodMain b { font-size: 14px; }
+body.salaryTheme .paymentMethodMain small { font-size: 12px; line-height: 1.5; }
+body.salaryTheme .payRow { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+body.salaryTheme .payLabel { font-size: 13px; line-height: 1.5; }
+body.salaryTheme .payInput { min-height: 42px; padding: 8px; }
+body.salaryTheme :is(.payCancel, .rejectAction, .rejectBill) { background: var(--panel2); color: #fff; }
+body.salaryTheme :is(.toast, .dataToast) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  max-width: min(360px, calc(100vw - 32px));
+  line-height: 1.5;
+}
+body.salaryTheme .salaryUnifiedPad,
+body.salaryTheme .innerPad { padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); }
+body.salaryTheme :is(.salarySectionTitle, .salaryRecordsHead) { margin: 20px 0 12px; }
+body.salaryTheme .salarySectionTitle b,
+body.salaryTheme .salaryRecordsHead b { font-size: 21px; font-weight: 600; color: #fff; }
+body.salaryTheme .salaryPaymentCard {
+  background: linear-gradient(100deg, #7143a8, #240b43);
+  border: 1px solid #8056a5;
+  border-radius: 16px;
+  margin: 0 0 16px;
+  padding: 0;
+}
+body.salaryTheme .paymentMainRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 18px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-align: left;
+}
+body.salaryTheme .paymentMainRow > span:nth-child(2) { flex: 1; }
+body.salaryTheme .paymentMainRow b { font-size: 21px; line-height: 1.4; }
+body.salaryTheme .paymentMainRow small { font-size: 13px; line-height: 1.5; color: #d0b9e4; }
+body.salaryTheme .paymentMainRow i { color: #c3a8db; font-size: 28px; flex: 0 0 auto; }
+body.salaryTheme .paymentLogo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  border: 0;
+  background: #15a780;
+  color: #fff;
+  font-size: 28px;
+}
+body.salaryTheme :is(.salaryDataNote, .agencySalaryNote) {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 12px 0 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+body.salaryTheme :is(.salaryRecordCard, .hostSalaryCardNew, .salaryCard, .weekCard) {
+  margin: 0 0 16px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--panel);
+  box-shadow: none;
+  overflow: hidden;
+  min-width: 0;
+}
+body.salaryTheme :is(.salaryRecordHead, .hostSalaryHeadNew, .salaryHead, .sourceWeekHead) {
+  padding: 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-align: left;
+}
+body.salaryTheme :is(.salaryRecordHead, .salaryHead) > span:first-child { min-width: 0; flex: 1 1 150px; }
+body.salaryTheme :is(.salaryRecordHead, .hostSalaryHeadNew, .salaryHead, .sourceWeekHead) b {
+  display: block;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme :is(.salaryRecordHead, .hostSalaryHeadNew, .salaryHead, .sourceWeekHead) small,
+body.salaryTheme .sourceWeekHead > span > span {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+body.salaryTheme .hostSalaryHeadNew { flex-direction: column; gap: 3px; padding-bottom: 0; }
+body.salaryTheme :is(.salaryStatus, .statusPill) {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #ffdf59;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+body.salaryTheme :is(.salaryRecordGrid, .hostSalaryGridNew, .weekGrid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 18px;
+  margin: 0 0 16px;
+  min-width: 0;
+}
+body.salaryTheme .hostSalaryGridNew { padding-top: 16px; }
+body.salaryTheme :is(.salaryRecordGrid, .hostSalaryGridNew, .weekGrid) > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 82px;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--panel2);
+}
+body.salaryTheme :is(.salaryRecordGrid, .hostSalaryGridNew, .weekGrid) > div > b {
+  order: 0;
+  min-width: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fff;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+body.salaryTheme :is(.salaryRecordGrid, .hostSalaryGridNew, .weekGrid) > div > span {
+  order: 1;
+  display: block;
+  margin-top: auto;
+  padding-top: 7px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+body.salaryTheme .weekGrid .weeklyAgencyMetric { grid-column: 1 / -1; }
+body.salaryTheme .effectiveHostPercent {
+  display: inline-block;
+  vertical-align: middle;
+  margin-inline-start: 6px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: #6c4d85;
+  color: #e4cdfc;
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+body.salaryTheme :is(.agencyFinal, .salaryAmount, .weekSalaryTotal) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  margin: 0 18px 16px;
+  padding: 16px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  min-height: 0;
+  background: transparent;
+}
+body.salaryTheme :is(.agencyFinal, .salaryAmount, .weekSalaryTotal) > span {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+}
+body.salaryTheme :is(.agencyFinal, .salaryAmount, .weekSalaryTotal) > b {
+  color: #ffe500;
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme :is(.agencyAdjustments, .financeBreakdown) {
+  margin: 0 18px 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+body.salaryTheme :is(.agencyAdjustments > div, .financeLine, .salaryAdjustment summary, .financeAdjustment summary) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 0;
+  margin: 0;
+  list-style: none;
+}
+body.salaryTheme :is(.salaryAdjustment summary, .financeAdjustment summary)::-webkit-details-marker { display: none; }
+body.salaryTheme :is(.salaryAdjustment summary, .financeAdjustment summary) { cursor: pointer; }
+body.salaryTheme :is(.salaryAdjustment summary, .financeAdjustment summary) i {
+  font-style: normal;
+  margin-left: 6px;
+  display: inline-block;
+}
+body.salaryTheme :is(.salaryAdjustment, .financeAdjustment)[open] summary i { transform: rotate(180deg); }
+body.salaryTheme :is(.agencyAdjustments, .financeBreakdown) :is(.minus, b.minus) { color: #ff604c; }
+body.salaryTheme :is(.agencyAdjustments, .financeBreakdown) :is(.plus, b.plus) { color: #38cf70; }
+body.salaryTheme :is(.agencyAdjustments p, .financeReason) {
+  margin: 6px 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #21172f;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme :is(.agencyBillPaymentMeta, .salaryMeta.sourceSalaryMeta) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0 18px 18px;
+  border: 0;
+  background: none;
+}
+body.salaryTheme :is(.agencyBillPaymentMeta, .salaryMeta.sourceSalaryMeta) > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--panel2);
+}
+body.salaryTheme :is(.agencyBillPaymentMeta, .salaryMeta.sourceSalaryMeta) b {
+  order: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+body.salaryTheme :is(.agencyBillPaymentMeta, .salaryMeta.sourceSalaryMeta) span {
+  order: 1;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+body.salaryTheme :is(.agencyBillPaymentMeta, .salaryMeta.sourceSalaryMeta) .wideMeta { grid-column: 1 / -1; }
+body.salaryTheme .achievementNew {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 18px 18px;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--panel2);
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
+}
+body.salaryTheme .achievementNew > span { color: #fff; }
+body.salaryTheme .achievementNew .validYes { color: #38cf70; }
+body.salaryTheme .achievementNew .validNo { color: #ff604c; }
+body.salaryTheme :is(.salaryActionsNew, .sourceBillActions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 18px 18px;
+}
+body.salaryTheme :is(.salaryActionsNew, .sourceBillActions) > button {
+  flex: 1 1 80px;
+  min-height: 44px;
+  padding: 10px 12px;
+  height: auto;
+  border: 0;
+  border-radius: 24px;
+  background: var(--panel2);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.5;
+}
+body.salaryTheme :is(.salaryActionsNew .approveAction, .sourceBillActions .confirmBill) { background: var(--primary); }
+body.salaryTheme .salaryAction {
+  display: block;
+  width: calc(100% - 36px);
+  min-height: 44px;
+  height: auto;
+  margin: 0 18px 16px;
+  padding: 12px;
+  border: 1px solid #b0a128;
+  border-radius: 24px;
+  background: #554735;
+  color: #ffeb00;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: normal;
+}
+body.salaryTheme .monthRangeCard { padding: 18px; color: #fff; }
+body.salaryTheme .monthRangeCard small { display: block; color: var(--muted); font-size: 13px; margin-top: 5px; }
+body.salaryTheme .sourceWeekHead > i { font-style: normal; color: var(--muted); }
+body.salaryTheme .sourceWeekBody { padding: 0; }
+body.salaryTheme .salaryRulesContent { padding: 18px; font-size: 14px; line-height: 1.8; }
+body.salaryTheme .analysisHelpBtn { color: #d8c6ec; border-color: #b8a6c6; }
+body.salaryTheme :is(.app > .page, #root.app > div > section, .paySheetPanel, .modal, .payCard) { scrollbar-width: none; }
+body.salaryTheme :is(.app > .page, #root.app > div > section, .paySheetPanel, .modal, .payCard)::-webkit-scrollbar { display: none; }
+@media (max-width: 360px) {
+  body.salaryTheme .toolGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.salaryTheme :is(.salaryRecordHead, .salaryHead) { padding: 16px; }
+  body.salaryTheme :is(.salaryRecordGrid, .hostSalaryGridNew, .weekGrid) { padding-inline: 14px; }
+  body.salaryTheme :is(.salaryRecordGrid, .hostSalaryGridNew, .weekGrid) > div > b { font-size: 18px; }
+  body.salaryTheme :is(.agencyFinal, .salaryAmount, .weekSalaryTotal) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  body.salaryTheme :is(.agencyFinal, .salaryAmount, .weekSalaryTotal) > b { font-size: 24px; }
+}
+
+
+body.salaryTheme .weekGrid > div:last-child { grid-column: auto; }
+body.salaryTheme .weekGrid .weeklyAgencyMetric { grid-column: 1 / -1; }
+body.salaryTheme .weekGrid > div:nth-child(4) > b {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+body.salaryTheme .weekGrid .effectiveHostPercent {
+  display: inline-block;
+  width: auto;
+  flex: 0 0 auto;
+  padding: 2px 5px;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #e4cdfc;
+}
+body.salaryTheme .monthRangeCard { text-align: left; font-size: 15px; }
+@media (max-width: 360px) {
+  body.salaryTheme .weekGrid > div:nth-child(4) > b { font-size: 14px; gap: 4px; }
+  body.salaryTheme .weekGrid .effectiveHostPercent { font-size: 10px; padding: 2px 4px; }
+}
+
+body.salaryTheme .workingGrid > button {
+  min-width: 0;
+  min-height: 82px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  background: var(--panel2);
+  border: 0;
+  border-radius: 12px;
+}
+
+body.salaryTheme .weekbox {
+  background: var(--panel);
+  border: 0;
+  border-radius: 18px;
+  padding: 12px;
+  gap: 8px;
+}
+body.salaryTheme .weekstat {
+  min-width: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--panel2);
+}
+body.salaryTheme .weekstat .num { color: #fff; font-size: 20px; }
+body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
+</style>
 </head>
-<body>
+<body class="salaryTheme" data-salary-bill-version="2026-11-04">
 <div id="root" class="app"></div>
 <div id="modal" class="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal" id="modalBody"></div></div>
 <div id="paymentMethodSheet" class="paySheet" onclick="if(event.target===this)hidePaymentMethodSheet()"><div class="paySheetPanel"><div class="paySheetTop"><button class="paySheetClose" onclick="hidePaymentMethodSheet()">×</button><div class="paySheetTitle">Payment Method</div><span></span></div><div id="paymentMethodList"></div></div></div>
@@ -608,9 +1233,9 @@ function openPaymentInfo(m){currentPaymentMethod=m;const p=paymentProfiles[m];do
 function hidePaymentInfo(){document.getElementById('paymentInfoOverlay').classList.remove('show')}
 function savePaymentInfo(){const p=paymentProfiles[currentPaymentMethod];if(currentPaymentMethod==='USDT')p.address=document.getElementById('p_address').value;else if(currentPaymentMethod==='PayPal')p.email=document.getElementById('p_email').value;else if(currentPaymentMethod==='Bank Card'){p.country=document.getElementById('p_country').value;p.account=document.getElementById('p_account').value;p.name=document.getElementById('p_name').value;p.bankName=document.getElementById('p_bank').value;p.swift=document.getElementById('p_swift').value}else p.userId=document.getElementById('p_uid').value;p.configured=true;hidePaymentInfo();render();toast('Payment method saved')}
 const managerMonthBills=[
-  {id:1,start:'2026-08-01',end:'2026-08-31',total:1425.00,settlement:1,payeeType:2,payee:'TWx8hT5H4bH3Y7n2K9a6Q3d8S1f0P4c7e2'},
-  {id:2,start:'2026-07-01',end:'2026-07-31',total:1312.00,settlement:2,payeeType:1,payee:'TOPUP889'},
-  {id:3,start:'2026-06-01',end:'2026-06-30',total:1188.00,settlement:4,payeeType:2,payee:'TV8G3b6e5z7p2k9m4u1r0q3s8x6c5n2a7'}
+  {id:1,start:'2026-09-28',end:'2026-10-25',total:1425.00,settlement:1,payeeType:2,payee:'TWx8hT5H4bH3Y7n2K9a6Q3d8S1f0P4c7e2'},
+  {id:2,start:'2026-08-31',end:'2026-09-27',total:1312.00,settlement:2,payeeType:1,payee:'TOPUP889'},
+  {id:3,start:'2026-08-03',end:'2026-08-30',total:1188.00,settlement:4,payeeType:2,payee:'TV8G3b6e5z7p2k9m4u1r0q3s8x6c5n2a7'}
 ];
 const managerWeeks=[
   {week:34,start:'08-18',end:'08-24',total:471.00,grade:2,commission:321.00,agency:6420.00,basic:150.00,valid:184,required:200,update:1,validStatus:0},
@@ -618,7 +1243,7 @@ const managerWeeks=[
   {week:32,start:'08-04',end:'08-10',total:335.00,grade:2,commission:260.00,agency:5200.00,basic:75.00,valid:110,required:200,update:1,validStatus:1},
   {week:31,start:'07-28',end:'08-03',total:180.00,grade:1,commission:140.00,agency:2800.00,basic:40.00,valid:40,required:50,update:0,validStatus:0}
 ];
-let selectedSalaryRange={start:'2026-08-01',end:'2026-08-31'};
+let selectedSalaryRange={start:'2026-09-28',end:'2026-10-25'};
 function managerPayName(t){return {1:'Agency Top-up',2:'USDT',3:'PayPal',4:'Bank Card',5:'Coins'}[t]||'—'}
 function managerSettlementName(s){return {1:'Under Review',2:'Manager Confirmed',3:'Manager Rejected',4:'Already Payout'}[s]||''}
 function managerSettlementClass(s){return s===3?'rejectedBill':s===4?'paid':s===2?'confirmedBill':''}
@@ -1313,35 +1938,170 @@ render();
 .financeBreakdown{margin:0 14px 14px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025);font-size:12px;line-height:1.5}.financeLine{display:flex;justify-content:space-between;gap:14px;margin:6px 0}.financeLine span{color:#b8aabd}.financeLine b{white-space:nowrap;color:#eee3f1}.financeReason{margin:5px 0 10px;color:#b8aabd;white-space:pre-wrap;overflow-wrap:anywhere}.financeLine .minus{color:#ffabae}.financeLine .plus{color:#9bdfb5}.financeFinal{border-top:1px solid var(--line);padding-top:10px}.financeFinal b{color:#f2d071}.salaryDataNote{font-size:11px}.sourceWeekBody .weekGrid span{font-size:11px}.sourceWeekBody .weekGrid b{font-size:12px}.financeDemoNote{font-size:10px;color:#a99cad;margin:8px 2px 14px}.sourceWeekBody .deductionNote{font-size:11px}
 </style>
 <script id="published-finance-salary">
-// Standalone published-bill fixtures; production must read the backend's published snapshot.
-const financeRoleBills={};
-const financeMoney=n=>'$'+Number(n).toFixed(2);
-const financeEscape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const financeSigned=n=>(n<0?'-':n>0?'+':'')+financeMoney(Math.abs(n));
-function financeBills(){
- const role=demoConfig().role;
- if(!financeRoleBills[role])financeRoleBills[role]=managerMonthBills.map((b,i)=>{
-  const source=role==='BD'?bdWeeks:managerWeeks;
-  const weeks=source.map((w,j)=>{const end=new Date(b.end+'T00:00:00Z');end.setUTCDate(end.getUTCDate()-7*j);const start=new Date(end);start.setUTCDate(start.getUTCDate()-6);return {...w,week:j+1,start:start.toISOString().slice(0,10),end:end.toISOString().slice(0,10),adj:i===0?(j===0?-20:j===1?10:0):0,reason:j===0?'Deduction for a verified policy violation.':'Correction of an underpaid salary amount.'}});
-  const subtotal=weeks.reduce((sum,w)=>sum+w.commission+w.basic+w.adj,0),adj=i===0?-5:0;
-  return {...b,weeks,subtotal,adj,reason:'Correction of an overpayment from the previous payout cycle.',total:subtotal+adj,published:true};
- });
- return financeRoleBills[role];
-}
-function financeDetail(base,adj,reason,final,label='Original Salary',adjustLabel='Adjustment',showBase=true){
- if(!adj)return '';
- return `<div class="financeBreakdown">${showBase?`<div class="financeLine"><span>${label}</span><b>${financeMoney(base)}</b></div>`:''}<details class="financeAdjustment"><summary><span>${adjustLabel}<i aria-hidden="true">⌄</i></span><b class="${adj<0?'minus':'plus'}">${financeSigned(adj)}</b></summary><div class="financeReason">${financeEscape(reason||'Please contact support for details.')}</div></details></div>`;
+// Published fixture amounts retain the existing Commission, Base and finance adjustments.
+const financeRoleBills = {};
+const financeMoney = amount => '$' + Number(amount).toFixed(2);
+const financeEscape = value => String(value ?? '').replace(/[&<>"']/g, character => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+}[character]));
+const financeSigned = amount => (amount < 0 ? '−' : '+') + financeMoney(Math.abs(amount));
+
+function financeBills() {
+  const role = demoConfig().role;
+  if (!financeRoleBills[role]) {
+    financeRoleBills[role] = managerMonthBills.map((bill, billIndex) => {
+      const source = role === 'BD' ? bdWeeks : managerWeeks;
+      const periodStart = new Date(bill.end + 'T00:00:00Z');
+      periodStart.setUTCDate(periodStart.getUTCDate() - 27);
+      const weeks = source.map((week, weekIndex) => {
+        const start = new Date(periodStart);
+        start.setUTCDate(start.getUTCDate() + weekIndex * 7);
+        const end = new Date(start);
+        end.setUTCDate(end.getUTCDate() + 6);
+        return {
+          ...week,
+          role: week.role || role,
+          week: weekIndex + 1,
+          start: start.toISOString().slice(0, 10),
+          end: end.toISOString().slice(0, 10),
+          adj: billIndex === 0 ? (weekIndex === 0 ? -20 : weekIndex === 1 ? 10 : 0) : 0,
+          reason: weekIndex === 0
+            ? 'Deduction for a verified policy violation.'
+            : 'Correction of an underpaid salary amount.'
+        };
+      });
+      const subtotal = weeks.reduce((sum, week) => sum + Math.round(week.commission * 100)
+        + Math.round(week.basic * 100) + Math.round(week.adj * 100), 0) / 100;
+      const adjustment = billIndex === 0 ? -5 : 0;
+      return {
+        ...bill, start: periodStart.toISOString().slice(0, 10), weeks, subtotal,
+        adj: adjustment,
+        reason: 'Correction of an overpayment from the previous payout cycle.',
+        total: (Math.round(subtotal * 100) + Math.round(adjustment * 100)) / 100,
+        published: true
+      };
+    });
+  }
+  return financeRoleBills[role];
 }
 
-managerSalaryBillsMarkup=function(){return financeBills().filter(b=>b.published).map(b=>`<div class="salaryCard"><div class="salaryHead"><span><b>${b.start} - ${b.end}</b><small>Payout cycle · ${b.weeks.length} weeks</small></span><span class="statusPill ${managerSettlementClass(b.settlement)}">${{1:'Pending Confirmation',2:'Confirmed',3:'Rejected',4:'Paid'}[b.settlement]}</span></div><div class="salaryAmount"><span>Settlement Amount</span><b>${financeMoney(b.total)}</b></div>${financeDetail(b.subtotal,b.adj,b.reason,b.total,'Weekly Salary','Monthly Adjustment')}<div class="salaryMeta sourceSalaryMeta"><div><span>Payment</span><b>${b.total<20?'Coins':managerPayName(b.payeeType)}</b></div><div><span>${b.total<20?'Coins Amount':'Currency'}</span><b>${b.total<20?(b.total*20000).toLocaleString():'USD'}</b></div><div class="wideMeta"><span>${b.total<20?'User ID':b.payeeType===2?'USDT Address':'User ID'}</span><b>${financeEscape(b.total<20?demoConfig().id:b.payee)}</b></div></div><button class="salaryAction" onclick="openWeeklySalary('${b.start}','${b.end}')">View Weekly Salary Bill ›</button>${b.settlement===1?`<div class="sourceBillActions"><button class="rejectBill" onclick="updateManagerBill(${b.id},3)">Reject</button><button class="confirmBill" onclick="confirmManagerBill(${b.id})">Confirm</button></div>`:''}${b.settlement===4?`<div class="sourceBillActions"><button onclick="toast('Transfer receipt opened')">Transfer Pic</button><button onclick="toast('Transfer URL copied')">Transfer URL</button></div>`:''}</div>`).join('')};
-confirmManagerBill=function(id){const b=financeBills().find(b=>b.id===id);if(!b||b.settlement!==1)return;showBillConfirm(`<div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(b.total)}</b></div>`+financeDetail(b.subtotal,b.adj,b.reason,b.total,'Weekly Salary','Monthly Adjustment')+`Payment: ${b.total<20?'Coins':managerPayName(b.payeeType)}<br>${financeEscape(b.total<20?demoConfig().id:b.payee)}`,()=>updateManagerBill(id,2))};
-updateManagerBill=function(id,status){const b=financeBills().find(b=>b.id===id);if(!b||b.settlement!==1)return;b.settlement=status;render();toast(status===2?'Bill confirmed':'Bill rejected')};
-function financeWeeklyMarkup(){const b=financeBills().find(b=>b.start===selectedSalaryRange.start&&b.end===selectedSalaryRange.end);if(!b)return '<div class="salaryDataNote">No published weekly bills.</div>';return b.weeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekGrid"><div><span>${financeEscape(demoConfig().role)} Level</span><b>Level ${w.grade}</b></div><div><span>Commission</span><b>${financeMoney(w.commission)}</b></div><div><span>Weekly Agency Salary ($)</span><b>${financeMoney(w.agency)}</b></div><div><span>Actual Base Salary</span><b>${financeMoney(w.basic)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?'<div class="deductionNote">Effective Hosts: 50% of full base granted. Already included in Actual Base Salary.</div>':''}${financeDetail(w.commission+w.basic,w.adj,w.reason,w.commission+w.basic+w.adj,'Original Salary','Weekly Adjustment',false)}<div class="weekSalaryTotal"><span>Settlement Amount</span><b>${financeMoney(w.commission+w.basic+w.adj)}</b></div><button class="salaryAction" onclick="toast('Agency details download link copied')">Copy Agency Details Download Link</button></div></div>`).join('')}
-managerWeeklySalaryMarkup=financeWeeklyMarkup;bdWeeklySalaryMarkup=financeWeeklyMarkup;
-const financeOldSalary=renderSalary;
-renderSalary=function(){return financeOldSalary().replace(/<div class="salaryDataNote">[\s\S]*?<\/div>/,'<div class="salaryDataNote">UTC+5 · Payout every 4–5 weeks.</div>').replace('Settlement every 4 weeks','Payout every 4–5 weeks')};
-renderWeekSalary=function(){return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">${selectedSalaryRange.start} - ${selectedSalaryRange.end}</div><div class="salaryDataNote">UTC+5 · Weekly amounts include adjustments.</div>${financeWeeklyMarkup()}</section>`};
-renderSalaryRules=function(){return `<section class="page"><div class="panelCard" style="padding:16px;font-size:12px;line-height:1.8"><b>Salary Rules</b><p>Weekly Salary = Commission + Actual Base Salary + Weekly Financial Adjustment.</p><p>Payout Salary = Sum of adjusted weekly salaries + Monthly Adjustment. Payout cycles contain 4–5 weeks (UTC+5).</p><p>Adjustments affect only your payable salary. Weekly Agency Salary, level, commission and base assessment remain unchanged. Base reductions are already included in Actual Base Salary.</p><p>Published bills show adjustment amounts and reasons. Internal finance notes are not shown. Confirm or reject the payout bill after reviewing its weekly details.</p><p>Payouts below $20 are paid in Coins at 1 USD = 20,000 Coins.</p></div></section>`};
+function financeDetail(base, adjustment, reason, final, label = 'Original Salary', adjustmentLabel = 'Adjustment', showBase = true) {
+  if (!adjustment) return '';
+  return `<div class="financeBreakdown">
+    ${showBase ? `<div class="financeLine"><span>${label}</span><b>${financeMoney(base)}</b></div>` : ''}
+    <details class="financeAdjustment"><summary><span>${adjustmentLabel}<i aria-hidden="true">⌄</i></span>
+      <b class="${adjustment < 0 ? 'minus' : 'plus'}">${financeSigned(adjustment)}</b></summary>
+      <div class="financeReason">${financeEscape(reason || 'Please contact support for details.')}</div>
+    </details>
+  </div>`;
+}
+
+managerSalaryBillsMarkup = function () {
+  return financeBills().filter(bill => bill.published).map(bill => {
+    const coins = bill.total > 0 && bill.total < 10;
+    return `<article class="salaryCard">
+      <div class="salaryHead"><span><b>${bill.start} – ${bill.end}</b><small>Payout cycle · 4 weeks</small></span>
+        <span class="statusPill ${managerSettlementClass(bill.settlement)}">${({1: 'Pending Confirmation', 2: 'Confirmed', 3: 'Rejected', 4: 'Paid'})[bill.settlement]}</span></div>
+      ${financeDetail(bill.subtotal, bill.adj, bill.reason, bill.total)}
+      <div class="salaryAmount"><span>Settlement Amount</span><b>${financeMoney(bill.total)}</b></div>
+      <div class="salaryMeta sourceSalaryMeta">
+        <div><b>${coins ? 'Coins' : managerPayName(bill.payeeType)}</b><span>Payment</span></div>
+        <div><b>${coins ? '—' : 'USD'}</b><span>Currency</span></div>
+        <div class="wideMeta"><b>${financeEscape(coins ? demoConfig().id : bill.payee)}</b>
+          <span>${coins ? 'User ID' : bill.payeeType === 2 ? 'USDT Address' : 'User ID'}</span></div>
+      </div>
+      <button class="salaryAction" onclick="openWeeklySalary('${bill.start}','${bill.end}')">View Weekly Salary Bill ›</button>
+      ${bill.settlement === 1 ? `<div class="sourceBillActions">
+        <button class="rejectBill" onclick="updateManagerBill(${bill.id},3)">Reject</button>
+        <button class="confirmBill" onclick="confirmManagerBill(${bill.id})">Confirm</button></div>` : ''}
+      ${bill.settlement === 4 ? `<div class="sourceBillActions">
+        <button onclick="toast('Transfer receipt opened')">Transfer Pic</button>
+        <button onclick="toast('Transfer URL copied')">Transfer URL</button></div>` : ''}
+    </article>`;
+  }).join('');
+};
+
+confirmManagerBill = function (id) {
+  const bill = financeBills().find(item => item.id === id);
+  if (!bill || bill.settlement !== 1) return;
+  const coins = bill.total > 0 && bill.total < 10;
+  showBillConfirm(`<div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.total)}</b></div>
+    ${financeDetail(bill.subtotal, bill.adj, bill.reason, bill.total)}
+    Payment: ${coins ? 'Coins' : managerPayName(bill.payeeType)}<br>${financeEscape(coins ? demoConfig().id : bill.payee)}`,
+    () => updateManagerBill(id, 2));
+};
+
+updateManagerBill = function (id, status) {
+  const bill = financeBills().find(item => item.id === id);
+  if (!bill || bill.settlement !== 1) return;
+  bill.settlement = status;
+  render();
+  toast(status === 2 ? 'Bill confirmed' : 'Bill rejected');
+};
+
+function financeMetric(value, label, className = '') {
+  return `<div class="${className}"><b>${value}</b><span>${label}</span></div>`;
+}
+
+function financeWeeklyMarkup() {
+  const bill = financeBills().find(item => item.start === selectedSalaryRange.start && item.end === selectedSalaryRange.end);
+  if (!bill) return '<div class="salaryDataNote">No published weekly bills.</div>';
+  return bill.weeks.map((week, index) => {
+    const percentage = week.required > 0 ? (week.valid / week.required * 100).toFixed(0) + '%' : '—';
+    const original = (Math.round(week.commission * 100) + Math.round(week.basic * 100)) / 100;
+    const settlement = (Math.round(original * 100) + Math.round(week.adj * 100)) / 100;
+    return `<article class="weekCard sourceWeekCard ${index === 0 ? 'open' : ''}" id="week${week.week}">
+      <button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${week.week})">
+        <span><b>${week.start} – ${week.end}</b><span>Week ${week.week}</span></span><i>⌄</i></button>
+      <div class="sourceWeekBody"><div class="weekGrid">
+        ${financeMetric('Level ' + week.grade, financeEscape(week.role) + ' Level')}
+        ${financeMetric(financeMoney(week.commission), 'Commission')}
+        ${financeMetric(financeMoney(week.agency), 'Weekly Agency Salary', 'weeklyAgencyMetric')}
+        ${financeMetric(`${week.valid} / ${week.required}<span class="effectiveHostPercent">${percentage}</span>`, 'Effective Hosts')}
+        ${financeMetric(financeMoney(week.basic), 'Actual Base Salary')}
+      </div>
+      ${financeDetail(original, week.adj, week.reason, settlement)}
+      <div class="weekSalaryTotal"><span>Settlement Amount</span><b>${financeMoney(settlement)}</b></div>
+      <button class="salaryAction" onclick="toast('Agency details download link copied')">Copy Agency Details Download Link</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+managerWeeklySalaryMarkup = financeWeeklyMarkup;
+bdWeeklySalaryMarkup = financeWeeklyMarkup;
+
+renderSalary = function () {
+  const preferred = preferredPaymentMethod();
+  return `<section class="salaryUnifiedPad">
+    <div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')" aria-label="Salary rules">?</button></div>
+    <div class="salarySectionTitle"><b>Payment Method</b></div>
+    <div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()">
+      <span class="paymentLogo">${preferred === 'USDT' ? '₮' : '$'}</span>
+      <span><b>${preferred || 'Payment method not set'}</b><small>${preferred ? 'Preferred payout method' : 'Tap to complete payout information'}</small></span><i>›</i>
+    </button></div>
+    <div class="salaryDataNote">All times follow UTC+5.</div>
+    <div class="salarySectionTitle"><b>Salary Records</b></div>
+    <div class="salaryCards">${managerSalaryBillsMarkup()}</div>
+  </section>`;
+};
+
+renderWeekSalary = function () {
+  return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')" aria-label="Salary rules">?</button></div>
+    <div class="panelCard monthRangeCard"><b>${selectedSalaryRange.start} – ${selectedSalaryRange.end}</b><small>Monthly Salary Bill</small></div>
+    <div class="salaryDataNote">All times follow UTC+5. Data updates every Wednesday at 00:00.</div>
+    ${financeWeeklyMarkup()}
+  </section>`;
+};
+
+renderSalaryRules = function () {
+  return `<section class="page"><div class="panelCard salaryRulesContent"><b>Salary Rules</b>
+    <p>Weekly Salary = Commission + Actual Base Salary + Weekly Financial Adjustment.</p>
+    <p>Settlement Amount = Sum of adjusted weekly salaries + Monthly Adjustment. Each payout cycle contains 4 weeks. All times follow UTC+5.</p>
+    <p>Weekly Agency Salary, level, commission and base assessment follow the existing policy. Effective Hosts completion uses the host count required for the weekly role and level.</p>
+    <p>Published bills show actual financial adjustments and expandable reasons. Review the bill and its weekly details before confirming or rejecting it.</p>
+    <p>Positive payouts below $10 follow the existing Coins settlement rule at 1 USD = 20,000 Coins.</p>
+  </div></section>`;
+};
 render();
 </script>
 
@@ -1370,7 +2130,7 @@ render();
 .salaryRecordGrid,.hostSalaryGridNew,.sourceWeekBody .weekGrid,.unifiedWeekSources{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;margin:0;padding:0;border-top:1px solid var(--line);background:transparent;border-radius:0}
 .salaryRecordGrid>div,.hostSalaryGridNew>div,.sourceWeekBody .weekGrid>div,.unifiedWeekSources>div{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-height:66px;padding:12px 16px;box-sizing:border-box;min-width:0;text-align:left;border:0;border-bottom:1px solid var(--line);border-radius:0}
 .salaryRecordGrid>div:nth-child(odd),.hostSalaryGridNew>div:nth-child(odd),.sourceWeekBody .weekGrid>div:nth-child(odd),.unifiedWeekSources>div:nth-child(odd){border-right:1px solid var(--line)}
-.salaryRecordGrid>div:last-child:nth-child(odd),.hostSalaryGridNew>div:last-child:nth-child(odd),.sourceWeekBody .weekGrid>div:last-child:nth-child(odd),.unifiedWeekSources>div:last-child:nth-child(odd){grid-column:1/-1;border-right:0}
+.salaryRecordGrid>div:last-child:nth-child(odd),.hostSalaryGridNew>div:last-child:nth-child(odd),.sourceWeekBody .weekGrid>.weeklyAgencyMetric,.unifiedWeekSources>div:last-child:nth-child(odd){grid-column:1/-1;border-right:0}
 .salaryRecordGrid span,.hostSalaryGridNew span,.sourceWeekBody .weekGrid span,.unifiedWeekSources span{order:-1;display:block;font-size:11px;line-height:1.5;color:#a99cad;margin:0 0 5px;overflow-wrap:anywhere}
 .salaryRecordGrid b,.hostSalaryGridNew b,.sourceWeekBody .weekGrid b,.unifiedWeekSources b{display:block;font-size:14px;line-height:1.4;font-weight:700;color:#eee3f1;margin:0;text-align:left;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .agencyAdjustments,.financeBreakdown,.sourceWeekBody .financeBreakdown{margin:0;padding:10px 16px;border:0;background:none;border-radius:0;font-size:12px;line-height:1.6}
@@ -1393,7 +2153,7 @@ render();
 .salaryRecordHead b,.hostSalaryHeadNew b,.salaryHead b,.sourceWeekHead b{font-size:14px}.salaryRecordHead small,.hostSalaryHeadNew small,.salaryHead small{font-size:11px;line-height:1.5}
 .salaryRecordGrid,.hostSalaryGridNew,.sourceWeekBody .weekGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:0;padding:0 12px 8px;border:0;background:transparent}
 .salaryRecordGrid>div,.hostSalaryGridNew>div,.sourceWeekBody .weekGrid>div{background:#51455f;border:0!important;border-radius:11px;min-height:66px;padding:11px 12px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;box-sizing:border-box}
-.salaryRecordGrid>div:last-child:nth-child(odd),.hostSalaryGridNew>div:last-child:nth-child(odd),.sourceWeekBody .weekGrid>div:last-child:nth-child(odd){grid-column:1/-1}
+.salaryRecordGrid>div:last-child:nth-child(odd),.hostSalaryGridNew>div:last-child:nth-child(odd),.sourceWeekBody .weekGrid>.weeklyAgencyMetric{grid-column:1/-1}
 .salaryRecordGrid b,.hostSalaryGridNew b,.sourceWeekBody .weekGrid b{order:0;margin:0;font-size:16px;font-weight:650;line-height:1.4;color:#f2edf4}
 .salaryRecordGrid span,.hostSalaryGridNew span,.sourceWeekBody .weekGrid span{order:1;margin:4px 0 0;font-size:11px;line-height:1.5;color:#c0b4c9}
 .agencyAdjustments,.financeBreakdown,.sourceWeekBody .financeBreakdown{padding:5px 14px 10px;margin:0;border:0;background:none}
