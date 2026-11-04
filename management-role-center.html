@@ -1088,7 +1088,7 @@ function openp(id){if(hist[hist.length-1]!==id)hist.push(id);render()}
 function goBack(){if(hist.length>1){hist.pop();render()}else{hist=['home'];render()}}
 function goHome(){hist=['home'];render()}
 function current(){return hist[hist.length-1]}
-function shell(body){const id=current(),home=id==='home';return `<div class="${home?'homeView':''}"><header class="top"><button class="l" onclick="goBack()">‹</button><span>${routes[id]||'Manager Center'}</span><button class="r" onclick="goHome()">×</button></header>${body}</div>`}
+function shell(body){const id=current(),home=id==='home';return `<div class="${home?'homeView':''}"><header class="top"><button class="l" onclick="goBack()">‹</button><span>${routes[id]||'Manager Center'}</span></header>${body}</div>`}
 function switchPeriod(p){state.period=p;render()}
 function periodData(){return state.period==='current'?{period:'2026-08-18 00:00:00 ~ 2026-08-24 23:59:59',update:'Update in: 13 : 20',direct:{gold:8549300,diamonds:633140,hosts:91,effective:70,voice:78,gifted:69},team:{gold:11570000,diamonds:839520,management:11,superAdmin:2,admin:3,bd:6,agency:27,voice:121,gifted:108}}:{period:'2026-08-11 00:00:00 ~ 2026-08-17 23:59:59',update:'Closed',direct:{gold:7920100,diamonds:580920,hosts:86,effective:65,voice:73,gifted:64},team:{gold:10830000,diamonds:790200,management:10,superAdmin:2,admin:3,bd:5,agency:25,voice:113,gifted:101}}}
 function workingGridDirect(d){return `<div class="workingGrid six"><div><b>${fmt(d.gold)}</b><span>Coins</span></div><div><b>${fmt(d.diamonds)}</b><span>Diamonds</span></div><div><b>${d.hosts}</b><span>Total Hosts</span></div><div><b>${d.effective??'—'}</b><span>Effective Hosts</span></div><div><b>${d.voice}</b><span>Active Hosts</span></div><div><b>${d.gifted}</b><span>Gifted Hosts</span></div></div>`}
@@ -1358,7 +1358,7 @@ function setDemoRole(role){
   if(paymentProfiles?.['Bank Card']){paymentProfiles['Bank Card'].name=c.paymentName;paymentProfiles['Bank Card'].email=c.paymentEmail}
   render();
 }
-function shell(body){const id=current(),home=id==='home';const title=home?`${demoConfig().role} Center`:(routes[id]||`${demoConfig().role} Center`);return `<div class="${home?'homeView':''}"><header class="top"><button class="l" onclick="goBack()">‹</button><span>${title}</span><button class="r" onclick="goHome()">×</button></header>${body}</div>`}
+function shell(body){const id=current(),home=id==='home';const title=home?`${demoConfig().role} Center`:(routes[id]||`${demoConfig().role} Center`);return `<div class="${home?'homeView':''}"><header class="top"><button class="l" onclick="goBack()">‹</button><span>${title}</span></header>${body}</div>`}
 
 const rolePeriodPresets={
  Manager:{current:{direct:{gold:8549300,diamonds:633140,agency:3,hosts:91,effective:70,voice:78,gifted:69},team:{gold:11570000,diamonds:839520,management:11,superAdmin:2,admin:3,bd:6,agency:27,effective:114,voice:121,gifted:108}},last:{direct:{gold:7920100,diamonds:580920,agency:3,hosts:86,effective:65,voice:73,gifted:64},team:{gold:10830000,diamonds:790200,management:10,superAdmin:2,admin:3,bd:5,agency:25,effective:106,voice:113,gifted:101}}},
@@ -1623,7 +1623,7 @@ renderAgencyTeam=function(){
 const _shellBeforeBDAgencyHosts=shell;
 shell=function(body){
   if(state.demoRole==='BD'&&current()==='agencyTeam'){
-    return `<div><header class="top"><button class="l" onclick="goBack()">‹</button><span>Agency's Hosts</span><button class="r" onclick="goHome()">×</button></header>${body}</div>`;
+    return `<div><header class="top"><button class="l" onclick="goBack()">‹</button><span>Agency's Hosts</span></header>${body}</div>`;
   }
   return _shellBeforeBDAgencyHosts(body);
 };
