@@ -911,6 +911,42 @@ body.salaryTheme .weekstat {
 }
 body.salaryTheme .weekstat .num { color: #fff; font-size: 20px; }
 body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
+body.salaryTheme .salaryBillTabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin: 16px 0;
+  border-radius: 28px;
+  background: #2d233c;
+}
+body.salaryTheme .salaryBillTabs > button {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 6px;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: #bfb4cf;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: normal;
+}
+body.salaryTheme .salaryBillTabs > button[aria-selected=true] {
+  background: #a365ff;
+  color: #fff;
+}
+body.salaryTheme .personalAgencyBill > .salaryAction {
+  margin-top: 0;
+}
+body.salaryTheme .personalAgencyBill .financeBreakdown .financeBreakdown {
+  margin: 0;
+}
+body.salaryTheme .salaryEmpty {
+  text-align: center;
+  padding-block: 36px;
+}
 </style>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04">
@@ -972,7 +1008,7 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 <script>
 const routes={home:'Manager Center',team:'Team Management',teamOverview:'Team Overview',memberDetails:'Member Details',agencyDetails:'Member Details',agencyTeam:'Agency Team',analysis:'Data Analysis',trend:'Data Trend',salary:'Salary Bill',weekSalary:'Weekly Salary Bill',salaryRules:'Rules',rewards:'Invitation Rewards',reviewApply:'Review Apply',rules:'Rules'};
 let hist=['home'];
-let state={period:'current',inviteType:'agency',teamTab:'direct',teamManagementFilter:'All',teamManagementRole:'Super Admin',teamWeekStart:naturalWeekCurrentStart(),selectedAgency:null,selectedMember:null,selectedOverviewType:'Agency',analysisTab:'total',analysisTeamFilter:'All',analysisSelected:null,analysisQuery:'',trendMetric:'coins',reviewApplyType:'Agency',reviewApplyStatus:'All status',rewardType:1};
+let state={salaryBillTab:'management',period:'current',inviteType:'agency',teamTab:'direct',teamManagementFilter:'All',teamManagementRole:'Super Admin',teamWeekStart:naturalWeekCurrentStart(),selectedAgency:null,selectedMember:null,selectedOverviewType:'Agency',analysisTab:'total',analysisTeamFilter:'All',analysisSelected:null,analysisQuery:'',trendMetric:'coins',reviewApplyType:'Agency',reviewApplyStatus:'All status',rewardType:1};
 const directAgencies=[
 {id:901,uid:'310001',userId:'AURORA88',name:'Aurora Agency',code:'AG8K2Q',country:'Singapore',timeZone:'UTC+8',gold:4385200,diamonds:321440,hosts:42,effectiveHosts:34,voice:36,hostDiamonds:31,status:1,type:2},
 {id:902,uid:'310017',userId:'STAR771',name:'Starlight Club',code:'STAR7M',country:'Thailand',timeZone:'UTC+7',gold:2893700,diamonds:212980,hosts:31,effectiveHosts:22,voice:26,hostDiamonds:22,status:1,type:1},
@@ -1262,7 +1298,7 @@ function renderSalaryRules(){return `<section class="page"><div class="panelCard
 function renderRewards(){return `<section id="rewards"><div class="panelCard rewardEligibilityCard"><div class="rewardEligibilityHead"><b>Reward Eligibility</b><span class="eligibilityBadge">Qualified</span></div><div class="rewardEligibilityGrid"><div><b>31</b><span>New Hosts</span></div><div><b>24 <small>/ 10</small></b><span>Eligible Hosts</span></div></div></div><div class="rewardbox"><h3>Rewards to be claimed</h3><div class="rewardIntro">Manager receives team invitation rewards only when team Eligible Hosts ≥ 10. Choose Coins or Game Coins.</div><div class="rewardcards"><button class="reward ${state.rewardType===1?'on':''}" onclick="state.rewardType=1;render()"><div class="rewardPic">●</div><div class="rewardName">12,600 Coins</div></button><span class="rewardOr">OR</span><button class="reward bean ${state.rewardType===2?'on':''}" onclick="state.rewardType=2;render()"><div class="rewardPic">◆</div><div class="rewardName">Game Coins · Bonus included</div></button></div><button class="claim" onclick="toast('Claim successful')">One-click Claim</button></div><div class="records"><div class="recHead"><span>Statistical Time</span><span>Rewards</span><span>Status</span></div><div class="recRow"><span>2026-08-18 ~ 08-24</span><b>12,600 Coins</b><span>Unclaimed</span></div></div></section>`}
 /* props */
 function renderProps(){return `<section class="page"><div class="panelCard propPanel"><div class="propCredit">This week's remaining credit gold amount:<b>120,000</b></div><div class="formGroup"><label>Enter User ID</label><div class="propCheck"><textarea id="propUsers">782201, 782216, 782240</textarea><button class="goldBtn" onclick="toast('Check completed')">Check</button></div></div><div class="formGroup"><label>Props type</label><select><option>Avatar Frame</option><option>Profile Badge</option><option>VIP</option></select></div><div class="formGroup"><label>Props name</label><select><option>Purple Crown · 500 Coins/day</option><option>Golden Orbit · 800 Coins/day</option></select></div><div class="formGroup"><label>Select duration</label><select><option>1 day</option><option>3 days</option><option>7 days</option></select></div><button class="goldBtn" style="width:100%;height:44px;margin-top:15px" onclick="toast('Props sent')">Confirm</button></div></section>`}
-function render(){let body='';switch(current()){case'home':body=renderHome();break;case'team':body=renderTeam();break;case'teamOverview':body=renderTeamOverview();break;case'memberDetails':body=renderManagementMemberDetails();break;case'agencyDetails':body=renderAgencyDetails();break;case'agencyTeam':body=renderAgencyTeam();break;case'analysis':body=renderAnalysis();break;case'trend':body=renderTrend();break;case'rules':body=renderRules();break;case'salary':body=renderSalary();break;case'weekSalary':body=renderWeekSalary();break;case'salaryRules':body=renderSalaryRules();break;case'rewards':body=renderRewards();break;case'reviewApply':body=renderReviewApply();break;default:body=renderHome()}document.getElementById('root').innerHTML=shell(body);window.scrollTo(0,0)}
+function render(){let body='';switch(current()){case'home':body=renderHome();break;case'team':body=renderTeam();break;case'teamOverview':body=renderTeamOverview();break;case'memberDetails':body=renderManagementMemberDetails();break;case'agencyDetails':body=renderAgencyDetails();break;case'agencyTeam':body=renderAgencyTeam();break;case'analysis':body=renderAnalysis();break;case'trend':body=renderTrend();break;case'rules':body=renderRules();break;case'salary':body=renderSalary();break;case'weekSalary':body=renderWeekSalary();break;case'personalAgencySalary':body=renderPersonalAgencySalary();break;case'salaryRules':body=renderSalaryRules();break;case'rewards':body=renderRewards();break;case'reviewApply':body=renderReviewApply();break;default:body=renderHome()}document.getElementById('root').innerHTML=shell(body);window.scrollTo(0,0)}
 render();
 
 
@@ -1802,6 +1838,7 @@ renderTeamOverview=function(){
 
 /* Set the correct first tab whenever the demo role changes. */
 setDemoRole=function(role){
+  state.salaryBillTab='management';
   state.demoRole=role;const c=demoConfig(),tabs=unifiedTeamTabs[c.role]||[];
   state.teamManagementRole=teamTabInternalRole(tabs[0]||'Agency');
   state.inviteType=c.invite[0][0];state.reviewApplyType=c.review[0];state.reviewApplyStatus='All status';
@@ -2070,6 +2107,430 @@ function financeWeeklyMarkup() {
 managerWeeklySalaryMarkup = financeWeeklyMarkup;
 bdWeeklySalaryMarkup = financeWeeklyMarkup;
 
+// Own-agency published snapshots belong to the current management subject.
+const personalAgencySnapshots = [
+  {
+    "id": 501,
+    "periodId": "2026W34",
+    "start": "2026-08-17",
+    "end": "2026-08-23",
+    "status": 1,
+    "gold": 486320,
+    "diamonds": 145896,
+    "hostSalary": 486.32,
+    "agencySalary": 76.4,
+    "total": 562.72,
+    "shouldPay": 549.72,
+    "method": "USDT",
+    "amount": 562.72,
+    "payee": "TQ8Lw9p2xD7k3mN6cR4vB1zA5sF0hJ2uXq",
+    "hostAdjustment": -5.0,
+    "agentAdjustment": -8.0,
+    "adjustmentReason": "Correction of an overpaid agent salary amount.",
+    "hosts": [
+      {
+        "id": "10364025",
+        "name": "Sajadul Km5312",
+        "coins": 128600,
+        "diamonds": 38580,
+        "hostSalary": 128.6,
+        "agentSalary": 20.2,
+        "targetSalary": 127.06,
+        "diamondSalary": 1.54,
+        "days": 5,
+        "hours": 21.8,
+        "workingMet": true,
+        "adjustment": -10.0,
+        "reason": "Deduction for a verified policy violation."
+      },
+      {
+        "id": "10826491",
+        "name": "Ayesha Live",
+        "coins": 96740,
+        "diamonds": 29022,
+        "hostSalary": 96.74,
+        "agentSalary": 15.2,
+        "targetSalary": 95.58,
+        "diamondSalary": 1.16,
+        "days": 4,
+        "hours": 16.2,
+        "workingMet": true,
+        "adjustment": 5.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10597320",
+        "name": "Lina Voice",
+        "coins": 54320,
+        "diamonds": 16296,
+        "hostSalary": 54.32,
+        "agentSalary": 8.54,
+        "targetSalary": 53.67,
+        "diamondSalary": 0.65,
+        "days": 3,
+        "hours": 8.7,
+        "workingMet": false,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10261488",
+        "name": "Mariam Star",
+        "coins": 148900,
+        "diamonds": 44670,
+        "hostSalary": 148.9,
+        "agentSalary": 23.39,
+        "targetSalary": 147.11,
+        "diamondSalary": 1.79,
+        "days": 6,
+        "hours": 27.4,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10987211",
+        "name": "Noor Party",
+        "coins": 57760,
+        "diamonds": 17328,
+        "hostSalary": 57.76,
+        "agentSalary": 9.07,
+        "targetSalary": 57.07,
+        "diamondSalary": 0.69,
+        "days": 2,
+        "hours": 6.1,
+        "workingMet": false,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      }
+    ]
+  },
+  {
+    "id": 500,
+    "periodId": "2026W33",
+    "start": "2026-08-10",
+    "end": "2026-08-16",
+    "status": 2,
+    "gold": 421880,
+    "diamonds": 126564,
+    "hostSalary": 421.88,
+    "agencySalary": 69.5,
+    "total": 491.38,
+    "shouldPay": 491.38,
+    "method": "Bank Card",
+    "amount": 491.38,
+    "payee": "PK18ABCD0000123456789012",
+    "hostAdjustment": 0.0,
+    "agentAdjustment": 0.0,
+    "adjustmentReason": "",
+    "hosts": [
+      {
+        "id": "10364025",
+        "name": "Sajadul Km5312",
+        "coins": 110000,
+        "diamonds": 33000,
+        "hostSalary": 110.0,
+        "agentSalary": 18.0,
+        "targetSalary": 108.68,
+        "diamondSalary": 1.32,
+        "days": 4,
+        "hours": 18,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10826491",
+        "name": "Ayesha Live",
+        "coins": 88000,
+        "diamonds": 26400,
+        "hostSalary": 88.0,
+        "agentSalary": 14.5,
+        "targetSalary": 86.94,
+        "diamondSalary": 1.06,
+        "days": 5,
+        "hours": 20,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10597320",
+        "name": "Lina Voice",
+        "coins": 42000,
+        "diamonds": 12600,
+        "hostSalary": 42.0,
+        "agentSalary": 7.0,
+        "targetSalary": 41.5,
+        "diamondSalary": 0.5,
+        "days": 2,
+        "hours": 6,
+        "workingMet": false,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10261488",
+        "name": "Mariam Star",
+        "coins": 130000,
+        "diamonds": 39000,
+        "hostSalary": 130.0,
+        "agentSalary": 21.0,
+        "targetSalary": 128.44,
+        "diamondSalary": 1.56,
+        "days": 5,
+        "hours": 22,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10987211",
+        "name": "Noor Party",
+        "coins": 51880,
+        "diamonds": 15564,
+        "hostSalary": 51.88,
+        "agentSalary": 9.0,
+        "targetSalary": 51.26,
+        "diamondSalary": 0.62,
+        "days": 3,
+        "hours": 8,
+        "workingMet": false,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      }
+    ]
+  },
+  {
+    "id": 499,
+    "periodId": "2026W32",
+    "start": "2026-08-03",
+    "end": "2026-08-09",
+    "status": 4,
+    "gold": 398450,
+    "diamonds": 119535,
+    "hostSalary": 398.45,
+    "agencySalary": 65.2,
+    "total": 463.65,
+    "shouldPay": 463.65,
+    "method": "PayPal",
+    "amount": 463.65,
+    "payee": "finance@example.com",
+    "hostAdjustment": 0.0,
+    "agentAdjustment": 0.0,
+    "adjustmentReason": "",
+    "hosts": [
+      {
+        "id": "10364025",
+        "name": "Sajadul Km5312",
+        "coins": 102000,
+        "diamonds": 30600,
+        "hostSalary": 102.0,
+        "agentSalary": 17.0,
+        "targetSalary": 100.78,
+        "diamondSalary": 1.22,
+        "days": 4,
+        "hours": 16,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10826491",
+        "name": "Ayesha Live",
+        "coins": 81000,
+        "diamonds": 24300,
+        "hostSalary": 81.0,
+        "agentSalary": 13.2,
+        "targetSalary": 80.03,
+        "diamondSalary": 0.97,
+        "days": 4,
+        "hours": 15,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10597320",
+        "name": "Lina Voice",
+        "coins": 41500,
+        "diamonds": 12450,
+        "hostSalary": 41.5,
+        "agentSalary": 6.8,
+        "targetSalary": 41.0,
+        "diamondSalary": 0.5,
+        "days": 3,
+        "hours": 7,
+        "workingMet": false,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10261488",
+        "name": "Mariam Star",
+        "coins": 124000,
+        "diamonds": 37200,
+        "hostSalary": 124.0,
+        "agentSalary": 20.0,
+        "targetSalary": 122.51,
+        "diamondSalary": 1.49,
+        "days": 5,
+        "hours": 21,
+        "workingMet": true,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      },
+      {
+        "id": "10987211",
+        "name": "Noor Party",
+        "coins": 49950,
+        "diamonds": 14985,
+        "hostSalary": 49.95,
+        "agentSalary": 8.2,
+        "targetSalary": 49.35,
+        "diamondSalary": 0.6,
+        "days": 2,
+        "hours": 6,
+        "workingMet": false,
+        "adjustment": 0.0,
+        "reason": "Correction of an underpaid host salary amount."
+      }
+    ]
+  }
+];
+const personalAgencySnapshotOwners = new Set(['10032846', '530088', '20032846']);
+const personalAgencyBillsByOwner = new Map();
+let selectedPersonalAgencyBillId = null;
+routes.personalAgencySalary = 'Host Salary Bills';
+
+function personalAgencyBills() {
+  const ownerUid = demoConfig().id;
+  if (!personalAgencySnapshotOwners.has(ownerUid)) return [];
+  if (!personalAgencyBillsByOwner.has(ownerUid)) {
+    personalAgencyBillsByOwner.set(ownerUid, personalAgencySnapshots.map(snapshot => ({
+      ...snapshot,
+      id: ownerUid + '-' + snapshot.periodId,
+      ownerUid,
+      hosts: snapshot.hosts.map(host => ({...host}))
+    })));
+  }
+  return personalAgencyBillsByOwner.get(ownerUid);
+}
+
+function setSalaryBillTab(tab) {
+  if (tab !== 'management' && tab !== 'agency') return;
+  state.salaryBillTab = tab;
+  render();
+}
+
+function handleSalaryBillTabKey(event) {
+  const destinations = {ArrowLeft: 'management', Home: 'management', ArrowRight: 'agency', End: 'agency'};
+  const tab = destinations[event.key];
+  if (!tab) return;
+  event.preventDefault();
+  setSalaryBillTab(tab);
+  document.getElementById('salary-tab-' + tab).focus();
+}
+
+function personalAgencyBillAdjustments(bill) {
+  if (!bill.hostAdjustment && !bill.agentAdjustment) return '';
+  return `<div class="financeBreakdown">
+    <div class="financeLine"><span>Original Salary</span><b>${financeMoney(bill.total)}</b></div>
+    ${financeDetail(bill.total, bill.hostAdjustment, 'Adjustments to salaries collected for Hosts.', bill.shouldPay, 'Original Salary', 'Host Adjustment', false)}
+    ${financeDetail(bill.total, bill.agentAdjustment, bill.adjustmentReason, bill.shouldPay, 'Original Salary', 'Agent Adjustment', false)}
+  </div>`;
+}
+
+function personalAgencyBillsMarkup() {
+  const bills = personalAgencyBills();
+  if (!bills.length) return '<div class="salaryDataNote salaryEmpty">No agency salary bills yet.</div>';
+  return bills.map(bill => `<article class="salaryCard personalAgencyBill" data-bill-id="${bill.id}" data-owner-uid="${bill.ownerUid}">
+    <div class="salaryHead"><span><b>${bill.start} – ${bill.end}</b><small>Payout cycle · 1 week</small></span>
+      <span class="statusPill ${managerSettlementClass(bill.status)}">${({1: 'Pending Confirmation', 2: 'Confirmed', 3: 'Rejected', 4: 'Paid'})[bill.status]}</span></div>
+    <button class="salaryAction" onclick="openPersonalAgencySalary('${bill.id}')">View Host Salary Bills ›</button>
+    <div class="salaryRecordGrid">
+      ${financeMetric(bill.gold.toLocaleString('en-US'), 'Total Coins')}
+      ${financeMetric(bill.diamonds.toLocaleString('en-US'), 'Salary Diamonds')}
+      ${financeMetric(financeMoney(bill.hostSalary), 'Host Salary')}
+      ${financeMetric(financeMoney(bill.agencySalary), 'Agent Salary')}
+    </div>
+    ${personalAgencyBillAdjustments(bill)}
+    <div class="salaryAmount"><span>Settlement Amount</span><b>${financeMoney(bill.shouldPay)}</b></div>
+    <div class="salaryMeta sourceSalaryMeta">
+      <div><b>${financeEscape(bill.method)}</b><span>Payment</span></div>
+      <div><b>${bill.method === 'Coins' ? '—' : 'USD'}</b><span>Currency</span></div>
+      <div class="wideMeta"><b>${financeEscape(bill.payee)}</b><span>${bill.method === 'USDT' ? 'USDT Address' : bill.method === 'Bank Card' ? 'Bank Account' : bill.method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>
+    </div>
+    <div class="sourceBillActions">
+      <button onclick="toast('Export file prepared')">Export</button>
+      ${bill.status === 1 ? `<button class="rejectBill" onclick="rejectPersonalAgencyBill('${bill.id}')">Reject</button>
+        <button class="confirmBill" onclick="confirmPersonalAgencyBill('${bill.id}')">Confirm</button>` : ''}
+      ${bill.status === 4 ? `<button onclick="toast('Transfer receipt opened')">Transfer Receipt</button>` : ''}
+    </div>
+  </article>`).join('');
+}
+
+function confirmPersonalAgencyBill(id) {
+  const bill = personalAgencyBills().find(item => item.id === id);
+  if (!bill || bill.status !== 1) return;
+  const owner = demoConfig();
+  showBillConfirm(`<div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.shouldPay)}</b></div>
+    <p>${financeEscape(owner.name)} · UID ${financeEscape(owner.id)}</p>
+    ${personalAgencyBillAdjustments(bill)}
+    Payment: ${financeEscape(bill.method)}<br>${financeEscape(bill.payee)}`,
+    () => updatePersonalAgencyBill(id, 2));
+}
+
+function rejectPersonalAgencyBill(id) {
+  const bill = personalAgencyBills().find(item => item.id === id);
+  if (!bill || bill.status !== 1) return;
+  showModal(`<h3>Reject Salary Bill</h3>
+    <p>${bill.start} – ${bill.end}</p>
+    <div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.shouldPay)}</b></div>
+    <div class="sourceBillActions"><button onclick="closeModal()">Cancel</button>
+      <button class="rejectBill" onclick="updatePersonalAgencyBill('${bill.id}',3)">Reject bill</button></div>`);
+}
+
+function updatePersonalAgencyBill(id, status) {
+  const bill = personalAgencyBills().find(item => item.id === id);
+  if (!bill || bill.status !== 1) return;
+  bill.status = status;
+  closeModal();
+  render();
+  toast(status === 2 ? 'Agency bill confirmed' : 'Agency bill rejected');
+}
+
+function openPersonalAgencySalary(id) {
+  const bill = personalAgencyBills().find(item => item.id === id);
+  if (!bill) return;
+  selectedPersonalAgencyBillId = id;
+  openp('personalAgencySalary');
+}
+
+function renderPersonalAgencySalary() {
+  const bill = personalAgencyBills().find(item => item.id === selectedPersonalAgencyBillId);
+  if (!bill) return '<section class="page"><div class="salaryDataNote">No host salary bills for this period.</div></section>';
+  return `<section class="page"><div class="salarySectionTitle"><b>Host Salary Bills</b></div>
+    <div class="salaryDataNote">${bill.start} – ${bill.end} · UTC+5</div>
+    ${bill.hosts.map(host => `<article class="hostSalaryCardNew">
+      <div class="hostSalaryHeadNew"><b>${financeEscape(host.name)}</b><small>User ID: ${financeEscape(host.id)}</small></div>
+      <div class="hostSalaryGridNew">
+        ${financeMetric(host.coins.toLocaleString('en-US'), 'Total Coins')}
+        ${financeMetric(host.diamonds.toLocaleString('en-US'), 'Salary Diamonds')}
+        ${financeMetric(financeMoney(host.targetSalary), 'Target Salary')}
+        ${financeMetric(financeMoney(host.diamondSalary), 'Diamond Salary')}
+        ${financeMetric(financeMoney(host.hostSalary), 'Host Salary')}
+        ${financeMetric(financeMoney(host.agentSalary), 'Agent Salary')}
+        ${financeMetric(host.days, 'Valid Days')}
+        ${financeMetric(host.hours.toFixed(2), 'Valid Hours')}
+      </div>
+      ${financeDetail(host.hostSalary, host.adjustment, host.reason, host.hostSalary + host.adjustment)}
+      <div class="agencyFinal"><span>Settlement Amount</span><b>${financeMoney((Math.round(host.hostSalary * 100) + Math.round(host.adjustment * 100)) / 100)}</b></div>
+      <div class="achievementNew"><span>Working Time</span><b class="${host.workingMet ? 'validYes' : 'validNo'}">${host.workingMet ? '✓ Achieved' : '× Not Met'}</b></div>
+    </article>`).join('')}
+  </section>`;
+}
+
 renderSalary = function () {
   const preferred = preferredPaymentMethod();
   return `<section class="salaryUnifiedPad">
@@ -2081,7 +2542,18 @@ renderSalary = function () {
     </button></div>
     <div class="salaryDataNote">All times follow UTC+5.</div>
     <div class="salarySectionTitle"><b>Salary Records</b></div>
-    <div class="salaryCards">${managerSalaryBillsMarkup()}</div>
+    <div class="salaryBillTabs" role="tablist" aria-label="Salary bill type" onkeydown="handleSalaryBillTabKey(event)">
+      <button id="salary-tab-management" role="tab" type="button" aria-controls="salaryBillRecords"
+        aria-selected="${state.salaryBillTab !== 'agency'}" tabindex="${state.salaryBillTab === 'agency' ? -1 : 0}"
+        onclick="setSalaryBillTab('management')">Management Role bill</button>
+      <button id="salary-tab-agency" role="tab" type="button" aria-controls="salaryBillRecords"
+        aria-selected="${state.salaryBillTab === 'agency'}" tabindex="${state.salaryBillTab === 'agency' ? 0 : -1}"
+        onclick="setSalaryBillTab('agency')">Agency bill</button>
+    </div>
+    <div id="salaryBillRecords" class="salaryCards" role="tabpanel"
+      aria-labelledby="salary-tab-${state.salaryBillTab === 'agency' ? 'agency' : 'management'}">
+      ${state.salaryBillTab === 'agency' ? personalAgencyBillsMarkup() : managerSalaryBillsMarkup()}
+    </div>
   </section>`;
 };
 
