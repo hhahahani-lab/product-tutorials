@@ -1,0 +1,1875 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Agency Center Replica</title>
+<style>
+*{box-sizing:border-box} body{margin:0;background:#10071d;color:#f7efff;font-family:Arial,sans-serif}
+.app{max-width:430px;margin:auto;min-height:100vh;background:radial-gradient(circle at 50% -10%,#5b2385 0,#2b123f 26%,#13091f 58%,#0d0616 100%);padding-bottom:35px}
+.top{height:64px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #7a4d9c;color:#ffd76a;font-size:20px;font-weight:800;position:relative;background:linear-gradient(#5c2a7faa,#241132dd)}
+.top .l,.top .r{position:absolute;top:17px;width:34px;height:34px;border:1px solid #d4a84a;border-radius:50%;display:grid;place-items:center}.top .l{left:14px}.top .r{right:14px}
+.page{display:none}.page.on{display:block}.pad{padding:14px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:26px 16px}.menu .item{height:145px;border-radius:10px;background:linear-gradient(145deg,#3a1b4f,#21102f);border:1px solid #6e3e86;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:800;font-size:16px;padding:8px}
+.ico{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-size:27px;margin-bottom:12px}.red{background:#f34e59}.blue{background:#249df0}.green{background:#22cfa2}.orange{background:#ff7541}.mint{background:#15d88a}
+.whatsapp{width:250px;margin:210px auto 0;background:#08dc79;border-radius:14px;text-align:center;padding:15px;font-size:20px;font-weight:800}
+.goldbtn{background:linear-gradient(#fff0b3,#e9a51d);color:#774a20;border-radius:14px;padding:9px;text-align:center;font-size:18px;margin-bottom:12px}
+.note{font-weight:700;font-size:14px;line-height:1.25}.label{font-size:14px;color:#cfc3ce;margin:14px 0 6px}.input{height:62px;background:#321740;border-radius:14px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:17px;font-weight:700}
+.period{font-size:13px;line-height:1.5}.section{margin-top:14px;border:1px solid #7b4a95;background:#1a0c25}.section-title{padding:11px 14px;color:#ffd76a;font-size:19px;font-weight:800;background:linear-gradient(90deg,#4a1f64,#6b2d88,#3b174f)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:10px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;padding:0 10px 10px}.stat{min-height:98px;background:linear-gradient(145deg,#40204f,#2d1737);border-radius:5px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7px}.num{color:#ffd76a;font-size:21px;font-weight:800}.txt{font-size:14px;margin-top:7px;line-height:1.2}
+.chartTitle{color:#ffd76a;font-weight:800;font-size:16px;margin:24px 18px 7px}.legend{text-align:center;font-size:12px}.lg{display:inline-block;width:36px;height:18px;border-radius:5px;margin:0 6px -5px 12px}.last{background:#8ee448}.this{background:#09cbe6}.chart{margin:18px 35px;height:170px;border-left:1px solid #d7cbd6;border-bottom:1px solid #d7cbd6;background:repeating-linear-gradient(to bottom,transparent 0,transparent 32px,#d7cbd6 33px,#d7cbd6 34px);position:relative}.zeros{position:absolute;bottom:-6px;left:5px;right:5px;display:flex;justify-content:space-between;font-size:13px}.dates{display:flex;justify-content:space-between;margin:-10px 35px 20px;font-size:12px}
+.roomMeta{padding:12px 18px}.meta{display:flex;justify-content:space-between;padding:17px 0;border-bottom:1px solid #322c2e;font-weight:700}.meta .val{color:#f5d05c;text-align:right}.mic{margin:10px 14px;background:linear-gradient(180deg,#9a62d0,#5b2a86);height:145px;display:grid;place-items:center;text-align:center}.mic .big{font-size:43px;color:#fff400;font-weight:800}
+.hostSearch{background:#271232;margin:18px;border-radius:8px;padding:20px}.searchrow{display:flex;gap:12px;align-items:center;margin-top:25px}.searchrow input{flex:1;background:none;border:0;border-bottom:1px solid #8a61a5;color:white;padding:10px;font-size:16px}.searchbtn{border:0;border-radius:25px;background:linear-gradient(#fff1b0,#e7a31c);padding:11px 30px;color:#805324;font-size:17px}
+.analysis-tabs{display:flex;padding:8px 14px 0;gap:28px;font-weight:800}.analysis-tabs span:first-child{color:#ffd76a;border-bottom:2px solid #ffd05d;padding-bottom:8px}.smallnote{font-size:11px;padding:9px 14px;color:#bbb0b8}.weekbox{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:8px 14px}.weekstat{background:linear-gradient(145deg,#40204f,#2d1737);text-align:center;padding:12px 5px}.arrow{color:#f5d05c;font-size:25px}.yesterday{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:8px 14px}.ys{background:linear-gradient(145deg,#40204f,#2d1737);text-align:center;padding:12px 5px;min-height:120px}.pct{color:#f6d05d;font-weight:800}.rewardbox{margin:18px;background:#25112f;border:1px solid #70458a;border-radius:8px;padding:16px;text-align:center}.rewardcards{display:flex;gap:18px;align-items:center;justify-content:center;margin:18px 0}.reward{width:130px;background:#321740;border:1px solid #8a5da3;padding:10px;border-radius:6px}.pic{height:92px;background:linear-gradient(135deg,#d99e28,#fff0a5);border-radius:5px}.pic.bean{background:linear-gradient(135deg,#ff642e,#ffba67)}.claim{background:#4b2a5f;color:#ddd;border-radius:10px;padding:16px;font-size:20px;font-weight:800;margin:18px 0}.records{margin:18px;border:1px solid #7b4a95;min-height:300px}.recHead{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:16px;color:#ffd76a;font-weight:800}
+
+.item,.section,.rewardbox,.records{box-shadow:0 8px 24px rgba(78,24,112,.12)}
+.top,.section-title{text-shadow:0 1px 0 #5d2e00,0 0 8px rgba(255,215,106,.18)}
+.goldbtn,.searchbtn{box-shadow:0 3px 12px rgba(255,194,63,.22)}
+.whatsapp{background:linear-gradient(135deg,#7c27b5,#b73ae0);border:1px solid #d79af0}
+.stat,.weekstat,.ys{border:1px solid rgba(210,157,231,.12)}
+
+.analysis-tab{padding-bottom:8px;cursor:pointer}
+.analysis-tab.active{color:#ffd76a;border-bottom:2px solid #ffd76a}
+.filterchip{background:#3a1b4f;color:#f7efff;border:1px solid #6e3e86;border-radius:8px;padding:7px 10px;font-size:12px}
+
+.reviewtabs{text-align:center;padding:18px 14px 8px}
+.reviewtabs .active{color:#ffd76a;border-bottom:4px solid #ffd76a;padding:10px 28px;font-weight:800}
+.reviewFilter{display:grid;grid-template-columns:1fr 120px;gap:12px;padding:14px 18px}
+.statusSelect{border:0;border-radius:14px;background:#5d4a67;color:white;font-size:17px;font-weight:700}
+.reviewCard{margin:12px 18px;border-radius:14px;background:rgba(101,70,106,.55);padding:14px;border:1px solid #6e3e86}
+.reviewHead{display:flex;justify-content:space-between;color:#f5d979;font-size:17px}
+.under{color:#ffad2f}.approved{color:#31e96b}.rejected{color:#ff6c7e}
+.reviewBody{display:grid;grid-template-columns:52px 1fr 110px;gap:10px;align-items:center;margin-top:18px;padding:12px;background:#765f7c;border-radius:12px}
+.avatar{width:46px;height:46px;border-radius:50%;background:#f0a640;display:grid;place-items:center}
+.reviewUser{font-size:14px;line-height:1.55}
+.reviewActions button{display:block;width:100%;padding:8px;margin:6px 0;border-radius:8px}
+.approve{background:#67ed43;border:0;color:#245617}
+.reject{background:transparent;border:1px solid #ffe56d;color:#fff}
+.nomore{text-align:center;font-size:20px;font-weight:800;margin:28px;color:#d8c8dd}
+.backAgency{margin:0 18px 22px;border:0;background:none;color:#d6b7e8;font-weight:700;font-size:14px}
+.toastSuccess{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(17,14,24,.94);padding:28px 36px;border-radius:15px;font-size:18px;font-weight:800;z-index:99;text-align:center}
+
+.l,.r{cursor:pointer;user-select:none}
+
+.hostDataTop{padding:14px 16px 4px}
+.hostSearchRow{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center}
+.hostIdField{height:46px;border-radius:10px;background:#351a42;border:1px solid #64407a;color:#9f8baa;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:14px}
+.filterLine{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:10px}
+.filterLabel{font-size:12px;color:#b6a8bd;min-width:34px}
+.filterSelect{border:1px solid #604071;background:#34203e;color:#eee3f2;border-radius:8px;padding:7px 10px;font-size:11px}
+.filterSelect.active{background:linear-gradient(180deg,#71412c,#9c5e36);border-color:#c58a55;color:#fff}
+.hostDataNote{font-size:11px;color:#9f92a5;margin:12px 0 4px}
+.emptyHostState{text-align:center;color:#b7a6bb;padding:86px 20px 30px}
+.emptyIcon{font-size:58px;opacity:.45;margin-bottom:12px}
+.hostFilterModalDemo{margin:10px 16px 26px;border-radius:14px;border:1px solid #6d477f;background:#1c1026;padding:14px;display:none}
+.hostFilterModalDemo.show{display:block}
+.modalTitle{font-weight:800;color:#ffd76a;margin-bottom:12px}
+.modalGroup{margin:12px 0}.modalLabel{font-size:12px;color:#b9aabd;margin-bottom:8px}.modalChips{display:flex;gap:7px;flex-wrap:wrap}
+.modalChips button{border:1px solid #5f456a;background:#3a2a41;color:#eee1f0;border-radius:8px;padding:8px 11px;font-size:11px}
+.modalChips button.on{background:linear-gradient(180deg,#7b482e,#a96239);border-color:#c88c5a}
+.modalActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.modalActions button{padding:12px;border:0;border-radius:10px;background:#4c3d51;color:#eee}.modalActions .confirm{background:linear-gradient(#fff0a2,#ffbd17);color:#5a2a00;font-weight:800}
+
+/* v12 - more recognizable purple/Coins home function icons */
+#home .menu{gap:14px 10px}
+#home .item{font-weight:650;letter-spacing:.05px}
+#home .ico{
+  width:58px;height:58px;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:27px;line-height:1;
+  color:#ffe68b;
+  border:1.5px solid rgba(255,216,105,.78);
+  background:
+    radial-gradient(circle at 30% 22%,rgba(255,247,194,.28),transparent 29%),
+    linear-gradient(145deg,#7b2bb5 0%,#55147d 55%,#310848 100%)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.24),
+    inset 0 -8px 15px rgba(24,2,37,.2),
+    0 7px 16px rgba(16,2,24,.34),
+    0 0 0 3px rgba(255,197,54,.06);
+  text-shadow:0 2px 5px rgba(0,0,0,.45);
+  position:relative;overflow:hidden
+}
+#home .ico:before{
+  content:"";position:absolute;left:9px;right:9px;top:7px;height:12px;
+  border-radius:50%;background:linear-gradient(rgba(255,255,255,.22),transparent)
+}
+#home .item:active .ico{transform:scale(.94)}
+
+.copyIcon{font-size:22px;color:#ffd76a;cursor:pointer;padding:8px;margin:-8px}
+.copyIcon:active{transform:scale(.9)}
+.copyToast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,15,39,.96);color:#fff;border:1px solid #81539a;border-radius:10px;padding:10px 18px;font-size:13px;z-index:120;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.clickableTitle,.clickableStat{cursor:pointer}
+.clickableStat:active{transform:scale(.985);filter:brightness(1.08)}
+.dateRow{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:2px 0 12px}
+.calendarOverlay{display:none;position:fixed;inset:0;background:rgba(5,3,9,.78);z-index:150;align-items:center;justify-content:center;padding:18px}
+.calendarOverlay.show{display:flex}
+.calendarCard{width:min(390px,100%);border:1px solid #704887;border-radius:18px;background:linear-gradient(180deg,#22102d,#12091a);padding:18px;color:#f7efff;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.calendarTop{display:flex;justify-content:space-between;align-items:center;font-size:20px}.calendarTop button{border:0;background:none;color:white;font-size:28px}
+.calendarMonth{text-align:center;margin:18px 0;font-size:18px;color:#d7c0e3}
+.weekdays,.calendarGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;text-align:center}
+.weekdays{font-size:11px;color:#9f8ea7;margin-bottom:8px}
+.calendarGrid button,.calendarGrid span{height:39px;border:0;border-radius:12px;background:transparent;color:#eee;font-size:14px}
+.calendarGrid button.rangeStart,.calendarGrid button.rangeEnd{background:#c48a39;color:#fff;font-weight:800}
+.calendarConfirm{width:100%;margin-top:18px;border:0;border-radius:14px;padding:14px;background:linear-gradient(#fff0a2,#ffbd17);color:#5a2a00;font-size:17px;font-weight:800}
+
+/* v14 Review Apply filter fix */
+.reviewFilter{display:grid;grid-template-columns:1fr 120px;gap:12px;padding:14px 18px;align-items:stretch}
+.statusSelect,.reviewSearchBtn{
+  height:52px;border-radius:14px;font-size:17px;font-weight:700;
+  display:flex;align-items:center;justify-content:center
+}
+.statusSelect{
+  border:0;background:#5d4a67;color:#fff;justify-content:space-between;padding:0 18px
+}
+.reviewSearchBtn{
+  border:0;color:#6a3600;background:linear-gradient(#fff1a9,#ffbd1d);
+  box-shadow:0 3px 10px rgba(255,190,34,.18)
+}
+.statusSheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:220;align-items:flex-end}
+.statusSheet.show{display:flex}
+.statusSheetPanel{
+  width:100%;max-width:430px;margin:0 auto;
+  background:linear-gradient(180deg,#26142f,#160b1e);
+  border-radius:18px 18px 0 0;border-top:1px solid #6d467f;
+  padding:12px 0 calc(18px + env(safe-area-inset-bottom));
+  box-shadow:0 -14px 35px rgba(0,0,0,.4)
+}
+.statusSheetTop{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;padding:4px 14px 12px}
+.sheetClose{border:0;background:none;color:#d9c9df;font-size:28px;text-align:left}
+.sheetTitle{text-align:center;color:#f2e7f5;font-size:15px;font-weight:700}
+.statusOption{
+  width:100%;height:54px;border:0;border-top:1px solid rgba(255,255,255,.035);
+  background:transparent;color:#b7a8bd;font-size:15px
+}
+.statusOption.selected{color:#ffd76a;background:#4a354f;font-weight:800}
+
+/* v15 hard fix for Review Apply */
+.reviewFilter{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 120px!important;
+  gap:12px!important;
+  padding:14px 18px!important;
+  align-items:stretch!important;
+}
+.reviewFilter .statusSelect,
+.reviewFilter .reviewSearchBtn{
+  box-sizing:border-box!important;
+  height:52px!important;
+  min-height:52px!important;
+  margin:0!important;
+  padding:0 16px!important;
+  border-radius:14px!important;
+  font-size:17px!important;
+  font-weight:700!important;
+  line-height:52px!important;
+}
+.reviewFilter .statusSelect{
+  border:0!important;
+  background:#5d4a67!important;
+  color:#fff!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  line-height:normal!important;
+}
+.reviewFilter .reviewSearchBtn{
+  border:0!important;
+  color:#6a3600!important;
+  background:linear-gradient(#fff1a9,#ffbd1d)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:normal!important;
+}
+.statusSheet{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.58);
+  z-index:999;
+  align-items:flex-end;
+  justify-content:center;
+}
+.statusSheet.show{display:flex!important}
+.statusSheetPanel{
+  width:min(430px,100%);
+  background:linear-gradient(180deg,#26142f,#160b1e);
+  border-radius:18px 18px 0 0;
+  border-top:1px solid #6d467f;
+  padding:8px 0 calc(14px + env(safe-area-inset-bottom));
+  box-shadow:0 -14px 35px rgba(0,0,0,.45);
+}
+.sheetHandle{
+  width:38px;height:4px;border-radius:99px;
+  background:#7f6f84;margin:4px auto 8px;
+}
+.statusOption{
+  width:100%;
+  height:54px;
+  border:0;
+  background:transparent;
+  color:#b7a8bd;
+  font-size:15px;
+}
+.statusOption.selected{
+  color:#ffd76a!important;
+  background:#4a354f!important;
+  font-weight:800;
+}
+.backAgency{display:none!important}
+
+/* v16 Agency Center > Host Data search adopts Review Apply control style */
+#host .hostSearchUnified{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 120px;
+  gap:12px;
+  margin-top:18px;
+  align-items:stretch;
+}
+#host .hostSearchInput,
+#host .hostSearchButton{
+  box-sizing:border-box;
+  height:52px;
+  min-height:52px;
+  margin:0;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:700;
+}
+#host .hostSearchInput{
+  width:100%;
+  border:0;
+  outline:none;
+  background:#5d4a67;
+  color:#fff;
+  padding:0 18px;
+}
+#host .hostSearchInput::placeholder{
+  color:#f0e7f2;
+  opacity:1;
+}
+#host .hostSearchButton{
+  border:0;
+  color:#6a3600;
+  background:linear-gradient(#fff1a9,#ffbd1d);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 3px 10px rgba(255,190,34,.18);
+}
+
+/* v18 Data Analysis > Host Data search unified with Review Apply */
+#analysis .analysisHostSearch{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 120px;
+  gap:12px;
+  align-items:stretch;
+  margin-bottom:10px;
+}
+#analysis .analysisHostSearch .hostSearchInput,
+#analysis .analysisHostSearch .hostSearchButton{
+  box-sizing:border-box;
+  height:52px;
+  min-height:52px;
+  margin:0;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:700;
+}
+#analysis .analysisHostSearch .hostSearchInput{
+  width:100%;
+  border:0;
+  outline:none;
+  background:#5d4a67;
+  color:#fff;
+  padding:0 18px;
+}
+#analysis .analysisHostSearch .hostSearchInput::placeholder{
+  color:#f0e7f2;
+  opacity:1;
+}
+#analysis .analysisHostSearch .hostSearchButton{
+  border:0;
+  color:#6a3600;
+  background:linear-gradient(#fff1a9,#ffbd1d);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 3px 10px rgba(255,190,34,.18);
+}
+
+/* v19 Data Analysis tabs - mutual exclusive */
+#analysis .analysis-tabs{
+  display:flex!important;
+  gap:26px!important;
+  padding:16px 18px 6px!important;
+  align-items:flex-end!important;
+}
+#analysis .analysis-tab{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  border:0!important;
+  border-bottom:3px solid transparent!important;
+  background:transparent!important;
+  color:#9c8fa5!important;
+  padding:0 0 10px!important;
+  margin:0!important;
+  font-size:17px!important;
+  font-weight:800!important;
+  line-height:1!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+#analysis .analysis-tab.active{
+  color:#ffd76a!important;
+  border-bottom-color:#ffd76a!important;
+  background:transparent!important;
+}
+
+/* v19 Host Data compact filters */
+#analysis .compactFilterBar{
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+#analysis .compactFilterGroup{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+#analysis .compactFilterLabel{
+  color:#b5a7bb;
+  font-size:12px;
+}
+#analysis .compactChip{
+  height:32px;
+  border-radius:8px;
+  border:1px solid #5d4668;
+  background:#3a2b41;
+  color:#d8cddd;
+  padding:0 10px;
+  font-size:11px;
+}
+#analysis .compactChip.active{
+  background:linear-gradient(180deg,#7f4a2f,#9d6138);
+  border-color:#c38a58;
+  color:#fff;
+}
+#analysis .compactChip.iconChip{
+  width:34px;
+  padding:0;
+  font-size:15px;
+}
+
+.hostFilterSheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:999;align-items:flex-end;justify-content:center}
+.hostFilterSheet.show{display:flex}
+.hostFilterPanel{width:min(430px,100%);background:linear-gradient(180deg,#26142f,#160b1e);border-radius:18px 18px 0 0;border-top:1px solid #6d467f;padding:10px 16px calc(16px + env(safe-area-inset-bottom))}
+.hostFilterHeader{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;margin-bottom:10px}
+.hostFilterHeader button{border:0;background:none;color:#d9c9df;font-size:28px;text-align:left}.hostFilterHeader b{text-align:center}
+#hostFilterOptions{display:flex;gap:8px;flex-wrap:wrap}
+#hostFilterOptions button{border:1px solid #5f456a;background:#3a2a41;color:#eee1f0;border-radius:8px;padding:9px 12px;font-size:12px}
+#hostFilterOptions button.on{background:linear-gradient(180deg,#7b482e,#a96239);border-color:#c88c5a}
+.hostFilterActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.hostFilterActions button{height:46px;border:0;border-radius:10px;background:#4c3d51;color:#eee}
+.hostFilterActions .confirm{background:linear-gradient(#fff0a2,#ffbd17);color:#5a2a00;font-weight:800}
+
+/* v19 WhatsApp brand treatment */
+.whatsapp{
+  width:250px;
+  margin:210px auto 0;
+  background:#25D366!important;
+  border:0!important;
+  border-radius:14px;
+  color:#fff!important;
+  text-align:center;
+  padding:14px 18px;
+  font-size:20px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  box-shadow:0 8px 20px rgba(37,211,102,.22);
+}
+.waIcon{
+  width:30px;height:30px;border-radius:50%;
+  border:2px solid #fff;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:16px;transform:rotate(-18deg)
+}
+
+/* v20 combined Host Data filter sheet */
+#analysis .compactFilterBar{cursor:pointer}
+#analysis .compactFilterBar:active{opacity:.92}
+.sortOrderIcon{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  width:20px;height:20px;
+}
+.sortOrderIcon i{display:block;width:12px;height:2px;border-radius:2px;background:#f0e4f3;position:relative}
+.sortOrderIcon .up{width:7px}.sortOrderIcon .down{width:12px}
+.sortOrderIcon .up:before,
+.sortOrderIcon .down:before{
+  content:"";position:absolute;left:-4px;top:-2px;width:0;height:0;
+  border-top:3px solid transparent;border-bottom:3px solid transparent;border-right:4px solid #f0e4f3
+}
+.sheetGrabber{width:38px;height:4px;border-radius:99px;background:#725f79;margin:2px auto 14px}
+.combinedGroup{margin:14px 0}
+.combinedLabel{color:#d9cce0;font-size:14px;font-weight:700;margin-bottom:9px}
+.combinedOptions{display:flex;gap:8px;flex-wrap:wrap}
+.combinedOption{
+  min-height:38px;border-radius:9px;border:1px solid #60496b;background:#3b2b42;
+  color:#d8ccd9;padding:8px 12px;font-size:12px;display:inline-flex;align-items:center;gap:7px
+}
+.combinedOption.on{
+  background:linear-gradient(180deg,#845037,#a6673e);
+  border-color:#cc9561;color:#fff
+}
+.orderOptions{display:grid;grid-template-columns:1fr 1fr}
+.orderOptions .combinedOption{justify-content:center}
+.orderChoiceIcon{display:inline-flex;flex-direction:column;gap:2px;align-items:flex-start;width:18px}
+.orderChoiceIcon i{display:block;height:2px;border-radius:2px;background:currentColor}
+.orderChoiceIcon.descending i:nth-child(1){width:14px}
+.orderChoiceIcon.descending i:nth-child(2){width:10px}
+.orderChoiceIcon.descending i:nth-child(3){width:6px}
+.orderChoiceIcon.ascending{align-items:flex-end}
+.orderChoiceIcon.ascending i:nth-child(1){width:6px}
+.orderChoiceIcon.ascending i:nth-child(2){width:10px}
+.orderChoiceIcon.ascending i:nth-child(3){width:14px}
+
+/* v21 close behavior */
+.sheetGrabber{cursor:pointer}
+.hostFilterSheet{overscroll-behavior:contain}
+
+/* v22 Data Analysis help */
+.analysisTabsWrap{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  padding-right:16px;
+}
+.analysisTabsWrap .analysis-tabs{
+  flex:1;
+}
+.analysisHelpBtn{
+  width:28px;
+  height:28px;
+  margin-bottom:8px;
+  border-radius:50%;
+  border:1px solid #8a6f55;
+  background:#3a2a32;
+  color:#f2d78b;
+  font-size:16px;
+  font-weight:800;
+  line-height:26px;
+  text-align:center;
+}
+.rulesPage{
+  padding:18px 20px 30px;
+  color:#eee6f0;
+  line-height:1.45;
+}
+.rulesPage h2{
+  text-align:center;
+  color:#f3d77c;
+  margin:4px 0 22px;
+}
+.rulesPage h3{
+  color:#f5ecf7;
+  font-size:18px;
+  margin:22px 0 10px;
+}
+.rulesPage p{
+  font-size:14px;
+  margin:0 0 12px;
+  color:#ddd2e0;
+}
+.rulesPage b{
+  color:#f0e7f2;
+}
+
+/* v23 Invitation Rewards */
+.rewardcards{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:center;
+  margin:18px 0;
+}
+.reward{
+  width:132px;
+  background:linear-gradient(180deg,#3a203f,#26162d);
+  border:1px solid #6d4b77;
+  padding:10px;
+  border-radius:12px;
+  position:relative;
+  overflow:visible;
+}
+.rewardPic{
+  height:96px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.coinPic{
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,245,177,.38),transparent 34%),
+    linear-gradient(135deg,#f5c84a,#c98913);
+  box-shadow:inset 0 0 0 1px rgba(255,248,196,.35);
+}
+.beanPic{
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,234,176,.28),transparent 32%),
+    linear-gradient(135deg,#ff793d,#ef462f 58%,#c92c2c);
+  box-shadow:inset 0 0 0 1px rgba(255,218,164,.28);
+}
+.coinStack{
+  position:relative;
+  width:74px;height:54px;
+}
+.coinStack span{
+  position:absolute;
+  display:block;
+  width:44px;height:18px;
+  border-radius:50%;
+  background:linear-gradient(#fff2a5,#f2b21f 48%,#c67b05);
+  border:2px solid #ffe27b;
+  box-shadow:0 4px 0 #a56400;
+  color:transparent;
+}
+.coinStack span:nth-child(1){left:4px;top:24px}
+.coinStack span:nth-child(2){left:22px;top:12px}
+.coinStack span:nth-child(3){left:10px;top:0}
+.beanShape{
+  position:relative;
+  width:66px;height:54px;
+}
+.beanShape span{
+  position:absolute;
+  width:29px;height:39px;
+  border-radius:58% 42% 60% 40% / 58% 50% 50% 42%;
+  background:linear-gradient(145deg,#ffcf53,#ff7b24 56%,#ea3c2c);
+  border:2px solid rgba(255,232,152,.55);
+  transform:rotate(25deg);
+  box-shadow:0 5px 10px rgba(126,24,17,.28);
+}
+.beanShape span:nth-child(1){left:3px;top:12px}
+.beanShape span:nth-child(2){left:24px;top:2px;transform:rotate(-18deg)}
+.beanShape span:nth-child(3){left:41px;top:15px;transform:rotate(30deg)}
+.rewardName{
+  margin-top:9px;
+  color:#f5edf7;
+  font-weight:800;
+  font-size:15px;
+  text-align:center;
+}
+.rewardMiniIcon{
+  width:16px;height:16px;border-radius:50%;
+  display:inline-block;vertical-align:-3px;margin-right:5px;
+}
+.coinMini{
+  background:linear-gradient(#fff1a0,#e9a50e);
+  border:1px solid #ffd65b;
+  box-shadow:inset 0 -2px 0 #b96d00;
+}
+.beanMini{
+  background:linear-gradient(145deg,#ffce55,#ff7628 58%,#e94230);
+  border-radius:60% 40% 55% 45%;
+  transform:rotate(20deg);
+}
+.rewardOr{
+  color:#f5eaf6;
+  font-size:17px;
+}
+.bonusTag{
+  position:absolute;
+  right:-7px;
+  top:-11px;
+  background:linear-gradient(180deg,#ff4b6d,#ec233f);
+  color:#fff4ac;
+  font-size:15px;
+  font-weight:900;
+  padding:5px 10px;
+  border-radius:12px 12px 4px 12px;
+  border:1px solid rgba(255,225,125,.45);
+  box-shadow:0 5px 14px rgba(207,31,64,.32);
+  z-index:3;
+}
+.rewardBean{
+  border-color:#a85b72;
+  box-shadow:0 0 0 2px rgba(255,72,104,.06),0 8px 18px rgba(0,0,0,.18);
+}
+
+
+/* v24 Salary Bill */
+#salary{padding:18px 16px 36px}
+.salaryMethodHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.salaryMethodTitle{font-size:17px;font-weight:800;color:#f2e9f4}
+.salaryHelpBtn{width:28px;height:28px;flex:0 0 28px;border-radius:50%;border:1px solid #8a6f55;background:#3a2a32;color:#f2d78b;font-size:16px;font-weight:800;line-height:26px;text-align:center}
+.salaryMethodChips{display:flex;flex-wrap:wrap;gap:10px 9px;margin-bottom:18px}
+.salaryMethodChip{height:40px;padding:0 18px;border-radius:22px;border:1px solid #77675e;background:linear-gradient(180deg,#4a3c3a,#2f292d);color:#f1e39c;font-size:15px;font-weight:700;cursor:pointer}
+.salaryMethodChip.active{background:linear-gradient(180deg,#70542c,#47351e);border-color:#aa8544;box-shadow:inset 0 1px 0 rgba(255,238,163,.16)}
+.salaryUpdateNote{color:#958990;font-size:13px;font-weight:700;line-height:1.5;margin:8px 0 0}
+.salaryEmpty{padding:112px 20px 80px;text-align:center;color:#d1c6cf}
+.salaryEmptyIcon{width:92px;height:72px;margin:0 auto 25px;position:relative;opacity:.28}
+.salaryEmptyIcon:before{content:"";position:absolute;left:20px;right:20px;top:10px;height:45px;border:7px solid #b6aab4;border-bottom-width:6px;border-radius:20px 20px 5px 5px}
+.salaryEmptyIcon:after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:5px;background:#b6aab4;box-shadow:8px -10px 0 -1px #b6aab4,-8px -10px 0 -1px #b6aab4}
+.salaryEmptyText{font-size:17px;font-weight:700}
+
+.payOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.76);z-index:1100;align-items:center;justify-content:center;padding:18px}
+.payOverlay.show{display:flex}
+.payCard{width:min(390px,100%);max-height:82vh;overflow:auto;background:#252427;border-radius:20px;padding:22px 14px 18px;color:#f5f2f4;box-shadow:0 18px 55px rgba(0,0,0,.52)}
+.payCardTitle{text-align:center;font-size:20px;font-weight:900;margin:0 0 14px}
+.payRow{min-height:58px;border-bottom:1px solid #39383b;display:grid;grid-template-columns:132px minmax(0,1fr);gap:10px;align-items:center;padding:10px 0}
+.payLabel{font-size:14px;font-weight:800;color:#c8c2c8}
+.payValue,.payInput{font-size:15px;font-weight:700;color:#fff;text-align:right}
+.payValue.clickable{cursor:pointer;display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.payArrow{font-size:28px;color:#aaa5ab;font-weight:300;line-height:1}
+.payInput{width:100%;border:0;outline:none;background:transparent;padding:5px 0;text-align:right}
+.payInput::placeholder{color:#c6c0c5;opacity:1}
+.payError{display:none;color:#dc3247;font-size:11px;font-weight:700;text-align:right;padding:4px 0 0;grid-column:2}
+.payError.show{display:block}
+.payActions{display:grid;grid-template-columns:1fr 1fr;gap:74px;padding:18px 34px 0}
+.payActions button{height:48px;border:0;border-radius:10px;font-size:17px;font-weight:800}
+.payCancel{background:#666466;color:#d9d6d8}
+.paySave{background:linear-gradient(#c89521,#ffd75c);color:#fff7dc;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+
+.paySheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:1200;align-items:flex-end;justify-content:center}
+.paySheet.show{display:flex}
+.paySheetPanel{width:min(430px,100%);max-height:72vh;overflow:auto;background:#242326;color:#ddd8dd;padding:10px 0 calc(12px + env(safe-area-inset-bottom));box-shadow:0 -18px 40px rgba(0,0,0,.45)}
+.paySheetTop{display:grid;grid-template-columns:56px 1fr 94px;align-items:center;padding:8px 18px 14px;border-bottom:1px solid #343236;position:sticky;top:0;background:#242326;z-index:2}
+.paySheetClose{border:0;background:none;color:#eadb78;font-size:28px;text-align:left}
+.paySheetTitle{text-align:center;font-size:18px;font-weight:900;color:#fff3a7}
+.paySheetConfirm{border:0;background:#ffded1;color:#53302c;border-radius:8px;height:38px;font-size:14px;font-weight:700}
+.payOption{width:100%;min-height:58px;border:0;border-top:1px solid #2f2e31;background:transparent;color:#aaa5aa;font-size:17px;font-weight:800;text-align:center}
+.payOption.selected{background:#4b494c;color:#ffe653}
+.countryOption{display:flex;align-items:center;justify-content:center;gap:12px}
+.countryFlag{font-size:23px}
+
+
+
+
+/* v25 Whole-demo dashboard redesign */
+:root{
+  --bg:#12091c;--bg2:#1a0d25;--panel:#24132f;--panel2:#2e183b;
+  --line:rgba(255,255,255,.08);--muted:#aa9caf;--text:#f7eff9;
+  --Coins:#f2cf70;--gold2:#e7aa2e;--purple:#7d3ab0;--soft:#3b2346;
+}
+body{background:#0d0713;color:var(--text)}
+.app{max-width:430px;background:linear-gradient(180deg,#1b0b29 0,#12091c 30%,#0f0817 100%);min-height:100vh;box-shadow:0 0 60px rgba(0,0,0,.35)}
+.top{height:58px;position:sticky;top:0;z-index:90;background:rgba(22,10,31,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);color:#f8effa;font-size:18px;text-shadow:none}
+.top .l,.top .r{top:12px;width:34px;height:34px;border:0;background:rgba(255,255,255,.055);color:#e9dff0;font-size:25px}
+.dashboardPage,.dashboardInner{background:transparent}
+.dashPad,.innerPad{padding:14px 16px 34px}
+.dashboardHero{padding:18px;border-radius:20px;background:linear-gradient(145deg,#4f226e 0%,#2d173c 58%,#21112c 100%);border:1px solid rgba(232,190,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.22)}
+.heroTopline{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.heroEyebrow,.pageEyebrow{font-size:10px;letter-spacing:1.45px;color:#bba7c6;font-weight:800}.heroAgencyName{font-size:23px;font-weight:900;margin-top:4px}.statusBadge{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:99px;background:rgba(242,207,112,.14);border:1px solid rgba(242,207,112,.38);color:#f6d87f;font-size:12px;font-weight:800}
+.heroGoalTitle{margin-top:22px;font-size:13px;font-weight:800;color:#eadff0}.goalMeta{display:flex;justify-content:space-between;margin:9px 0 7px;font-size:12px;color:#c9bbcf}.goalMeta b{color:#fff}.goalTrack{height:7px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.goalTrack span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#f7d775,#e8a82c)}.goalAlt{margin-top:10px;font-size:11px;color:#ad9db4;line-height:1.45}.goalAlt b{color:#dac9df}
+.dashSectionHead{display:flex;align-items:flex-end;justify-content:space-between;margin:22px 2px 10px}.dashSectionHead>div{display:flex;flex-direction:column;gap:3px}.dashSectionHead b{font-size:16px}.dashSectionHead span{font-size:10px;color:#95879d}.dashSectionHead.simple{margin-top:22px;margin-bottom:10px}.dashSectionHead.simple b{font-size:15px}.refreshText{font-size:10px!important;color:#8e8095!important}
+.summaryStrip{display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden;border-radius:17px;background:var(--panel);border:1px solid var(--line)}.summaryStrip button{border:0;background:transparent;color:var(--text);padding:16px 6px;position:relative}.summaryStrip button+button:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:1px;background:var(--line)}.summaryStrip b{display:block;font-size:21px;color:#f4d476}.summaryStrip span{display:block;font-size:11px;color:#9e90a6;margin-top:5px}
+.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quickAction{min-height:92px;text-align:left;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#291536,#21102d);color:var(--text);padding:13px;display:grid;grid-template-columns:36px minmax(0,1fr) 12px;gap:10px;align-items:center}.quickIcon{width:36px;height:36px;border-radius:12px;background:#4c2861;border:1px solid rgba(242,207,112,.2);color:#f4d274;display:grid;place-items:center;font-size:18px;font-weight:900}.quickAction b{display:block;font-size:13px}.quickAction small{display:block;margin-top:5px;color:#97899f;font-size:9px;line-height:1.3}.quickAction i{font-style:normal;color:#766a7d;font-size:22px}
+.panelCard{border-radius:17px;background:var(--panel);border:1px solid var(--line);overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.12)}.metricGrid{display:grid;grid-template-columns:1fr 1fr}.metricGrid>div{padding:16px 14px;border-bottom:1px solid var(--line);min-height:76px}.metricGrid>div:nth-child(odd){border-right:1px solid var(--line)}.metricGrid b{display:block;color:#f2d071;font-size:19px}.metricGrid span{display:block;color:#9e90a6;font-size:10px;margin-top:5px}.cardLink{width:100%;border:0;background:rgba(255,255,255,.025);color:#d9cfde;display:flex;justify-content:space-between;align-items:center;padding:13px 14px;font-size:12px}.cardLink b{color:#8e8096;font-size:20px}
+.infoCard .infoRow{min-height:52px;padding:12px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px}.infoCard .infoRow:last-of-type{border-bottom:0}.infoRow>span{font-size:11px;color:#97899f}.infoRow>b,.rowRight b{font-size:12px;color:#f5edf7}.rowRight{display:flex;align-items:center;gap:7px;min-width:0}.rowRight button,.longValue button{border:0;background:none;color:#f3d171;font-size:17px;padding:2px}.rowLink{border:0;background:none;color:#e5d8e8;font-size:12px}.rowLink b{font-size:20px;color:#807487}.infoRow small{color:#c3b6c8;font-size:10px;text-align:right}.infoRow.stacked{align-items:flex-start;flex-direction:column;gap:7px}.longValue{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px}.longValue b{font-size:10px;word-break:break-all;color:#d9cddd}
+.supportCard{margin-top:14px;min-height:62px;border-radius:17px;background:linear-gradient(145deg,#20352e,#1b2824);border:1px solid rgba(78,211,151,.17);display:grid;grid-template-columns:38px 1fr 12px;align-items:center;gap:10px;padding:11px 14px}.supportIcon{width:38px;height:38px;border-radius:13px;background:#25D366;color:white;display:grid;place-items:center}.supportCard b{display:block;font-size:12px}.supportCard small{display:block;color:#8fa89b;font-size:9px;margin-top:4px}.supportCard i{font-style:normal;color:#63756d;font-size:22px}
+
+/* Inner-page shared language */
+.detailIntro{padding:16px 4px 4px}.detailIntro>b{display:block;font-size:22px;margin-top:12px}.detailIntro p{margin:8px 0 0;color:#9f91a7;font-size:11px;line-height:1.55}.primaryWide{width:100%;height:46px;margin-top:14px;border:0;border-radius:14px;background:linear-gradient(180deg,#f7da76,#e9ac33);color:#4e2b09;font-size:14px;font-weight:900}
+#agency .metricGrid>div{cursor:pointer}
+
+/* Salary re-layout */
+#salary{padding:0}.salaryTopRow{display:flex;align-items:flex-start;justify-content:space-between;padding:4px 2px 10px}.pagePeriod{font-size:18px;font-weight:900;margin-top:4px}.circleHelp,.analysisHelpBtn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(242,207,112,.3);background:#2d2031;color:#f3d171;font-size:15px;font-weight:900}.salaryHeroNew{border-radius:20px;padding:20px;background:linear-gradient(145deg,#5b2a78,#351a47 60%,#281433);border:1px solid rgba(241,206,117,.14);text-align:center}.salaryHeroNew>span{font-size:11px;color:#b9a7c2}.salaryHeroNew>strong{display:block;font-size:38px;line-height:1.1;color:#f4d172;margin:7px 0 16px}.salarySplit{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}.salarySplit>div+div{border-left:1px solid rgba(255,255,255,.1)}.salarySplit b{display:block;font-size:16px}.salarySplit small{display:block;color:#a998b2;font-size:9px;margin-top:4px}.compactCard{margin-top:12px}.compactCard .infoRow{min-height:47px;padding:11px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.compactCard .infoRow:last-child{border-bottom:0}.paymentMainRow{width:100%;border:0;background:transparent;color:var(--text);display:grid;grid-template-columns:40px 1fr 16px;gap:10px;align-items:center;text-align:left;padding:14px}.paymentLogo{width:40px;height:40px;border-radius:13px;background:#4b2a5c;color:#f3d171;display:grid;place-items:center;font-size:18px;font-weight:900}.paymentMainRow b{font-size:13px}.paymentMainRow small{display:block;color:#97899f;font-size:9px;margin-top:5px}.paymentMainRow i{font-style:normal;color:#7f7286;font-size:22px}.secondaryTextBtn{width:100%;height:42px;border:0;border-top:1px solid var(--line);background:rgba(255,255,255,.02);color:#d9c7e1;font-size:11px}.emptyPanel{text-align:center;padding:28px 20px;color:#a99bac}.emptyPanel b{display:block;color:#d9cfdd;font-size:13px;margin-top:12px}.emptyPanel span{display:block;font-size:9px;margin-top:6px;line-height:1.45}.miniEmptyIcon{width:48px;height:36px;margin:auto;opacity:.25;position:relative}.miniEmptyIcon:before{content:"";position:absolute;inset:4px 8px 6px;border:4px solid #c7bbc9;border-radius:10px}.miniEmptyIcon:after{content:"";position:absolute;left:4px;right:4px;bottom:0;height:3px;background:#c7bbc9}
+
+/* Host Data */
+#host{padding:14px 16px 30px}#host .hostSearch{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px}#host .dateRow{padding:0 0 11px;border-bottom:1px solid var(--line);font-size:11px;color:#b5a7bc}#host .hostSearchUnified{margin-top:12px;grid-template-columns:minmax(0,1fr) 92px;gap:8px}#host .hostSearchInput{height:44px!important;min-height:44px!important;border-radius:12px!important;background:#35213e!important;font-size:13px!important}#host .hostSearchButton{height:44px!important;min-height:44px!important;border-radius:12px!important;font-size:13px!important}#host .section{margin:12px 0!important;border:1px solid var(--line);border-radius:17px;background:var(--panel);overflow:hidden}#host .stat{border:0;background:transparent;border-radius:0;min-height:82px}#host .grid2{gap:0;padding:0!important}#host .stat:nth-child(odd){border-right:1px solid var(--line)}#host .stat:nth-child(-n+4){border-bottom:1px solid var(--line)}#host .num{font-size:17px}.txt{font-size:10px;color:#9f91a6}
+
+/* Data Analysis */
+#analysis{padding-bottom:30px}.analysisTabsWrap{padding:8px 16px 0;border-bottom:1px solid var(--line);align-items:center}.analysisTabsWrap .analysis-tabs{padding:12px 0 0!important;gap:24px!important}.analysisHelpBtn{margin-bottom:8px}.analysis-tab{font-size:14px!important;color:#9f91a7!important}.analysis-tab.active{color:#f2d071!important;border-bottom-color:#f2d071!important}.smallnote,.hostDataNote{color:#8e8195!important;font-size:9px!important;line-height:1.45;padding:10px 16px!important}.analysis-pane>.section,#analysis-total .section{margin:10px 16px;border:1px solid var(--line);border-radius:17px;background:var(--panel);overflow:hidden}.section-title{padding:13px 14px!important;background:transparent!important;border-bottom:1px solid var(--line);font-size:14px!important;color:#e9dced!important;text-shadow:none!important}.weekbox,.yesterday{gap:0!important;padding:0!important;grid-template-columns:repeat(2,1fr)!important}.weekstat,.ys{background:transparent!important;border:0!important;min-height:96px;font-size:10px;color:#a99bac}.weekstat:nth-child(odd),.ys:nth-child(odd){border-right:1px solid var(--line)!important}.weekstat,.ys{border-bottom:1px solid var(--line)!important}.weekstat .num,.ys .num{font-size:18px}.arrow{display:none}.hostDataTop{padding:14px 16px 4px}.analysisHostSearch{grid-template-columns:minmax(0,1fr) 92px!important}.analysisHostSearch .hostSearchInput,.analysisHostSearch .hostSearchButton{height:44px!important;min-height:44px!important;font-size:13px!important;border-radius:12px!important}.compactFilterBar{gap:8px!important}.compactChip{height:30px!important}.emptyHostState{padding:70px 20px;color:#8f8296}.emptyIcon{font-size:40px;opacity:.25}
+
+/* Review Apply */
+#reviewApply{padding:0 16px 30px}.reviewtabs{padding:16px 0 8px;text-align:left}.reviewtabs .active{padding:8px 2px;border-bottom:2px solid #f2d071;font-size:14px}.reviewFilter{padding:10px 0 2px!important;grid-template-columns:minmax(0,1fr) 92px!important;gap:8px!important}.reviewFilter .statusSelect,.reviewFilter .reviewSearchBtn{height:44px!important;min-height:44px!important;border-radius:12px!important;font-size:13px!important}.reviewCard{margin:12px 0;border-radius:17px;background:var(--panel);border:1px solid var(--line);padding:14px}.reviewHead{font-size:13px}.reviewBody{grid-template-columns:42px 1fr 92px;background:#301c39;border-radius:12px;padding:10px}.avatar{width:40px;height:40px}.reviewUser{font-size:10px}.reviewActions button{font-size:10px;margin:4px 0}.nomore{font-size:12px;color:#7f7386}
+
+/* Rewards */
+#rewards{padding:14px 16px 32px}.rewardbox,.records{margin:0 0 14px;border:1px solid var(--line);border-radius:17px;background:var(--panel);box-shadow:none}.rewardbox{padding:18px 14px}.rewardbox h3{font-size:15px;margin:0 0 7px!important}.rewardbox>div:not(.rewardcards):not(.claim){font-size:10px!important;color:#97899f;line-height:1.5}.rewardcards{gap:10px;margin:16px 0}.reward{width:116px;border-radius:13px;background:#2f1b38;border:1px solid var(--line)}.rewardPic{height:76px}.bonusTag{font-size:11px}.rewardName{font-size:12px}.claim{padding:13px;margin:14px 0;background:#35213f;border-radius:12px;font-size:13px;color:#8d8194}.records{min-height:170px;overflow:hidden}.recHead{padding:12px 14px;font-size:10px;color:#a99bac}.records:after{content:"No reward records yet";display:block;text-align:center;color:#776b7d;font-size:10px;padding:32px 0}
+
+/* Dialogs/sheets stay functional but align visual language */
+.payCard,.statusSheetPanel,.hostFilterPanel,.calendarCard{background:#211229!important;border:1px solid var(--line)!important}.payActions{gap:12px;padding:16px 0 0}.payRow{border-bottom-color:var(--line)}.payCancel{background:#3b2b42}.paySave,.calendarConfirm,.hostFilterActions .confirm{background:linear-gradient(180deg,#f7da76,#e9ac33)!important;color:#4e2b09!important}.paySheetPanel{background:#201229}.payOption.selected{background:#3c2647;color:#f3d171}
+
+.homeView .top .l{visibility:hidden}.homeView .top .r{display:none}
+/* remove legacy home giant menu/WhatsApp treatments if any leak */
+.dashboardPage .menu,.dashboardPage>.whatsapp{display:none!important}
+
+/* v26 Home flow refinement: Status → This Week → Invite Hosts → Manage → Support */
+.dashboardHeroLink{cursor:pointer}.dashboardHeroLink:active{transform:scale(.995)}
+.heroStatusWrap{display:flex;align-items:center;gap:8px}.heroChevron{font-size:23px;color:#9c8da4;line-height:1}
+.weekOverviewCard{overflow:hidden}.weekOverviewGrid{display:grid;grid-template-columns:1fr 1fr}.weekOverviewGrid button{position:relative;min-height:82px;border:0;background:transparent;color:var(--text);text-align:left;padding:15px 16px}.weekOverviewGrid button:nth-child(odd){border-right:1px solid var(--line)}.weekOverviewGrid button:nth-child(-n+2){border-bottom:1px solid var(--line)}.weekOverviewGrid b{display:block;color:#f2d071;font-size:22px}.weekOverviewGrid span{display:block;color:#9e90a6;font-size:10px;margin-top:5px}
+.inviteHostCard{padding:0}.inviteCodeBlock{padding:15px 14px 13px}.inviteCodeBlock>span{display:block;font-size:10px;color:#97899f;margin-bottom:7px}.inviteCodeValue{display:flex;align-items:center;justify-content:space-between;gap:12px}.inviteCodeValue b{font-size:20px;letter-spacing:.8px;color:#f5edf7}.inviteCodeValue button{height:32px;padding:0 13px;border-radius:10px;border:1px solid rgba(242,207,112,.22);background:#3a2742;color:#f3d171;font-size:10px;font-weight:800}.inviteShareBtn{width:100%;min-height:58px;border:0;border-top:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--text);padding:11px 14px;display:grid;grid-template-columns:minmax(0,1fr) 14px;gap:10px;align-items:center;text-align:left}.inviteShareBtn b{display:block;font-size:12px}.inviteShareBtn small{display:block;color:#94869c;font-size:9px;margin-top:4px}.inviteShareBtn i{font-style:normal;color:#746879;font-size:22px}.hiddenInviteLink{display:none}
+.manageList{overflow:hidden}.manageRow{width:100%;min-height:67px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);padding:10px 14px;display:grid;grid-template-columns:36px minmax(0,1fr) 14px;gap:11px;align-items:center;text-align:left}.manageRow:last-child{border-bottom:0}.manageRow:active,.inviteShareBtn:active,.supportRow:active{background:rgba(255,255,255,.035)}.manageIcon{width:36px;height:36px;border-radius:12px;background:#452657;border:1px solid rgba(242,207,112,.16);color:#f3d171;display:grid;place-items:center;font-size:17px;font-weight:900}.manageText b{display:block;font-size:12px}.manageText small{display:block;color:#918398;font-size:9px;margin-top:4px}.manageRow i{font-style:normal;color:#746879;font-size:22px}
+.supportRow{width:100%;margin-top:14px;min-height:58px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--text);display:grid;grid-template-columns:36px minmax(0,1fr) 14px;align-items:center;gap:11px;padding:10px 14px;text-align:left}.supportRow .supportIcon{width:36px;height:36px;border-radius:12px}.supportRow b{display:block;font-size:12px}.supportRow small{display:block;color:#918398;font-size:9px;margin-top:4px}.supportRow i{font-style:normal;color:#746879;font-size:22px}
+/* legacy home-only blocks no longer shown */
+#home .quickGrid,#home .performanceCard,#home .infoCard,#home .supportCard,#home .summaryStrip{display:none!important}
+
+
+/* v27 Home role card + invite/review + square tools + simplified salary */
+.roleCard{border-radius:20px;background:linear-gradient(145deg,#4b2265 0%,#2c1739 62%,#21112b 100%);border:1px solid rgba(232,190,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.22);overflow:hidden;cursor:pointer}
+.roleMain{display:grid;grid-template-columns:58px minmax(0,1fr) 16px;align-items:center;gap:12px;padding:16px 16px 14px}
+.roleAvatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#a965cf,#653084);border:2px solid rgba(246,216,127,.55);box-shadow:0 0 0 3px rgba(242,207,112,.07);font-size:23px;font-weight:900;color:#fff3c7}
+.roleNameLine{display:flex;align-items:center;gap:8px;min-width:0}.roleNameLine>b{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roleId{margin-top:6px;font-size:10px;color:#aa9daf;letter-spacing:.2px}
+.levelBadge{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:99px;font-size:10px;font-weight:900;white-space:nowrap}.levelBadge i{font-style:normal;font-size:9px}.levelBadge.trial{background:rgba(242,207,112,.13);border:1px solid rgba(242,207,112,.34);color:#f3d57d}.levelBadge.lv1{background:rgba(174,195,213,.13);border:1px solid rgba(174,195,213,.34);color:#dceaf2}.levelBadge.lv2{background:rgba(192,132,255,.13);border:1px solid rgba(192,132,255,.34);color:#d9adff}.levelBadge.lv3{background:rgba(255,185,72,.14);border:1px solid rgba(255,185,72,.38);color:#ffd47b}
+.roleChevron{font-size:24px;color:#988a9f}.roleProgressBlock{padding:13px 16px 15px;border-top:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.018)}.roleProgressHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.roleProgressHead b{font-size:11px}.roleProgressHead span{font-size:10px;color:#f3d171;font-weight:800}.roleProgressNote{font-size:9px;line-height:1.45;color:#998b9f;margin-top:8px}
+.inviteReviewCard{padding:0}.inviteCompactTop{min-height:64px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:14px}.inviteCompactTop>div span{display:block;font-size:9px;color:#94869b;margin-bottom:5px}.inviteCompactTop>div b{font-size:19px;letter-spacing:.7px}.inviteCompactTop>button{height:32px;padding:0 13px;border-radius:10px;border:1px solid rgba(242,207,112,.22);background:#3a2742;color:#f3d171;font-size:10px;font-weight:800}.inviteActionGrid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.inviteActionGrid>button{min-height:72px;border:0;background:rgba(255,255,255,.018);color:var(--text);display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:9px;text-align:left;padding:11px 12px}.inviteActionGrid>button+button{border-left:1px solid var(--line)}.inviteActionGrid>button:active{background:rgba(255,255,255,.045)}.inviteActionIcon{width:34px;height:34px;border-radius:11px;background:#472857;border:1px solid rgba(242,207,112,.14);color:#f3d171;display:grid;place-items:center;font-size:16px;font-weight:900}.inviteActionGrid b{display:block;font-size:11px}.inviteActionGrid small{display:block;color:#8f8196;font-size:8.5px;margin-top:4px}
+.toolGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.toolTile{min-height:98px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#291536,#21102d);color:var(--text);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:14px;text-align:left}.toolTile:active{transform:scale(.985);filter:brightness(1.06)}.toolTileIcon{width:38px;height:38px;border-radius:12px;background:#4a285d;border:1px solid rgba(242,207,112,.17);display:grid;place-items:center;color:#f3d171;font-size:18px;font-weight:900;margin-bottom:10px}.toolTile b{font-size:12px;line-height:1.2}
+#home .manageList{display:none!important}.salarySimplePad{padding-top:4px}.salaryFirstHead{margin-top:8px!important}.salaryRecordsHead{margin-top:24px}.salaryRecordEmpty{margin-bottom:20px}
+
+
+/* v28 Home flow corrections */
+.roleCard{cursor:pointer}
+.inviteCompactTop{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}
+.inviteCodeInline{display:flex;align-items:center;gap:7px}
+.inviteCodeInline b{font-size:19px;letter-spacing:.7px}
+.copyIconBtn{width:28px;height:28px;border:0;background:transparent;color:#f3d171;font-size:19px;display:grid;place-items:center;padding:0;border-radius:8px}
+.copyIconBtn:active{background:rgba(255,255,255,.06)}
+.inviteLinkBlock{min-width:0}.inviteLinkInline{display:flex;align-items:center;gap:6px;min-width:0}.inviteLinkInline b{min-width:0;max-width:205px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px!important;letter-spacing:0!important;color:#e9ddeb}.inviteLinkInline .copyIconBtn{flex:0 0 28px}
+.inviteActionGrid>.inviteActionItem{min-height:72px;color:var(--text);display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:9px;text-align:left;padding:11px 12px;background:rgba(255,255,255,.018)}.inviteActionGrid>.inviteActionItem+button{border-left:1px solid var(--line)}.inviteActionGrid .inviteCodeItem small{color:#f3d171;font-size:10px;font-weight:800;letter-spacing:.5px}
+/* WhatsApp brand button: override generic Invite Hosts top-button styling */
+.inviteCompactTop>.whatsappConfigBtn{
+  height:36px;
+  padding:0 12px;
+  border-radius:10px;
+  border:0!important;
+  background:#25D366!important;
+  color:#fff!important;
+  font-size:10px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  box-shadow:none;
+}
+.whatsappConfigBtn{background:#25D366!important;color:#fff!important;border:0!important}
+.whatsappConfigBtn svg{width:18px;height:18px;display:block;flex:0 0 18px;fill:#fff}
+.whatsappConfigBtn .waArrow{font-size:15px;line-height:1;margin-left:1px;color:#fff}
+.weekOverviewCard{cursor:pointer}.weekOverviewCard:active{filter:brightness(1.05)}
+.weekOverviewGrid div{position:relative;min-height:82px;color:var(--text);text-align:left;padding:15px 16px}.weekOverviewGrid div:nth-child(odd){border-right:1px solid var(--line)}.weekOverviewGrid div:nth-child(-n+2){border-bottom:1px solid var(--line)}.weekOverviewGrid div b{display:block;color:#f2d071;font-size:22px}.weekOverviewGrid div span{display:block;color:#9e90a6;font-size:10px;margin-top:5px}
+.toolGrid.three{grid-template-columns:repeat(3,1fr);gap:9px}.toolGrid.three .toolTile{min-height:104px;padding:12px;align-items:center;text-align:center}.toolGrid.three .toolTileIcon{margin:0 auto 10px}.toolGrid.three .toolTile b{font-size:10.5px}
+.levelPlaceholder{padding:26px 18px 36px}.levelCurrent{border-radius:20px;background:linear-gradient(145deg,#4b2265,#2c1739 65%,#21112b);border:1px solid rgba(232,190,255,.16);padding:22px;text-align:center}.levelCurrent .levelAvatar{width:72px;height:72px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#a965cf,#653084);border:2px solid rgba(246,216,127,.55);font-size:28px;font-weight:900}.levelCurrent h3{margin:8px 0 4px;font-size:20px}.levelCurrent p{margin:0;color:#9e90a6;font-size:11px}.levelLater{margin-top:16px;border-radius:17px;background:var(--panel);border:1px solid var(--line);padding:28px 18px;text-align:center;color:#9f91a7}.levelLater b{display:block;color:#ddd2e2;font-size:13px;margin-bottom:7px}.levelLater span{font-size:10px}
+.agencyWorkPage{padding:14px 16px 34px}.workingDataTitle{padding:14px 14px;color:#f3d171;font-size:15px;font-weight:900;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.workingDataTitle span{font-size:20px;color:#947ba0}.teamWorkingPeriod{padding:13px 14px;border-bottom:1px solid var(--line)}.teamWorkingPeriod b{display:block;color:#ece1ef;font-size:11px;line-height:1.5}.teamWorkingPeriod small{display:block;color:#f2d071;font-size:10px;margin-top:5px}.workingGrid{display:grid;grid-template-columns:repeat(2,1fr)}.workingGrid>button{min-height:86px;border:0;background:transparent;color:var(--text);padding:14px;text-align:left;border-bottom:1px solid var(--line)}.workingGrid>button:nth-child(odd){border-right:1px solid var(--line)}.workingGrid>button:last-child{grid-column:auto;border-right:0}.workingGrid>button:nth-last-child(-n+2){border-bottom:0}.workingGrid b{display:block;color:#f2d071;font-size:20px}.workingGrid span{display:block;color:#9e90a6;font-size:9.5px;line-height:1.3;margin-top:5px}
+.waConfigOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:1300;align-items:flex-end;justify-content:center}.waConfigOverlay.show{display:flex}.waConfigPanel{width:min(430px,100%);background:linear-gradient(180deg,#26142f,#160b1e);border-radius:20px 20px 0 0;border-top:1px solid #6d467f;padding:12px 16px calc(18px + env(safe-area-inset-bottom))}.waConfigHandle{width:38px;height:4px;background:#715f78;border-radius:99px;margin:2px auto 14px}.waConfigTitle{text-align:center;font-size:16px;font-weight:900;margin-bottom:18px}.waConfigLabel{font-size:10px;color:#9d90a4;margin-bottom:7px}.waConfigInput{width:100%;height:50px;border:1px solid #5b4168;border-radius:12px;background:#35203e;color:#fff;padding:0 14px;font-size:15px;outline:none}.waConfigActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.waConfigActions button{height:46px;border:0;border-radius:11px;background:#4c3d51;color:#eee;font-weight:800}.waConfigActions .save{background:linear-gradient(#fff0a2,#ffbd17);color:#5a2a00}
+
+/* v27 Home weekly block restored from original Agency Center */
+.billingHomeBlock{margin-top:18px}
+.homeWorkingCard{overflow:hidden}.homeWorkingCard .workingGrid>button{cursor:pointer}
+.homeWorkingTitle>span{font-size:15px!important;color:#f3d171!important}
+.teamManagementBtn{height:30px;border:0;border-radius:9px;padding:0 10px;background:linear-gradient(#fff1a9,#ffbd1d);color:#6a3600;font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:5px;box-shadow:0 3px 10px rgba(255,190,34,.18);white-space:nowrap}
+.teamManagementBtn b{font-size:15px;line-height:1;font-weight:900}
+.teamManagementBtn:active{transform:scale(.98);filter:brightness(.97)}
+
+
+/* v26 source-complete data hydration */
+.sourceHostList{margin-top:12px}.sourceHostCard{margin-bottom:12px;border:1px solid var(--line);border-radius:17px;background:var(--panel);overflow:hidden}.sourceHostCard .grid2{gap:0;padding:0!important}.sourceHostCard .stat{background:transparent;border:0;border-radius:0;min-height:82px}.sourceHostCard .stat:nth-child(odd){border-right:1px solid var(--line)}.sourceHostCard .stat:nth-child(-n+4){border-bottom:1px solid var(--line)}.sourceHostCard .num{font-size:17px}.sourceHostCard .txt{font-size:9.5px;color:#9f91a7}
+.sourceEmpty{text-align:center;padding:56px 20px;color:#817486;font-size:11px}
+#agencySourceCharts{margin-top:14px}.sourceChartCard{margin-top:12px;border:1px solid var(--line);border-radius:17px;background:var(--panel);padding:14px;overflow:hidden}.sourceChartHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.sourceChartHead b{font-size:13px}.sourceChartLegend{display:flex;justify-content:flex-end;gap:10px;color:#8f8295;font-size:8px}.sourceChartLegend i{display:inline-block;width:8px;height:8px;border-radius:2px;background:#09cbe6;margin-right:4px}.sourceChartLegend i.old{background:#8ee448}.sourceBars{height:125px;margin-top:15px;padding-bottom:17px;display:flex;align-items:flex-end;justify-content:space-around;border-bottom:1px solid var(--line)}.sourceBarDay{height:100%;width:12%;display:flex;align-items:flex-end;justify-content:center;gap:2px;position:relative}.sourceBarDay i{display:block;width:8px;border-radius:2px 2px 0 0;background:#8ee448}.sourceBarDay i.now{background:#09cbe6}.sourceBarDay small{position:absolute;bottom:-15px;font-size:7px;color:#7f7286}
+#weekSummaryGrid .weekstat,#yesterdayGrid .ys{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:10px 6px}.analysisMetricLabel{font-size:9px;color:#a99bac;line-height:1.35;margin-top:5px}.analysisRatio{margin-top:8px;color:#f2d071;font-size:10px;font-weight:800}.analysisRatio.up{color:#65df89}.analysisRatio.down{color:#ff7b89}.analysisRatio.flat{color:#f2d071}.analysisRatio small{display:block;color:#84778b;font-size:7px;margin-top:3px;font-weight:400}
+.sourceAnalysisHostList{padding:8px 16px 24px}.sourceAnalysisHost{width:100%;margin-bottom:10px;border:1px solid var(--line);border-radius:17px;background:var(--panel);color:var(--text);padding:0;overflow:hidden;text-align:left}.sourceAnalysisHostHead{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px}.sourceAnalysisHostHead b{font-size:12px}.sourceAnalysisHostHead span{font-size:9px;color:#8f8295}.sourceAnalysisGrid{display:grid;grid-template-columns:1fr 1fr}.sourceAnalysisGrid>div{min-height:68px;padding:11px;border-bottom:1px solid var(--line)}.sourceAnalysisGrid>div:nth-child(odd){border-right:1px solid var(--line)}.sourceAnalysisGrid b{display:block;color:#f2d071;font-size:15px}.sourceAnalysisGrid span{display:block;margin-top:5px;color:#8f8295;font-size:8px}.validYes{color:#65df89!important}.validNo{color:#ff7b89!important}
+.reward{border:1px solid var(--line);color:var(--text);position:relative}.reward.selected{border-color:#f2cf70!important;box-shadow:0 0 0 1px rgba(242,207,112,.18) inset}.reward strong{display:block;color:#f2d071;font-size:14px;margin-top:5px}.claim{width:100%;border:0}.claim.active{background:linear-gradient(180deg,#f7da76,#e9ac33);color:#4e2b09;font-weight:900}.claim:disabled{background:#35213f;color:#766a7d}.rewardRecordRow{display:grid;grid-template-columns:1.4fr 1fr 1fr;align-items:center;padding:12px 14px;border-top:1px solid var(--line);font-size:9px;text-align:center;color:#d8cddd}.rewardRecordRow b{color:#f2d071}.rewardRecordRow .claimed{color:#65df89;font-weight:800}#rewards .records:after{display:none!important;content:none!important}
+.salaryRecordList{display:grid;gap:12px}.salaryRecordCard{border:1px solid var(--line);border-radius:17px;background:var(--panel);overflow:hidden}.salaryRecordHead{width:100%;border:0;background:#2b1837;color:var(--text);padding:13px 14px;display:flex;justify-content:space-between;align-items:center;text-align:left}.salaryRecordHead b{font-size:12px}.salaryRecordHead small{display:block;color:#8f8295;font-size:8px;margin-top:4px}.salaryStatus{font-size:9px;font-weight:800;padding:5px 8px;border-radius:99px;background:#372641}.salaryStatus.review{color:#f1be55}.salaryStatus.ok{color:#65df89}.salaryStatus.no{color:#ff7b89}.salaryRecordGrid{display:grid;grid-template-columns:1fr 1fr}.salaryRecordMetric{padding:12px 10px;min-height:66px;border-bottom:1px solid var(--line)}.salaryRecordMetric:nth-child(odd){border-right:1px solid var(--line)}.salaryRecordMetric b{display:block;color:#f2d071;font-size:14px}.salaryRecordMetric span{display:block;color:#8f8295;font-size:8px;margin-top:4px}.salaryPaymentBlock{margin:10px;border-radius:12px;background:#301c39;padding:10px}.salaryPayGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.salaryPayGrid div{min-width:0}.salaryPayGrid b{display:block;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.salaryPayGrid span{display:block;color:#8f8295;font-size:7px;margin-top:4px}.salaryPayee{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);font-size:8px;color:#8f8295;word-break:break-all}.salaryActionsNew{display:flex;justify-content:flex-end;gap:7px;padding:0 10px 12px}.salaryActionsNew button{height:30px;border-radius:9px;padding:0 10px;border:1px solid #6e5378;background:transparent;color:#cdbfd2;font-size:9px}.salaryActionsNew .approveAction{border:0;background:#65df89;color:#213c27}.salaryActionsNew .rejectAction{border-color:#ff7b89;color:#ff7b89}.hostSalaryCardNew{margin-bottom:12px;border:1px solid var(--line);border-radius:17px;background:var(--panel);overflow:hidden}.hostSalaryHeadNew{padding:12px 14px;background:#2b1837}.hostSalaryHeadNew b{font-size:12px}.hostSalaryHeadNew small{display:block;margin-top:4px;color:#8f8295;font-size:8px}.hostSalaryGridNew{display:grid;grid-template-columns:1fr 1fr}.hostSalaryGridNew div{padding:12px;border-bottom:1px solid var(--line)}.hostSalaryGridNew div:nth-child(odd){border-right:1px solid var(--line)}.hostSalaryGridNew b{display:block;color:#f2d071;font-size:13px}.hostSalaryGridNew span{display:block;color:#8f8295;font-size:8px;margin-top:4px}.achievementNew{margin:10px;border-radius:11px;background:#301c39;padding:11px;text-align:center;font-size:10px}.achievementNew small{display:block;color:#8f8295;font-size:8px;margin-top:4px}
+#applicationList .reviewCard{margin-top:10px}.reviewStatusBadge{font-weight:800}.reviewStatusBadge.review{color:#f1be55}.reviewStatusBadge.ok{color:#65df89}.reviewStatusBadge.no{color:#ff7b89}.reviewUser b{display:block;margin:2px 0}.reviewAvatarLetter{font-size:13px;font-weight:900}.reviewFilter+.reviewCard{margin-top:10px}
+.dataConfirmBody{color:#aa9caf;font-size:11px;line-height:1.6;padding:4px 0 2px}.dataConfirmBody b{color:#f2d071}
+@media(max-width:360px){.salaryPayGrid{grid-template-columns:1fr}.reward{width:105px}.sourceAnalysisGrid b{font-size:13px}}
+
+
+/* v28 payment-method management + invite-code copy */
+.inviteCodeText{min-width:0}.inviteCodeValueInline{display:flex;align-items:center;gap:3px;margin-top:2px}.inviteCodeValueInline small{margin-top:0!important}.inviteCodeValueInline .copyIconBtn{width:24px;height:24px;font-size:16px;flex:0 0 24px}
+.paymentSummaryCard .paymentLogo{font-size:16px}.paymentSummaryCard.isUnset .paymentLogo{color:#9a8da1;background:#39243f}.paymentSummaryCard.isUnset .paymentMainRow b{color:#d9cedd}.paymentSummaryCard.isUnset .paymentMainRow small{color:#f0bb55}
+.paymentManagePanel{padding:10px 0 calc(18px + env(safe-area-inset-bottom))!important;max-height:78vh!important}.paymentManageHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:4px 16px 14px}.paymentManageHeader b{display:block;font-size:17px;color:#f4ecf7}.paymentManageHeader small{display:block;margin-top:5px;color:#8f8296;font-size:9px}.paymentManageHeader>button{width:34px;height:34px;border:0;border-radius:50%;background:#35243c;color:#d9cedd;font-size:22px}.paymentMethodList{border-top:1px solid var(--line)}
+.paymentMethodRow{min-height:72px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:42px minmax(0,1fr) 34px 18px;gap:10px;align-items:center;padding:10px 14px}.paymentMethodRow:active{background:rgba(255,255,255,.025)}.paymentMethodRow .methodIcon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#452657;color:#f3d171;font-size:16px;font-weight:900}.paymentMethodMain{min-width:0;background:transparent;border:0;color:var(--text);text-align:left;padding:0}.paymentMethodMain b{display:flex;align-items:center;gap:6px;font-size:12px}.paymentMethodMain small{display:block;margin-top:5px;color:#8f8296;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.paymentMethodMain small.unset{color:#d8a849}.preferredTag{display:inline-flex;height:18px;align-items:center;padding:0 6px;border-radius:99px;background:rgba(242,207,112,.13);border:1px solid rgba(242,207,112,.28);color:#f3d171;font-size:7px;font-weight:800}.paymentStar{width:32px;height:32px;border:0;background:transparent;color:#6f6275;font-size:21px;padding:0}.paymentStar.on{color:#f3d171}.paymentStar:disabled{opacity:.25}.paymentMethodChevron{color:#756979;font-size:20px}.paymentMethodReadonly .payValue{cursor:default}.paymentMethodReadonly .payValue:active{opacity:1}
+
+/* v28 — Team Management unified with Manager / BD member management */
+.teamMgmtPage{padding:14px 16px 38px}
+.teamWeekFilter{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.018)}
+.teamWeekFilter>span{color:#8e8195;font-size:9px;font-weight:800}.teamWeekFilter select{min-width:155px;height:34px;border:1px solid rgba(242,208,113,.22);border-radius:9px;background:#392442;color:#f3d171;padding:0 30px 0 10px;font-size:10px;font-weight:800;outline:none}
+.teamMemberSearch{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:12px;margin-bottom:10px}.teamMemberSearch input,.teamMemberSearch button{height:52px;border:0;border-radius:14px;font-size:17px;font-weight:700}.teamMemberSearch input{min-width:0;outline:none;background:#5d4a67;color:#fff;padding:0 18px}.teamMemberSearch input::placeholder{color:#f0e7f2}.teamMemberSearch button{background:linear-gradient(#fff1a9,#ffbd1d);color:#6a3600}
+.teamMgmtMeta{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:10px 2px 14px}.teamMgmtMeta b{font-size:10px;color:#e9dfea}.teamMgmtMeta span{font-size:8px;color:#8f8296;text-align:right}.currentTag{display:inline-flex;align-items:center;margin-left:5px;padding:2px 5px;border-radius:99px;background:rgba(242,208,113,.08);color:#d9ba63;font-size:6px;font-weight:900}
+.teamHostCard{margin-bottom:12px;border-radius:15px;background:#21102d;border:1px solid var(--line);overflow:hidden}.teamHostHead{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:9px;align-items:center;padding:11px 12px}.teamHostAvatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#4b2a5b;color:#f1d071;font-size:13px;font-weight:900}.teamHostIdentity b{display:block;font-size:11px}.teamHostIdentity small{display:block;margin-top:4px;color:#918398;font-size:8px}.teamHostStatus{height:22px;padding:0 8px;border-radius:99px;display:inline-flex;align-items:center;background:rgba(77,203,139,.11);color:#70dfa7;font-size:8px;font-weight:900}.teamHostStatus.banned{background:rgba(255,108,126,.1);color:#ff8798}
+.teamHostBody{padding:0 12px 11px}.teamDataHead{display:flex;align-items:center;justify-content:space-between;padding:10px 0 8px;border-top:1px solid var(--line)}.teamDataHead b{font-size:9px}.teamDataHead span{font-size:7.5px;color:#817487}.teamHostMetrics{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:11px;overflow:hidden}.teamHostMetric{min-height:58px;padding:10px 11px;border-bottom:1px solid var(--line)}.teamHostMetric:nth-child(odd){border-right:1px solid var(--line)}.teamHostMetric:nth-last-child(-n+2){border-bottom:0}.teamHostMetric b{display:block;color:#eee3f1;font-size:11px}.teamHostMetric span{display:block;color:#918399;font-size:8px;margin-top:4px}.effectiveYes{color:#6de0ad!important}.effectiveNo{color:#ff9aa2!important}
+.teamMemberActions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}.teamMemberActions button{height:31px;border-radius:8px;background:#37243f;border:1px solid #594364;color:#ddd1e2;font-size:8.5px;font-weight:800}.teamMemberActions .warning{border-color:#775d2a;color:#f4d376;background:rgba(242,208,113,.045)}.teamMemberActions .success{border-color:#2d6651;color:#75e4b6;background:rgba(82,211,155,.045)}.teamMemberActions .danger{border-color:#71414c;color:#ff9aa2;background:rgba(255,95,107,.035)}
+.memberInfoPage{padding:14px 16px 38px}.memberInfoCard{overflow:hidden}.memberInfoHead{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:13px 14px;border-bottom:1px solid var(--line)}.memberInfoTitle{padding:12px 14px 8px;color:#f2d071;font-size:11px;font-weight:900}.memberInfoGrid{display:grid;grid-template-columns:1fr 1fr}.memberInfoGrid>div{min-height:60px;padding:11px 14px;border-top:1px solid var(--line)}.memberInfoGrid>div:nth-child(odd){border-right:1px solid var(--line)}.memberInfoGrid .wide{grid-column:1/-1;border-right:0}.memberInfoGrid span{display:block;color:#918398;font-size:8.5px}.memberInfoGrid b{display:block;margin-top:5px;color:#eee3f1;font-size:11px;line-height:1.4}
+
+
+/* Unified natural-week picker — Monday to Sunday */
+.naturalWeekField{margin:0 0 10px}.naturalWeekField>span{display:block;margin:0 0 6px 2px;color:#9b8da2;font-size:9px;font-weight:800}
+.naturalWeekInput{width:100%;height:46px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:#392c3e;color:#eee3f1;padding:0 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left}
+.naturalWeekInput b{font-size:11px;font-weight:800;color:#f3d171}.naturalWeekInput i{font-style:normal;font-size:16px;color:#c8b8ce}.naturalWeekInput:active{filter:brightness(1.06)}
+.naturalWeekOverlay{display:none;position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.65);align-items:flex-end;justify-content:center}.naturalWeekOverlay.show{display:flex}
+.naturalWeekPanel{width:min(430px,100%);background:linear-gradient(180deg,#26142f,#160b1e);border-radius:20px 20px 0 0;border-top:1px solid #6d467f;padding:10px 14px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -18px 45px rgba(0,0,0,.45)}
+.naturalWeekHandle{width:38px;height:4px;border-radius:99px;background:#725f79;margin:2px auto 10px}.naturalWeekTitleRow{display:grid;grid-template-columns:36px 1fr 36px;align-items:center;margin-bottom:10px}.naturalWeekTitleRow b{text-align:center;font-size:15px}.naturalWeekTitleRow button{width:36px;height:36px;border:0;background:transparent;color:#d9c9df;font-size:22px}.naturalWeekTitleRow button:last-child{grid-column:3}
+.naturalWeekNav{display:grid;grid-template-columns:36px 36px 1fr 36px 36px;gap:3px;align-items:center;margin-bottom:10px}.naturalWeekNav button{height:34px;border:0;border-radius:8px;background:#34223c;color:#d8cddd;font-size:16px}.naturalWeekNav b{text-align:center;color:#f2e8f5;font-size:13px}
+.naturalWeekDays,.naturalWeekGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}.naturalWeekDays{margin-bottom:4px;color:#817487;font-size:8px;font-weight:800}.naturalWeekDays span{padding:5px 0}
+.naturalWeekDay{height:38px;border:0;border-radius:8px;background:transparent;color:#e6dbe9;font-size:11px;position:relative}.naturalWeekDay.outside{color:#655b69}.naturalWeekDay.inWeek{background:#6d3f89;color:#fff;border-radius:3px}.naturalWeekDay.weekStart{border-radius:9px 3px 3px 9px}.naturalWeekDay.weekEnd{border-radius:3px 9px 9px 3px}.naturalWeekDay.today{box-shadow:inset 0 0 0 1px #d8b65e}.naturalWeekDay:active{filter:brightness(1.12)}
+.naturalWeekSelected{margin:10px 0 0;padding:9px 10px;border-radius:10px;background:#21142a;color:#9f92a5;font-size:9px;text-align:center}.naturalWeekSelected b{color:#f3d171;font-size:10px}
+.naturalWeekQuick{display:flex;justify-content:center;margin-top:9px}.naturalWeekQuick button{height:34px;padding:0 16px;border:0;background:transparent;color:#f2d071;font-size:10px;font-weight:800}
+.naturalWeekActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.naturalWeekActions button{height:44px;border:0;border-radius:10px;background:#4c3d51;color:#eee;font-size:11px;font-weight:800}.naturalWeekActions .confirm{background:linear-gradient(#fff0a2,#ffbd17);color:#5a2a00}
+
+
+/* compact Team Management date + search header; calendar remains natural-week picker */
+.teamFilterCard{margin:0 0 12px;padding:0 12px 12px;border:1px solid rgba(255,255,255,.08);border-radius:17px;background:#21102d;overflow:hidden}
+.teamDateRow{width:100%;min-height:48px;padding:0;border:0;border-bottom:1px solid rgba(255,255,255,.08);background:transparent;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left}
+.teamDateRow span{font-size:10px;color:#a99cad;font-weight:700}.teamDateRow b{font-size:10px;color:#cfc4d3;font-weight:800;text-align:right}
+.teamDateRow:active{opacity:.86}
+.teamFilterSearch{display:grid;grid-template-columns:minmax(0,1fr) 94px;gap:10px;padding-top:12px;align-items:stretch}
+.teamFilterSearch input,.teamFilterSearch button{height:48px;border:0;border-radius:13px;font-size:13px;font-weight:700}
+.teamFilterSearch input{min-width:0;outline:none;background:#5d4a67;color:#fff;padding:0 14px}.teamFilterSearch input::placeholder{color:#f0e7f2;opacity:1}
+.teamFilterSearch button{background:linear-gradient(#fff1a9,#ffbd1d);color:#6a3600;box-shadow:0 3px 10px rgba(255,190,34,.18)}
+
+
+/* v30 — Agency / Management Center visual alignment */
+.homeSectionHead{margin:22px 2px 10px!important;min-height:36px;align-items:center!important}
+.homeSectionHead>b{color:#f7efff!important;font-size:15px!important}
+.homeSectionHead .sectionHeadAction,.homeSectionAction{margin-left:auto;flex:0 0 auto}
+.homeSectionAction{height:32px;padding:0 11px;border:0;border-radius:9px;background:linear-gradient(#fff1a9,#ffbd1d);color:#6a3600;font-size:8.5px;font-weight:900;box-shadow:0 4px 10px rgba(255,189,29,.14);white-space:nowrap}
+.inviteSectionHead .whatsappConfigBtn{height:32px;padding:0 11px;border-radius:9px;font-size:9px;font-weight:900;display:flex;align-items:center;gap:6px;box-shadow:none}
+.inviteSectionHead .whatsappConfigBtn svg{width:16px;height:16px;flex:0 0 16px}
+.inviteSectionHead .whatsappConfigBtn span{color:#fff!important}
+.inviteCompactTop{grid-template-columns:minmax(0,1fr)!important}
+.billingHomeBlock{margin-top:0!important}
+.homeWorkingCard{margin-top:0!important}
+
+#reviewApply{padding:0 16px 30px}
+#reviewApply .reviewtabs{display:flex;gap:20px;overflow-x:auto;padding:16px 0 8px;border-bottom:1px solid var(--line);text-align:left;scrollbar-width:none}
+#reviewApply .reviewtabs::-webkit-scrollbar{display:none}
+#reviewApply .reviewtabs button{flex:0 0 auto;height:36px;padding:0 0 8px;border:0;border-bottom:2px solid transparent;background:transparent;color:#9c8fa5;font-size:13px;font-weight:900}
+#reviewApply .reviewtabs button.active{color:#f2d071;border-bottom-color:#f2d071}
+#reviewApply .reviewFilter{display:grid!important;grid-template-columns:minmax(0,1fr) 92px!important;gap:8px!important;padding:10px 0 2px!important}
+#reviewApply .reviewFilter .statusSelect,#reviewApply .reviewFilter .reviewSearchBtn{height:44px!important;min-height:44px!important;margin:0!important;border:0!important;border-radius:12px!important;font-size:13px!important;font-weight:800!important;line-height:normal!important}
+#reviewApply .reviewFilter .statusSelect{background:#3b2844!important;color:#fff!important;padding:0 12px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;text-align:left!important}
+#reviewApply .reviewFilter .reviewSearchBtn{background:linear-gradient(#fff1a9,#ffbd1d)!important;color:#6a3600!important}
+#reviewApply .reviewCard{margin:12px 0;padding:14px;border-radius:17px;background:var(--panel);border:1px solid var(--line)}
+#reviewApply .reviewHead{display:flex;justify-content:space-between;align-items:center;color:#f5d979;font-size:12px}
+#reviewApply .reviewBody{display:grid;grid-template-columns:42px minmax(0,1fr) 92px;gap:10px;align-items:center;margin-top:12px;background:#301c39;border-radius:12px;padding:10px}
+#reviewApply .avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#5a326c;color:#f2d071}
+#reviewApply .reviewAvatarLetter{font-size:16px;font-weight:900}
+#reviewApply .reviewUser{font-size:9px;line-height:1.5;min-width:0}
+#reviewApply .reviewUser b{display:block;margin:0;color:#f2e8f5;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#reviewApply .reviewUser span{display:block;color:#a99bac;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#reviewApply .reviewActions button{display:block;width:100%;padding:7px 4px;margin:4px 0;border-radius:8px;font-size:9px;font-weight:900}
+#reviewApply .reviewActions .approve{border:0;background:#2e9a5b;color:#fff}
+#reviewApply .reviewActions .reject{border:1px solid #7c4f5a;background:#442a35;color:#ffafbb}
+#reviewApply .reviewApplyEmpty{text-align:center;color:#7f7386;font-size:10px;padding:28px 10px}
+</style></head>
+<body><div class="app">
+<div class="top"><div class="l" onclick="goBack()" style="cursor:pointer">‹</div><span id="title">Agency Center</span><div class="r" onclick="goHome()">×</div></div>
+
+<section id="home" class="page on dashboardPage">
+  <div class="dashPad">
+    <div class="roleCard" onclick="openp('levelInfo','Agency Level')">
+      <div class="roleMain">
+        <div class="roleAvatar">J</div>
+        <div class="roleIdentity">
+          <div class="roleNameLine"><b>Jaden</b><span class="levelBadge lv1"><i>★</i> Lv.1</span></div>
+          <div class="roleId">ID: 10032846</div>
+        </div>
+        <span class="roleChevron">›</span>
+      </div>
+    </div>
+
+    <div class="dashSectionHead homeSectionHead inviteSectionHead"><b>Invite Hosts</b><button class="whatsappConfigBtn sectionHeadAction" onclick="event.stopPropagation();openWhatsAppConfig()" aria-label="Configure WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.885 9.888-9.885 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.9 6.99c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.14 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 0 0-3.48-8.413Z"/></svg><span>WhatsApp</span></button></div>
+    <div class="panelCard inviteReviewCard">
+      <div class="inviteCompactTop">
+        <div class="inviteLinkBlock">
+          <span>Invitation Link</span>
+          <div class="inviteLinkInline">
+            <b id="homeInviteLink">https://www.example.app/inviteFriend?type=1&code=AGY48219</b>
+            <button class="copyIconBtn" aria-label="Copy invitation link" onclick="event.stopPropagation();copyText('homeInviteLink')">⧉</button>
+          </div>
+        </div>
+      </div>
+      <div class="inviteActionGrid">
+        <div class="inviteActionItem inviteCodeItem">
+          <span class="inviteActionIcon">#</span>
+          <span class="inviteCodeText"><b>Invitation Code</b><span class="inviteCodeValueInline"><small id="homeInviteCode">AGY48219</small><button class="copyIconBtn" aria-label="Copy invitation code" onclick="event.stopPropagation();copyText('homeInviteCode')">⧉</button></span></span>
+        </div>
+        <button onclick="openp('reviewApply','Review Apply')">
+          <span class="inviteActionIcon">✓</span>
+          <span><b>Review Apply</b><small>Review Host applications</small></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="dashSectionHead homeSectionHead teamWorkingSectionHead"><b>Team working data</b><button class="homeSectionAction" onclick="openTeamManagement()">Team Management ›</button></div>
+    <div class="billingHomeBlock">
+      <div class="panelCard homeWorkingCard">
+        <div class="teamWorkingPeriod">
+          <b>2026-08-17 00:00:00 ~ 2026-08-23 23:59:59 (UTC+5)</b>
+          <small>Update in: 12 : 48</small>
+        </div>
+        <div class="workingGrid">
+          <button onclick="event.stopPropagation();openHostData()"><b>486,320</b><span>Coins</span></button>
+          <button onclick="event.stopPropagation();openHostData()"><b>145,896</b><span>Diamonds</span></button>
+          <button onclick="event.stopPropagation();openHostData()"><b>18</b><span>Total Hosts</span></button>
+          <button onclick="event.stopPropagation();openHostData()"><b>11</b><span>Effective Hosts</span></button>
+          <button onclick="event.stopPropagation();openHostData()"><b>15</b><span>Active Hosts</span></button>
+          <button onclick="event.stopPropagation();openHostData()"><b>12</b><span>Gifted Hosts</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashSectionHead simple"><b>Tools</b></div>
+    <div class="toolGrid three">
+      <button class="toolTile" onclick="openp('analysis','Data Analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button>
+      <button class="toolTile" onclick="openp('salary','Salary Bill')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button>
+      <button class="toolTile" onclick="openp('rewards','Invitation Rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button>
+    </div>
+  </div>
+</section>
+
+<section id="levelInfo" class="page dashboardInner">
+  <div class="levelPlaceholder">
+    <div class="levelCurrent">
+      <div class="levelAvatar">J</div>
+      <span class="levelBadge lv1"><i>★</i> Lv.1</span>
+      <h3>Jaden</h3>
+      <p>ID: 10032846</p>
+    </div>
+    <div class="levelLater"><b>Agency Level Rules</b><span>Level description and upgrade tasks will be added later.</span></div>
+  </div>
+</section>
+
+<section id="agencyWork" class="page dashboardInner">
+  <div class="agencyWorkPage">
+    <div class="panelCard">
+      <div class="workingDataTitle">Team working data <span>›</span></div>
+      <div class="teamWorkingPeriod">
+        <b>2026-08-17 00:00:00 ~ 2026-08-23 23:59:59 (UTC+5)</b>
+        <small>Update in: 12 : 48</small>
+      </div>
+      <div class="workingGrid">
+        <button onclick="openHostData()"><b>486,320</b><span>Coins</span></button>
+        <button onclick="openHostData()"><b>145,896</b><span>Diamonds</span></button>
+        <button onclick="openHostData()"><b>18</b><span>Total Hosts</span></button>
+        <button onclick="openHostData()"><b>11</b><span>Effective Hosts</span></button>
+        <button onclick="openHostData()"><b>15</b><span>Active Hosts</span></button>
+        <button onclick="openHostData()"><b>12</b><span>Gifted Hosts</span></button>
+      </div>
+    </div>
+    <div id="agencySourceCharts"></div>
+  </div>
+</section>
+
+<section id="salary" class="page dashboardInner salaryPageNew">
+  <div class="innerPad salarySimplePad">
+    <div class="dashSectionHead simple salaryFirstHead"><b>Payment Method</b></div>
+    <div class="panelCard paymentSummaryCard">
+      <button class="paymentMainRow" onclick="openPaymentMethodSheet()">
+        <span id="salaryPaymentLogo" class="paymentLogo">★</span>
+        <span><b id="salaryPaymentMethodLabel">Agency Top-up</b><small id="salaryPaymentMethodHint">Preferred payout method · Tap to manage</small></span><i>›</i>
+      </button>
+      <button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button>
+    </div>
+    <div class="dashSectionHead salaryRecordsHead"><div><b>Salary Records</b><span>Settlement records</span></div></div>
+    <div id="salaryRecordList" class="salaryRecordList"></div>
+  </div>
+</section>
+
+<section id="room" class="page">
+<div class="roomMeta"><div class="meta"><span>Room ID</span><span class="val">382994</span></div><div class="meta"><span>Period</span><span class="val" style="color:#eee;font-size:12px">2026-08-17 00:00:00 ~ 2026-08-23 23:59:59<br>(UTC +5)<br><span style="color:#f6d05d">Update in: 17 : 44</span></span></div></div>
+<div class="section"><div class="section-title">Room data ›</div><div class="mic"><div><div class="big">0</div><b>Total Mic Time</b></div></div>
+<div class="grid2"><div class="stat"><div class="num">0</div><div class="txt">Total coins<br>(Lucky gift included)</div></div><div class="stat"><div class="num">0</div><div class="txt">Lucky gift coins</div></div><div class="stat"><div class="num">0</div><div class="txt">Total gift diamond</div></div><div class="stat"><div class="num">0</div><div class="txt">Total lucky gift diamond</div></div></div></div>
+</section>
+
+
+<section id="teamManagement" class="page">
+  <div class="teamMgmtPage">
+    <div class="teamFilterCard"><button class="teamDateRow" onclick="openNaturalWeekPicker(hostManagementWeekStart,'applyAgencyTeamWeek')"><span>Date (+5)</span><b id="agencyTeamWeekRange">2026-08-24 / 2026-08-30</b></button><div class="teamFilterSearch"><input id="teamHostSearchInput" placeholder="Search name / ID" onkeydown="if(event.key==='Enter')renderHostManagement()"><button onclick="renderHostManagement()">Search</button></div></div>
+    <div id="teamHostMemberList"></div>
+  </div>
+</section>
+
+<section id="hostMemberDetails" class="page">
+  <div class="memberInfoPage"><div id="hostMemberDetailContent" class="panelCard memberInfoCard"></div></div>
+</section>
+
+<section id="analysis" class="page">
+  <div class="analysisTabsWrap">
+    <div class="analysis-tabs">
+      <button id="tabTotalData" class="analysis-tab active" onclick="showAnalysis('total',this)">Total Data</button>
+      <button id="tabHostData" class="analysis-tab" onclick="showAnalysis('hostlist',this)">Host Data</button>
+    </div>
+    <button class="analysisHelpBtn" onclick="openAnalysisRules()">?</button>
+  </div>
+
+  <div id="analysis-total" class="analysis-pane">
+    <div class="smallnote">This Week's Data excludes today's data and refreshes daily at 00:15 (UTC+5).</div>
+    <div class="section">
+      <div class="section-title">This Week's Data</div>
+      <div id="weekSummaryGrid" class="weekbox"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Yesterday's Data</div>
+      <div id="yesterdayGrid" class="yesterday"></div>
+    </div>
+  </div>
+
+  <div id="analysis-hostlist" class="analysis-pane" style="display:none">
+    <div class="hostDataTop">
+      <div class="hostSearchUnified analysisHostSearch">
+        <input id="analysisHostSearchInput" class="hostSearchInput" inputmode="numeric" placeholder="Enter Host ID" onkeydown="if(event.key==='Enter')renderAnalysisHosts()">
+        <button class="hostSearchButton" onclick="renderAnalysisHosts()">Search</button>
+      </div>
+      <div class="compactFilterBar" onclick="openCombinedHostFilter()">
+        <div class="compactFilterGroup"><span class="compactFilterLabel">Time</span><button id="compactTime" class="compactChip active">This Week <span>⌄</span></button></div>
+        <div class="compactFilterGroup"><span class="compactFilterLabel">Sort</span><button id="compactSort" class="compactChip active">Coins <span>⌄</span></button><button id="compactValue" class="compactChip">Total Value <span>⌄</span></button><button class="compactChip iconChip" aria-label="Sort order"><span class="sortOrderIcon"><i class="up"></i><i class="down"></i></span></button></div>
+      </div>
+      <div class="hostDataNote">The following data excludes today's data and refreshes daily at 00:15 (UTC+5).</div>
+    </div>
+    <div id="analysisHostList" class="sourceAnalysisHostList"></div>
+  </div>
+</section>
+
+<section id="rewards" class="page">
+  <div class="rewardbox">
+    <h3 id="rewardHeadline" style="color:#f3c94e">Rewards available: 18,000 Beans</h3>
+    <div>Choose 1 of the 2 rewards. Choose Beans to get +50% bonus.</div>
+    <div class="rewardcards">
+      <button class="reward rewardCoin" data-reward="Coins" onclick="chooseRewardData(this)">
+        <div class="rewardPic coinPic"><div class="coinStack"><span>●</span><span>●</span><span>●</span></div></div>
+        <div class="rewardName"><span class="rewardMiniIcon coinMini">●</span> Coins</div><strong>12,000</strong>
+      </button>
+      <b class="rewardOr">OR</b>
+      <button class="reward rewardBean selected" data-reward="Beans" onclick="chooseRewardData(this)">
+        <div class="bonusTag">+50%</div><div class="rewardPic beanPic"><div class="beanShape"><span></span><span></span><span></span></div></div>
+        <div class="rewardName"><span class="rewardMiniIcon beanMini">●</span> Beans</div><strong>18,000</strong>
+      </button>
+    </div>
+    <button id="rewardClaimBtn" class="claim active" onclick="requestRewardClaim()">One-click claim</button>
+    <div style="font-size:13px">All times use UTC+0. Rewards can be claimed from Tuesday 01:00 to Sunday 24:00.<br>Monday 00:00 to Tuesday 01:00 is the statistical period.</div>
+  </div>
+  <div class="records"><div class="section-title">Rewards Records</div><div class="recHead"><span>Statistical Time</span><span>Rewards</span><span>Status</span></div><div id="rewardRecordList"></div></div>
+</section>
+
+
+
+
+
+<section id="anchorSalary" class="page dashboardInner">
+  <div class="innerPad"><div class="dashSectionHead"><div><b>Host Salary Bills</b><span id="anchorSalaryPeriod"></span></div></div><div id="anchorSalaryList"></div></div>
+</section>
+
+<section id="reviewApply" class="page">
+  <div class="reviewtabs"><button class="active" type="button">Host</button></div>
+  <div class="reviewFilter">
+    <button id="reviewStatusBtn" class="statusSelect" onclick="openStatusSheet()"><span id="reviewStatusLabel">All status</span><span>⌄</span></button>
+    <button class="reviewSearchBtn" onclick="renderApplicationsData()">Search</button>
+  </div>
+  <div id="applicationList"></div>
+</section>
+
+
+
+<div id="waConfigOverlay" class="waConfigOverlay" onclick="closeWhatsAppConfig(event)">
+  <div class="waConfigPanel" onclick="event.stopPropagation()">
+    <div class="waConfigHandle"></div>
+    <div class="waConfigTitle">Staff WhatsApp</div>
+    <div class="waConfigLabel">WhatsApp number</div>
+    <input id="waConfigInput" class="waConfigInput" value="+92 300 1234567" placeholder="Enter WhatsApp number">
+    <div class="waConfigActions">
+      <button onclick="hideWhatsAppConfig()">Cancel</button>
+      <button class="save" onclick="saveWhatsAppConfig()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="calendarModal" class="calendarOverlay" onclick="closeCalendar(event)">
+  <div class="calendarCard" onclick="event.stopPropagation()">
+    <div class="calendarTop"><b>Calendar</b><button onclick="hideCalendar()">×</button></div>
+    <div class="calendarMonth">2026 / 8</div>
+    <div class="weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+    <div class="calendarGrid">
+      <span></span><span></span><span></span><span></span><span></span><span></span><button>1</button>
+      <button>2</button><button>3</button><button>4</button><button>5</button><button>6</button><button>7</button><button>8</button>
+      <button>9</button><button>10</button><button>11</button><button class="rangeStart" onclick="pickDate(this,12)">12</button><button>13</button><button>14</button><button>15</button>
+      <button>16</button><button>17</button><button>18</button><button class="rangeEnd" onclick="pickDate(this,19)">19</button><button>20</button><button>21</button><button>22</button>
+      <button>23</button><button>24</button><button>25</button><button>26</button><button>27</button><button>28</button><button>29</button>
+      <button>30</button><button>31</button>
+    </div>
+    <button class="calendarConfirm" onclick="confirmCalendar()">Confirm</button>
+  </div>
+</div>
+
+
+<div id="statusSheet" class="statusSheet" onclick="closeStatusSheet(event)">
+  <div class="statusSheetPanel" onclick="event.stopPropagation()">
+    <div class="statusSheetTop">
+      <button class="sheetClose" onclick="hideStatusSheet()">×</button>
+      <div class="sheetTitle">Select status</div>
+      <div></div>
+    </div>
+    <button class="statusOption selected" data-status="All status" onclick="selectReviewStatus(this)">All status</button>
+    <button class="statusOption" data-status="Under review" onclick="selectReviewStatus(this)">Under review</button>
+    <button class="statusOption" data-status="Approval" onclick="selectReviewStatus(this)">Approval</button>
+    <button class="statusOption" data-status="Not pass" onclick="selectReviewStatus(this)">Not pass</button>
+  </div>
+</div>
+
+
+<div id="hostFilterSheet" class="hostFilterSheet" onclick="closeHostFilterSheet(event)">
+  <div class="hostFilterPanel" onclick="event.stopPropagation()">
+    <div class="sheetGrabber" onclick="hideHostFilterSheet()" title="Close"></div>
+
+    <div class="combinedGroup">
+      <div class="combinedLabel">Time</div>
+      <div class="combinedOptions">
+        <button class="combinedOption on" data-group="time">This Week</button>
+        <button class="combinedOption" data-group="time">Yesterday</button>
+      </div>
+    </div>
+
+    <div class="combinedGroup">
+      <div class="combinedLabel">Sort</div>
+      <div class="combinedOptions">
+        <button class="combinedOption on" data-group="sort">Coins</button>
+        <button class="combinedOption" data-group="sort">Consumers</button>
+        <button class="combinedOption" data-group="sort">Valid Hours</button>
+        <button class="combinedOption" data-group="sort">Effective Host</button>
+        <button class="combinedOption on" data-group="value">Total Value</button>
+      </div>
+    </div>
+
+    <div class="combinedGroup">
+      <div class="combinedLabel">Order</div>
+      <div class="combinedOptions orderOptions">
+        <button class="combinedOption on" data-group="order">
+          <span class="orderChoiceIcon descending"><i></i><i></i><i></i></span>
+          Descending
+        </button>
+        <button class="combinedOption" data-group="order">
+          <span class="orderChoiceIcon ascending"><i></i><i></i><i></i></span>
+          Ascending
+        </button>
+      </div>
+    </div>
+
+    <div class="hostFilterActions">
+      <button type="button" onclick="hideHostFilterSheet()">Cancel</button>
+      <button type="button" class="confirm" onclick="applyCombinedHostFilter()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="paymentInfoOverlay" class="payOverlay" onclick="closePaymentInfo(event)">
+  <div class="payCard" onclick="event.stopPropagation()">
+    <div class="payCardTitle" id="paymentInfoTitle">Payment information</div>
+    <div class="payRow paymentMethodReadonly">
+      <div class="payLabel">Payment method:</div>
+      <div class="payValue"><span id="payMethodValue">Agency Top-up</span></div>
+    </div>
+    <div id="paymentDynamicFields"></div>
+    <div class="payActions">
+      <button class="payCancel" onclick="hidePaymentInfo()">Cancel</button>
+      <button class="paySave" onclick="savePaymentInfo()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="paymentMethodSheet" class="paySheet" onclick="closePaymentMethodSheet(event)">
+  <div class="paySheetPanel paymentManagePanel" onclick="event.stopPropagation()">
+    <div class="sheetGrabber" onclick="hidePaymentMethodSheet()"></div>
+    <div class="paymentManageHeader"><div><b>Payment methods</b><small>Star one to prioritize it for payout</small></div><button onclick="hidePaymentMethodSheet()">×</button></div>
+    <div id="paymentMethodList" class="paymentMethodList"></div>
+  </div>
+</div>
+
+<div id="countrySheet" class="paySheet" onclick="closeCountrySheet(event)">
+  <div class="paySheetPanel" onclick="event.stopPropagation()">
+    <div class="paySheetTop">
+      <button class="paySheetClose" onclick="hideCountrySheet()">×</button>
+      <div class="paySheetTitle">Select country</div>
+      <button class="paySheetConfirm" onclick="confirmBankCountry()">Confirm</button>
+    </div>
+    <button class="payOption countryOption" data-country="Pakistan 92" onclick="selectPendingCountry(this)"><span class="countryFlag">🇵🇰</span>Pakistan 92</button>
+    <button class="payOption countryOption" data-country="Morocco 212" onclick="selectPendingCountry(this)"><span class="countryFlag">🇲🇦</span>Morocco 212</button>
+    <button class="payOption countryOption" data-country="Turkey 90" onclick="selectPendingCountry(this)"><span class="countryFlag">🇹🇷</span>Turkey 90</button>
+    <button class="payOption countryOption" data-country="Egypt 20" onclick="selectPendingCountry(this)"><span class="countryFlag">🇪🇬</span>Egypt 20</button>
+  </div>
+</div>
+
+
+<div id="dataConfirmOverlay" class="payOverlay" onclick="closeDataConfirm(event)">
+  <div class="payCard" onclick="event.stopPropagation()">
+    <div id="dataConfirmTitle" class="payCardTitle">Confirm</div>
+    <div id="dataConfirmBody" class="dataConfirmBody"></div>
+    <div class="payActions"><button class="payCancel" onclick="hideDataConfirm()">Cancel</button><button id="dataConfirmAction" class="paySave">Confirm</button></div>
+  </div>
+</div>
+
+
+
+
+<section id="analysisRules" class="page">
+  <div class="rulesPage">
+    <h2>Rules</h2>
+
+    <h3>I. Total Data Description</h3>
+    <p><b>1. Time Zone:</b> Unified to the agency's time zone.</p>
+    <p><b>2. Data Refresh:</b> Refreshes daily at 00:15 and does not include the current day. Data is updated until 23:59:59 of the previous day.</p>
+    <p><b>3. Total Data:</b> Combined data of all hosts in my agency.</p>
+    <p><b>4. Hosts:</b> Total number of hosts in the agency.</p>
+    <p><b>5. Coins:</b> Gift coins received by agency hosts.</p>
+    <p><b>6. Consumers:</b> Users who sent gifts to agency hosts.</p>
+    <p><b>7. New Hosts:</b> Hosts who signed as a Host for the first time during the selected period.</p>
+    <p><b>8. Effective Hosts:</b> Hosts with at least 4 Valid Days and 10 Valid Hours during the selected period.</p>
+    <p><b>9. Valid Hours:</b> Total valid on-mic time of agency hosts.</p>
+    <p><b>10. Active Hosts:</b> Hosts with on-mic time greater than 0.</p>
+    <p><b>11. Gifted Hosts:</b> Hosts who received more than 0 diamonds.</p>
+
+    <h3>II. Host Data Description</h3>
+    <p><b>1. Host ID:</b> Search and view data for a specific host in the agency.</p>
+    <p><b>2. Time:</b> Select the statistical period, such as This Week or Yesterday.</p>
+    <p><b>3. Coins:</b> Gift coins received by the host during the selected period.</p>
+    <p><b>4. Consumers:</b> Users who sent gifts to the host during the selected period.</p>
+    <p><b>5. Valid Hours:</b> Valid on-mic time of the host during the selected period.</p>
+    <p><b>6. Effective Host:</b> Shows <b>Qualified</b> when the host has at least 4 Effective Days and 10 Valid Working Hours during the selected period; otherwise shows <b>Not Qualified</b>.</p>
+    <p><b>7. Total Value:</b> Total statistical value used for sorting host data.</p>
+    <p><b>8. Sort Order:</b> Supports Descending and Ascending order.</p>
+  </div>
+</section>
+
+</div><script>
+let pageHistory=['home'];
+function setPage(id,t){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
+  const target=document.getElementById(id);
+  if(!target)return;
+  target.classList.add('on');
+  document.body.classList.toggle('homeView',id==='home');
+  document.getElementById('title').textContent=t||({
+    home:'Agency Center',
+    levelInfo:'Agency Level',
+    agencyWork:'Agency Data',
+    salary:'Salary Bill',
+    anchorSalary:'Host Salary Bills',
+    room:'Room data',
+    host:'Host Data',
+    teamManagement:'Team Management',
+    hostMemberDetails:'Member Details',
+    analysis:'Data Analysis',
+    rewards:'Invitation Rewards',
+    reviewApply:'Review Apply'
+  }[id]||'Agency Center');
+  window.scrollTo(0,0);
+}
+function openp(id,t){
+  const current=pageHistory[pageHistory.length-1];
+  if(current!==id) pageHistory.push(id);
+  setPage(id,t);
+}
+function goBack(){
+  if(pageHistory.length>1){
+    pageHistory.pop();
+    const prev=pageHistory[pageHistory.length-1];
+    setPage(prev);
+  }else{
+    setPage('home','Agency Center');
+  }
+}
+function goHome(){
+  pageHistory=['home'];
+  setPage('home','Agency Center');
+}
+function home(){goHome()}
+function approveHost(){
+ document.getElementById('reviewStatus').textContent='Approval ✓';
+ document.getElementById('reviewStatus').className='approved';
+ document.getElementById('reviewActions').style.display='none';
+ toastSuccess('✓<br>Operation success');
+}
+function rejectHost(){
+ document.getElementById('reviewStatus').textContent='Not pass';
+ document.getElementById('reviewStatus').className='rejected';
+ document.getElementById('reviewActions').style.display='none';
+ toastSuccess('✓<br>Operation success');
+}
+function toastSuccess(t){
+ const x=document.createElement('div');x.className='toastSuccess';x.innerHTML=t;
+ document.body.appendChild(x);setTimeout(()=>x.remove(),1100);
+}
+
+document.addEventListener('click',function(e){
+  if(e.target.closest && e.target.closest('.filterSelect')){
+    const m=document.querySelector('.hostFilterModalDemo');
+    if(m)m.classList.toggle('show');
+  }
+  if(e.target.closest && e.target.closest('.modalActions .confirm, .modalActions button:first-child')){
+    const m=document.querySelector('.hostFilterModalDemo');
+    if(m)m.classList.remove('show');
+  }
+});
+
+function copyText(id){
+  const text=document.getElementById(id)?.textContent?.trim()||'';
+  if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(text).catch(()=>{});}
+  const t=document.createElement('div'); t.className='copyToast'; t.textContent='Copied';
+  document.body.appendChild(t); setTimeout(()=>t.remove(),1200);
+}
+function shareInvite(){
+  const link=document.getElementById('homeInviteLink')?.textContent?.trim()||'';
+  if(navigator.share){
+    navigator.share({title:'Host Invitation',text:'Join my agency',url:link}).catch(()=>{});
+    return;
+  }
+  if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(link).catch(()=>{});}
+  const t=document.createElement('div');t.className='copyToast';t.textContent='Invitation link copied';
+  document.body.appendChild(t);setTimeout(()=>t.remove(),1200);
+}
+function openHostData(){
+  openTeamManagement();
+}
+function openCalendar(){
+  document.getElementById('calendarModal').classList.add('show');
+}
+function hideCalendar(){
+  document.getElementById('calendarModal').classList.remove('show');
+}
+function closeCalendar(e){
+  if(e.target.id==='calendarModal') hideCalendar();
+}
+function pickDate(el,day){
+  // visual demo only; range is confirmed below
+}
+function confirmCalendar(){
+  document.getElementById('hostDateRange').textContent='2026-08-12/2026-08-19';
+  hideCalendar();
+}
+
+
+function openStatusSheet(){
+  const s=document.getElementById('statusSheet');
+  if(s)s.classList.add('show');
+}
+function hideStatusSheet(){
+  const s=document.getElementById('statusSheet');
+  if(s)s.classList.remove('show');
+}
+function closeStatusSheet(e){
+  if(e.target && e.target.id==='statusSheet') hideStatusSheet();
+}
+function selectReviewStatus(btn){
+  document.querySelectorAll('#statusSheet .statusOption').forEach(x=>x.classList.remove('selected'));
+  btn.classList.add('selected');
+  const label=document.getElementById('reviewStatusLabel');
+  if(label)label.textContent=btn.dataset.status;
+  hideStatusSheet();
+}
+
+function showAnalysis(which,el){
+  document.querySelectorAll('#analysis .analysis-tab').forEach(x=>x.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const total=document.getElementById('analysis-total');
+  const host=document.getElementById('analysis-hostlist');
+  if(total)total.style.display=which==='total'?'block':'none';
+  if(host)host.style.display=which==='hostlist'?'block':'none';
+}
+function showWhatsAppToast(){
+  const t=document.createElement('div');t.className='copyToast';t.textContent='Open WhatsApp';
+  document.body.appendChild(t);setTimeout(()=>t.remove(),1200);
+}
+function openWhatsAppConfig(){
+  const s=document.getElementById('waConfigOverlay');
+  if(s)s.classList.add('show');
+}
+function hideWhatsAppConfig(){
+  const s=document.getElementById('waConfigOverlay');
+  if(s)s.classList.remove('show');
+}
+function closeWhatsAppConfig(e){
+  if(e && e.target && e.target.id==='waConfigOverlay') hideWhatsAppConfig();
+}
+function saveWhatsAppConfig(){
+  const input=document.getElementById('waConfigInput');
+  const value=(input?.value||'').trim();
+  if(!value){ toastSuccess('Enter WhatsApp number'); return; }
+  const staff=document.getElementById('staffWhatsapp');
+  if(staff)staff.textContent=value;
+  hideWhatsAppConfig();
+  toastSuccess('✓<br>Saved');
+}
+
+
+function openCombinedHostFilter(){
+  const s=document.getElementById('hostFilterSheet');
+  if(s)s.classList.add('show');
+}
+function hideHostFilterSheet(){
+  const s=document.getElementById('hostFilterSheet');
+  if(s)s.classList.remove('show');
+}
+function closeHostFilterSheet(e){
+  if(e && e.target && e.target.id==='hostFilterSheet'){
+    hideHostFilterSheet();
+  }
+}
+function applyCombinedHostFilter(){
+  hideHostFilterSheet();
+}
+
+
+
+let currentPaymentMethod='Agency Top-up';
+let pendingPaymentMethod='Agency Top-up';
+let bankCountry='Morocco 212';
+let pendingBankCountry='Morocco 212';
+
+function paymentRow(label, inner, errorId=''){
+  return `<div class="payRow"><div class="payLabel">${label}</div><div>${inner}</div>${errorId?`<div id="${errorId}" class="payError"></div>`:''}</div>`;
+}
+
+function renderPaymentFields(method){
+  const box=document.getElementById('paymentDynamicFields');
+  if(!box)return;
+  if(method==='USDT'){
+    box.innerHTML=
+      paymentRow('Network:','<div class="payValue">TRC20</div>')+
+      paymentRow('Address:','<input id="pay-usdt-address" class="payInput" placeholder="Please enter USDT address">','pay-error');
+  }else if(method==='PayPal'){
+    box.innerHTML=paymentRow('Email Address:','<input id="pay-paypal-email" class="payInput" type="email" placeholder="Please enter paypal email">','pay-error');
+  }else if(method==='Bank Card'){
+    box.innerHTML=
+      paymentRow('Bank Country:',`<div class="payValue clickable" onclick="openCountrySheet()"><span id="bankCountryValue">${bankCountry}</span><span class="payArrow">›</span></div>`,'pay-country-error')+
+      paymentRow('Account:','<input id="pay-bank-account" class="payInput" placeholder="Please enter bank account number">','pay-bank-account-error')+
+      paymentRow('Account name:','<input id="pay-bank-name" class="payInput" placeholder="Please enter bank account name">','pay-bank-name-error')+
+      paymentRow('Bank Name:','<input id="pay-bank-bankname" class="payInput" placeholder="Please enter bank name">','pay-bank-bankname-error')+
+      paymentRow('SWIFT Code:','<input id="pay-bank-swift" class="payInput" placeholder="Please enter SWIFT Code">','pay-bank-swift-error')+
+      paymentRow('Bank number:','<input id="pay-bank-code" class="payInput" placeholder="Please enter bank code">')+
+      paymentRow('Phone Number:','<input id="pay-bank-phone" class="payInput" placeholder="Please enter phone number">')+
+      paymentRow('Home address:','<input id="pay-bank-home" class="payInput" placeholder="Please enter home address">')+
+      paymentRow('Email Address:','<input id="pay-bank-email" class="payInput" type="email" placeholder="Please enter email address">');
+  }else if(method==='Coins'){
+    box.innerHTML=paymentRow('Account:','<input id="pay-coins-account" class="payInput" placeholder="Enter User ID">','pay-error');
+  }else{
+    box.innerHTML=paymentRow('Agency ID:','<input id="pay-agency-id" class="payInput" placeholder="Please enter the Top-Up Agency ID">','pay-error');
+  }
+}
+
+function syncSalaryChips(method){
+  document.querySelectorAll('#salaryMethodChips .salaryMethodChip').forEach(btn=>btn.classList.toggle('active',btn.dataset.method===method));
+}
+
+function openPaymentInfo(method){
+  currentPaymentMethod=method||currentPaymentMethod;
+  pendingPaymentMethod=currentPaymentMethod;
+  const value=document.getElementById('payMethodValue');
+  if(value)value.textContent=currentPaymentMethod;
+  syncSalaryChips(currentPaymentMethod);
+  renderPaymentFields(currentPaymentMethod);
+  const ov=document.getElementById('paymentInfoOverlay');
+  if(ov)ov.classList.add('show');
+}
+function hidePaymentInfo(){document.getElementById('paymentInfoOverlay')?.classList.remove('show')}
+function closePaymentInfo(e){if(e.target?.id==='paymentInfoOverlay')hidePaymentInfo()}
+
+function openPaymentMethodSheet(){
+  pendingPaymentMethod=currentPaymentMethod;
+  document.querySelectorAll('#paymentMethodSheet .payOption').forEach(btn=>btn.classList.toggle('selected',btn.dataset.method===pendingPaymentMethod));
+  document.getElementById('paymentMethodSheet')?.classList.add('show');
+}
+function hidePaymentMethodSheet(){document.getElementById('paymentMethodSheet')?.classList.remove('show')}
+function closePaymentMethodSheet(e){if(e.target?.id==='paymentMethodSheet')hidePaymentMethodSheet()}
+function selectPendingPaymentMethod(btn){
+  document.querySelectorAll('#paymentMethodSheet .payOption').forEach(x=>x.classList.remove('selected'));
+  btn.classList.add('selected');pendingPaymentMethod=btn.dataset.method;
+}
+function confirmPaymentMethod(){
+  if(pendingPaymentMethod==='Not choose yet'){hidePaymentMethodSheet();return;}
+  currentPaymentMethod=pendingPaymentMethod;
+  document.getElementById('payMethodValue').textContent=currentPaymentMethod;
+  syncSalaryChips(currentPaymentMethod);
+  renderPaymentFields(currentPaymentMethod);
+  hidePaymentMethodSheet();
+}
+
+function openCountrySheet(){
+  pendingBankCountry=bankCountry;
+  document.querySelectorAll('#countrySheet .payOption').forEach(btn=>btn.classList.toggle('selected',btn.dataset.country===pendingBankCountry));
+  document.getElementById('countrySheet')?.classList.add('show');
+}
+function hideCountrySheet(){document.getElementById('countrySheet')?.classList.remove('show')}
+function closeCountrySheet(e){if(e.target?.id==='countrySheet')hideCountrySheet()}
+function selectPendingCountry(btn){
+  document.querySelectorAll('#countrySheet .payOption').forEach(x=>x.classList.remove('selected'));
+  btn.classList.add('selected');pendingBankCountry=btn.dataset.country;
+}
+function confirmBankCountry(){
+  bankCountry=pendingBankCountry;
+  const el=document.getElementById('bankCountryValue');if(el)el.textContent=bankCountry;
+  hideCountrySheet();
+}
+
+function clearPayErrors(){document.querySelectorAll('#paymentInfoOverlay .payError').forEach(x=>{x.textContent='';x.classList.remove('show')})}
+function showPayError(id,msg){const e=document.getElementById(id);if(e){e.textContent=msg;e.classList.add('show')}}
+function valueOf(id){return document.getElementById(id)?.value?.trim()||''}
+function savePaymentInfo(){
+  clearPayErrors();
+  let ok=true;
+  if(currentPaymentMethod==='Agency Top-up'){
+    if(!valueOf('pay-agency-id')){showPayError('pay-error','Please enter the Top-Up Agency ID');ok=false;}
+  }else if(currentPaymentMethod==='USDT'){
+    if(!valueOf('pay-usdt-address')){showPayError('pay-error','Please enter USDT address');ok=false;}
+  }else if(currentPaymentMethod==='PayPal'){
+    const email=valueOf('pay-paypal-email');
+    if(!email){showPayError('pay-error','Please enter paypal email');ok=false;}
+    else if(!/^\S+@\S+\.\S+$/.test(email)){showPayError('pay-error','Please enter a valid email');ok=false;}
+  }else if(currentPaymentMethod==='Coins'){
+    if(!valueOf('pay-coins-account')){showPayError('pay-error','Please enter User ID');ok=false;}
+  }else if(currentPaymentMethod==='Bank Card'){
+    const required=[
+      ['pay-bank-account','pay-bank-account-error','Please enter bank account number'],
+      ['pay-bank-name','pay-bank-name-error','Please enter bank account name'],
+      ['pay-bank-bankname','pay-bank-bankname-error','Please enter bank name'],
+      ['pay-bank-swift','pay-bank-swift-error','Please enter SWIFT Code']
+    ];
+    required.forEach(([fid,eid,msg])=>{if(!valueOf(fid)){showPayError(eid,msg);ok=false;}});
+  }
+  if(!ok)return;
+  hidePaymentInfo();
+  toastSuccess('✓<br>Saved');
+}
+
+
+function openAnalysisRules(){
+  openp('analysisRules','Rules');
+}
+
+
+/* v26 source-complete data hydration */
+const agencySourceData={
+  hosts:[
+    {id:'10364025',nick:'Sajadul Km5312',validDay:5,validTime:21.8,goldNum:128600,diamondNum:38580,spendersNum:146,validAnchorNum:1},
+    {id:'10826491',nick:'Ayesha Live',validDay:4,validTime:16.2,goldNum:96740,diamondNum:29022,spendersNum:92,validAnchorNum:1},
+    {id:'10597320',nick:'Lina Voice',validDay:3,validTime:8.7,goldNum:54320,diamondNum:16296,spendersNum:61,validAnchorNum:0},
+    {id:'10261488',nick:'Mariam Star',validDay:6,validTime:27.4,goldNum:148900,diamondNum:44670,spendersNum:173,validAnchorNum:1},
+    {id:'10987211',nick:'Noor Party',validDay:2,validTime:6.1,goldNum:57760,diamondNum:17328,spendersNum:48,validAnchorNum:0}
+  ],
+  weekSummary:[['18','Hosts'],['486,320','Coins'],['426','Consumers'],['4','New Hosts'],['11','Effective Hosts'],['188.5h','Valid Hours'],['15','Active Hosts'],['12','Gifted Hosts']],
+  yesterday:[
+    {label:'Coins',value:'82,640',ratio:12.6},
+    {label:'Consumers',value:'138',ratio:8.2},
+    {label:'Valid Hours',value:'31.4h',ratio:-3.1},
+    {label:'Active Hosts',value:'15',ratio:0},
+    {label:'Gifted Hosts',value:'12',ratio:9.1}
+  ],
+  rewardRecords:[
+    {start:'2026-08-10',end:'2026-08-16',type:'Beans',total:'15,000',send:1},
+    {start:'2026-08-03',end:'2026-08-09',type:'Coins',total:'8,400',send:1},
+    {start:'2026-07-27',end:'2026-08-02',type:'Beans',total:'10,500',send:1}
+  ],
+  salaryBills:[
+    {id:501,periodId:'2026W34',start:'2026-08-17',end:'2026-08-23',status:1,gold:486320,diamonds:145896,hostSalary:486.32,agencySalary:76.40,total:562.72,shouldPay:562.72,method:'USDT',amount:562.72,payee:'TQ8Lw9p2xD7k3mN6cR4vB1zA5sF0hJ2uXq'},
+    {id:500,periodId:'2026W33',start:'2026-08-10',end:'2026-08-16',status:2,gold:421880,diamonds:126564,hostSalary:421.88,agencySalary:69.50,total:491.38,shouldPay:491.38,method:'Bank Card',amount:491.38,payee:'PK18ABCD0000123456789012'},
+    {id:499,periodId:'2026W32',start:'2026-08-03',end:'2026-08-09',status:4,gold:398450,diamonds:119535,hostSalary:398.45,agencySalary:65.20,total:463.65,shouldPay:463.65,method:'PayPal',amount:463.65,payee:'finance@example.com'}
+  ],
+  applications:[
+    {id:91,nick:'Fatima Noor',userId:'10760482',reviewStatus:0},
+    {id:90,nick:'Sara Voice',userId:'10387519',reviewStatus:0},
+    {id:89,nick:'Imran Live',userId:'10968244',reviewStatus:1},
+    {id:88,nick:'Nadia Star',userId:'10155473',reviewStatus:2}
+  ]
+};
+
+/* Team Management state — current members + natural-week business data */
+let hostManagementWeekStart=naturalWeekCurrentStart(),selectedHostMemberId=null;
+const hostManagementProfiles={
+ '10364025':{status:1,bound:true,country:'Pakistan',timeZone:'UTC+5',joinTime:'2026-06-18 14:20'},
+ '10826491':{status:1,bound:true,country:'Bangladesh',timeZone:'UTC+6',joinTime:'2026-06-24 11:05'},
+ '10597320':{status:0,bound:true,country:'India',timeZone:'UTC+5:30',joinTime:'2026-07-02 16:42'},
+ '10261488':{status:1,bound:true,country:'Pakistan',timeZone:'UTC+5',joinTime:'2026-06-10 09:30'},
+ '10987211':{status:1,bound:true,country:'UAE',timeZone:'UTC+4',joinTime:'2026-07-08 13:06'}
+};
+function hostMgmtMetric(h,key){const v=Number(h[key]||0),factor=naturalWeekFactor(hostManagementWeekStart);if(naturalWeekDiff(hostManagementWeekStart)===0)return v;const out=v*factor;return key==='validTime'?Math.round(out*10)/10:Math.max(0,Math.round(out))}
+function hostProfile(h){return hostManagementProfiles[h.id]||(hostManagementProfiles[h.id]={status:1,bound:true,country:'—',timeZone:'UTC+5',joinTime:'—'})}
+function applyAgencyTeamWeek(startIso){hostManagementWeekStart=startIso;renderHostManagement()}
+function openTeamManagement(){openp('teamManagement','Team Management');setTimeout(renderHostManagement,0)}
+function hostMemberCard(h){const p=hostProfile(h),statusBadge=`<span class="teamHostStatus ${p.status?'':'banned'}">${p.status?'Normal':'Banned'}</span>`;return `<article class="teamHostCard"><div class="teamHostHead"><div class="teamHostAvatar">${h.nick.charAt(0)}</div><div class="teamHostIdentity"><b>${h.nick}</b><small>ID: ${h.id}</small></div>${statusBadge}</div><div class="teamHostBody"><div class="teamHostMetrics"><div class="teamHostMetric"><b>${fmtData(hostMgmtMetric(h,'goldNum'))}</b><span>Coins</span></div><div class="teamHostMetric"><b>${fmtData(hostMgmtMetric(h,'diamondNum'))}</b><span>Diamonds</span></div><div class="teamHostMetric"><b>${hostMgmtMetric(h,'validDay')}</b><span>Valid Days</span></div><div class="teamHostMetric"><b>${hostMgmtMetric(h,'validTime')}h</b><span>Valid Hours</span></div></div><div class="teamMemberActions"><button onclick="openHostMemberDetails('${h.id}')">Details</button><button class="${p.status?'warning':'success'}" onclick="toggleHostBusinessStatus('${h.id}')">${p.status?'Ban':'Unban'}</button><button class="danger" onclick="unbindHostMember('${h.id}')">Unbind</button></div></div></article>`}
+function renderHostManagement(){const box=document.getElementById('teamHostMemberList');if(!box)return;const q=(document.getElementById('teamHostSearchInput')?.value||'').trim().toLowerCase();const list=agencySourceData.hosts.filter(h=>hostProfile(h).bound!==false&&(!q||`${h.nick} ${h.id}`.toLowerCase().includes(q)));box.innerHTML=list.length?list.map(hostMemberCard).join(''):'<div class="sourceEmpty">No more data</div>';const range=naturalWeekRange(hostManagementWeekStart),field=document.getElementById('agencyTeamWeekRange');if(field)field.textContent=range.replace(' ~ ',' / ')}
+function toggleHostBusinessStatus(id){const h=agencySourceData.hosts.find(x=>x.id===id);if(!h)return;const p=hostProfile(h),next=p.status?'Ban':'Unban';showDataConfirm(`${next} Host`,`<b>${h.nick}</b><br>${p.status?'Ban this Host’s business qualification. The user account and organization relationship remain.':'Restore this Host’s business qualification.'}`,next,()=>{p.status=p.status?0:1;renderHostManagement();toastData(p.status?'Host unbanned':'Host banned')})}
+function unbindHostMember(id){const h=agencySourceData.hosts.find(x=>x.id===id);if(!h)return;showDataConfirm('Unbind Host',`<b>${h.nick}</b><br>Remove this Host from the current Agency relationship. The user account remains.`, 'Unbind',()=>{hostProfile(h).bound=false;renderHostManagement();toastData('Host unbound')})}
+function openHostMemberDetails(id){selectedHostMemberId=id;renderHostMemberDetails();openp('hostMemberDetails','Member Details')}
+function renderHostMemberDetails(){const h=agencySourceData.hosts.find(x=>x.id===selectedHostMemberId)||agencySourceData.hosts[0],p=hostProfile(h),box=document.getElementById('hostMemberDetailContent');if(!box)return;const statusBadge=`<span class="teamHostStatus ${p.status?'':'banned'}">${p.status?'Normal':'Banned'}</span>`;box.innerHTML=`<div class="memberInfoHead"><div class="teamHostAvatar">${h.nick.charAt(0)}</div><div class="teamHostIdentity"><b>${h.nick}</b><small>ID: ${h.id}</small></div>${statusBadge}</div><div class="memberInfoTitle">Member Information</div><div class="memberInfoGrid"><div><span>Country / Region</span><b>${p.country}</b></div><div><span>Time Zone</span><b>${p.timeZone}</b></div><div><span>Direct Superior</span><b>Agency · Jaden Agency</b></div><div><span>Join Time</span><b>${p.joinTime}</b></div></div>`}
+
+const agencyCharts=[
+  {title:'Weekly Coins Data',last:[52,61,48,66,72,70,79],now:[63,74,68,82,90,88,96]},
+  {title:'Weekly Diamonds Data',last:[41,45,39,50,55,57,61],now:[48,52,49,61,68,65,73]},
+  {title:'Gifted Hosts',last:[7,8,6,9,9,10,10],now:[8,9,9,11,12,11,12]}
+];
+let selectedRewardData='Beans';
+let rewardClaimAvailable=true;
+let reviewFilterValue='All status';
+let analysisFilterState={time:'This Week',sort:'Coins',value:'Total Value',order:'Descending'};
+let confirmDataAction=null;
+
+function fmtData(v){return Number(v).toLocaleString('en-US',{maximumFractionDigits:2})}
+function toastData(text){toastSuccess(text)}
+
+function renderAgencyCharts(){
+  const box=document.getElementById('agencySourceCharts');if(!box)return;
+  box.innerHTML=agencyCharts.map(c=>`<div class="sourceChartCard"><div class="sourceChartHead"><b>${c.title}</b><div class="sourceChartLegend"><span><i class="old"></i>Last Week</span><span><i></i>This Week</span></div></div><div class="sourceBars">${c.now.map((v,i)=>`<div class="sourceBarDay"><i style="height:${c.last[i]}%"></i><i class="now" style="height:${v}%"></i><small>${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}</small></div>`).join('')}</div></div>`).join('');
+}
+
+function renderHostData(){
+  const q=(document.getElementById('hostSearchInput')?.value||'').trim();
+  const list=q?agencySourceData.hosts.filter(h=>h.id.includes(q)):agencySourceData.hosts;
+  const box=document.getElementById('hostDataList');if(!box)return;
+  box.innerHTML=list.length?list.map(h=>`<div class="sourceHostCard"><div class="grid2"><div class="stat"><div class="num">${h.id}</div><div class="txt">Host ID</div></div><div class="stat"><div class="num" style="font-size:15px">${h.nick}</div><div class="txt">Host Name</div></div><div class="stat"><div class="num">${h.validDay}</div><div class="txt">Valid Days</div></div><div class="stat"><div class="num">${h.validTime}h</div><div class="txt">Valid Hours</div></div><div class="stat"><div class="num">${fmtData(h.goldNum)}</div><div class="txt">Coins</div></div><div class="stat"><div class="num">${fmtData(h.diamondNum)}</div><div class="txt">Diamonds</div></div></div></div>`).join(''):'<div class="sourceEmpty">No more data</div>';
+}
+function confirmCalendar(){document.getElementById('hostDateRange').textContent='2026-08-17 / 2026-08-23';hideCalendar();renderHostData()}
+
+function renderTotalAnalysis(){
+  const week=document.getElementById('weekSummaryGrid');
+  if(week)week.innerHTML=agencySourceData.weekSummary.map(x=>`<div class="weekstat"><div class="num">${x[0]}</div><div class="analysisMetricLabel">${x[1]}</div></div>`).join('');
+  const yes=document.getElementById('yesterdayGrid');
+  if(yes)yes.innerHTML=agencySourceData.yesterday.map(x=>`<div class="ys"><div class="num">${x.value}</div><div class="analysisMetricLabel">${x.label}</div><div class="analysisRatio ${x.ratio>0?'up':x.ratio<0?'down':'flat'}">${x.ratio>0?'↑':x.ratio<0?'↓':'—'} ${Math.abs(x.ratio)}%<small>Compared to the Day Before</small></div></div>`).join('');
+}
+function showAnalysis(which,el){
+  document.querySelectorAll('#analysis .analysis-tab').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');
+  const total=document.getElementById('analysis-total'),host=document.getElementById('analysis-hostlist');if(total)total.style.display=which==='total'?'block':'none';if(host)host.style.display=which==='hostlist'?'block':'none';
+  if(which==='hostlist')renderAnalysisHosts();else renderTotalAnalysis();
+}
+function analysisSortValue(h,key){if(key==='Consumers')return h.spendersNum;if(key==='Valid Hours')return h.validTime;if(key==='Effective Host')return h.validAnchorNum;return h.goldNum}
+function renderAnalysisHosts(){
+  const q=(document.getElementById('analysisHostSearchInput')?.value||'').trim();let list=q?agencySourceData.hosts.filter(h=>h.id.includes(q)):agencySourceData.hosts;
+  const asc=analysisFilterState.order==='Ascending';const key=analysisFilterState.sort;list=[...list].sort((a,b)=>(asc?1:-1)*(analysisSortValue(a,key)-analysisSortValue(b,key)));
+  const box=document.getElementById('analysisHostList');if(!box)return;
+  box.innerHTML=list.length?list.map(h=>`<article class="sourceAnalysisHost"><div class="sourceAnalysisHostHead"><b>${h.nick}</b><span>Host ID: ${h.id}</span></div><div class="sourceAnalysisGrid"><div><b>${fmtData(h.goldNum)}</b><span>Coins</span></div><div><b>${fmtData(h.spendersNum)}</b><span>Consumers</span></div><div><b>${h.validTime}h</b><span>Valid Hours</span></div><div><b class="${h.validAnchorNum?'validYes':'validNo'}">${h.validAnchorNum?'Qualified':'Not Qualified'}</b><span>Effective Host</span></div></div></article>`).join(''):'<div class="sourceEmpty">No more data</div>';
+}
+function selectCombinedOption(btn){
+  const group=btn.dataset.group;if(!group)return;document.querySelectorAll(`#hostFilterSheet [data-group="${group}"]`).forEach(x=>x.classList.remove('on'));btn.classList.add('on');
+}
+function openCombinedHostFilter(){
+  document.querySelectorAll('#hostFilterSheet .combinedOption[data-group]').forEach(btn=>{const g=btn.dataset.group;btn.classList.toggle('on',btn.textContent.trim().includes(analysisFilterState[g]));});
+  document.getElementById('hostFilterSheet')?.classList.add('show');
+}
+function applyCombinedHostFilter(){
+  ['time','sort','value','order'].forEach(g=>{const el=document.querySelector(`#hostFilterSheet .combinedOption.on[data-group="${g}"]`);if(el)analysisFilterState[g]=el.textContent.trim();});
+  document.getElementById('compactTime').innerHTML=analysisFilterState.time+' <span>⌄</span>';document.getElementById('compactSort').innerHTML=analysisFilterState.sort+' <span>⌄</span>';document.getElementById('compactValue').innerHTML=analysisFilterState.value+' <span>⌄</span>';
+  hideHostFilterSheet();renderAnalysisHosts();
+}
+
+function chooseRewardData(btn){if(!rewardClaimAvailable)return;document.querySelectorAll('#rewards .reward').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');selectedRewardData=btn.dataset.reward;document.getElementById('rewardHeadline').textContent=`Rewards available: ${selectedRewardData==='Beans'?'18,000 Beans':'12,000 Coins'}`}
+function renderRewardRecordsData(){const box=document.getElementById('rewardRecordList');if(box)box.innerHTML=agencySourceData.rewardRecords.map(r=>`<div class="rewardRecordRow"><span>${r.start}<br>${r.end}</span><span><b>${r.type}</b><br>${r.total}</span><span class="claimed">${r.send?'Claimed':'Unclaimed'}</span></div>`).join('')}
+function requestRewardClaim(){if(!rewardClaimAvailable)return;showDataConfirm('Choose Reward',`Confirm to receive <b>${selectedRewardData==='Beans'?'18,000 Beans':'12,000 Coins'}</b>?`,'Confirm',()=>{rewardClaimAvailable=false;document.getElementById('rewardHeadline').textContent='There are no rewards to claim currently.';document.getElementById('rewardClaimBtn').disabled=true;toastData('✓ Claim successful')})}
+
+function salaryStatusData(s){return s===1?['Under Review','review']:s===2?['Agency Confirmed','ok']:s===3?['Agency Rejected','no']:['Already Payout','ok']}
+function renderSalaryRecords(){
+  const box=document.getElementById('salaryRecordList');if(!box)return;
+  box.innerHTML=agencySourceData.salaryBills.map(b=>{const st=salaryStatusData(b.status);return `<div class="salaryRecordCard"><button class="salaryRecordHead" onclick="openAnchorSalaryData('${b.periodId}')"><span><b>${b.start} - ${b.end}</b><small>View Host Salary Bills ›</small></span><span class="salaryStatus ${st[1]}">${st[0]}</span></button><div class="salaryRecordGrid"><div class="salaryRecordMetric"><b>${fmtData(b.gold)}</b><span>Total Coins</span></div><div class="salaryRecordMetric"><b>${fmtData(b.diamonds)}</b><span>Total Diamonds</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.hostSalary)}</b><span>Host Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.agencySalary)}</b><span>Agent Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.total)}</b><span>Total Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.shouldPay)}</b><span>Settlement Amount</span></div></div><div class="salaryPaymentBlock"><div class="salaryPayGrid"><div><b>${b.method}</b><span>Payment Method</span></div><div><b>$${fmtData(b.amount ?? b.shouldPay)}</b><span>Amount</span></div><div><b>${st[0]}</b><span>Process</span></div></div><div class="salaryPayee">Payee: ${b.payee}</div></div><div class="salaryActionsNew"><button onclick="toastData('Export file prepared')">Export</button>${b.status===1?`<button class="rejectAction" onclick="requestSalaryUpdate(${b.id},3)">Reject</button><button class="approveAction" onclick="requestSalaryUpdate(${b.id},2)">Confirm</button>`:''}${b.status===4?`<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>`:''}</div></div>`}).join('');
+}
+function requestSalaryUpdate(id,status){const b=agencySourceData.salaryBills.find(x=>x.id===id);if(!b)return;showDataConfirm(status===2?'Confirm Salary Bill':'Reject Salary Bill',`Total Salary: <b>$${fmtData(b.total)}</b><br>Payment Method: ${b.method} · $${fmtData(b.amount ?? b.shouldPay)}`,(status===2?'Confirm':'Reject'),()=>{b.status=status;renderSalaryRecords();toastData(status===2?'✓ Salary bill confirmed':'Salary bill rejected')})}
+function openAnchorSalaryData(periodId){document.getElementById('anchorSalaryPeriod').textContent=periodId+' · 2026-08-17 - 2026-08-23';renderAnchorSalaryData();openp('anchorSalary','Host Salary Bills')}
+function renderAnchorSalaryData(){const box=document.getElementById('anchorSalaryList');if(!box)return;box.innerHTML=agencySourceData.hosts.slice(0,4).map(h=>{const hostSalary=(h.goldNum/1000).toFixed(2),agencySalary=(h.goldNum*.00016).toFixed(2);return `<div class="hostSalaryCardNew"><div class="hostSalaryHeadNew"><b>${h.nick}</b><small>ID: ${h.id} · 2026-08-17 - 2026-08-23</small></div><div class="hostSalaryGridNew"><div><b>${fmtData(h.goldNum)}</b><span>Total Coins</span></div><div><b>${fmtData(h.diamondNum)}</b><span>Total Diamonds</span></div><div><b>$${hostSalary}</b><span>Host Salary</span></div><div><b>$${agencySalary}</b><span>Agent Salary</span></div><div><b>${h.validDay}</b><span>Valid Days</span></div><div><b>${h.validTime}h</b><span>Valid Hours</span></div></div><div class="achievementNew"><b class="${h.validAnchorNum?'validYes':'validNo'}">${h.validAnchorNum?'Working Time Achieved':'Working Time Not Met'}</b><small>Result is determined by the valid-day and valid-hour requirements.</small></div></div>`}).join('')}
+
+function applicationStatusData(v){return v===0?['Under review','review']:v===1?['Approval ✓','ok']:['Not pass','no']}
+function renderApplicationsData(){
+  const label=document.getElementById('reviewStatusLabel')?.textContent||'All status';reviewFilterValue=label;
+  const statusMap={'Under review':0,'Approval':1,'Not pass':2};const list=label==='All status'?agencySourceData.applications:agencySourceData.applications.filter(x=>x.reviewStatus===statusMap[label]);
+  const box=document.getElementById('applicationList');if(!box)return;
+  box.innerHTML=list.length?list.map(a=>{const st=applicationStatusData(a.reviewStatus);return `<div class="reviewCard"><div class="reviewHead"><b>Apply status</b><span class="reviewStatusBadge ${st[1]}">${st[0]}</span></div><div class="reviewBody"><div class="avatar"><span class="reviewAvatarLetter">${a.nick.charAt(0)}</span></div><div class="reviewUser"><b>${a.nick}</b><span>ID: ${a.userId}</span></div>${a.reviewStatus===0?`<div class="reviewActions"><button class="approve" onclick="reviewApplicationData(${a.id},1)">Approval</button><button class="reject" onclick="reviewApplicationData(${a.id},2)">Not pass</button></div>`:'<div class="reviewActions"></div>'}</div></div>`}).join(''):'<div class="reviewApplyEmpty">No applications in this scope</div>';
+}
+function reviewApplicationData(id,status){const a=agencySourceData.applications.find(x=>x.id===id);if(a)a.reviewStatus=status;renderApplicationsData();toastData(status===1?'✓ Application approved':'Application rejected')}
+function selectReviewStatus(btn){document.querySelectorAll('#statusSheet .statusOption').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');const label=document.getElementById('reviewStatusLabel');if(label)label.textContent=btn.dataset.status;hideStatusSheet()}
+
+function showDataConfirm(title,body,actionLabel,action){confirmDataAction=action;document.getElementById('dataConfirmTitle').textContent=title;document.getElementById('dataConfirmBody').innerHTML=body;const btn=document.getElementById('dataConfirmAction');btn.textContent=actionLabel||'Confirm';btn.onclick=()=>{const fn=confirmDataAction;hideDataConfirm();confirmDataAction=null;if(fn)fn()};document.getElementById('dataConfirmOverlay').classList.add('show')}
+function hideDataConfirm(){document.getElementById('dataConfirmOverlay')?.classList.remove('show')}
+function closeDataConfirm(e){if(e.target?.id==='dataConfirmOverlay')hideDataConfirm()}
+
+// Payment method management.
+const paymentMethodOrder=['Agency Top-up','USDT','PayPal','Bank Card','Vodafone'];
+const paymentProfiles={
+  'Agency Top-up':{configured:true,preferred:true,agencyId:'10833021'},
+  'USDT':{configured:true,preferred:false,network:'TRC20',address:'TQ8Lw9p2xD7k3mN6cR4vB1zA5sF0hJ2uXq'},
+  'PayPal':{configured:false,preferred:false,email:''},
+  'Bank Card':{configured:true,preferred:false,country:'Pakistan 92',account:'PK18ABCD0000123456789012',name:'Jaden Agency',bankName:'Example Bank',swift:'EXAMPKKA',bankCode:'0012',phone:'923001234567',home:'Lahore, Pakistan',email:'finance@example.com'},
+  'Vodafone':{configured:false,preferred:false,account:'',name:''}
+};
+currentPaymentMethod='Agency Top-up';
+pendingPaymentMethod='Agency Top-up';
+bankCountry='Pakistan 92';pendingBankCountry='Pakistan 92';
+function paymentMethodIcon(method){return method==='Agency Top-up'?'A':method==='USDT'?'₮':method==='PayPal'?'P':method==='Bank Card'?'▭':'V'}
+function paymentMethodSummary(method,p){
+  if(!p?.configured)return 'Not set · Tap to complete';
+  if(method==='Agency Top-up')return `Agency ID · ${p.agencyId||'—'}`;
+  if(method==='USDT')return `${p.network||'TRC20'} · ${(p.address||'').slice(0,5)}••••${(p.address||'').slice(-4)}`;
+  if(method==='PayPal')return p.email||'Configured';
+  if(method==='Bank Card')return `${p.bankName||'Bank Card'} · ••••${(p.account||'').slice(-4)}`;
+  return `${p.name||'Vodafone'} · ••••${(p.account||'').slice(-4)}`;
+}
+function preferredPaymentMethod(){return paymentMethodOrder.find(m=>paymentProfiles[m]?.configured&&paymentProfiles[m]?.preferred)||null}
+function renderPaymentSummary(){
+  const preferred=preferredPaymentMethod();const configured=paymentMethodOrder.filter(m=>paymentProfiles[m]?.configured);
+  const card=document.querySelector('#salary .paymentSummaryCard');const label=document.getElementById('salaryPaymentMethodLabel');const hint=document.getElementById('salaryPaymentMethodHint');const logo=document.getElementById('salaryPaymentLogo');
+  if(!label||!hint||!logo)return;
+  if(preferred){card?.classList.remove('isUnset');label.textContent=preferred;hint.textContent='Preferred payout method · '+paymentMethodSummary(preferred,paymentProfiles[preferred]).replace(' · ',' · ');logo.textContent='★';}
+  else if(configured.length){card?.classList.remove('isUnset');label.textContent='No preferred method';hint.textContent='Tap to star a configured method';logo.textContent='☆';}
+  else{card?.classList.add('isUnset');label.textContent='Payment method not set';hint.textContent='Tap to complete payout information';logo.textContent='$';}
+}
+function renderPaymentMethodList(){
+  const box=document.getElementById('paymentMethodList');if(!box)return;
+  box.innerHTML=paymentMethodOrder.map(method=>{const p=paymentProfiles[method];return `<div class="paymentMethodRow"><span class="methodIcon">${paymentMethodIcon(method)}</span><button class="paymentMethodMain" onclick="openPaymentInfo('${method}')"><b>${method}${p.preferred?'<span class="preferredTag">Preferred</span>':''}</b><small class="${p.configured?'':'unset'}">${paymentMethodSummary(method,p)}</small></button><button class="paymentStar ${p.preferred?'on':''}" ${p.configured?'':'disabled'} aria-label="${p.preferred?'Remove preferred':'Set preferred'}" onclick="event.stopPropagation();togglePreferredPayment('${method}')">${p.preferred?'★':'☆'}</button><span class="paymentMethodChevron">›</span></div>`}).join('');
+}
+function togglePreferredPayment(method){const p=paymentProfiles[method];if(!p?.configured)return;const turnOn=!p.preferred;paymentMethodOrder.forEach(m=>paymentProfiles[m].preferred=false);if(turnOn)p.preferred=true;renderPaymentMethodList();renderPaymentSummary();toastData(turnOn?'★ Preferred payment method set':'Preferred payment method removed')}
+function renderPaymentFields(method){
+  const box=document.getElementById('paymentDynamicFields');if(!box)return;const p=paymentProfiles[method]||{};
+  if(method==='USDT')box.innerHTML=paymentRow('Network:','<div class="payValue">TRC20</div>')+paymentRow('Address:',`<input id="pay-usdt-address" class="payInput" value="${p.address||''}" placeholder="Please enter USDT address">`,'pay-error');
+  else if(method==='PayPal')box.innerHTML=paymentRow('Email Address:',`<input id="pay-paypal-email" class="payInput" type="email" value="${p.email||''}" placeholder="Please enter paypal email">`,'pay-error');
+  else if(method==='Vodafone')box.innerHTML=paymentRow('Account Number:',`<input id="pay-vodafone-account" class="payInput" value="${p.account||''}" placeholder="Please enter account number">`,'pay-vodafone-error')+paymentRow('Account Name:',`<input id="pay-vodafone-name" class="payInput" value="${p.name||''}" placeholder="Please enter account name">`,'pay-vodafone-name-error');
+  else if(method==='Bank Card'){bankCountry=p.country||bankCountry||'Pakistan 92';pendingBankCountry=bankCountry;box.innerHTML=paymentRow('Bank Country:',`<div class="payValue clickable" onclick="openCountrySheet()"><span id="bankCountryValue">${bankCountry}</span><span class="payArrow">›</span></div>`,'pay-country-error')+paymentRow('Account:',`<input id="pay-bank-account" class="payInput" value="${p.account||''}" placeholder="Please enter bank account number">`,'pay-bank-account-error')+paymentRow('Account name:',`<input id="pay-bank-name" class="payInput" value="${p.name||''}" placeholder="Please enter bank account name">`,'pay-bank-name-error')+paymentRow('Bank Name:',`<input id="pay-bank-bankname" class="payInput" value="${p.bankName||''}" placeholder="Please enter bank name">`,'pay-bank-bankname-error')+paymentRow('SWIFT Code:',`<input id="pay-bank-swift" class="payInput" value="${p.swift||''}" placeholder="Please enter SWIFT Code">`,'pay-bank-swift-error')+paymentRow('Bank number:',`<input id="pay-bank-code" class="payInput" value="${p.bankCode||''}" placeholder="Please enter bank code">`)+paymentRow('Phone Number:',`<input id="pay-bank-phone" class="payInput" value="${p.phone||''}" placeholder="Please enter phone number">`)+paymentRow('Home address:',`<input id="pay-bank-home" class="payInput" value="${p.home||''}" placeholder="Please enter home address">`)+paymentRow('Email Address:',`<input id="pay-bank-email" class="payInput" type="email" value="${p.email||''}" placeholder="Please enter email address">`);}
+  else box.innerHTML=paymentRow('Agency ID:',`<input id="pay-agency-id" class="payInput" value="${p.agencyId||''}" placeholder="Please enter the Top-Up Agency ID">`,'pay-error');
+}
+function openPaymentInfo(method){
+  currentPaymentMethod=method||preferredPaymentMethod()||paymentMethodOrder[0];pendingPaymentMethod=currentPaymentMethod;
+  const p=paymentProfiles[currentPaymentMethod];document.getElementById('paymentInfoTitle').textContent=(p?.configured?'Edit ':'Set up ')+currentPaymentMethod;document.getElementById('payMethodValue').textContent=currentPaymentMethod;renderPaymentFields(currentPaymentMethod);hidePaymentMethodSheet();document.getElementById('paymentInfoOverlay')?.classList.add('show');
+}
+function openPaymentMethodSheet(){renderPaymentMethodList();document.getElementById('paymentMethodSheet')?.classList.add('show')}
+function hidePaymentMethodSheet(){document.getElementById('paymentMethodSheet')?.classList.remove('show')}
+function closePaymentMethodSheet(e){if(e.target?.id==='paymentMethodSheet')hidePaymentMethodSheet()}
+function savePaymentInfo(){
+  clearPayErrors();let ok=true;const method=currentPaymentMethod;const p=paymentProfiles[method]||{};
+  if(method==='Agency Top-up'&&!valueOf('pay-agency-id')){showPayError('pay-error','Please enter the Top-Up Agency ID');ok=false;}
+  else if(method==='USDT'&&!valueOf('pay-usdt-address')){showPayError('pay-error','Please enter USDT address');ok=false;}
+  else if(method==='PayPal'){const email=valueOf('pay-paypal-email');if(!email){showPayError('pay-error','Please enter paypal email');ok=false;}else if(!/^\S+@\S+\.\S+$/.test(email)){showPayError('pay-error','Please enter a valid email');ok=false;}}
+  else if(method==='Vodafone'){if(!valueOf('pay-vodafone-account')){showPayError('pay-vodafone-error','Please enter account number');ok=false;}if(!valueOf('pay-vodafone-name')){showPayError('pay-vodafone-name-error','Please enter account name');ok=false;}}
+  else if(method==='Bank Card'){[['pay-bank-account','pay-bank-account-error','Please enter bank account number'],['pay-bank-name','pay-bank-name-error','Please enter bank account name'],['pay-bank-bankname','pay-bank-bankname-error','Please enter bank name'],['pay-bank-swift','pay-bank-swift-error','Please enter SWIFT Code']].forEach(([fid,eid,msg])=>{if(!valueOf(fid)){showPayError(eid,msg);ok=false;}});}
+  if(!ok)return;
+  if(method==='Agency Top-up')p.agencyId=valueOf('pay-agency-id');
+  else if(method==='USDT'){p.network='TRC20';p.address=valueOf('pay-usdt-address');}
+  else if(method==='PayPal')p.email=valueOf('pay-paypal-email');
+  else if(method==='Vodafone'){p.account=valueOf('pay-vodafone-account');p.name=valueOf('pay-vodafone-name');}
+  else if(method==='Bank Card'){Object.assign(p,{country:bankCountry,account:valueOf('pay-bank-account'),name:valueOf('pay-bank-name'),bankName:valueOf('pay-bank-bankname'),swift:valueOf('pay-bank-swift'),bankCode:valueOf('pay-bank-code'),phone:valueOf('pay-bank-phone'),home:valueOf('pay-bank-home'),email:valueOf('pay-bank-email')});}
+  p.configured=true;paymentProfiles[method]=p;hidePaymentInfo();renderPaymentSummary();renderPaymentMethodList();toastData('✓ Saved');
+}
+
+
+// Ensure filter options are interactive without changing their visual shell.
+document.querySelectorAll('#hostFilterSheet .combinedOption[data-group]').forEach(btn=>btn.onclick=()=>selectCombinedOption(btn));
+renderPaymentSummary();renderPaymentMethodList();
+renderAgencyCharts();renderHostData();renderTotalAnalysis();renderAnalysisHosts();renderRewardRecordsData();renderSalaryRecords();renderAnchorSalaryData();renderApplicationsData();
+
+document.body.classList.add('homeView');
+
+
+// Unified natural-week picker — Monday to Sunday.
+let naturalWeekPickerState={selectedStart:null,viewYear:null,viewMonth:null,applyFn:null};
+function naturalWeekParse(iso){const p=String(iso||'').split('-').map(Number);return new Date(p[0]||2026,(p[1]||1)-1,p[2]||1)}
+function naturalWeekIso(d){const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`}
+function naturalWeekMonday(d){const x=new Date(d);x.setHours(12,0,0,0);const offset=(x.getDay()+6)%7;x.setDate(x.getDate()-offset);return x}
+function naturalWeekAdd(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function naturalWeekCurrentStart(){return naturalWeekIso(naturalWeekMonday(new Date()))}
+function naturalWeekRange(startIso){const s=naturalWeekParse(startIso),e=naturalWeekAdd(s,6);return `${naturalWeekIso(s)} ~ ${naturalWeekIso(e)}`}
+function naturalWeekDiff(startIso){const cur=naturalWeekMonday(new Date()),sel=naturalWeekMonday(naturalWeekParse(startIso));return Math.round((cur-sel)/604800000)}
+function naturalWeekFactor(startIso){const n=naturalWeekDiff(startIso);if(n<=0)return 1;const presets=[1,.91,.84,.78];return presets[n]||Math.max(.55,1-n*.06)}
+function naturalWeekPeriodLabel(startIso){const n=naturalWeekDiff(startIso);if(n===0)return 'This Week';if(n===1)return 'Last Week';if(n===2)return 'Two Weeks Ago';return naturalWeekRange(startIso)}
+function ensureNaturalWeekOverlay(){if(document.getElementById('naturalWeekOverlay'))return;const o=document.createElement('div');o.id='naturalWeekOverlay';o.className='naturalWeekOverlay';o.onclick=e=>{if(e.target===o)closeNaturalWeekPicker()};o.innerHTML=`<div class="naturalWeekPanel" onclick="event.stopPropagation()"><div class="naturalWeekHandle"></div><div class="naturalWeekTitleRow"><span></span><b>Select Week</b><button onclick="closeNaturalWeekPicker()">×</button></div><div class="naturalWeekNav"><button onclick="shiftNaturalWeekYear(-1)">«</button><button onclick="shiftNaturalWeekMonth(-1)">‹</button><b id="naturalWeekMonthLabel"></b><button onclick="shiftNaturalWeekMonth(1)">›</button><button onclick="shiftNaturalWeekYear(1)">»</button></div><div class="naturalWeekDays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div id="naturalWeekGrid" class="naturalWeekGrid"></div><div id="naturalWeekSelected" class="naturalWeekSelected"></div><div class="naturalWeekQuick"><button onclick="pickNaturalThisWeek()">This Week</button></div><div class="naturalWeekActions"><button onclick="closeNaturalWeekPicker()">Cancel</button><button class="confirm" onclick="confirmNaturalWeekPicker()">Confirm</button></div></div>`;document.body.appendChild(o)}
+function openNaturalWeekPicker(startIso,applyFn){ensureNaturalWeekOverlay();const s=naturalWeekMonday(naturalWeekParse(startIso||naturalWeekCurrentStart()));naturalWeekPickerState.selectedStart=naturalWeekIso(s);naturalWeekPickerState.viewYear=s.getFullYear();naturalWeekPickerState.viewMonth=s.getMonth();naturalWeekPickerState.applyFn=applyFn;renderNaturalWeekCalendar();document.getElementById('naturalWeekOverlay').classList.add('show')}
+function closeNaturalWeekPicker(){document.getElementById('naturalWeekOverlay')?.classList.remove('show')}
+function shiftNaturalWeekMonth(delta){let y=naturalWeekPickerState.viewYear,m=naturalWeekPickerState.viewMonth+delta;const d=new Date(y,m,1);naturalWeekPickerState.viewYear=d.getFullYear();naturalWeekPickerState.viewMonth=d.getMonth();renderNaturalWeekCalendar()}
+function shiftNaturalWeekYear(delta){naturalWeekPickerState.viewYear+=delta;renderNaturalWeekCalendar()}
+function pickNaturalWeekDate(iso){naturalWeekPickerState.selectedStart=naturalWeekIso(naturalWeekMonday(naturalWeekParse(iso)));renderNaturalWeekCalendar()}
+function pickNaturalThisWeek(){const s=naturalWeekMonday(new Date());naturalWeekPickerState.selectedStart=naturalWeekIso(s);naturalWeekPickerState.viewYear=s.getFullYear();naturalWeekPickerState.viewMonth=s.getMonth();renderNaturalWeekCalendar()}
+function renderNaturalWeekCalendar(){ensureNaturalWeekOverlay();const y=naturalWeekPickerState.viewYear,m=naturalWeekPickerState.viewMonth;document.getElementById('naturalWeekMonthLabel').textContent=new Date(y,m,1).toLocaleString('en-US',{month:'short',year:'numeric'});const first=new Date(y,m,1),gridStart=naturalWeekMonday(first),selected=naturalWeekParse(naturalWeekPickerState.selectedStart),selectedEnd=naturalWeekAdd(selected,6),todayIso=naturalWeekIso(new Date());let html='';for(let i=0;i<42;i++){const d=naturalWeekAdd(gridStart,i),iso=naturalWeekIso(d),selectedEndIso=naturalWeekIso(selectedEnd),inWeek=iso>=naturalWeekPickerState.selectedStart&&iso<=selectedEndIso,cls=['naturalWeekDay'];if(d.getMonth()!==m)cls.push('outside');if(inWeek)cls.push('inWeek');if(iso===naturalWeekPickerState.selectedStart)cls.push('weekStart');if(iso===naturalWeekIso(selectedEnd))cls.push('weekEnd');if(iso===todayIso)cls.push('today');html+=`<button class="${cls.join(' ')}" onclick="pickNaturalWeekDate('${iso}')">${d.getDate()}</button>`}document.getElementById('naturalWeekGrid').innerHTML=html;document.getElementById('naturalWeekSelected').innerHTML=`Selected week · <b>${naturalWeekRange(naturalWeekPickerState.selectedStart)}</b>`}
+function confirmNaturalWeekPicker(){const fn=window[naturalWeekPickerState.applyFn];if(typeof fn==='function')fn(naturalWeekPickerState.selectedStart);closeNaturalWeekPicker()}
+
+</script>
+<style>
+.agencyFinal{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px}.agencyFinal span{font-size:13px;color:#b5a7be}.agencyFinal b{font-size:26px;color:#f2d071;font-variant-numeric:tabular-nums}
+.agencyAdjustments{margin:0 16px 14px;font-size:12px;line-height:1.6}.agencyAdjustments>div,.agencyAdjustments summary{display:flex;justify-content:space-between;gap:12px;padding:6px 0}.agencyAdjustments span{color:#a99cad}.agencyAdjustments b{white-space:nowrap;font-variant-numeric:tabular-nums}.agencyAdjustments summary{cursor:pointer;list-style:none;align-items:center;min-height:32px}.agencyAdjustments summary::-webkit-details-marker{display:none}.agencyAdjustments summary i{font-style:normal;margin-left:6px;color:#918399}.agencyAdjustments details[open] summary i{display:inline-block;transform:rotate(180deg)}.agencyAdjustments .minus{color:#eaa6af}.agencyAdjustments .plus{color:#9acdb1}.agencyAdjustments p{color:#a99cad;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;margin:5px 0 9px;padding:8px 10px;border-left:2px solid #65516f;background:rgba(255,255,255,.025)}.agencyAdjustments summary:focus-visible{outline:2px solid #f2d071;outline-offset:2px}.agencyAdjustmentLink{background:none;border:0;color:#f2d071;font-size:12px;padding:5px 0;cursor:pointer}.agencySalaryNote{color:#a99cad;font-size:12px;line-height:1.6;margin:0 16px 12px}
+</style>
+<script id="agency-published-adjustments">
+const agencyMoney=n=>'$'+Number(n).toFixed(2);
+const agencyEscape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const agencySigned=n=>(n<0?'-':n>0?'+':'')+agencyMoney(Math.abs(n));
+let activeAgencySalaryPeriod=null;
+// Explicit historical demo snapshots. Salary amounts are fixtures, not policy formulas.
+const agencyPeriodFixtures={
+ '2026W34':{host:[12860,9674,5432,14890,5776],agent:[2020,1520,854,2339,907],gold:[128600,96740,54320,148900,57760],diamonds:[38580,29022,16296,44670,17328],adjust:[-1000,500,0,0,0],agentAdjustment:-800,reason:'Correction of an overpaid agent salary amount.'},
+ '2026W33':{host:[11000,8800,4200,13000,5188],agent:[1800,1450,700,2100,900],gold:[110000,88000,42000,130000,51880],diamonds:[33000,26400,12600,39000,15564],adjust:[0,0,0,0,0],agentAdjustment:0,reason:''},
+ '2026W32':{host:[10200,8100,4150,12400,4995],agent:[1700,1320,680,2000,820],gold:[102000,81000,41500,124000,49950],diamonds:[30600,24300,12450,37200,14985],adjust:[0,0,0,0,0],agentAdjustment:0,reason:''}
+};
+agencySourceData.salaryBills.forEach(b=>{const f=agencyPeriodFixtures[b.periodId];b.published=true;b.agentAdjustment=f.agentAdjustment/100;b.adjustmentReason=f.reason;b.hostEntries=agencySourceData.hosts.map((h,i)=>({...h,hostSalary:f.host[i]/100,agencySalary:f.agent[i]/100,goldNum:f.gold[i],diamondNum:f.diamonds[i],adjustment:f.adjust[i]/100,adjustmentReason:f.adjust[i]<0?'Deduction for a verified policy violation.':f.adjust[i]>0?'Correction of an underpaid host salary amount.':'',start:b.start,end:b.end,validDay:({'2026W34':[5,4,3,6,2],'2026W33':[4,5,2,5,3],'2026W32':[4,4,3,5,2]})[b.periodId][i],validTime:({'2026W34':[21.8,16.2,8.7,27.4,6.1],'2026W33':[18,20,6,22,8],'2026W32':[16,15,7,21,6]})[b.periodId][i]}));b.hostAdjustment=f.adjust.reduce((a,c)=>a+c,0)/100;b.total=(Math.round(b.hostSalary*100)+Math.round(b.agencySalary*100))/100;b.shouldPay=(Math.round(b.total*100)+f.agentAdjustment+f.adjust.reduce((a,c)=>a+c,0))/100;b.amount=b.shouldPay});
+function agencyAdjustmentRow(label,amount,reason){return amount?`<details><summary><span>${label}<i aria-hidden="true">⌄</i></span><b class="${amount<0?'minus':'plus'}">${agencySigned(amount)}</b></summary><p>${agencyEscape(reason)}</p></details>`:''}
+function agencyBillAdjustments(b){const changed=b.hostEntries.some(h=>h.adjustment)||b.agentAdjustment;if(!changed)return '';return `<div class="agencyAdjustments"><div><span>Original Salary</span><b>${agencyMoney(b.total)}</b></div>${b.hostEntries.some(h=>h.adjustment)?`<details><summary><span>Host Adjustment<i aria-hidden="true">⌄</i></span><b class="${b.hostAdjustment<0?'minus':b.hostAdjustment>0?'plus':''}">${agencySigned(b.hostAdjustment)}</b></summary><p>Adjustments to salaries collected for Hosts.</p><button class="agencyAdjustmentLink" onclick="openAnchorSalaryData('${b.periodId}')">View Host Adjustments ›</button></details>`:''}${agencyAdjustmentRow('Agent Adjustment',b.agentAdjustment,b.adjustmentReason)}</div>`}
+renderSalaryRecords=function(){const box=document.getElementById('salaryRecordList');if(!box)return;box.innerHTML=agencySourceData.salaryBills.filter(b=>b.published).map(b=>{const st=salaryStatusData(b.status);return `<div class="salaryRecordCard"><button class="salaryRecordHead" onclick="openAnchorSalaryData('${b.periodId}')"><span><b>${b.start} - ${b.end}</b><small>View Host Salary Bills ›</small></span><span class="salaryStatus ${st[1]}">${st[0]}</span></button><div class="salaryRecordGrid"><div class="salaryRecordMetric"><b>${fmtData(b.gold)}</b><span>Total Coins</span></div><div class="salaryRecordMetric"><b>${fmtData(b.diamonds)}</b><span>Total Diamonds</span></div><div class="salaryRecordMetric"><b>${agencyMoney(b.hostSalary)}</b><span>Host Salary</span></div><div class="salaryRecordMetric"><b>${agencyMoney(b.agencySalary)}</b><span>Agent Salary</span></div></div>${agencyBillAdjustments(b)}<div class="agencyFinal"><span>Settlement Amount</span><b>${agencyMoney(b.shouldPay)}</b></div><div class="agencyBillPaymentMeta"><div><span>Payment</span><b>${agencyEscape(b.method)}</b></div><div><span>Currency</span><b>USD</b></div><div class="wideMeta"><span>${b.method==='USDT'?'USDT Address':b.method==='Bank Card'?'Bank Account':b.method==='PayPal'?'PayPal Account':'User ID'}</span><b>${agencyEscape(b.payee)}</b></div></div><div class="salaryActionsNew"><button onclick="toastData('Export file prepared')">Export</button>${b.status===1?`<button class="rejectAction" onclick="requestSalaryUpdate(${b.id},3)">Reject</button><button class="approveAction" onclick="requestSalaryUpdate(${b.id},2)">Confirm</button>`:''}${b.status===4?`<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>`:''}</div></div>`}).join('')};
+requestSalaryUpdate=function(id,status){const b=agencySourceData.salaryBills.find(x=>x.id===id);if(!b||!b.published||b.status!==1)return;showDataConfirm(status===2?'Confirm Salary Bill':'Reject Salary Bill',`Settlement Amount: <b>${agencyMoney(b.shouldPay)}</b><br>Payment Method: ${agencyEscape(b.method)}<br>Payee: ${agencyEscape(b.payee)}`,status===2?'Confirm':'Reject',()=>{if(b.status!==1)return;b.status=status;renderSalaryRecords();toastData(status===2?'✓ Salary bill confirmed':'Salary bill rejected')})};
+openAnchorSalaryData=function(periodId){const b=agencySourceData.salaryBills.find(x=>x.periodId===periodId&&x.published);if(!b)return;activeAgencySalaryPeriod=periodId;document.getElementById('anchorSalaryPeriod').textContent=b.start+' - '+b.end+' · UTC+5';renderAnchorSalaryData();openp('anchorSalary','Host Salary Bills')};
+renderAnchorSalaryData=function(){const box=document.getElementById('anchorSalaryList');if(!box)return;const b=agencySourceData.salaryBills.find(x=>x.periodId===activeAgencySalaryPeriod&&x.published);if(!b){box.innerHTML='<div class="agencySalaryNote">Select a salary bill to view Host details.</div>';return}box.innerHTML=b.hostEntries.map(h=>`<div class="hostSalaryCardNew"><div class="hostSalaryHeadNew"><b>${agencyEscape(h.nick)}</b><small>ID: ${agencyEscape(h.id)} · ${b.start} - ${b.end}</small></div><div class="hostSalaryGridNew"><div><b>${fmtData(h.goldNum)}</b><span>Total Coins</span></div><div><b>${fmtData(h.diamondNum)}</b><span>Total Diamonds</span></div><div><b>${agencyMoney(h.hostSalary)}</b><span>Host Salary</span></div><div><b>${agencyMoney(h.agencySalary)}</b><span>Agent Salary</span></div><div><b>${h.validDay}</b><span>Valid Days</span></div><div><b>${h.validTime}h</b><span>Valid Hours</span></div></div>${h.adjustment?`<div class="agencyAdjustments">${agencyAdjustmentRow('Host Adjustment',h.adjustment,h.adjustmentReason)}</div>`:''}<div class="agencyFinal"><span>Settlement Amount</span><b>${agencyMoney((Math.round(h.hostSalary*100)+Math.round(h.adjustment*100))/100)}</b></div><div class="achievementNew"><b class="${h.validDay>=4&&h.validTime>=10?'validYes':'validNo'}">${h.validDay>=4&&h.validTime>=10?'Working Time Achieved':'Working Time Not Met'}</b><small>Based on this settlement week.</small></div></div>`).join('')};
+renderSalaryRecords();
+</script>
+<style>#salary .salaryPayGrid{grid-template-columns:1fr 1fr}</style><style id="agency-salary-layout-v2">
+.salaryRecordHead,.hostSalaryHeadNew{padding:14px 16px}.salaryRecordHead b,.hostSalaryHeadNew b{font-size:14px}.salaryRecordHead small,.hostSalaryHeadNew small{font-size:11px;line-height:1.5}.salaryStatus{font-size:10px}
+.salaryRecordMetric,.hostSalaryGridNew>div{padding:12px 16px;min-height:66px;box-sizing:border-box}.salaryRecordMetric b,.hostSalaryGridNew b{font-size:15px;color:#eee3f1;line-height:1.3;font-variant-numeric:tabular-nums}.salaryRecordMetric span,.hostSalaryGridNew span{font-size:11px;color:#a99cad;margin-top:5px;line-height:1.4}
+.agencyAdjustments{margin:0;padding:10px 16px 4px;font-size:12px}.agencyAdjustments>div,.agencyAdjustments summary{min-height:30px;padding:4px 0;align-items:center}.agencyAdjustments summary>span{display:inline-flex;align-items:center;gap:7px;line-height:1.5}.agencyAdjustments summary i{display:inline-block;margin:0;line-height:1;font-size:13px}.agencyAdjustments b{font-size:13px}.agencyAdjustments>div b{font-weight:600;color:#cbbfd1}
+.agencyFinal{margin:0 16px;padding:13px 0;min-height:54px;box-sizing:border-box}.agencyAdjustments+.agencyFinal{border-top:1px solid var(--line);margin-top:6px}.agencyFinal span{font-size:13px;font-weight:600}.agencyFinal b{font-size:22px}
+.salaryPaymentBlock{margin:0 16px 12px;padding:11px 12px;border-radius:10px}.salaryPayGrid{text-align:left}.salaryPayGrid b{font-size:12px;line-height:1.4}.salaryPayGrid span{font-size:10px;margin-top:3px}.salaryPayee{font-size:10px;line-height:1.6}.salaryActionsNew{padding:0 16px 14px;gap:8px}.salaryActionsNew button{height:36px;font-size:12px;padding:0 14px}
+.achievementNew{margin:0 16px 14px;padding:10px;font-size:12px}.achievementNew small{font-size:10px}.hostSalaryHeadNew small{overflow-wrap:anywhere}
+</style><style id="agency-bill-payment-unified">
+.agencyBillPaymentMeta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line);margin:0 0 12px;background:transparent;text-align:left}
+.agencyBillPaymentMeta>div{min-height:57px;box-sizing:border-box;padding:11px 16px;border-bottom:1px solid var(--line);min-width:0}
+.agencyBillPaymentMeta>div:first-child{border-right:1px solid var(--line)}
+.agencyBillPaymentMeta .wideMeta{grid-column:1/-1}
+.agencyBillPaymentMeta span{display:block;color:#918399;font-size:11px;line-height:1.4}
+.agencyBillPaymentMeta b{display:block;margin-top:5px;color:#eee3f1;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+</style>
+<style id="unified-salary-card-layout">
+/* Shared card anatomy: final amount / source grid / adjustment list / payment grid. */
+.agencyFinal,.salaryAmount,.sourceWeekBody .weekSalaryTotal{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:0;padding:18px 16px;min-height:72px;box-sizing:border-box;border:0;background:rgba(242,208,113,.025)}
+.agencyFinal span,.salaryAmount span,.sourceWeekBody .weekSalaryTotal span{font-size:12px;line-height:1.5;font-weight:600;color:#b8aabd}
+.agencyFinal b,.salaryAmount b,.sourceWeekBody .weekSalaryTotal b{font-size:28px;line-height:1.2;font-weight:800;color:#f2d071;font-variant-numeric:tabular-nums;white-space:nowrap}
+.salaryRecordGrid,.hostSalaryGridNew,.sourceWeekBody .weekGrid,.unifiedWeekSources{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;margin:0;padding:0;border-top:1px solid var(--line);background:transparent;border-radius:0}
+.salaryRecordGrid>div,.hostSalaryGridNew>div,.sourceWeekBody .weekGrid>div,.unifiedWeekSources>div{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-height:66px;padding:12px 16px;box-sizing:border-box;min-width:0;text-align:left;border:0;border-bottom:1px solid var(--line);border-radius:0}
+.salaryRecordGrid>div:nth-child(odd),.hostSalaryGridNew>div:nth-child(odd),.sourceWeekBody .weekGrid>div:nth-child(odd),.unifiedWeekSources>div:nth-child(odd){border-right:1px solid var(--line)}
+.salaryRecordGrid>div:last-child:nth-child(odd),.hostSalaryGridNew>div:last-child:nth-child(odd),.sourceWeekBody .weekGrid>div:last-child:nth-child(odd),.unifiedWeekSources>div:last-child:nth-child(odd){grid-column:1/-1;border-right:0}
+.salaryRecordGrid span,.hostSalaryGridNew span,.sourceWeekBody .weekGrid span,.unifiedWeekSources span{order:-1;display:block;font-size:11px;line-height:1.5;color:#a99cad;margin:0 0 5px;overflow-wrap:anywhere}
+.salaryRecordGrid b,.hostSalaryGridNew b,.sourceWeekBody .weekGrid b,.unifiedWeekSources b{display:block;font-size:14px;line-height:1.4;font-weight:700;color:#eee3f1;margin:0;text-align:left;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.agencyAdjustments,.financeBreakdown,.sourceWeekBody .financeBreakdown{margin:0;padding:10px 16px;border:0;background:none;border-radius:0;font-size:12px;line-height:1.6}
+.agencyAdjustments>div,.agencyAdjustments summary,.financeLine,.financeAdjustment summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:34px;margin:0;padding:5px 0;box-sizing:border-box}
+.agencyAdjustments span,.financeLine span,.financeAdjustment summary>span{color:#a99cad;font-size:12px}
+.agencyAdjustments b,.financeLine b,.financeAdjustment summary b{font-size:13px;font-variant-numeric:tabular-nums}
+.agencyBillPaymentMeta,.salaryMeta.sourceSalaryMeta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border-top:1px solid var(--line);margin:0 0 12px;padding:0;background:transparent;text-align:left;border-radius:0}
+.agencyBillPaymentMeta>div,.salaryMeta.sourceSalaryMeta>div{min-height:62px;min-width:0;padding:11px 16px;box-sizing:border-box;border:0;border-bottom:1px solid var(--line)}
+.agencyBillPaymentMeta>div:first-child,.salaryMeta.sourceSalaryMeta>div:first-child{border-right:1px solid var(--line)}
+.agencyBillPaymentMeta .wideMeta,.salaryMeta.sourceSalaryMeta .wideMeta{grid-column:1/-1;border-right:0}
+.agencyBillPaymentMeta span,.salaryMeta.sourceSalaryMeta span{display:block;font-size:11px;line-height:1.5;color:#a99cad;margin:0}
+.agencyBillPaymentMeta b,.salaryMeta.sourceSalaryMeta b{display:block;font-size:12px;line-height:1.5;color:#eee3f1;margin-top:5px;overflow-wrap:anywhere}
+.achievementNew{margin:12px 16px}.sourceWeekBody .deductionNote{margin:10px 16px;font-size:11px;line-height:1.6}
+.salaryHead,.salaryRecordHead,.hostSalaryHeadNew,.sourceWeekHead{padding:13px 16px}.salaryHead b,.salaryRecordHead b,.hostSalaryHeadNew b,.sourceWeekHead b{font-size:13px}.salaryHead small,.salaryRecordHead small,.hostSalaryHeadNew small,.sourceWeekHead span span{font-size:10px;line-height:1.5}
+</style>
+
+<style id="salary-ui-reference">
+.salaryRecordCard,.hostSalaryCardNew,.salaryCard,.sourceWeekCard{background:#30233f;border:1px solid rgba(255,255,255,.07);border-radius:15px;overflow:hidden}
+.salaryRecordHead,.hostSalaryHeadNew,.salaryHead,.sourceWeekHead{background:transparent;border:0;padding:14px 14px 12px}
+.salaryRecordHead b,.hostSalaryHeadNew b,.salaryHead b,.sourceWeekHead b{font-size:14px}.salaryRecordHead small,.hostSalaryHeadNew small,.salaryHead small{font-size:11px;line-height:1.5}
+.salaryRecordGrid,.hostSalaryGridNew,.sourceWeekBody .weekGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:0;padding:0 12px 8px;border:0;background:transparent}
+.salaryRecordGrid>div,.hostSalaryGridNew>div,.sourceWeekBody .weekGrid>div{background:#51455f;border:0!important;border-radius:11px;min-height:66px;padding:11px 12px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;box-sizing:border-box}
+.salaryRecordGrid>div:last-child:nth-child(odd),.hostSalaryGridNew>div:last-child:nth-child(odd),.sourceWeekBody .weekGrid>div:last-child:nth-child(odd){grid-column:1/-1}
+.salaryRecordGrid b,.hostSalaryGridNew b,.sourceWeekBody .weekGrid b{order:0;margin:0;font-size:16px;font-weight:650;line-height:1.4;color:#f2edf4}
+.salaryRecordGrid span,.hostSalaryGridNew span,.sourceWeekBody .weekGrid span{order:1;margin:4px 0 0;font-size:11px;line-height:1.5;color:#c0b4c9}
+.agencyAdjustments,.financeBreakdown,.sourceWeekBody .financeBreakdown{padding:5px 14px 10px;margin:0;border:0;background:none}
+.agencyAdjustments>div,.agencyAdjustments summary,.financeLine,.financeAdjustment summary{min-height:35px;padding:7px 0}
+.agencyAdjustments span,.financeLine span,.financeAdjustment summary>span{font-size:12px;color:#b8abc3}.agencyAdjustments b,.financeLine b,.financeAdjustment summary b{font-size:13px}
+.agencyAdjustments p,.financeReason{margin:3px 0 7px;padding:9px 11px;background:#23172f;border:0;border-radius:7px;color:#bfb2ca;font-size:12px;line-height:1.6}
+.agencyFinal,.sourceWeekBody .weekSalaryTotal{margin:0 14px;padding:14px 0;min-height:62px;border:0;border-top:1px dashed #695a77;background:transparent;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.agencyFinal span,.sourceWeekBody .weekSalaryTotal span{font-size:12px;color:#eee3f1;font-weight:600}.agencyFinal b,.sourceWeekBody .weekSalaryTotal b{font-size:27px;color:#f4d64e;line-height:1.2}
+.salaryAmount{margin:0 12px 9px;padding:14px 12px;min-height:60px;border:0;border-radius:11px;background:#51455f;display:flex;justify-content:space-between;align-items:center;gap:10px}.salaryAmount span{font-size:12px;color:#eee3f1}.salaryAmount b{font-size:27px;color:#f4d64e}
+.agencyBillPaymentMeta,.salaryMeta.sourceSalaryMeta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:0 12px 12px;margin:0;border:0;background:none}
+.agencyBillPaymentMeta>div,.salaryMeta.sourceSalaryMeta>div{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:62px;padding:11px 12px;border:0!important;border-radius:11px;background:#51455f;box-sizing:border-box}
+.agencyBillPaymentMeta b,.salaryMeta.sourceSalaryMeta b{order:0;font-size:13px;font-weight:600;color:#f2edf4;line-height:1.5;margin:0;overflow-wrap:anywhere}
+.agencyBillPaymentMeta span,.salaryMeta.sourceSalaryMeta span{order:1;font-size:11px;line-height:1.5;color:#c0b4c9;margin-top:4px}
+.agencyBillPaymentMeta .wideMeta,.salaryMeta.sourceSalaryMeta .wideMeta{grid-column:1/-1}
+.achievementNew{margin:0 12px 12px;text-align:left;background:#51455f;border-radius:10px;padding:11px 12px;font-size:12px}.achievementNew small{color:#c0b4c9;font-size:11px;line-height:1.5}
+.salaryActionsNew,.sourceBillActions{padding:0 12px 14px;gap:8px}.salaryActionsNew button,.sourceBillActions button{min-height:40px;border-radius:22px;font-size:12px}.salaryActionsNew .approveAction,.sourceBillActions .confirmBill{flex:1}.salaryActionsNew .rejectAction,.sourceBillActions .rejectBill{flex:1}
+.salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
+</style>
+</body></html>
