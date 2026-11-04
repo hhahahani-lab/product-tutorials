@@ -715,19 +715,19 @@ body{background:#0d0713;color:var(--text)}
 
 
 /* v27 Home role card + invite/review + square tools + simplified salary */
-.roleCard{border-radius:20px;background:linear-gradient(145deg,#4b2265 0%,#2c1739 62%,#21112b 100%);border:1px solid rgba(232,190,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.22);overflow:hidden;cursor:pointer}
-.roleMain{display:grid;grid-template-columns:58px minmax(0,1fr) 16px;align-items:center;gap:12px;padding:16px 16px 14px}
+.roleCard{border-radius:20px;background:linear-gradient(145deg,#4b2265 0%,#2c1739 62%,#21112b 100%);border:1px solid rgba(232,190,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.22);overflow:hidden;cursor:default}
+.roleMain{display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;gap:12px;padding:16px 16px 14px}
 .roleAvatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#a965cf,#653084);border:2px solid rgba(246,216,127,.55);box-shadow:0 0 0 3px rgba(242,207,112,.07);font-size:23px;font-weight:900;color:#fff3c7}
 .roleNameLine{display:flex;align-items:center;gap:8px;min-width:0}.roleNameLine>b{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roleId{margin-top:6px;font-size:10px;color:#aa9daf;letter-spacing:.2px}
 .levelBadge{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:99px;font-size:10px;font-weight:900;white-space:nowrap}.levelBadge i{font-style:normal;font-size:9px}.levelBadge.trial{background:rgba(242,207,112,.13);border:1px solid rgba(242,207,112,.34);color:#f3d57d}.levelBadge.lv1{background:rgba(174,195,213,.13);border:1px solid rgba(174,195,213,.34);color:#dceaf2}.levelBadge.lv2{background:rgba(192,132,255,.13);border:1px solid rgba(192,132,255,.34);color:#d9adff}.levelBadge.lv3{background:rgba(255,185,72,.14);border:1px solid rgba(255,185,72,.38);color:#ffd47b}
-.roleChevron{font-size:24px;color:#988a9f}.roleProgressBlock{padding:13px 16px 15px;border-top:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.018)}.roleProgressHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.roleProgressHead b{font-size:11px}.roleProgressHead span{font-size:10px;color:#f3d171;font-weight:800}.roleProgressNote{font-size:9px;line-height:1.45;color:#998b9f;margin-top:8px}
+.roleProgressBlock{padding:13px 16px 15px;border-top:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.018)}.roleProgressHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.roleProgressHead b{font-size:11px}.roleProgressHead span{font-size:10px;color:#f3d171;font-weight:800}.roleProgressNote{font-size:9px;line-height:1.45;color:#998b9f;margin-top:8px}
 .inviteReviewCard{padding:0}.inviteCompactTop{min-height:64px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:14px}.inviteCompactTop>div span{display:block;font-size:9px;color:#94869b;margin-bottom:5px}.inviteCompactTop>div b{font-size:19px;letter-spacing:.7px}.inviteCompactTop>button{height:32px;padding:0 13px;border-radius:10px;border:1px solid rgba(242,207,112,.22);background:#3a2742;color:#f3d171;font-size:10px;font-weight:800}.inviteActionGrid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.inviteActionGrid>button{min-height:72px;border:0;background:rgba(255,255,255,.018);color:var(--text);display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:9px;text-align:left;padding:11px 12px}.inviteActionGrid>button+button{border-left:1px solid var(--line)}.inviteActionGrid>button:active{background:rgba(255,255,255,.045)}.inviteActionIcon{width:34px;height:34px;border-radius:11px;background:#472857;border:1px solid rgba(242,207,112,.14);color:#f3d171;display:grid;place-items:center;font-size:16px;font-weight:900}.inviteActionGrid b{display:block;font-size:11px}.inviteActionGrid small{display:block;color:#8f8196;font-size:8.5px;margin-top:4px}
 .toolGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.toolTile{min-height:98px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#291536,#21102d);color:var(--text);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:14px;text-align:left}.toolTile:active{transform:scale(.985);filter:brightness(1.06)}.toolTileIcon{width:38px;height:38px;border-radius:12px;background:#4a285d;border:1px solid rgba(242,207,112,.17);display:grid;place-items:center;color:#f3d171;font-size:18px;font-weight:900;margin-bottom:10px}.toolTile b{font-size:12px;line-height:1.2}
 #home .manageList{display:none!important}.salarySimplePad{padding-top:4px}.salaryFirstHead{margin-top:8px!important}.salaryRecordsHead{margin-top:24px}.salaryRecordEmpty{margin-bottom:20px}
 
 
 /* v28 Home flow corrections */
-.roleCard{cursor:pointer}
+.roleCard{cursor:default}
 .inviteCompactTop{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}
 .inviteCodeInline{display:flex;align-items:center;gap:7px}
 .inviteCodeInline b{font-size:19px;letter-spacing:.7px}
@@ -1489,14 +1489,13 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 
 <section id="home" class="page on dashboardPage">
   <div class="dashPad">
-    <div class="roleCard" onclick="openp('levelInfo','Agency Level')">
+    <div class="roleCard">
       <div class="roleMain">
         <div class="roleAvatar">J</div>
         <div class="roleIdentity">
           <div class="roleNameLine"><b>Jaden</b><span class="levelBadge lv1"><i>★</i> Lv.1</span></div>
           <div class="roleId">ID: 10032846</div>
         </div>
-        <span class="roleChevron">›</span>
       </div>
     </div>
 
