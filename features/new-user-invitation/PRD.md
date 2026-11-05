@@ -152,8 +152,8 @@ EXP 为财富等级经验值，完成九档合计 4,641,000 EXP。
 
 | 榜单 | 获奖名次 | 奖励 | 每件有效期 |
 |---|---|---|---|
-| 日榜 | 第 1 名 | Social King 头像框、Social King 徽章 | 1 天 |
-| 周榜 | 第 1 名 | Social King 头像框、Social King 徽章、Social King 座驾 | 7 天 |
+| 日榜 | 第 1 名 | Social King 头像框（ID 1818）、Social King 徽章（ID 1819） | 1 天 |
+| 周榜 | 第 1 名 | Social King 头像框（ID 1818）、Social King 徽章（ID 1819）、Social King 座驾（ID 1820） | 7 天 |
 
 - 最终排名确认前，先完成周期内游戏／送礼返利计算；当日预估排名以最终结果为准。
 - 锁榜前收到的有效迟到事件归原业务日计入；锁榜后迟到事件不补榜、不转入下一周期。
