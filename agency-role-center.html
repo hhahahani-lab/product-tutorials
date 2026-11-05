@@ -1483,8 +1483,8 @@ body.salaryTheme .weekstat {
 body.salaryTheme .weekstat .num { color: #fff; font-size: 20px; }
 body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 </style>
-<link rel="stylesheet" href="assets/salary-collection.css?v=20261105-final9">
-<script src="assets/salary-collection.js?v=20261105-final9"></script>
+<link rel="stylesheet" href="assets/salary-collection.css?v=20261105-coins10">
+<script src="assets/salary-collection.js?v=20261105-coins10"></script>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04"><div class="app">
 <div class="top"><button class="l" onclick="goBack()" aria-label="Back">‹</button><span id="title">Agency Center</span></div>
@@ -2727,8 +2727,8 @@ renderSalaryRecords = function () {
       <div class="agencyBillPaymentMeta">
         <div><b>${agencyEscape(collectionUI.payment(bill).method)}</b><span>Payment</span></div>
         <div><b>${['Coin Trader Top-up', 'Coins'].includes(collectionUI.payment(bill).method) ? 'Coins' : collectionUI.payment(bill).method === '—' ? '—' : 'USD'}</b><span>Currency</span></div>
-        <div class="wideMeta"><b>${agencyEscape(collectionUI.payment(bill).payee)}</b>
-          <span>${collectionUI.payment(bill).method === 'Coins' ? 'Personal Accounts' : collectionUI.payment(bill).method === 'Coin Trader Top-up' ? 'Coin Trader ID' : collectionUI.payment(bill).method === 'USDT' ? 'USDT Address' : collectionUI.payment(bill).method === 'Bank Card' ? 'Bank Account' : collectionUI.payment(bill).method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>
+${collectionUI.payment(bill).method === 'Coins' ? '' : `        <div class="wideMeta"><b>${agencyEscape(collectionUI.payment(bill).payee)}</b>
+          <span>${collectionUI.payment(bill).method === 'Coins' ? 'Personal Accounts' : collectionUI.payment(bill).method === 'Coin Trader Top-up' ? 'Coin Trader ID' : collectionUI.payment(bill).method === 'USDT' ? 'USDT Address' : collectionUI.payment(bill).method === 'Bank Card' ? 'Bank Account' : collectionUI.payment(bill).method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>`}
       </div>
       <button class="salaryAction" onclick="openAnchorSalaryData('${bill.periodId}')">View Host Salary Bills ›</button>
       <div class="salaryActionsNew">
@@ -2857,6 +2857,6 @@ renderSalaryRecords();
 .salaryActionsNew,.sourceBillActions{padding:0 12px 14px;gap:8px}.salaryActionsNew button,.sourceBillActions button{min-height:40px;border-radius:22px;font-size:12px}.salaryActionsNew .approveAction,.sourceBillActions .confirmBill{flex:1}.salaryActionsNew .rejectAction,.sourceBillActions .rejectBill{flex:1}
 .salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
 </style>
-<link rel="stylesheet" href="assets/role-payment.css?v=20261105-final9">
-<script src="assets/role-payment.js?v=20261105-final9"></script>
+<link rel="stylesheet" href="assets/role-payment.css?v=20261105-coins10">
+<script src="assets/role-payment.js?v=20261105-coins10"></script>
 </body></html>

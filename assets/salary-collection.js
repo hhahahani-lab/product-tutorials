@@ -17,7 +17,7 @@ window.collectionUI = (() => {
     const hostTotal = round(recipients.reduce((sum, recipient) => sum + recipient.amount, 0));
     const agentAmount = round(agencyAmount(bill) - hostTotal);
     if (agentAmount > 0) recipients.push({uid:bill.ownerUid || '10032846', amount:agentAmount});
-    return {method:'Coins', payee:`Host / Agent personal accounts (${recipients.length})`, recipients,
+    return {method:'Coins', payee:'—', recipients,
       version:JSON.stringify(recipients)};
   }
   function prepare(bills) {
