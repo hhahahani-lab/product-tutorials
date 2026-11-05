@@ -6,14 +6,14 @@ body.salaryTheme .whatsappConfigBtn{background:#25d366!important;color:#fff!impo
 @keyframes salaryNoticeScroll{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.salaryNoticeTrack{animation:none;display:block;width:auto}.salaryNoticeTrack span{white-space:normal;padding:0}.salaryNoticeTrack span+span{display:none}}
 #paymentMethodSheet{z-index:1500;background:rgba(0,0,0,.72)}
-#paymentMethodSheet .onlinePaymentPanel{box-sizing:border-box;width:100%;max-width:480px;max-height:88dvh;overflow:auto;padding:20px 13px calc(16px + env(safe-area-inset-bottom));border:0;border-radius:22px 22px 0 0;background:linear-gradient(155deg,#54317b,#241532 90%);color:#fff;text-align:left}
+#paymentMethodSheet .onlinePaymentPanel{box-sizing:border-box;width:100%;max-width:430px;max-height:88dvh;overflow:auto;padding:20px 13px calc(16px + env(safe-area-inset-bottom));border:0;border-radius:22px 22px 0 0;background:linear-gradient(155deg,#54317b,#241532 90%);color:#fff;text-align:left}
 .onlinePaymentHeader{padding:0 4px 18px}.onlinePaymentHeader h2{margin:0;font-size:18px;line-height:1.5}.onlinePaymentHeader p{margin:4px 0 0;color:#c0a8d2;font-size:12px}
 .onlineMethodList{display:grid;gap:12px}.onlineMethod{display:flex;align-items:center;gap:12px;min-height:74px;padding:12px;border-radius:15px;background:rgba(190,176,207,.29);box-sizing:border-box}
 .onlineMethodIcon{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;font-size:26px;color:white;background:#16a086}.onlineMethodIcon.bank{background:#408af7;border-radius:9px;font-size:23px}.onlineMethodIcon.coins{background:radial-gradient(circle,#f9d94b,#c27600);border:2px solid #ffe693;color:#fff4ad;font-size:23px;box-shadow:inset 0 0 0 2px #9b5c00}.onlineMethodIcon.epay{background:#07529f;border-radius:10px;font-size:12px;font-weight:800;font-style:italic}.onlineMethodIcon.trader{background:none;font-size:31px}
 .onlineMethodMain{flex:1;min-width:0;padding:0!important;border:0!important;background:transparent!important;color:#fff!important;text-align:left;cursor:pointer}.onlineMethodName{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:14px;font-weight:650;line-height:1.4}.onlineMethodMain small,.onlineMethodStatic small{display:block;color:#c5b5d0;font-size:11px;line-height:1.5;margin-top:5px;overflow-wrap:anywhere}.onlineMethodMain small.unset{color:#eee044}.onlinePreferred{padding:3px 7px;border:1px solid #ffec00;border-radius:20px;font-size:10px;font-weight:500;color:#ffec00}.onlineStar{flex:none;width:32px;height:44px;padding:0!important;border:0!important;background:none!important;font-size:30px;color:#b8a3c3;cursor:pointer}.onlineStar.on{color:#ffec00}.onlineStar:disabled{opacity:.6;cursor:default}.onlineChevron{color:#baa4c8;font-size:26px;margin-left:2px}.onlineMethodStatic{flex:1;min-width:0}.onlineMethodStatic b{font-size:14px}
 #paymentInfoOverlay{transform:none;max-width:none;width:100%;margin:0;display:none;position:fixed;inset:0;z-index:1600;background:#140c24;padding:0;align-items:stretch;justify-content:center}
 #paymentInfoOverlay.show{display:flex}
-.onlinePaymentPage{display:flex;flex-direction:column;width:100%;max-width:480px;height:100%;min-height:0;margin:auto;background:linear-gradient(155deg,#37348b 0,#140c24 160px);color:#fff;box-sizing:border-box;text-align:left}
+.onlinePaymentPage{display:flex;flex-direction:column;width:100%;max-width:430px;height:100%;min-height:0;margin:auto;background:linear-gradient(155deg,#37348b 0,#140c24 160px);color:#fff;box-sizing:border-box;text-align:left}
 .onlinePaymentNav{position:relative;flex:none;display:flex;align-items:center;justify-content:center;min-height:68px;padding:10px 48px;box-sizing:border-box}.onlinePaymentNav h2{margin:0;text-align:center;font-size:17px;line-height:1.4}.onlinePaymentBack{position:absolute;left:12px;top:12px;border:0!important;background:none!important;color:#fff!important;font-size:32px;width:38px;height:44px;padding:0!important}
 .onlinePaymentBody{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 13px 24px;scrollbar-width:none}.onlinePaymentBody::-webkit-scrollbar{display:none}
 .onlineField{display:block;margin:0 0 18px}.onlineField>span{display:block;color:#e8dd57;font-size:12px;line-height:1.5;margin:0 13px 8px}body.salaryTheme .onlineField input,body.salaryTheme .onlineField select{display:block;box-sizing:border-box;width:100%;height:50px;margin:0;padding:0 14px;border:1px solid #776d83;border-radius:28px;background:#382f45;color:#fff;font-family:inherit;font-size:15px;outline:none}body.salaryTheme .onlineField input::placeholder{color:#9c93a6}body.salaryTheme .onlineField input[readonly]{color:#b9b2c0}body.salaryTheme .onlineField select:disabled{opacity:.5}body.salaryTheme .onlineField input:focus,body.salaryTheme .onlineField select:focus{border-color:#c298ff;box-shadow:0 0 0 2px #a365ff33}body.salaryTheme .onlineField input[aria-invalid=true],body.salaryTheme .onlineField select[aria-invalid=true]{border-color:#ff9aab}.onlineField .onlineFieldError{display:block;margin:6px 12px 0;color:#ffabb8;font-size:11px;line-height:1.5}.onlinePaymentGuidance,.onlineTraderHint{font-size:12px;color:#aaa0b5;line-height:1.6;margin:2px 0 20px}.onlineTraderHint.success{color:#90ddb0}.onlineTraderNote{background:#1c132b;border:1px solid #3d304c;border-radius:15px;padding:15px 14px;color:#aaa0b5;font-size:12px;line-height:1.6}.onlineTraderNote b{font-size:14px;color:white}.onlineTraderNote ul{margin:8px 0 0;padding-left:19px}.onlineTraderNote li+li{margin-top:8px}
@@ -26,3 +26,61 @@ body.salaryTheme #paymentInfoOverlay .onlineField :is(input,select){border-radiu
 body.salaryTheme #paymentInfoOverlay .onlineField input[readonly]{color:#b9b2c0!important}
 body.salaryTheme #paymentInfoOverlay .onlineField :is(input,select):focus{border-color:#c298ff!important}
 body.salaryTheme #paymentInfoOverlay .onlineField [aria-invalid=true]{border-color:#ff9aab!important}
+
+/* Explicit trader verification and receiving-account identity card. */
+.onlineTraderEntry { display:flex; align-items:flex-start; gap:10px; }
+.onlineTraderEntry .onlineField { flex:1; min-width:0; }
+.onlineTraderConfirm { flex:none; min-height:50px; margin-top:26px; padding:0 17px; border:0; border-radius:28px; background:#a365ff; color:#fff; font:inherit; font-size:13px; font-weight:600; }
+.onlineTraderConfirm:disabled { opacity:.45; }
+.onlineTraderCard { margin:0 0 18px; padding:15px; border:1px solid #8056a5; border-radius:18px; background:linear-gradient(110deg,#54317b,#1c0833); }
+.onlineTraderCard header { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px; }
+.onlineTraderCard header > b { flex:1; min-width:0; font-size:16px; overflow-wrap:anywhere; }
+.onlineTraderAvatar { display:grid; place-items:center; flex:none; width:42px; height:42px; border-radius:50%; background:linear-gradient(145deg,#ffb24c,#bc6136); color:white; font-size:20px; }
+.onlineTraderAvailability { color:#38cf9e; font-size:12px; font-weight:600; }
+.onlineTraderAvailability.unavailable { color:#ff9aab; }
+.onlineTraderDetail { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:13px; border-radius:12px; background:#ffffff16; font-size:13px; line-height:1.5; }
+.onlineTraderDetail + .onlineTraderDetail { margin-top:10px; }
+.onlineTraderDetail span { color:#c2b6cd; }
+.onlineTraderDetail b { text-align:right; overflow-wrap:anywhere; }
+@media(max-width:350px) { .onlineTraderConfirm { padding:0 12px; } .onlineTraderCard { padding:12px; } .onlineTraderCard header { gap:8px; } .onlineTraderAvailability { font-size:11px; } }
+
+.onlineTraderToast { position:fixed; left:50%; top:55%; transform:translate(-50%,-50%); max-width:calc(100% - 40px); padding:12px 18px; border-radius:12px; background:#08040edb; color:#fff; font-size:15px; text-align:center; pointer-events:none; z-index:1700; }
+
+/* Salary confirmation and rejection dialogs share one layout and button geometry. */
+body.salaryTheme :is(#dataConfirmOverlay .payCard, #billConfirmOverlay .billConfirmPanel, #modal:has(.salaryBillDialog) .modal) {
+  box-sizing:border-box; width:min(430px,calc(100% - 24px)); max-height:88dvh;
+  overflow-y:auto; padding:22px 20px 20px; border:1px solid #655076;
+  border-radius:22px; background:#24172f; color:#fff; text-align:left;
+}
+body.salaryTheme :is(#dataConfirmOverlay, #billConfirmOverlay, #modal:has(.salaryBillDialog)) { align-items:center; justify-content:center; }
+body.salaryTheme :is(#dataConfirmTitle, #billConfirmOverlay .paySheetTitle, .salaryBillDialog h3) {
+  padding:0; margin:0 0 18px; color:#fff; font-size:19px; font-weight:600; line-height:1.4;
+}
+body.salaryTheme :is(#dataConfirmBody, #billConfirmContent, .salaryBillDialog) { color:#c2b6cd; font-size:13px; line-height:1.6; }
+body.salaryTheme :is(#dataConfirmBody, #billConfirmContent, .salaryBillDialog) .collectionBreakdown { margin:0 0 18px; }
+body.salaryTheme :is(#dataConfirmBody, #billConfirmContent, .salaryBillDialog) .collectionTotal { border-top:0; padding-top:0; }
+body.salaryTheme :is(#dataConfirmBody, #billConfirmContent, .salaryBillDialog) .financeConfirmTotal {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:15px 0; margin:0 0 14px; border-top:1px solid #54445f;
+}
+body.salaryTheme :is(#dataConfirmBody, #billConfirmContent, .salaryBillDialog) .financeConfirmTotal b { font-size:25px; color:#ffe500; }
+.salaryDialogPayment { padding:12px; border-radius:12px; background:#312442; }
+.salaryDialogPayment > div { display:grid; grid-template-columns:65px minmax(0,1fr); gap:10px; padding:5px 0; }
+.salaryDialogPayment b { color:#fff; font-weight:500; overflow-wrap:anywhere; }
+body.salaryTheme :is(#dataConfirmOverlay .payActions, #billConfirmOverlay .filterActions, .salaryBillDialog .sourceBillActions) {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:20px 0 0; padding:0;
+}
+body.salaryTheme :is(#dataConfirmOverlay .payActions, #billConfirmOverlay .filterActions, .salaryBillDialog .sourceBillActions) button {
+  box-sizing:border-box; width:100%; height:46px; min-height:46px; margin:0; padding:0 14px;
+  border:1px solid #776d83!important; border-radius:24px!important;
+  background:#382f45!important; color:#fff!important; font:inherit; font-size:14px; font-weight:600;
+}
+body.salaryTheme :is(#dataConfirmOverlay .payActions, #billConfirmOverlay .filterActions, .salaryBillDialog .sourceBillActions) button:last-child {
+  background:#a365ff!important; border-color:#a365ff!important;
+}
+body.salaryTheme .salaryBillDialog .sourceBillActions .rejectBill { background:#ba435d!important; border-color:#ba435d!important; }
+body.salaryTheme #modal:has(.salaryBillDialog) .modalClose { display:none; }
+
+body.salaryTheme #dataConfirmOverlay .payActions #dataConfirmAction[data-action="reject"] { background:#ba435d!important; border-color:#ba435d!important; }
+
+.onlineMethodIcon.agency { background:#408af7; }
