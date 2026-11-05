@@ -1,0 +1,1543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Host Center · Salary Bill</title>
+<style>
+  :root{
+    --bg:#0c0716;
+    --bg-2:#151024;
+    --card:#1a1330;
+    --card-2:#21183b;
+    --line:rgba(255,255,255,.075);
+    --text:#f7f4ff;
+    --muted:#a89fbb;
+    --muted-2:#756c88;
+    --purple:#8d5cff;
+    --purple-2:#b48cff;
+    --purple-3:#6d42d8;
+    --green:#56d89a;
+    --red:#ff6f7b;
+    --gold:#f0c96a;
+    --bright-yellow:#ffe168;
+    --shadow:0 14px 40px rgba(0,0,0,.28);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#07040e;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  body{min-height:100vh;display:flex;justify-content:center}
+  button{font:inherit}
+
+  .phone{
+    width:min(100%,430px);
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 70% -5%, rgba(119,66,230,.30), transparent 32%),
+      linear-gradient(180deg,#120b22 0%,#0c0716 54%,#0a0612 100%);
+    padding:env(safe-area-inset-top) 16px calc(28px + env(safe-area-inset-bottom));
+  }
+
+  .topbar{
+    height:64px;
+    display:grid;
+    grid-template-columns:44px 1fr 44px;
+    align-items:center;
+  }
+  .topbar h1{
+    margin:0;text-align:center;font-size:18px;font-weight:750;letter-spacing:.1px
+  }
+  .icon-btn{
+    width:40px;height:40px;border:0;border-radius:14px;background:transparent;color:#fff;
+    display:grid;place-items:center;cursor:pointer
+  }
+  .icon-btn:active{background:rgba(255,255,255,.06)}
+
+  .section-label{
+    margin:24px 2px 10px;font-size:15px;font-weight:750;color:#f7f1ff
+  }
+  .agency-label{margin-top:18px;margin-bottom:4px;font-size:12px;font-weight:650;color:#7f768e}
+
+  .host-card{
+    position:relative;
+    overflow:hidden;
+    padding:18px;
+    border:1px solid rgba(182,143,255,.18);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(164,101,255,.25), transparent 35%),
+      linear-gradient(135deg,#241743,#1b1232 58%,#21143d);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+  }
+  .host-card:before{
+    content:"";position:absolute;left:-20px;bottom:-55px;width:150px;height:150px;border-radius:50%;
+    background:rgba(129,78,223,.13);filter:blur(2px)
+  }
+  .identity{display:flex;align-items:center;gap:13px;position:relative;z-index:1}
+  .avatar{
+    width:60px;height:60px;border-radius:50%;flex:0 0 auto;
+    display:grid;place-items:center;font-weight:800;font-size:19px;
+    color:#fff;background:linear-gradient(145deg,#8b5cff,#4b2b95);
+    border:2px solid rgba(255,255,255,.12);
+    box-shadow:0 8px 20px rgba(54,27,109,.35)
+  }
+  .identity-main{min-width:0;flex:1}
+  .name-row{display:flex;align-items:center;gap:8px;min-width:0}
+  .name{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .role-badge{
+    font-size:10px;font-weight:800;letter-spacing:.55px;color:#e9dbff;
+    padding:4px 7px;border-radius:8px;background:rgba(146,92,255,.18);border:1px solid rgba(177,138,255,.25)
+  }
+  .id{margin-top:5px;color:#a89fbb;font-size:12px}
+  .wa{
+    width:44px;height:44px;border:0;border-radius:14px;cursor:pointer;
+    background:#25D366;color:#fff;display:grid;place-items:center;
+    border:1px solid rgba(37,211,102,.55);box-shadow:0 6px 16px rgba(37,211,102,.18)
+  }
+  .wa:active{transform:scale(.97)}
+
+  .agency-card{
+    display:flex;align-items:center;gap:10px;padding:10px 2px;
+    border:0;background:transparent;border-radius:0;
+    cursor:pointer
+  }
+  .agency-avatar{
+    width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,#f0c96a,#9e6f1d);
+    display:grid;place-items:center;font-weight:800;color:#281b00
+  }
+  .agency-info{flex:1;min-width:0}
+  .agency-title{font-size:13px;font-weight:650;color:#d7d0e4}
+  .agency-id{margin-top:2px;color:#766d85;font-size:11px}
+  .chev{color:#625a70;font-size:20px}
+
+  .data-block{
+    margin-top:12px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.025);
+    border-radius:22px;
+    padding:12px;
+  }
+  .tabs{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    background:#130e22;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:5px;
+  }
+  .tab{
+    border:0;background:transparent;color:#857b98;height:42px;border-radius:12px;
+    font-weight:760;font-size:13px;cursor:pointer;transition:.18s ease
+  }
+  .tab.active, .salary-tab.active{
+    color:#fff;background:linear-gradient(135deg,#7d50ef,#9d6eff);
+    box-shadow:0 7px 18px rgba(128,76,235,.28)
+  }
+
+  .date-row{
+    display:none;
+    margin:12px 0 2px;
+  }
+  .date-row.show{display:block}
+
+  .role-date-row{
+    width:100%;
+    min-height:48px;
+    border:0;
+    border-bottom:1px solid rgba(255,255,255,.075);
+    background:transparent;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:10px;
+    padding:0 2px 10px;
+    color:inherit;
+    cursor:pointer;
+    text-align:left;
+  }
+  .role-date-label{
+    color:#9b92a9;
+    font-size:13px;
+    font-weight:700;
+  }
+  .role-date-value{
+    justify-self:end;
+    color:#ded7e8;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.1px;
+  }
+  .role-date-chevron{
+    color:#675e73;
+    font-size:20px;
+    line-height:1;
+  }
+
+  .calendar-overlay{
+    position:fixed;inset:0;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(3,2,7,.64);
+    backdrop-filter:blur(3px);
+    z-index:80;
+  }
+  .calendar-overlay.show{display:flex}
+
+  .calendar-panel{
+    width:min(100%,430px);
+    max-height:76vh;
+    border-radius:28px 28px 0 0;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,#603092 0%,#35164f 32%,#160b20 100%);
+    border:1px solid rgba(255,255,255,.08);
+    border-bottom:0;
+    box-shadow:0 -18px 60px rgba(0,0,0,.48);
+  }
+
+  .calendar-weekbar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    padding:22px 18px 18px;
+    background:linear-gradient(180deg,#6b369f,#5a2c87);
+    border-bottom:1px solid rgba(255,255,255,.11);
+    color:#fff;
+    font-size:12px;
+    font-weight:750;
+    text-align:center;
+  }
+
+  .calendar-scroll{
+    max-height:46vh;
+    overflow:auto;
+    padding:18px 18px 8px;
+    scrollbar-width:none;
+  }
+  .calendar-scroll::-webkit-scrollbar{display:none}
+
+  .calendar-month{
+    margin-bottom:18px;
+  }
+  .calendar-month-title{
+    color:#e3dbea;
+    font-size:12px;
+    margin:0 0 12px 2px;
+    font-weight:650;
+  }
+  .calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px 5px;
+  }
+  .calendar-spacer{aspect-ratio:1/1}
+  .calendar-day{
+    aspect-ratio:1/1;
+    border:0;
+    border-radius:12px;
+    background:transparent;
+    color:#eee8f4;
+    font-size:14px;
+    cursor:pointer;
+    position:relative;
+    display:grid;
+    place-items:center;
+  }
+  .calendar-day.disabled{
+    color:#514859;
+    pointer-events:none;
+  }
+  .calendar-day.selected{
+    background:linear-gradient(180deg,#8254b8,#6c3da1);
+    color:#fff;
+    font-weight:850;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .calendar-day.today:not(.selected){
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);
+  }
+
+  .calendar-actions{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:14px;
+    padding:14px 24px calc(22px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,rgba(23,11,33,.15),#120918 42%);
+  }
+  .calendar-actions button{
+    height:52px;
+    border-radius:28px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .calendar-cancel{
+    border:0;
+    background:#554966;
+    color:#fff;
+  }
+  .calendar-confirm{
+    border:0;
+    background:linear-gradient(135deg,#8d55ff,#a660ff);
+    color:#fff;
+    box-shadow:0 8px 24px rgba(145,84,255,.28);
+  }
+
+  .period-info{
+    margin-top:12px;
+    padding:13px 14px;
+    border-radius:15px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.055);
+    color:#ddd7e6;
+    font-size:11.5px;
+    line-height:1.5;
+    text-align:center;
+  }
+  .period-info .tz{
+    color:#8f869d;
+    margin-left:4px;
+    white-space:nowrap;
+  }
+  .period-update{
+    margin-top:4px;
+    color:var(--bright-yellow);
+    font-size:11px;
+    font-weight:750;
+  }
+
+  .level-card{
+    margin-top:12px;
+    padding:18px 16px 16px;
+    border-radius:18px;
+    border:1px solid rgba(255,225,104,.10);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255,225,104,.07), transparent 38%),
+      linear-gradient(135deg,rgba(255,225,104,.035),rgba(141,92,255,.04));
+    text-align:center;
+  }
+  .level-card.hidden{display:none}
+  .level-emblem{
+    min-width:112px;height:38px;margin:0 auto 14px;
+    padding:0 20px;
+    border-radius:12px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:900;letter-spacing:.4px;
+    color:#2a1c00;
+    background:
+      linear-gradient(180deg,#fff0a0 0%,#f0c96a 56%,#bb8127 100%);
+    border:1px solid rgba(255,243,170,.52);
+    box-shadow:
+      0 8px 20px rgba(202,147,33,.16),
+      inset 0 1px 0 rgba(255,255,255,.45);
+    position:relative;
+  }
+  .level-emblem:before,
+  .level-emblem:after{
+    content:"";position:absolute;top:7px;width:10px;height:22px;
+    background:linear-gradient(180deg,#f8dd82,#b97b20);
+    opacity:.9;
+  }
+  .level-emblem:before{
+    left:-7px;
+    clip-path:polygon(100% 0,100% 100%,0 76%,0 24%);
+  }
+  .level-emblem:after{
+    right:-7px;
+    clip-path:polygon(0 0,0 100%,100% 76%,100% 24%);
+  }
+  .level-track{
+    height:7px;border-radius:999px;
+    background:rgba(255,255,255,.075);
+    overflow:hidden;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.18);
+  }
+  .level-track span{
+    display:block;height:100%;width:62%;border-radius:999px;
+    background:linear-gradient(90deg,#dcae45,#ffe168);
+    box-shadow:0 0 12px rgba(255,225,104,.28)
+  }
+  .level-upgrade{
+    margin-top:12px;
+    font-size:13px;
+    color:#a89fbb;
+    line-height:1.35;
+  }
+  .level-upgrade strong{
+    color:var(--bright-yellow);
+    font-size:16px;
+    font-weight:850;
+  }
+
+  .grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px
+  }
+  .metric{
+    min-height:130px;
+    padding:15px 14px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.055);
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.025));
+    display:flex;flex-direction:column;justify-content:space-between
+  }
+  .metric-top{display:flex;align-items:center;justify-content:flex-end}
+  .qmark{
+    width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.12);
+    background:transparent;color:#aaa1ba;display:grid;place-items:center;cursor:pointer;font-size:12px
+  }
+  .value{margin-top:10px;font-size:25px;font-weight:820;letter-spacing:-.4px;color:var(--bright-yellow)}
+  .value.small{font-size:22px}
+  .label{margin-top:5px;font-size:12px;color:#a89fbb;line-height:1.25}
+  .diamond-note{
+    margin-top:5px;
+    font-size:10.5px;
+    color:#7f758e;
+    line-height:1.35;
+    white-space:nowrap;
+  }
+  .sub{margin-top:8px;color:#756c88;font-size:10px;line-height:1.25}
+  .status-valid{color:var(--bright-yellow)}
+  .status-invalid{color:#ff7d87}
+
+  .progress{
+    margin-top:9px;height:5px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden
+  }
+  .progress span{
+    display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#7c4ff0,#b18aff)
+  }
+
+  .footnote{
+    margin:12px 2px 0;color:#6e657f;font-size:10.5px;line-height:1.55
+  }
+
+  .overlay{
+    position:fixed;inset:0;background:rgba(4,2,8,.72);backdrop-filter:blur(7px);
+    display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:50
+  }
+  .overlay.show{display:flex}
+  .sheet{
+    width:min(100%,430px);
+    border-radius:24px;
+    background:linear-gradient(180deg,#211733,#171020);
+    border:1px solid rgba(255,255,255,.09);
+    box-shadow:0 24px 80px rgba(0,0,0,.55);
+    padding:18px;
+    transform:translateY(0)
+  }
+  .handle{width:44px;height:4px;border-radius:99px;background:#524960;margin:0 auto 16px}
+  .sheet-title{font-size:17px;font-weight:800;margin:0 0 14px}
+  .sheet-text{color:#b7aec6;font-size:13px;line-height:1.6}
+  .sheet-card{
+    padding:14px;border-radius:17px;border:1px solid var(--line);background:rgba(255,255,255,.035);
+    display:flex;align-items:center;gap:12px
+  }
+  .sheet-info{flex:1}
+  .sheet-name{font-size:15px;font-weight:800}
+  .sheet-meta{font-size:12px;color:#a89fbb;margin-top:4px}
+  .primary{
+    width:100%;height:48px;border:0;border-radius:15px;margin-top:16px;
+    background:linear-gradient(135deg,#7e50ef,#a474ff);color:#fff;font-weight:800;cursor:pointer
+  }
+  .whatsapp-primary{
+    background:#25D366;
+    color:#fff;
+    box-shadow:0 8px 20px rgba(37,211,102,.20);
+  }
+  .ghost{
+    width:100%;height:46px;border-radius:15px;margin-top:10px;
+    border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#d8d0e6;font-weight:750
+  }
+
+  @media (max-width:360px){
+    .phone{padding-left:12px;padding-right:12px}
+    .metric{min-height:124px;padding:13px 12px}
+    .value{font-size:22px}
+  }
+
+  /* My Salary — v24: share active tab palette with My Data, retain compact spacing */
+  .salary-card{
+    margin-top:23px;padding:15px 15px 16px;border:1px solid rgba(240,201,106,.18);
+    border-radius:21px;background:radial-gradient(circle at 100% 0%,rgba(240,201,106,.10),transparent 51%),linear-gradient(135deg,#251b37,#1a142b 75%);
+    box-shadow:0 9px 28px rgba(0,0,0,.14)
+  }
+  .salary-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+  .salary-header h2{font-size:15px;font-weight:780;margin:0;color:#f7f1ff;line-height:24px}
+  .salary-help{height:24px;width:24px;border-radius:50%;border:1px solid rgba(255,255,255,.19);color:#cbbfdb;background:rgba(255,255,255,.04);cursor:pointer;font-size:12px;font-weight:700}
+  .salary-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:#130e22;border:1px solid var(--line)}
+  .salary-tab{height:36px;border:0;border-radius:9px;background:transparent;color:#9084a3;font-size:12px;font-weight:730;cursor:pointer;transition:background .16s,color .16s}
+  .salary-panel{padding-top:15px}
+  .salary-panel[hidden],.salary-full-goal[hidden],.salary-adjustment[hidden],.salary-settled[hidden],.salary-empty[hidden]{display:none!important}
+  .salary-main-head{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+  .salary-main-label{font-size:12px;font-weight:630;color:#b9accb}
+  .salary-period{color:#968aa6;font-size:11px;line-height:1.45;overflow-wrap:normal;white-space:normal;max-width:100%;font-variant-numeric:tabular-nums}
+  .salary-main-amount{display:block;margin-top:4px;color:#ffe29a;font-size:32px;font-weight:850;line-height:1.2;letter-spacing:-.7px;font-variant-numeric:tabular-nums}
+  .salary-full-goal{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
+  .salary-goal-amount{color:#58dca3;font-size:13px;font-weight:760;font-variant-numeric:tabular-nums}
+  .salary-goal-context{color:#81768e;font-size:10px}
+  .salary-breakdown{display:grid;grid-template-columns:1fr 1fr;column-gap:12px;margin-top:15px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+  .salary-item-label{font-size:11px;color:#aa9cbd;margin-bottom:5px}
+  .salary-item-value{font-size:18px;color:#fff;font-weight:780;font-variant-numeric:tabular-nums;letter-spacing:-.2px;white-space:nowrap}
+  .salary-value-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  .salary-rate{padding:3px 6px;border-radius:6px;font-size:10px;font-weight:780;background:rgba(255,182,75,.15);color:#ffc77e;white-space:nowrap}
+  .salary-rate.full{background:rgba(86,216,154,.12);color:#71e6b0}
+  .salary-adjustment{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.08);font-size:12px}
+  .salary-adjustment-label{color:#aa9cbd}
+  .salary-adjustment-value{color:#f5eefc;font-weight:700;font-variant-numeric:tabular-nums}
+  .salary-empty{padding:18px 0 10px;color:#b9accb;text-align:center;font-size:13px}
+  /* Only for the interactive prototype; not part of the production Host Center. */
+  .salary-demo-controls{margin-top:10px;padding:10px 12px;border-radius:13px;border:1px dashed rgba(165,135,205,.28);background:rgba(123,81,185,.06)}
+  .salary-demo-title{font-size:10px;font-weight:700;letter-spacing:.15px;color:#9384a9}
+  .salary-demo-switch{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+  .salary-demo-switch button{padding:7px 8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#c3b7d6;border-radius:9px;cursor:pointer;font-size:10.5px;white-space:nowrap}
+  .salary-demo-switch button.selected{border-color:rgba(162,117,255,.7);color:#fff;background:rgba(141,92,255,.26)}
+  .salary-demo-section + .salary-demo-section{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.075)}
+  .salary-rule-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .salary-rule-heading .sheet-title{margin:0}
+  .salary-rule-close{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);color:#d0c2df;font-size:20px;line-height:1;cursor:pointer}
+  .salary-rule-sheet{padding-bottom:22px}
+  @media(max-width:360px){
+    .salary-card{padding:14px 12px 15px}
+    .salary-item-value{font-size:17px}
+    .salary-period{font-size:10.5px}
+  }
+
+  /* v26: one-row formula cards; Target Salary 70%-100% upward swoosh */
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metric{min-width:0}
+  .salary-panel[hidden],.salary-settled[hidden],.salary-empty[hidden],.target-compare[hidden],.target-solo[hidden],.formula-adjustment[hidden]{display:none!important}
+  .salary-panel{padding-top:13px}
+  .salary-formula{display:flex;align-items:stretch;gap:3px;min-width:0;width:100%}
+  .formula-card{min-width:0;min-height:98px;border-radius:11px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.055);padding:10px 4px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;text-align:center}
+  .formula-total{flex:1.12;background:linear-gradient(140deg,rgba(112,66,156,.33),rgba(84,55,120,.19));border-color:rgba(190,141,255,.13)}
+  .formula-target{flex:2.04;gap:7px;background:rgba(143,95,199,.105);border-color:rgba(192,145,255,.17);padding-left:5px;padding-right:5px}
+  .formula-last-target{flex:1.2}
+  .formula-diamond{flex:.95}
+  .formula-label{display:block;font-size:10px;line-height:1.3;color:#baaccd;font-weight:560;letter-spacing:-.1px}
+  .formula-amount{display:block;white-space:nowrap;color:#fff;font-size:15px;letter-spacing:-.6px;font-weight:800;font-variant-numeric:tabular-nums}
+  .formula-main-amount{color:#ffe19a;font-size:18px;letter-spacing:-.75px}
+  .formula-operator{flex:0 0 11px;color:#8d7f9e;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700}
+  .target-compare{display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr);width:100%;align-items:stretch;border-radius:9px;overflow:visible;min-height:51px}
+  .target-side{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 0}
+  .target-side-current{background:rgba(255,255,255,.045);border-radius:9px 0 0 9px}
+  .target-side-goal{background:linear-gradient(120deg,rgba(139,85,242,.48),rgba(153,105,252,.4));border-radius:0 9px 9px 0}
+  .target-percent{font-size:9px;font-weight:780;line-height:1;color:#e8b46f}
+  .target-side-goal .target-percent{color:#d6bbff}
+  .target-amount{color:#f9f4ff;font-size:12px;font-weight:800;white-space:nowrap;line-height:1.2;letter-spacing:-.55px;font-variant-numeric:tabular-nums}
+  .target-side-goal .target-amount{color:#fff}
+  .target-divider{display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,rgba(255,255,255,.045),rgba(139,85,242,.48));position:relative;z-index:1;overflow:visible}
+  .target-up-arrow{display:block;flex:none;width:30px;height:32px;filter:drop-shadow(0 2px 2px rgba(48,12,90,.38));transform:translateY(-2px)}
+  .target-solo{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px;min-height:49px}
+  .target-solo-amount{font-size:15px;font-weight:800;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .target-solo-percent{font-size:9px;color:#79e9b8;background:rgba(86,216,154,.1);border-radius:5px;padding:3px 5px;font-weight:750}
+  .formula-period{margin-top:10px;margin-bottom:10px;text-align:center;font-size:10px;color:#a99bb8;line-height:1.5;overflow-wrap:anywhere}
+  /* v28: Last Period continues the equation into a swipeable Adjustment card.
+     At rest, exactly half of the last card peeks into view. No scrollbar or hint. */
+  .salary-last-formula{
+    width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+    -ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;touch-action:pan-x;
+  }
+  .salary-last-formula::-webkit-scrollbar{display:none;width:0;height:0}
+  .salary-last-formula.has-adjustment>.formula-card:not(.formula-adjustment-card){
+    /* 3 operators (11px), 6 gaps (3px), half Adjustment (47px) = 98px */
+    flex:0 0 calc((100% - 98px) / 3);
+  }
+  .salary-last-formula.has-adjustment>.formula-operator{flex:0 0 11px}
+  .salary-last-formula.has-adjustment>.formula-adjustment-card{flex:0 0 94px}
+  .salary-last-formula .formula-adjustment-card{background:rgba(143,95,199,.105);border-color:rgba(192,145,255,.15)}
+  .salary-last-formula .formula-adjustment-card .formula-amount{font-size:14px}
+  .salary-last-formula .salary-last-extra[hidden]{display:none!important}
+  @media (max-width:360px){
+    .salary-formula{gap:2px}
+    .formula-card{padding:8px 3px;min-height:91px}
+    .formula-label{font-size:9px}
+    .formula-amount{font-size:13px;letter-spacing:-.65px}
+    .formula-main-amount{font-size:16px}
+    .formula-operator{flex-basis:9px;font-size:14px}
+    .salary-last-formula.has-adjustment{gap:2px}
+    .salary-last-formula.has-adjustment>.formula-card:not(.formula-adjustment-card){
+      /* 3 operators (9px), 6 gaps (2px), half Adjustment (47px) = 86px */
+      flex-basis:calc((100% - 86px) / 3);
+    }
+    .salary-last-formula.has-adjustment>.formula-operator{flex-basis:9px}
+    .formula-target{padding-left:3px;padding-right:3px}
+    .target-amount{font-size:10.5px;letter-spacing:-.65px}
+    .target-percent{font-size:8px}
+    .target-compare{grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr)}
+    .target-up-arrow{width:25px;height:28px}
+  }
+</style>
+<style>
+#hostHistory .host-bill-card{background:#302440;border-radius:18px;padding:18px;margin:0 0 18px}
+#hostHistory .host-bill-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:20px}
+#hostHistory .host-bill-status{font-size:12px;color:#ffe500}
+#hostHistory .host-bill-meta{display:flex;justify-content:space-between;align-items:start;gap:12px;color:#a99cb8;font-size:13px;margin:12px 0 22px;flex-wrap:wrap}
+#hostHistory .host-bill-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+#hostHistory .host-bill-cell{background:#514460;border-radius:12px;padding:13px;font-size:20px;overflow-wrap:anywhere}
+#hostHistory .host-bill-cell small{display:block;color:#b8aac8;font-size:13px;margin-top:8px}
+#hostHistory .host-bill-total{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px dashed #645671;padding-top:20px;margin-top:20px;font-size:18px}
+#hostHistory .host-bill-total strong{color:#ffe500;font-size:27px}
+#hostHistory .host-bill-working{margin-top:18px;color:#ff5038;font-size:19px}
+#hostHistory .host-bill-working p{color:#a99cb8;font-size:13px;margin:5px 0 20px}
+</style><style>body{flex-direction:column;align-items:center}.host-preview-controls{width:min(100%,430px);padding:12px 16px;background:#21182e;color:#c6b8d7;font-size:12px}.host-preview-controls summary{cursor:pointer}.host-preview-controls .salary-demo-controls{margin:10px 0 0}</style><style>#hostHistory .host-bill-adjustment{display:flex;justify-content:space-between;gap:12px;margin-top:18px;color:#b8aac8;font-size:14px}</style><style>
+#hostHistory .host-bill-adjustment{display:block;font-size:13px}
+#hostHistory .host-bill-adjustment summary{display:flex;justify-content:space-between;gap:12px;cursor:pointer;list-style:none}
+#hostHistory .host-bill-adjustment summary::-webkit-details-marker{display:none}
+#hostHistory .host-bill-adjustment summary span:first-child:after{content:' ⌄'}
+#hostHistory .host-bill-adjustment[open] summary span:first-child:after{content:' ⌃'}
+#hostHistory .host-adjust-value{color:#ff5038}
+#hostHistory .host-adjust-reason{margin-top:10px;background:#1c142a;color:#ac9fbb;border-radius:8px;padding:10px}
+#hostHistory .host-bill-working{background:#514460;border-radius:10px;padding:12px;font-size:14px}
+#hostHistory .host-time-met{color:#24d459}
+</style><style>#hostHistory .host-bill-working{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}#hostHistory .host-time-label{color:#fff}#hostHistory .host-time-result{color:#ff5038}#hostHistory .host-time-met .host-time-result{color:#24d459}</style><style>#hostHistory .host-bill-period{font-size:14px}#hostHistory .host-bill-heading{align-items:flex-start}</style><style>#hostHistory .host-adjust-positive{color:#24d459}</style><style>#hostHistory .host-original-salary{display:flex;justify-content:space-between;gap:12px;margin-top:18px;color:#b8aac8;font-size:13px}</style><style data-source="role-payment.css">
+/* Shared online Payment Method layout for both role centers. */
+body.salaryTheme .whatsappConfigBtn{background:#25d366!important;color:#fff!important;border:0!important}
+.salaryNotice{display:flex;align-items:center;gap:9px;min-height:42px;padding:10px 12px;margin:10px 0 14px;background:#342518;border-radius:13px;color:#f5d744;font-size:12px;line-height:1.5}
+.salaryNoticeIcon{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e6b919;color:#352600;font-weight:800}
+.salaryNoticeWindow{overflow:hidden;min-width:0;flex:1}.salaryNoticeTrack{display:flex;width:max-content;animation:salaryNoticeScroll 24s linear infinite}.salaryNoticeTrack span{padding-right:50px;white-space:nowrap}.salaryNotice:hover .salaryNoticeTrack,.salaryNotice:focus .salaryNoticeTrack{animation-play-state:paused}
+@keyframes salaryNoticeScroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.salaryNoticeTrack{animation:none;display:block;width:auto}.salaryNoticeTrack span{white-space:normal;padding:0}.salaryNoticeTrack span+span{display:none}}
+#paymentMethodSheet{z-index:1500;background:rgba(0,0,0,.72)}
+#paymentMethodSheet .onlinePaymentPanel{box-sizing:border-box;width:100%;max-width:480px;max-height:88dvh;overflow:auto;padding:20px 13px calc(16px + env(safe-area-inset-bottom));border:0;border-radius:22px 22px 0 0;background:linear-gradient(155deg,#54317b,#241532 90%);color:#fff;text-align:left}
+.onlinePaymentHeader{padding:0 4px 18px}.onlinePaymentHeader h2{margin:0;font-size:18px;line-height:1.5}.onlinePaymentHeader p{margin:4px 0 0;color:#c0a8d2;font-size:12px}
+.onlineMethodList{display:grid;gap:12px}.onlineMethod{display:flex;align-items:center;gap:12px;min-height:74px;padding:12px;border-radius:15px;background:rgba(190,176,207,.29);box-sizing:border-box}
+.onlineMethodIcon{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;font-size:26px;color:white;background:#16a086}.onlineMethodIcon.agency{background:#408af7}
+.onlineMethodIcon.bank{background:#408af7;border-radius:9px;font-size:23px}.onlineMethodIcon.coins{background:radial-gradient(circle,#f9d94b,#c27600);border:2px solid #ffe693;color:#fff4ad;font-size:23px;box-shadow:inset 0 0 0 2px #9b5c00}.onlineMethodIcon.epay{background:#07529f;border-radius:10px;font-size:12px;font-weight:800;font-style:italic}.onlineMethodIcon.trader{background:none;font-size:31px}
+.onlineMethodMain{flex:1;min-width:0;padding:0!important;border:0!important;background:transparent!important;color:#fff!important;text-align:left;cursor:pointer}.onlineMethodName{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:14px;font-weight:650;line-height:1.4}.onlineMethodMain small,.onlineMethodStatic small{display:block;color:#c5b5d0;font-size:11px;line-height:1.5;margin-top:5px;overflow-wrap:anywhere}.onlineMethodMain small.unset{color:#eee044}.onlinePreferred{padding:3px 7px;border:1px solid #ffec00;border-radius:20px;font-size:10px;font-weight:500;color:#ffec00}.onlineStar{flex:none;width:32px;height:44px;padding:0!important;border:0!important;background:none!important;font-size:30px;color:#b8a3c3;cursor:pointer}.onlineStar.on{color:#ffec00}.onlineStar:disabled{opacity:.6;cursor:default}.onlineChevron{color:#baa4c8;font-size:26px;margin-left:2px}.onlineMethodStatic{flex:1;min-width:0}.onlineMethodStatic b{font-size:14px}
+#paymentInfoOverlay{transform:none;max-width:none;width:100%;margin:0;display:none;position:fixed;inset:0;z-index:1600;background:#140c24;padding:0;align-items:stretch;justify-content:center}
+#paymentInfoOverlay.show{display:flex}
+.onlinePaymentPage{display:flex;flex-direction:column;width:100%;max-width:480px;height:100%;min-height:0;margin:auto;background:linear-gradient(155deg,#37348b 0,#140c24 160px);color:#fff;box-sizing:border-box;text-align:left}
+.onlinePaymentNav{position:relative;flex:none;display:flex;align-items:center;justify-content:center;min-height:68px;padding:10px 48px;box-sizing:border-box}.onlinePaymentNav h2{margin:0;text-align:center;font-size:17px;line-height:1.4}.onlinePaymentBack{position:absolute;left:12px;top:12px;border:0!important;background:none!important;color:#fff!important;font-size:32px;width:38px;height:44px;padding:0!important}
+.onlinePaymentBody{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 13px 24px;scrollbar-width:none}.onlinePaymentBody::-webkit-scrollbar{display:none}
+.onlineField{display:block;margin:0 0 18px}.onlineField>span{display:block;color:#e8dd57;font-size:12px;line-height:1.5;margin:0 13px 8px}body.salaryTheme .onlineField input,body.salaryTheme .onlineField select{display:block;box-sizing:border-box;width:100%;height:50px;margin:0;padding:0 14px;border:1px solid #776d83;border-radius:28px;background:#382f45;color:#fff;font-family:inherit;font-size:15px;outline:none}body.salaryTheme .onlineField input::placeholder{color:#9c93a6}body.salaryTheme .onlineField input[readonly]{color:#b9b2c0}body.salaryTheme .onlineField select:disabled{opacity:.5}body.salaryTheme .onlineField input:focus,body.salaryTheme .onlineField select:focus{border-color:#c298ff;box-shadow:0 0 0 2px #a365ff33}body.salaryTheme .onlineField input[aria-invalid=true],body.salaryTheme .onlineField select[aria-invalid=true]{border-color:#ff9aab}.onlineField .onlineFieldError{display:block;margin:6px 12px 0;color:#ffabb8;font-size:11px;line-height:1.5}.onlinePaymentGuidance,.onlineTraderHint{font-size:12px;color:#aaa0b5;line-height:1.6;margin:2px 0 20px}.onlineTraderHint.success{color:#90ddb0}.onlineTraderNote{background:#1c132b;border:1px solid #3d304c;border-radius:15px;padding:15px 14px;color:#aaa0b5;font-size:12px;line-height:1.6}.onlineTraderNote b{font-size:14px;color:white}.onlineTraderNote ul{margin:8px 0 0;padding-left:19px}.onlineTraderNote li+li{margin-top:8px}
+.onlinePaymentActions{flex:none;display:flex;gap:12px;background:#140c24;padding:12px 13px calc(12px + env(safe-area-inset-bottom))}.onlinePaymentActions button{flex:1;min-width:0;height:50px;border-radius:28px;font-family:inherit;font-size:15px;font-weight:650;color:#fff;border:1px solid #776d83;background:#291f36}.onlinePaymentActions .onlineSave{background:#a365ff;border-color:#a365ff}.onlineSave:disabled{opacity:.48;cursor:default}
+button:focus-visible{outline:2px solid #e8d360;outline-offset:3px}
+@media(min-width:481px){#paymentInfoOverlay{background:rgba(0,0,0,.65)}}
+@media(max-width:350px){.onlineMethod{gap:8px;padding:10px}.onlineMethodName{font-size:12px}.onlineMethodIcon{width:32px;height:32px}.onlineStar{width:26px}.onlinePaymentNav h2{font-size:15px}}
+/* Existing role themes include important generic form rules. Keep online pill fields consistent. */
+body.salaryTheme #paymentInfoOverlay .onlineField :is(input,select){border-radius:28px!important;background:#382f45!important;border:1px solid #776d83!important;height:50px!important;color:#fff!important}
+body.salaryTheme #paymentInfoOverlay .onlineField input[readonly]{color:#b9b2c0!important}
+body.salaryTheme #paymentInfoOverlay .onlineField :is(input,select):focus{border-color:#c298ff!important}
+body.salaryTheme #paymentInfoOverlay .onlineField [aria-invalid=true]{border-color:#ff9aab!important}
+
+/* Explicit trader verification and receiving-account identity card. */
+.onlineTraderEntry { display:flex; align-items:flex-start; gap:10px; }
+.onlineTraderEntry .onlineField { flex:1; min-width:0; }
+.onlineTraderConfirm { flex:none; min-height:50px; margin-top:26px; padding:0 17px; border:0; border-radius:28px; background:#a365ff; color:#fff; font:inherit; font-size:13px; font-weight:600; }
+.onlineTraderConfirm:disabled { opacity:.45; }
+.onlineTraderCard { margin:0 0 18px; padding:15px; border:1px solid #8056a5; border-radius:18px; background:linear-gradient(110deg,#54317b,#1c0833); }
+.onlineTraderCard header { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px; }
+.onlineTraderCard header > b { flex:1; min-width:0; font-size:16px; overflow-wrap:anywhere; }
+.onlineTraderAvatar { display:grid; place-items:center; flex:none; width:42px; height:42px; border-radius:50%; background:linear-gradient(145deg,#ffb24c,#bc6136); color:white; font-size:20px; }
+.onlineTraderAvailability { color:#38cf9e; font-size:12px; font-weight:600; }
+.onlineTraderAvailability.unavailable { color:#ff9aab; }
+.onlineTraderDetail { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:13px; border-radius:12px; background:#ffffff16; font-size:13px; line-height:1.5; }
+.onlineTraderDetail + .onlineTraderDetail { margin-top:10px; }
+.onlineTraderDetail span { color:#c2b6cd; }
+.onlineTraderDetail b { text-align:right; overflow-wrap:anywhere; }
+@media(max-width:350px) { .onlineTraderConfirm { padding:0 12px; } .onlineTraderCard { padding:12px; } .onlineTraderCard header { gap:8px; } .onlineTraderAvailability { font-size:11px; } }
+
+.onlineTraderToast { position:fixed; left:50%; top:55%; transform:translate(-50%,-50%); max-width:calc(100% - 40px); padding:12px 18px; border-radius:12px; background:#08040edb; color:#fff; font-size:15px; text-align:center; pointer-events:none; z-index:1700; }
+
+</style>
+<style>body.salaryTheme #paymentMethodSheet{display:none;position:fixed;inset:0;align-items:flex-end;justify-content:center}body.salaryTheme #paymentMethodSheet.show{display:flex}.hostPaymentSummary{width:100%;display:flex;align-items:center;gap:12px;background:#30223f;border:0;border-radius:18px;color:white;padding:16px;text-align:left;margin-bottom:20px}.hostPaymentSummary small{display:block;color:#b9a6c7;margin-top:5px}.hostPaymentSummary span:nth-child(2){flex:1}</style>
+
+<style id="host-salary-unified-theme">
+/* Salary Bill tokens and dimensions follow agency-role-center.html. */
+#hostHistory {
+  --salary-panel: #312442;
+  --salary-metric: #504360;
+  --salary-muted: #c2b6cd;
+  --salary-line: #54445f;
+  width: min(100%, 430px);
+  height: 100dvh;
+  min-height: 0;
+  background: #140c24;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+#hostHistory[hidden] { display: none; }
+body.hostSalaryOpen { overflow: hidden; min-height: 0; height: 100dvh; }
+body.hostSalaryOpen .host-preview-controls { display: none; }
+#hostHistory .hostSalaryNav {
+  position: relative;
+  flex: none;
+  min-height: 72px;
+  padding: 20px 60px;
+  background: linear-gradient(140deg, #37348b, #140c24);
+  text-align: center;
+}
+#hostHistory .hostSalaryNav h1 { margin: 0; font-size: 20px; line-height: 1.35; font-weight: 600; }
+#hostHistory .hostSalaryNav button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d8c6ec;
+  font-size: 28px;
+}
+#hostHistory .hostSalaryNav button:first-child { left: 14px; }
+#hostHistory .hostSalaryBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+}
+#hostHistory .hostSalaryBody::-webkit-scrollbar { display: none; }
+#hostHistory .hostSalarySectionTitle,
+#hostHistory .hostSalaryRecordsHead h2 { margin: 8px 0 12px; font-size: 21px; font-weight: 600; line-height: 1.5; }
+#hostHistory .hostPaymentSummary {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  margin: 0 0 16px;
+  background: linear-gradient(100deg, #7143a8, #240b43);
+  border: 1px solid #8056a5;
+  border-radius: 16px;
+  color: #fff;
+  text-align: left;
+}
+#hostHistory .hostPaymentSummary span:nth-child(2) { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+#hostHistory .hostPaymentSummary b { font-size: 21px; line-height: 1.4; }
+#hostHistory .hostPaymentSummary small { display: block; margin-top: 4px; font-size: 13px; line-height: 1.5; color: #d0b9e4; }
+#hostHistory #salaryPaymentLogo > .onlineMethodIcon { background: transparent; }
+#hostHistory #salaryPaymentLogo { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 50%; background: #408af7; font-size: 26px; }
+#hostHistory .hostPaymentSummary > span:last-child { color: #c3a8db; font-size: 28px; }
+#hostHistory .hostSalaryTimeNote { margin: 12px 0 24px; color: var(--salary-muted); font-size: 13px; line-height: 1.6; }
+#hostHistory .hostSalaryRecordsHead { margin: 20px 0 14px; }
+#hostHistory .hostSalaryRecordsHead h2 { margin-bottom: 4px; }
+#hostHistory .hostSalaryRecordsHead p { margin: 0; color: var(--salary-muted); font-size: 13px; line-height: 1.5; }
+#hostHistory .host-bill-card { background: var(--salary-panel); border: 0; border-radius: 18px; margin: 0 0 16px; padding: 18px; overflow: hidden; }
+#hostHistory .host-bill-heading { gap: 10px; align-items: flex-start; margin-bottom: 16px; }
+#hostHistory .host-bill-period { font-size: 15px; line-height: 1.5; }
+#hostHistory .host-bill-status { color: #ffdf59; font-size: 12px; line-height: 1.5; font-weight: 600; }
+#hostHistory .host-bill-grid { gap: 8px; margin: 0 0 16px; }
+#hostHistory .host-bill-cell { min-width: 0; min-height: 82px; display: flex; flex-direction: column; justify-content: flex-start; padding: 12px; border-radius: 12px; background: var(--salary-metric); }
+#hostHistory .host-bill-cell > div { color: #fff; font-size: 20px; line-height: 1.4; font-weight: 600; font-variant-numeric: tabular-nums; }
+#hostHistory .host-bill-cell small { margin-top: auto; padding-top: 7px; color: var(--salary-muted); font-size: 12px; line-height: 1.5; }
+#hostHistory .host-original-salary,
+#hostHistory .host-bill-adjustment { margin: 0; padding: 7px 0; font-size: 13px; line-height: 1.6; color: var(--salary-muted); }
+#hostHistory .host-adjust-value { color: #ff604c; }
+#hostHistory .host-adjust-positive { color: #38cf70; }
+#hostHistory .host-adjust-reason { margin: 6px 0; padding: 12px; border-radius: 9px; background: #21172f; color: var(--salary-muted); }
+#hostHistory .host-bill-total { margin: 16px 0; padding: 16px 0 0; border-top: 1px solid var(--salary-line); display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; }
+#hostHistory .host-bill-total b { font-size: 14px; line-height: 1.5; font-weight: 400; }
+#hostHistory .host-bill-total strong { font-size: 28px; line-height: 1.35; font-weight: 600; color: #ffe500; }
+#hostHistory .host-bill-working { margin: 0 0 16px; padding: 12px; border-radius: 12px; background: var(--salary-metric); font-size: 13px; line-height: 1.5; }
+#hostHistory .host-time-result { color: #ff604c; }
+#hostHistory .host-time-met .host-time-result { color: #38cf70; }
+#hostHistory .host-bill-grid:last-child { margin-bottom: 0; }
+#hostHistory .host-bill-grid:last-child .host-bill-cell { min-height: 62px; }
+#hostHistory .host-bill-grid:last-child .host-bill-cell > div { font-size: 13px; }
+@media (max-width: 360px) {
+  #hostHistory .host-bill-card { padding: 16px 14px; }
+  #hostHistory .host-bill-cell > div { font-size: 18px; }
+  #hostHistory .host-bill-total { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  #hostHistory .host-bill-total strong { font-size: 24px; text-align: right; }
+}
+</style>
+</head>
+<body data-payment-role="host">
+<details class="host-preview-controls"><summary>Preview controls</summary>  <!-- Demo-only controls outside the rules sheet, never shipped in the actual Host Center. -->
+  <div class="salary-demo-controls" aria-label="Demo Preview Controls">
+    <div class="salary-demo-section">
+      <div class="salary-demo-title">DEMO · Working Time</div>
+      <div class="salary-demo-switch" id="salaryDemoSwitch">
+        <button type="button" data-demo-state="incomplete" class="selected" aria-pressed="true" onclick="setSalaryDemoState('incomplete')">Incomplete · 70%</button>
+        <button type="button" data-demo-state="completed" aria-pressed="false" onclick="setSalaryDemoState('completed')">Completed · 100%</button>
+        <button type="button" data-demo-state="exempt" aria-pressed="false" onclick="setSalaryDemoState('exempt')">Lv10+ · 100%</button>
+      </div>
+    </div>
+    <div class="salary-demo-section">
+      <div class="salary-demo-title">DEMO · Last Period Settlement</div>
+      <div class="salary-demo-switch" id="salarySettlementDemoSwitch">
+        <button type="button" data-settlement-state="settled" class="selected" aria-pressed="true" onclick="setLastSettlementDemoState('settled')">Settled</button>
+        <button type="button" data-settlement-state="pending" aria-pressed="false" onclick="setLastSettlementDemoState('pending')">Pending</button>
+        <button type="button" data-settlement-state="none" aria-pressed="false" onclick="setLastSettlementDemoState('none')">No Record</button>
+      </div>
+    </div>
+  </div>
+
+</details>
+<div class="phone">
+
+  <header class="topbar">
+    <button class="icon-btn" aria-label="Back">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <h1>Host Center</h1>
+    <span></span>
+  </header>
+
+  <section class="host-card">
+    <div class="identity">
+      <div class="avatar">AL</div>
+      <div class="identity-main">
+        <div class="name-row">
+          <div class="name">Alicia Moon</div>
+          <span class="role-badge">HOST</span>
+        </div>
+        <div class="id">ID: 88888888</div>
+      </div>
+      <button class="wa" aria-label="WhatsApp" onclick="alert('Open WhatsApp')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M20.5 11.8a8.3 8.3 0 0 1-12.3 7.3L4 20.2l1.1-4A8.3 8.3 0 1 1 20.5 11.8Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M9 8.3c.2-.5.5-.5.8-.5h.4c.1 0 .3 0 .4.3l.8 1.9c.1.3.1.5 0 .7l-.6.8c-.2.2-.2.4-.1.6.4.8 1 1.5 1.8 2 .3.2.5.2.7 0l.8-.9c.2-.2.4-.3.7-.1l1.8.8c.3.1.5.3.5.5 0 .2-.1 1.2-.7 1.7-.5.5-1.2.8-2 .7-1.1-.1-2.5-.6-4-1.9-1.8-1.5-2.8-3.5-3-4.5-.2-.9 0-1.6.5-2.1Z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <div class="section-label agency-label">My Agency</div>
+  <section class="agency-card" onclick="openAgency()">
+    <div class="agency-avatar">AM</div>
+    <div class="agency-info">
+      <div class="agency-title">Aurora Media</div>
+      <div class="agency-id">ID: 66666666</div>
+    </div>
+    <div class="chev">›</div>
+  </section>
+
+  <!-- v26: horizontal formula, curved upward salary-growth arrow; dates between tabs and cards -->
+  <section class="salary-card" aria-label="My Salary">
+    <div class="salary-header">
+      <h2>My Salary</h2>
+      <button class="salary-help" type="button" onclick="openSalaryRules()" aria-label="Salary Rules">?</button>
+    </div>
+    <div class="salary-tabs" role="tablist" aria-label="Salary Period">
+      <button class="salary-tab active" id="salaryTabCurrent" role="tab" aria-controls="salaryCurrentPanel" aria-selected="true" onclick="switchSalaryTab('current')">Current Period</button>
+      <button class="salary-tab" id="salaryTabLast" role="tab" aria-controls="salaryLastPanel" aria-selected="false" onclick="switchSalaryTab('last')">Last Period</button>
+    </div>
+    <div class="salary-panel" id="salaryCurrentPanel" role="tabpanel" aria-labelledby="salaryTabCurrent">
+      <div class="salary-period formula-period">2026-09-14 00:00:00 ~ 2026-09-20 23:59:59 (UTC+5)</div>
+      <div class="salary-formula" aria-label="Estimated Salary equals Target Salary plus Diamond Salary">
+        <div class="formula-card formula-total">
+          <span class="formula-label">Estimated<br>Salary</span>
+          <strong class="formula-amount formula-main-amount" id="salaryEstimatedTotal">$84.04</strong>
+        </div>
+        <span class="formula-operator" aria-hidden="true">=</span>
+        <div class="formula-card formula-target">
+          <span class="formula-label">Target Salary</span>
+          <div class="target-compare" id="salaryTargetCompare">
+            <div class="target-side target-side-current">
+              <span class="target-percent">70%</span>
+              <strong class="target-amount" id="salaryTargetAmount">$84.00</strong>
+            </div>
+            <span class="target-divider" aria-hidden="true"><svg class="target-up-arrow" viewBox="0 0 44 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 30 C15 34 25 23 32 9" stroke="white" stroke-width="5.5" stroke-linecap="round"/><path d="M21 11 L34 5 L38 19" stroke="white" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="target-side target-side-goal">
+              <span class="target-percent">100%</span>
+              <strong class="target-amount" id="salaryFullTargetAmount">$120.00</strong>
+            </div>
+          </div>
+          <div class="target-solo" id="salaryTargetSolo" hidden>
+            <strong class="target-solo-amount" id="salaryTargetSoloAmount">$120.00</strong>
+            <span class="target-solo-percent">100%</span>
+          </div>
+        </div>
+        <span class="formula-operator" aria-hidden="true">+</span>
+        <div class="formula-card formula-diamond">
+          <span class="formula-label">Diamond<br>Salary</span>
+          <strong class="formula-amount" id="salaryDiamondAmount">$0.04</strong>
+        </div>
+      </div>
+    </div>
+    <div class="salary-panel" id="salaryLastPanel" role="tabpanel" aria-labelledby="salaryTabLast" hidden>
+      <div class="salary-period formula-period" id="salaryLastPeriod">2026-09-07 00:00:00 ~ 2026-09-13 23:59:59 (UTC+5)</div>
+      <div id="salaryLastSettled" class="salary-settled">
+        <div class="salary-formula salary-last-formula has-adjustment" id="salaryLastFormula" aria-label="Final Salary equals Target Salary plus Diamond Salary minus Adjustment">
+          <div class="formula-card formula-total">
+            <span class="formula-label">Final<br>Salary</span>
+            <strong class="formula-amount formula-main-amount" id="salaryLastTotal">$124.50</strong>
+          </div>
+          <span class="formula-operator" aria-hidden="true">=</span>
+          <div class="formula-card formula-last-target">
+            <span class="formula-label">Target<br>Salary</span>
+            <strong class="formula-amount" id="salaryLastTarget">$120.00</strong>
+          </div>
+          <span class="formula-operator" aria-hidden="true">+</span>
+          <div class="formula-card formula-diamond">
+            <span class="formula-label">Diamond<br>Salary</span>
+            <strong class="formula-amount" id="salaryLastDiamond">$6.50</strong>
+          </div>
+          <span class="formula-operator salary-last-extra" id="salaryLastAdjustmentOperator" aria-hidden="true">−</span>
+          <div class="formula-card formula-adjustment-card salary-last-extra" id="salaryLastAdjustmentCard">
+            <span class="formula-label">Adjustment</span>
+            <strong class="formula-amount" id="salaryLastAdjustment">$2.00</strong>
+          </div>
+        </div>
+      </div>
+      <div class="salary-empty" id="salaryLastEmpty" hidden>Pending Settlement</div>
+    </div>
+  </section>
+
+  <div class="section-label">My Data</div>
+  <section class="data-block">
+    <div class="tabs">
+      <button class="tab active" data-tab="period" onclick="switchTab('period')">Current Period</button>
+      <button class="tab" data-tab="daily" onclick="switchTab('daily')">Daily</button>
+    </div>
+
+    <div class="period-info" id="periodInfo">
+      <div id="periodRange">2026-09-14 00:00:00 ~ 2026-09-20 23:59:59 <span class="tz">(UTC+5)</span></div>
+      <div class="period-update">Updated at: <span id="updateTime">11:00</span></div>
+    </div>
+
+    <div id="dateRow" class="date-row">
+      <button class="role-date-row" onclick="openDailyCalendar()">
+        <span class="role-date-label">Date</span>
+        <span class="role-date-value" id="selectedDateLabel">2026-09-18</span>
+        <span class="role-date-chevron">›</span>
+      </button>
+    </div>
+
+
+    <div id="levelCard" class="level-card">
+      <div class="level-emblem">LV6</div>
+      <div class="level-track"><span></span></div>
+      <div class="level-upgrade"><strong>760,000 Coins</strong> left to LV7</div>
+    </div>
+
+    <div class="grid">
+      <article class="metric">
+        <div>
+          <div class="metric-top">
+            <button class="qmark" onclick="openCoinsRules()">?</button>
+          </div>
+          <div class="value" id="coinsValue">3,230,000</div>
+          <div class="label" id="coinsLabel">Coins</div>
+        </div>
+        
+      </article>
+
+      <article class="metric">
+        <div>
+          
+          <div class="value" id="diamondValue">969</div>
+          <div class="label" id="diamondLabel">Available Diamonds</div>
+          <div class="diamond-note" id="diamondNote">(Received − Exchanged)</div>
+        </div>
+      </article>
+
+      <article class="metric">
+        <div>
+          <div class="metric-top">
+            <button class="qmark" onclick="openRules()">?</button>
+          </div>
+          <div class="value small" id="daysValue">3 / 4</div>
+          <div class="label" id="daysLabel">Valid Days</div>
+        </div>
+        
+      </article>
+
+      <article class="metric">
+        <div>
+          <div class="metric-top">
+            <button class="qmark" onclick="openMicRules()">?</button>
+          </div>
+          <div class="value small" id="micValue">8h 32m / 10h</div>
+          <div class="label" id="micLabel">Up-mic Time</div>
+        </div>
+        
+      </article>
+    </div>
+  </section>
+
+<div class="section-label">Tools</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px"><button onclick="openHostSalaryBills()" style="border:0;border-radius:22px;background:#30223f;color:#fff;padding:18px 5px;display:grid;justify-items:center;gap:14px"><span style="font-size:34px;color:#b798ff" aria-hidden="true">$</span><span style="font-size:12px">Salary Bill</span></button></div>
+</div>
+
+
+<div class="calendar-overlay" id="dailyCalendarOverlay" onclick="closeDailyCalendarBackdrop(event)">
+  <div class="calendar-panel" onclick="event.stopPropagation()">
+    <div class="calendar-weekbar">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+    <div class="calendar-scroll" id="dailyCalendarScroll">
+      <div id="dailyCalendarMonths"></div>
+    </div>
+    <div class="calendar-actions">
+      <button class="calendar-cancel" onclick="closeDailyCalendar()">Cancel</button>
+      <button class="calendar-confirm" onclick="confirmDailyCalendar()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Agency Sheet -->
+<div class="overlay" id="agencyOverlay" onclick="closeOnBackdrop(event,'agencyOverlay')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">Agency Information</h3>
+    <div class="sheet-card">
+      <div class="agency-avatar">AM</div>
+      <div class="sheet-info">
+        <div class="sheet-name">Aurora Media</div>
+        <div class="sheet-meta">ID: 66666666</div>
+        <div class="sheet-meta">WhatsApp: +65 8888 6666</div>
+      </div>
+    </div>
+    <button class="primary whatsapp-primary" onclick="alert('Open WhatsApp')">Contact via WhatsApp</button>
+    
+  </div>
+</div>
+
+
+<!-- Salary Rules (production-facing text only) -->
+<div class="overlay" id="salaryRulesOverlay" onclick="closeOnBackdrop(event,'salaryRulesOverlay')">
+  <div class="sheet salary-rule-sheet" role="dialog" aria-modal="true" aria-labelledby="salaryRulesTitle">
+    <div class="handle"></div>
+    <div class="salary-rule-heading">
+      <h3 class="sheet-title" id="salaryRulesTitle">Salary Rules</h3>
+      <button class="salary-rule-close" type="button" aria-label="Close salary rules" onclick="closeModal('salaryRulesOverlay')">×</button>
+    </div>
+    <div class="sheet-text">
+      Estimated Salary = <b style="color:#fff">Target Salary + Diamond Salary</b>.<br><br>
+      Lv1–Lv9: Target Salary is calculated at <b style="color:#fff">70%</b> until both 4 Valid Days and 10 Valid Working Hours are completed; then it is calculated at <b style="color:#fff">100%</b> for the period.<br><br>
+      Lv10+ is exempt from Working Time requirements and receives 100% Target Salary. Diamond Salary is not reduced by Working Time and is converted at <b style="color:#fff">25,000 Diamonds = $1</b>.<br><br>
+      The 100% amount uses the current period's data and may change. Estimated Salary is not the final settlement. Last Period uses the settled Final Salary, including adjustments where applicable.
+    </div>
+
+  </div>
+</div>
+
+<!-- Coins Rules Sheet -->
+<div class="overlay" id="coinsRulesOverlay" onclick="closeOnBackdrop(event,'coinsRulesOverlay')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">Coins</h3>
+    <div class="sheet-text">
+      Lucky Gift Coins are counted at <b style="color:#fff">10%</b>.
+    </div>
+    <button class="primary" onclick="closeModal('coinsRulesOverlay')">Got it</button>
+  </div>
+</div>
+
+
+<!-- Mic Rules Sheet -->
+<div class="overlay" id="micRulesOverlay" onclick="closeOnBackdrop(event,'micRulesOverlay')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">Up-mic Time</h3>
+    <div class="sheet-text">
+      Only time when the host is <b style="color:#fff">on mic with the microphone turned on</b> is counted.
+    </div>
+    <button class="primary" onclick="closeModal('micRulesOverlay')">Got it</button>
+  </div>
+</div>
+
+<!-- Rules Sheet -->
+<div class="overlay" id="rulesOverlay" onclick="closeOnBackdrop(event,'rulesOverlay')">
+  <div class="sheet">
+    <div class="handle"></div>
+    <h3 class="sheet-title">Valid Days</h3>
+    <div class="sheet-text">
+      At least <b style="color:#fff">2 hours of valid up-mic time</b> in one day counts as <b style="color:#fff">1 Valid Day</b>.<br><br>
+      For Lv1–Lv9, the current period target is <b style="color:#fff">4 Valid Days + 10 Valid Working Hours</b>.
+    </div>
+    <button class="primary" onclick="closeModal('rulesOverlay')">Got it</button>
+  </div>
+</div>
+
+<script>
+// Demonstration only; production must fetch the correct Target Salary tier,
+// working-time totals, salary-eligible Diamonds, and settled final bill.
+const salaryPreviewData = { level:6, targetSalaryUSD:120, validDays:3, validHours:8+32/60, salaryDiamonds:969 };
+const lastSalaryData = {
+  status:'settled', // settled | pending | none
+  finalSalaryUSD:124.50, targetSalaryUSD:120, diamondSalaryUSD:6.50,
+  adjustmentUSD:-2.00
+};
+const salaryUSD=n=>'$'+n.toFixed(2);
+function updateSalaryPreview(d=salaryPreviewData){
+  const met=d.level>=10 || (d.validDays>=4 && d.validHours>=10);
+  const targetFull=d.targetSalaryUSD;
+  const targetCurrent=targetFull*(met?1:.7);
+  const diamond=d.salaryDiamonds/25000;
+  document.getElementById('salaryEstimatedTotal').textContent=salaryUSD(targetCurrent+diamond);
+  document.getElementById('salaryTargetAmount').textContent=salaryUSD(targetCurrent);
+  document.getElementById('salaryFullTargetAmount').textContent=salaryUSD(targetFull);
+  document.getElementById('salaryTargetSoloAmount').textContent=salaryUSD(targetCurrent);
+  document.getElementById('salaryDiamondAmount').textContent=salaryUSD(diamond);
+  document.getElementById('salaryTargetCompare').hidden=met;
+  document.getElementById('salaryTargetSolo').hidden=!met;
+}
+function renderLastSalary(d=lastSalaryData){
+  const settled=d.status==='settled';
+  document.getElementById('salaryLastSettled').hidden=!settled;
+  const empty=document.getElementById('salaryLastEmpty');
+  empty.hidden=settled;
+  if(!settled){empty.textContent=d.status==='none'?'No Settlement Record':'Pending Settlement';return;}
+  document.getElementById('salaryLastTotal').textContent=salaryUSD(d.finalSalaryUSD);
+  document.getElementById('salaryLastTarget').textContent=salaryUSD(d.targetSalaryUSD);
+  document.getElementById('salaryLastDiamond').textContent=salaryUSD(d.diamondSalaryUSD);
+  const hasAdjustment=Math.abs(d.adjustmentUSD)>0.00001;
+  const formula=document.getElementById('salaryLastFormula');
+  const operator=document.getElementById('salaryLastAdjustmentOperator');
+  formula.classList.toggle('has-adjustment',hasAdjustment);
+  operator.hidden=!hasAdjustment;
+  document.getElementById('salaryLastAdjustmentCard').hidden=!hasAdjustment;
+  operator.textContent=d.adjustmentUSD<0?'−':'+';
+  document.getElementById('salaryLastAdjustment').textContent=salaryUSD(Math.abs(d.adjustmentUSD));
+  formula.setAttribute('aria-label','Final Salary equals Target Salary plus Diamond Salary'+(hasAdjustment?(d.adjustmentUSD<0?' minus ':' plus ')+'Adjustment':''));
+  formula.scrollLeft=0;
+}
+function switchSalaryTab(tab){
+  const current=tab==='current';
+  document.getElementById('salaryCurrentPanel').hidden=!current;
+  document.getElementById('salaryLastPanel').hidden=current;
+  if(!current) document.getElementById('salaryLastFormula').scrollLeft=0;
+  for(const [id,selected] of [['salaryTabCurrent',current],['salaryTabLast',!current]]){
+    const button=document.getElementById(id);
+    button.classList.toggle('active',selected);
+    button.setAttribute('aria-selected',String(selected));
+  }
+}
+function openSalaryRules(){document.getElementById('salaryRulesOverlay').classList.add('show')}
+function setSalaryDemoState(state){
+  if(state==='completed') Object.assign(salaryPreviewData,{level:6,validDays:4,validHours:10});
+  else if(state==='exempt') Object.assign(salaryPreviewData,{level:10,validDays:0,validHours:0});
+  else Object.assign(salaryPreviewData,{level:6,validDays:3,validHours:8+32/60});
+  document.querySelectorAll('[data-demo-state]').forEach(b=>{
+    const selected=b.dataset.demoState===state;
+    b.classList.toggle('selected',selected);
+    b.setAttribute('aria-pressed',String(selected));
+  });
+  updateSalaryPreview();
+  switchSalaryTab('current');
+}
+function setLastSettlementDemoState(state){
+  if(!['settled','pending','none'].includes(state))return;
+  lastSalaryData.status=state;
+  document.querySelectorAll('[data-settlement-state]').forEach(button=>{
+    const selected=button.dataset.settlementState===state;
+    button.classList.toggle('selected',selected);
+    button.setAttribute('aria-pressed',String(selected));
+  });
+  renderLastSalary();
+  switchSalaryTab('last');
+}
+document.addEventListener('DOMContentLoaded',()=>{updateSalaryPreview();renderLastSalary()});
+const data = {
+  period:{
+    coins:'3,230,000',
+    coinsLabel:'Coins',
+    diamond:'969',
+    diamondLabel:'Available Diamonds',
+    diamondNote:'(Received − Exchanged)',
+    days:'3 / 4',
+    daysLabel:'Valid Days',
+    mic:'8h 32m / 10h',
+    micLabel:'Up-mic Time'
+  },
+  daily:{
+    coins:'620,000',
+    coinsLabel:'Coins',
+    diamond:'186',
+    diamondLabel:'Available Diamonds',
+    diamondNote:'(Received − Exchanged)',
+    days:'Not Valid',
+    daysLabel:'Valid Day',
+    mic:'1h 26m',
+    micLabel:'Up-mic Time'
+  }
+};
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===tab));
+  const d=data[tab];
+  coinsValue.textContent=d.coins;
+  coinsLabel.textContent=d.coinsLabel;
+  diamondValue.textContent=d.diamond;
+  diamondLabel.textContent=d.diamondLabel;
+  diamondNote.textContent=d.diamondNote;
+  daysValue.textContent=d.days;
+  daysLabel.textContent=d.daysLabel;
+  micValue.textContent=d.mic;
+  micLabel.textContent=d.micLabel;
+  document.getElementById('dateRow').classList.toggle('show',tab==='daily');
+  document.getElementById('levelCard').classList.toggle('hidden',tab==='daily');
+  daysValue.classList.toggle('status-invalid',tab==='daily' && d.days==='Not Valid');
+  if(tab==='daily'){
+    renderDailyDate();
+  }else{
+    periodRange.innerHTML = `2026-09-14 00:00:00 ~ 2026-09-20 23:59:59 <span class="tz">(UTC+5)</span>`;
+  }
+}
+
+const dailyDates = [
+  {date:'Sep 15, 2026', coins:'420,000', diamond:'118', diamondNote:'(Received − Exchanged)', days:'Valid', mic:'2h 18m'},
+  {date:'Sep 16, 2026', coins:'760,000', diamond:'228', diamondNote:'(Received − Exchanged)', days:'Valid', mic:'2h 42m'},
+  {date:'Sep 17, 2026', coins:'510,000', diamond:'153', diamondNote:'(Received − Exchanged)', days:'Not Valid', mic:'1h 36m'},
+  {date:'Sep 18, 2026', coins:'620,000', diamond:'186', diamondNote:'(Received − Exchanged)', days:'Not Valid', mic:'1h 26m'}
+];
+let dailyIndex = dailyDates.length - 1;
+
+function renderDailyDate(){
+  const item = dailyDates[dailyIndex];
+  selectedDateLabel.textContent = formatIsoDate(item.date);
+  coinsValue.textContent = item.coins;
+  diamondValue.textContent = item.diamond;
+  diamondNote.textContent = item.diamondNote;
+  daysValue.textContent = item.days;
+  micValue.textContent = item.mic;
+  daysValue.classList.toggle('status-invalid', item.days === 'Not Valid');
+  const iso = formatIsoDate(item.date);
+  periodRange.innerHTML = `${iso} 00:00:00 ~ ${iso} 23:59:59 <span class="tz">(UTC+5)</span>`;
+}
+function changeDate(step){
+  const next = dailyIndex + step;
+  if(next < 0 || next >= dailyDates.length) return;
+  dailyIndex = next;
+  renderDailyDate();
+}
+
+
+
+let calendarPendingIndex = dailyIndex;
+
+function openDailyCalendar(){
+  calendarPendingIndex = dailyIndex;
+  renderDailyCalendar();
+  document.getElementById('dailyCalendarOverlay').classList.add('show');
+  setTimeout(scrollSelectedDateIntoView, 0);
+}
+function closeDailyCalendar(){
+  document.getElementById('dailyCalendarOverlay').classList.remove('show');
+}
+function closeDailyCalendarBackdrop(e){
+  if(e.target.id==='dailyCalendarOverlay') closeDailyCalendar();
+}
+function parseDailyDate(label){
+  return new Date(label.replace(',', ''));
+}
+function formatIsoDate(label){
+  const d=parseDailyDate(label);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function selectDailyCalendarDate(index){
+  calendarPendingIndex=index;
+  renderDailyCalendar();
+}
+function renderDailyCalendar(){
+  const allowed = new Map();
+  dailyDates.forEach((x,i)=>{
+    const d=parseDailyDate(x.date);
+    allowed.set(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,i);
+  });
+
+  const firstAllowed=parseDailyDate(dailyDates[0].date);
+  const lastAllowed=parseDailyDate(dailyDates[dailyDates.length-1].date);
+
+  const startMonth = new Date(firstAllowed.getFullYear(), firstAllowed.getMonth(), 1);
+  const endMonth = new Date(lastAllowed.getFullYear(), lastAllowed.getMonth(), 1);
+
+  let monthsHtml='';
+  let cursor=new Date(startMonth);
+
+  while(cursor<=endMonth){
+    const y=cursor.getFullYear();
+    const m=cursor.getMonth();
+    const monthName=cursor.toLocaleDateString('en-US',{year:'numeric',month:'numeric'}).replace('/','/');
+    const firstDay=new Date(y,m,1);
+    const daysInMonth=new Date(y,m+1,0).getDate();
+
+    let cells='';
+    for(let i=0;i<firstDay.getDay();i++) cells+='<span class="calendar-spacer"></span>';
+
+    for(let day=1;day<=daysInMonth;day++){
+      const key=`${y}-${m}-${day}`;
+      const idx=allowed.get(key);
+      const classes=['calendar-day'];
+      if(idx===undefined) classes.push('disabled');
+      if(idx===calendarPendingIndex) classes.push('selected');
+      const isToday=(y===2026 && m===8 && day===18);
+      if(isToday) classes.push('today');
+      cells += `<button class="${classes.join(' ')}" ${idx===undefined?'disabled':`data-calendar-index="${idx}" onclick="selectDailyCalendarDate(${idx})"`}>${day}</button>`;
+    }
+
+    monthsHtml += `
+      <section class="calendar-month">
+        <div class="calendar-month-title">${y}/${m+1}</div>
+        <div class="calendar-grid">${cells}</div>
+      </section>
+    `;
+    cursor=new Date(y,m+1,1);
+  }
+
+  document.getElementById('dailyCalendarMonths').innerHTML=monthsHtml;
+}
+function scrollSelectedDateIntoView(){
+  const selected=document.querySelector(`[data-calendar-index="${calendarPendingIndex}"]`);
+  if(selected) selected.scrollIntoView({block:'center',behavior:'instant'});
+}
+function confirmDailyCalendar(){
+  dailyIndex=calendarPendingIndex;
+  renderDailyDate();
+  closeDailyCalendar();
+}
+function openAgency(){document.getElementById('agencyOverlay').classList.add('show')}
+function openCoinsRules(){document.getElementById('coinsRulesOverlay').classList.add('show')}
+function openMicRules(){document.getElementById('micRulesOverlay').classList.add('show')}
+function openRules(){document.getElementById('rulesOverlay').classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function closeOnBackdrop(e,id){if(e.target.id===id)closeModal(id)}
+
+
+</script>
+<main id="hostHistory" hidden>
+  <header class="hostSalaryNav">
+    <button type="button" aria-label="Back to Host Center" onclick="closeHostSalaryBills()">‹</button>
+    <h1>Salary Bill</h1>
+  </header>
+  <div class="hostSalaryBody">
+<h2 class="hostSalarySectionTitle">Payment Method</h2>
+<button type="button" class="hostPaymentSummary" onclick="openPaymentMethodSheet()"><span id="salaryPaymentLogo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/></svg></span><span><b id="salaryPaymentMethodLabel">Agency</b><small id="salaryPaymentMethodHint"></small></span><span aria-hidden="true">›</span></button>
+    <p class="hostSalaryTimeNote">All times follow UTC+5.</p>
+    <div class="hostSalaryRecordsHead"><h2>Salary Records</h2><p>Settlement records</p></div>
+    <div id="historyCards"></div>
+  </div>
+</main><script>
+(()=>{
+const records=[
+{period:'2026-09-21 - 2026-09-27',coins:'1,638,500',diamonds:'409,500',target:21.21,diamond:16.38,host:37.59,adjustment:-2,adjustmentReason:'Deduction for a verified policy violation.',days:'0',hours:'0.00',status:'Agency Confirmed',payoutStatus:'Paid',payment:'Coin Trader Top-up',traderId:'9198',traderName:'user9198'},
+{period:'2026-09-07 - 2026-09-13',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:0,days:'4',hours:'10.00',status:'Agency Confirmed',payoutStatus:'Agency Confirmed',payment:'Coin Trader Top-up',traderId:'10833021',traderName:'Demo Trader'},
+{period:'2026-08-31 - 2026-09-06',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:0,days:'4',hours:'10.00',status:'Under review',payment:'-'},
+{period:'2026-08-24 - 2026-08-30',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:1,adjustmentReason:'Additional performance reward.',days:'4',hours:'10.00',agencyBill:{status:'Agency Confirmed',payoutStatus:'Agency Confirmed',method:'USDT'}},
+{period:'2026-08-17 - 2026-08-23',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:0,days:'4',hours:'10.00',agencyBill:{status:'Agency Confirmed',payoutStatus:'Paid',method:'USDT'}}];
+const escapeBillText=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>'$'+n.toFixed(2);
+const cell=(value,label,wide=false)=>`<div class="host-bill-cell" ${wide?'style="grid-column:1/-1"':''}><div>${value}</div><small>${label}</small></div>`;
+function recordStatus(record) {
+  const review = record.agencyBill?.status || record.status;
+  if (review === 'Under review') return review;
+  return record.agencyBill?.payoutStatus || record.payoutStatus || review;
+}
+window.renderHostSalaryRecords = function () {
+document.getElementById('historyCards').innerHTML=records.map(record => {
+  if (recordStatus(record) !== 'Under review') return record;
+  const account = window.payoutUI?.selectedAccount();
+  if (!account) return {...record, payment: 'Paid via Agency'};
+  return {...record, payment: account.method === 'Agency' ? 'Paid via Agency' : account.method, receivingAccount: account.payee};
+}).filter(r=>r.published!==false&&!['Rejected','Agency Rejected'].includes(r.agencyBill?.status||r.status)).map(r=>`<article class="host-bill-card"><div class="host-bill-heading"><b class="host-bill-period">${r.period}</b><span class="host-bill-status">${recordStatus(r)}</span></div><div class="host-bill-grid">${cell(r.coins,'Total Coins')}${cell(r.diamonds,'Salary Diamonds')}${cell(money(r.target),'Target Salary')}${cell(money(r.diamond),'Diamond Salary')}${cell(money(r.host),'Host Salary',true)}${cell(r.days,'Valid Days')}${cell(r.hours,'Valid Hours')}</div>${r.adjustment?`<div class="host-original-salary"><span>Original Salary</span><span>${money(r.host)}</span></div><details class="host-bill-adjustment"><summary><span>Adjustment</span><span class="host-adjust-value ${r.adjustment>0?'host-adjust-positive':''}">${r.adjustment<0?'−':'+'}${money(Math.abs(r.adjustment))}</span></summary><div class="host-adjust-reason">${escapeBillText(r.adjustmentReason)}</div></details>`:''}<div class="host-bill-total"><b>Settlement Amount</b><strong>${money(r.host+r.adjustment)}</strong></div><div class="host-bill-working ${r.days==='0'?'':'host-time-met'}"><span class="host-time-label">Working Time</span><span class="host-time-result"><span aria-hidden="true">${r.days==='0'?'✕':'✓'}</span> ${r.days==='0'?'Not Met':'Achieved'}</span></div><div class="host-bill-grid">${cell(r.agencyBill?'Paid via Agency':r.payment,'Payment')}${cell(r.payment==='Coin Trader Top-up'?'Coins':'-','Currency')}${r.receivingAccount?cell(escapeBillText(r.receivingAccount),r.payment==='Coin Trader Top-up'?'Coin Trader ID':'Agency',true):r.traderId?cell(escapeBillText(r.traderName)+' · ID '+escapeBillText(r.traderId),'Coin Trader ID',true):''}</div></article>`).join('');
+};
+window.renderHostSalaryRecords();
+})();
+</script>
+<div id="paymentMethodSheet"></div><div id="paymentInfoOverlay"></div><script>
+document.body.classList.add('salaryTheme');
+function openHostSalaryBills() {
+  document.getElementById('hostHistory').hidden = false;
+  document.querySelector('.phone').hidden = true;
+  document.body.classList.add('hostSalaryOpen');
+  document.querySelector('.hostSalaryNav button').focus();
+}
+function closeHostSalaryBills() {
+  document.getElementById('hostHistory').hidden = true;
+  document.querySelector('.phone').hidden = false;
+  document.body.classList.remove('hostSalaryOpen');
+  document.querySelector('button[onclick="openHostSalaryBills()"]').focus();
+}
+</script><script data-source="role-payment.js">
+/* Shared prototype UI. Account data and eligibility fixtures are local demo state only. */
+(() => {
+  const host = document.body.dataset.paymentRole === 'host';
+  const methods = host ? ['Agency', 'Coin Trader Top-up'] : ['USDT', 'Bank card or e-wallet', 'Coins', 'EPAY', 'Coin Trader Top-up'];
+  const accounts = new Map();
+  const management = !!document.getElementById('root');
+  const uid = () => host ? '88888888' : management ? String(demoConfig().id) : '10032846';
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const profiles = () => {
+    if (!accounts.has(uid())) accounts.set(uid(), {
+      Agency:{configured:true,preferred:host,name:'Aurora Media',agencyId:'66666666'},
+      USDT:{configured:true,preferred:!host,address:'TQ8Lw9p2xD7k3mN6cR4vB1zA5sF9hJ2uXq',network:'TRC20'},
+      'Bank card or e-wallet':{configured:false,preferred:false,country:'India',currency:'INR',type:'',code:'',account:'',name:'',phone:'',home:'',email:'',swift:''},
+      EPAY:{configured:false,preferred:false,email:''},
+      'Coin Trader Top-up':{configured:false,preferred:false,traderId:''}
+    });
+    return accounts.get(uid());
+  };
+  const guidance = 'The platform recommends USDT as the preferred payment method. If you choose bank transfer, all incurred handling fees shall be borne by the recipient. If both payment methods are submitted, payout will be prioritized via USDT.';
+  let editing = null, draft = null, verifiedId = '', returnFocus = null;
+  const notice = () => {
+    const message = 'If total salary for the previous week is below $5, the platform will pay it in Coins at 1 USD = 20,000 Coins.';
+    return `<div class="salaryNotice" tabindex="0" aria-label="${message}"><span class="salaryNoticeIcon" aria-hidden="true">!</span><div class="salaryNoticeWindow" aria-hidden="true"><div class="salaryNoticeTrack"><span>${message}</span><span>${message}</span></div></div></div>`;
+  };
+  const sheet = document.getElementById('paymentMethodSheet');
+  sheet.innerHTML = '<section class="onlinePaymentPanel" role="dialog" aria-modal="true" aria-labelledby="onlinePaymentTitle"><header class="onlinePaymentHeader"><h2 id="onlinePaymentTitle">Payment methods</h2><p>' + (host ? 'Choose how to receive your salary' : 'Star one to prioritize it for payout') + '</p></header><div id="paymentMethodList" class="onlineMethodList"></div></section>';
+  sheet.onclick = e => { if (e.target === sheet) hidePaymentMethodSheet(); };
+  const editor = document.getElementById('paymentInfoOverlay');
+  editor.innerHTML = '<section class="onlinePaymentPage" role="dialog" aria-modal="true" aria-labelledby="onlineEditorTitle"><header class="onlinePaymentNav"><button type="button" class="onlinePaymentBack" aria-label="Back to payment methods" onclick="hidePaymentInfo()">‹</button><h2 id="onlineEditorTitle"></h2></header><form id="onlinePaymentForm" class="onlinePaymentBody" novalidate></form><footer class="onlinePaymentActions"><button type="button" onclick="hidePaymentInfo()">Cancel</button><button type="submit" form="onlinePaymentForm" class="onlineSave">Save</button></footer></section>';
+  editor.onclick = null;
+  const icon = method => method === 'Agency' ? '<span class="onlineMethodIcon agency"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/></svg></span>' : method === 'USDT' ? '<span class="onlineMethodIcon">₮</span>' : method === 'Coins' ? '<span class="onlineMethodIcon coins">★</span>' : method === 'EPAY' ? '<span class="onlineMethodIcon epay">EPay</span>' : method === 'Coin Trader Top-up' ? '<span class="onlineMethodIcon trader">💰</span>' : '<span class="onlineMethodIcon bank">▤</span>';
+  const summary = (method,p) => method === 'Agency' ? `${p.name} · ID ${p.agencyId}` : !p.configured ? 'Not set · Tap to complete' : method === 'USDT' ? `TRC20 · ${p.address.slice(0,5)}••••${p.address.slice(-4)}` : method === 'EPAY' ? p.email : method === 'Coin Trader Top-up' ? `ID ${p.traderId}` : `${p.code} · ••••${p.account.slice(-4)}`;
+  preferredPaymentMethod = () => methods.find(m => profiles()[m]?.configured && profiles()[m].preferred) || null;
+  renderPaymentMethodList = () => {
+    document.getElementById('paymentMethodList').innerHTML = methods.map((method, index) => {
+      if (method === 'Coins') {
+        return `<div class="onlineMethod">${icon(method)}<div class="onlineMethodStatic"><b>Coins</b><small>ID ${esc(uid())}</small></div></div>`;
+      }
+      const profile = profiles()[method];
+      const isAgency = host && method === 'Agency';
+      const selectedLabel = host ? 'Selected' : 'Preferred';
+      const actionLabel = host
+        ? `Select ${method}`
+        : `${profile.preferred ? 'Remove preferred' : 'Set preferred'} ${method}`;
+      const mainAction = isAgency ? `payoutUI.star(${index})` : `payoutUI.edit(${index})`;
+      return `<div class="onlineMethod">
+        ${icon(method)}
+        <button type="button" class="onlineMethodMain" onclick="${mainAction}">
+          <span class="onlineMethodName">${method}${profile.preferred ? `<span class="onlinePreferred">${selectedLabel}</span>` : ''}</span>
+          <small class="${profile.configured ? '' : 'unset'}">${esc(summary(method, profile))}</small>
+        </button>
+        <button type="button" class="onlineStar ${profile.preferred ? 'on' : ''}"
+          aria-label="${actionLabel}" aria-pressed="${!!profile.preferred}"
+          ${profile.configured ? '' : 'disabled'} onclick="payoutUI.star(${index})">${profile.preferred ? '★' : '☆'}</button>
+        ${isAgency ? '' : '<span class="onlineChevron" aria-hidden="true">›</span>'}
+      </div>`;
+    }).join('');
+  };
+  const refreshSummary = () => {
+    if (host) {
+      const method = preferredPaymentMethod();
+      document.getElementById('salaryPaymentMethodLabel').textContent = method === 'Agency' ? 'Agency' : 'Coin Trader Top-up';
+      document.getElementById('salaryPaymentMethodHint').textContent = method === 'Agency' ? `${profiles().Agency.name} · ID ${profiles().Agency.agencyId}` : `Coin Trader ID ${profiles()['Coin Trader Top-up'].traderId}`;
+      document.getElementById('salaryPaymentLogo').innerHTML = icon(method);
+      window.renderHostSalaryRecords?.();
+      return;
+    }
+    if (management) { render(); return; }
+    const method = preferredPaymentMethod();
+    document.getElementById('salaryPaymentMethodLabel').textContent = method || 'No preferred method';
+    document.getElementById('salaryPaymentMethodHint').textContent = method ? 'Preferred payout method · Tap to manage' : 'Tap to star a configured method';
+    document.getElementById('salaryPaymentLogo').innerHTML = method === 'USDT' ? '₮' : '$';
+    renderSalaryRecords();
+  };
+  if (!management) renderPaymentSummary = refreshSummary;
+  openPaymentMethodSheet = () => {returnFocus = document.activeElement;renderPaymentMethodList();sheet.classList.add('show');setBaseInert(true);sheet.querySelector('button')?.focus();};
+  hidePaymentMethodSheet = () => {sheet.classList.remove('show');if(!editor.classList.contains('show')){setBaseInert(false);(returnFocus?.isConnected ? returnFocus : document.querySelector(host ? '.hostPaymentSummary' : management?'.paymentMainRow':'#salary .paymentMainRow'))?.focus();}};
+  function setBaseInert(on) { const bases = host ? [document.querySelector('.phone'), document.getElementById('hostHistory')] : management ? [document.getElementById('root')] : document.querySelectorAll('.app > .top, .app > section.page'); bases.forEach(base => {if(base)base.inert=on;}); }
+  const field = (key,label,placeholder='',readonly=false,type='text') => `<label class="onlineField"><span>${label}:</span><input aria-label="${label}:" aria-describedby="payout-error-${key}" name="${key}" value="${esc(draft[key]||'')}" placeholder="${esc(placeholder)}" ${readonly?'readonly':''} type="${type}"><small id="payout-error-${key}" class="onlineFieldError" data-error="${key}" aria-live="polite"></small></label>`;
+  const select = (key,label,options,placeholder,disabled=false) => `<label class="onlineField"><span>${label}:</span><select aria-label="${label}:" aria-describedby="payout-error-${key}" name="${key}" ${disabled?'disabled':''}><option value="">${placeholder}</option>${options.map(v=>`<option value="${esc(v)}" ${draft[key]===v?'selected':''}>${esc(v)}</option>`).join('')}</select><small id="payout-error-${key}" class="onlineFieldError" data-error="${key}" aria-live="polite"></small></label>`;
+  const countryCurrency = {India:'INR',Pakistan:'PKR',Singapore:'SGD'};
+  // Sample routing options only; these are not a production bank directory.
+  const bankCodes = () => draft.type === 'Bank card' ? ['Example Bank'] : draft.type === 'e-wallet' ? ['Example Wallet'] : [];
+  function drawFields() {
+    const form = document.getElementById('onlinePaymentForm');
+    let html = '';
+    if(editing === 'Coin Trader Top-up') {
+      html = '<div class="onlineTraderEntry">' + field('traderId','Coin Trader ID','Enter Coin Trader ID') + '<button type="button" id="onlineTraderConfirm" class="onlineTraderConfirm">Confirm</button></div>' + '<div id="onlineTraderResult" aria-live="polite"></div><section class="onlineTraderNote"><b>Note</b><ul><li>Salary paid via Coin Trader Top-up will be converted into Coins and credited to the selected Coin Trader Inventory.</li><li>Only eligible Coin Traders can be used for salary payout.</li><li>Coin Trader eligibility will be verified again before payout.</li></ul></section>';
+    } else {
+      html = field('method','Payment method','',true);
+      if(editing === 'USDT') html += field('network','Network','',true) + field('address','Address','Enter USDT address');
+      if(editing === 'EPAY') html += field('email','Email','Enter EPay email','', 'email');
+      if(editing === 'Bank card or e-wallet') html += select('country','Select Country/Region',Object.keys(countryCurrency),'Select Country/Region') + field('currency','Account Currency','',true) + select('type','Account Type',['Bank card','e-wallet'],'Select Account Type') + select('code','Bank/Wallet Code',bankCodes(),'Select Bank/Wallet Code',!draft.type) + field('account','Bank/Wallet Account','Enter bank account number') + field('name','Recipient Name','Enter the account holder name') + field('phone','Phone Number','Enter phone number',false,'tel') + field('swift','SWIFT Code','Enter SWIFT Code') + field('home','Home address','Enter home address') + field('email','Email','Enter email address',false,'email');
+      html += `<p class="onlinePaymentGuidance">${guidance}</p>`;
+    }
+    form.innerHTML = html;
+    form.oninput = e => {if(e.target.name){draft[e.target.name]=e.target.value;const err=form.querySelector(`[data-error="${e.target.name}"]`);if(err)err.textContent='';e.target.removeAttribute('aria-invalid');if(editing==='Coin Trader Top-up')resetTraderVerification();}};
+    form.onchange = e => {if(e.target.name==='country'){draft.currency=countryCurrency[draft.country]||'';draft.type='';draft.code='';drawFields();form.elements.country.focus();}else if(e.target.name==='type'){draft.code='';drawFields();form.elements.type.focus();}};
+    form.onsubmit = e => {e.preventDefault();savePaymentInfo();};
+    if (editing === 'Coin Trader Top-up') {
+      document.getElementById('onlineTraderConfirm').onclick = verifyTrader;
+      form.elements.traderId.onkeydown = e => {
+        if (e.key === 'Enter') { e.preventDefault(); verifyTrader(); }
+      };
+      resetTraderVerification();
+      if (draft.configured) verifyTrader();
+    } else editor.querySelector('.onlineSave').disabled = false;
+  }
+  function resetTraderVerification() {
+    verifiedId = '';
+    document.querySelector('.onlineTraderToast')?.remove();
+    document.getElementById('onlineTraderResult').innerHTML = '';
+    document.getElementById('onlineTraderConfirm').disabled = !draft.traderId.trim();
+    editor.querySelector('.onlineSave').disabled = true;
+  }
+  function verifyTrader() {
+    const id = draft.traderId.trim();
+    resetTraderVerification();
+    if (!id) return;
+    // Local fixtures preserve existing test IDs and add the supplied screenshot examples.
+    const traders = {
+      '9198': {name: 'user9198', type: 'Public Coin Trader', available: true},
+      '10833021': {name: 'Demo Trader', type: 'Public Coin Trader', available: true},
+      '10833022': {name: 'Demo Trader', type: 'Private Coin Trader', available: false}
+    };
+    const trader = traders[id];
+    if (!trader) {
+      const toast = document.createElement('div');
+      toast.className = 'onlineTraderToast';
+      toast.setAttribute('role', 'status');
+      toast.textContent = 'Invalid Coin Trader ID.';
+      editor.appendChild(toast);
+      setTimeout(() => toast.remove(), 2400);
+      return;
+    }
+    const availability = trader.available ? 'Available' : 'Unavailable';
+    document.getElementById('onlineTraderResult').innerHTML = `<section class="onlineTraderCard">
+      <header><span class="onlineTraderAvatar" aria-label="Trader avatar">${esc(trader.name.slice(0, 1).toUpperCase())}</span>
+        <b>${esc(trader.name)}</b><span class="onlineTraderAvailability ${trader.available ? '' : 'unavailable'}">● ${availability}</span></header>
+      <div class="onlineTraderDetail"><span>Coin Trader ID</span><b>${esc(id)}</b></div>
+      <div class="onlineTraderDetail"><span>Type</span><b>${esc(trader.type)}</b></div>
+    </section>`;
+    verifiedId = trader.available ? id : '';
+    editor.querySelector('.onlineSave').disabled = !verifiedId;
+  }
+  openPaymentInfo = m => {
+    if(!profiles()[m])return;
+    editing=m;draft={...profiles()[m],method:m==='EPAY'?'EPay':m};verifiedId='';
+    document.getElementById('onlineEditorTitle').textContent=m==='Coin Trader Top-up'?m:(draft.configured?'Edit ':'Set up ')+(m==='EPAY'?'EPay':m);
+    editor.classList.add('show');sheet.classList.remove('show');setBaseInert(true);drawFields();document.getElementById('onlinePaymentForm').scrollTop=0;editor.querySelector('.onlinePaymentBack').focus();
+  };
+  hidePaymentInfo = () => {editor.classList.remove('show');editing=null;draft=null;verifiedId='';renderPaymentMethodList();sheet.classList.add('show');sheet.querySelector('button')?.focus();};
+  savePaymentInfo = () => {
+    const form=document.getElementById('onlinePaymentForm');let invalid=[];
+    form.querySelectorAll('[data-error]').forEach(x=>x.textContent='');
+    const error=(key,message)=>{form.querySelector(`[data-error="${key}"]`).textContent=message;form.elements[key].setAttribute('aria-invalid','true');invalid.push(key);};
+    if(editing==='USDT'&&!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(draft.address.trim()))error('address','Enter a valid TRC20 address.');
+    if(editing==='EPAY'&&!/^\S+@\S+\.\S+$/.test(draft.email.trim()))error('email','Enter a valid email address.');
+    if(editing==='Bank card or e-wallet') {
+      for(const key of ['country','type','code','account','name'])if(!draft[key]?.trim())error(key,'Please complete this field.');
+      if(draft.email&&!/^\S+@\S+\.\S+$/.test(draft.email.trim()))error('email','Enter a valid email address.');
+    }
+    if(invalid.length){form.elements[invalid[0]].focus();return;}
+    if(editing==='Coin Trader Top-up'&&(!verifiedId||verifiedId!==draft.traderId.trim()))return;
+    Object.keys(draft).forEach(k=>{if(typeof draft[k]==='string')draft[k]=draft[k].trim();});
+    profiles()[editing]={...draft,configured:true};editor.classList.remove('show');editing=null;draft=null;refreshSummary();renderPaymentMethodList();sheet.classList.add('show');setBaseInert(true);sheet.querySelector('button')?.focus();
+  };
+  togglePreferredPayment = m => {const p=profiles()[m];if(!p?.configured)return;const on=host ? true : !p.preferred;Object.values(profiles()).forEach(x=>x.preferred=false);p.preferred=on;refreshSummary();renderPaymentMethodList();setBaseInert(true);sheet.querySelector(`[aria-label="${host ? 'Select' : p.preferred?'Remove preferred':'Set preferred'} ${m}"]`)?.focus();};
+  window.payoutUI = {selectedAccount:() => {
+    const method = preferredPaymentMethod();
+    if (!method) return null;
+    const profile = profiles()[method];
+    const payee = method === 'Agency' ? profile.name + ' · ID ' + profile.agencyId
+      : method === 'Coin Trader Top-up' ? 'ID ' + profile.traderId
+      : method === 'EPAY' ? profile.email
+      : method === 'Bank card or e-wallet' ? profile.code + ' · ' + profile.account
+      : profile.address;
+    return {method, payee, version: JSON.stringify(profile)};
+  }, edit:i=>openPaymentInfo(methods[i]),star:i=>togglePreferredPayment(methods[i])};
+  document.addEventListener('keydown',e=>{
+    const active=editor.classList.contains('show')?editor:sheet.classList.contains('show')?sheet:null;if(!active)return;
+    if(e.key==='Escape'){e.preventDefault();active===editor?hidePaymentInfo():hidePaymentMethodSheet();}
+    if(e.key==='Tab'){const els=[...active.querySelectorAll('button:not(:disabled),input,select:not(:disabled),[tabindex="0"]')];const first=els[0],last=els[els.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}
+  });
+  if(host){refreshSummary();}
+  else if(management){const oldSalary=renderSalary;renderSalary=()=>oldSalary().replace('<div class="salaryBillTabs"',notice()+'<div class="salaryBillTabs"').replace('Preferred payout method</small>','Preferred payout method · Tap to manage</small>').replace('Payment method not set</b>','No preferred method</b>').replace('Tap to complete payout information</small>','Tap to star a configured method</small>');render();}
+  else {document.querySelector('#salary .salaryRecordsHead').insertAdjacentHTML('afterend',notice());refreshSummary();}
+})();
+
+</script>
+</body>
+</html>
