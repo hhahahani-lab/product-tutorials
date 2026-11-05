@@ -1329,7 +1329,21 @@ document.getElementById('historyCards').innerHTML=records.map(record => {
   const account = window.payoutUI?.selectedAccount();
   if (!account) return {...record, payment: 'Paid via Agency'};
   return {...record, payment: account.method === 'Agency' ? 'Paid via Agency' : account.method, receivingAccount: account.payee};
-}).filter(r=>r.published!==false&&!['Rejected','Agency Rejected'].includes(r.agencyBill?.status||r.status)).map(r=>`<article class="host-bill-card"><div class="host-bill-heading"><b class="host-bill-period">${r.period}</b><span class="host-bill-status">${recordStatus(r)}</span></div><div class="host-bill-grid">${cell(r.coins,'Total Coins')}${cell(r.diamonds,'Salary Diamonds')}${cell(money(r.target),'Target Salary')}${cell(money(r.diamond),'Diamond Salary')}${cell(money(r.host),'Host Salary',true)}${cell(r.days,'Valid Days')}${cell(r.hours,'Valid Hours')}</div>${r.adjustment?`<div class="host-original-salary"><span>Original Salary</span><span>${money(r.host)}</span></div><details class="host-bill-adjustment"><summary><span>Adjustment</span><span class="host-adjust-value ${r.adjustment>0?'host-adjust-positive':''}">${r.adjustment<0?'−':'+'}${money(Math.abs(r.adjustment))}</span></summary><div class="host-adjust-reason">${escapeBillText(r.adjustmentReason)}</div></details>`:''}<div class="host-bill-total"><b>Settlement Amount</b><strong>${money(r.host+r.adjustment)}</strong></div><div class="host-bill-working ${r.days==='0'?'':'host-time-met'}"><span class="host-time-label">Working Time</span><span class="host-time-result"><span aria-hidden="true">${r.days==='0'?'✕':'✓'}</span> ${r.days==='0'?'Not Met':'Achieved'}</span></div><div class="host-bill-grid">${cell(r.agencyBill?'Paid via Agency':r.payment,'Payment')}${cell(r.payment==='Coin Trader Top-up'?'Coins':'-','Currency')}${r.receivingAccount?cell(escapeBillText(r.receivingAccount),r.payment==='Coin Trader Top-up'?'Coin Trader ID':'Agency',true):r.traderId?cell(escapeBillText(r.traderName)+' · ID '+escapeBillText(r.traderId),'Coin Trader ID',true):''}</div></article>`).join('');
+}).map(record => {
+  const amount = record.host + record.adjustment;
+  const selectedTrader = record.payment === 'Coin Trader Top-up';
+  const agencyLowAmount = record.agencyBill?.payoutAmount > 0 && record.agencyBill.payoutAmount < 5;
+  const trader = selectedTrader && amount >= 5;
+  if (amount > 0 && !trader && agencyLowAmount) {
+    return {...record, status:recordStatus(record), payment:'Coins', agencyBill:undefined,
+      traderId:undefined, receivingAccount:'ID 88888888'};
+  }
+  if (selectedTrader && amount > 0 && amount < 5) {
+    return {...record, payment:'Paid via Agency', traderId:undefined,
+      receivingAccount:'Aurora Media · ID 66666666'};
+  }
+  return record;
+}).filter(r=>r.published!==false&&!['Rejected','Agency Rejected'].includes(r.agencyBill?.status||r.status)).map(r=>`<article class="host-bill-card"><div class="host-bill-heading"><b class="host-bill-period">${r.period}</b><span class="host-bill-status">${recordStatus(r)}</span></div><div class="host-bill-grid">${cell(r.coins,'Total Coins')}${cell(r.diamonds,'Salary Diamonds')}${cell(money(r.target),'Target Salary')}${cell(money(r.diamond),'Diamond Salary')}${cell(money(r.host),'Host Salary',true)}${cell(r.days,'Valid Days')}${cell(r.hours,'Valid Hours')}</div>${r.adjustment?`<div class="host-original-salary"><span>Original Salary</span><span>${money(r.host)}</span></div><details class="host-bill-adjustment"><summary><span>Adjustment</span><span class="host-adjust-value ${r.adjustment>0?'host-adjust-positive':''}">${r.adjustment<0?'−':'+'}${money(Math.abs(r.adjustment))}</span></summary><div class="host-adjust-reason">${escapeBillText(r.adjustmentReason)}</div></details>`:''}<div class="host-bill-total"><b>Settlement Amount</b><strong>${money(r.host+r.adjustment)}</strong></div><div class="host-bill-working ${r.days==='0'?'':'host-time-met'}"><span class="host-time-label">Working Time</span><span class="host-time-result"><span aria-hidden="true">${r.days==='0'?'✕':'✓'}</span> ${r.days==='0'?'Not Met':'Achieved'}</span></div><div class="host-bill-grid">${cell(r.agencyBill?'Paid via Agency':r.payment,'Payment')}${cell(['Coin Trader Top-up','Coins'].includes(r.payment)?'Coins':'-','Currency')}${r.receivingAccount?cell(escapeBillText(r.receivingAccount),r.payment==='Coins'?'User ID':r.payment==='Coin Trader Top-up'?'Coin Trader ID':'Agency',true):r.traderId?cell(escapeBillText(r.traderName)+' · ID '+escapeBillText(r.traderId),'Coin Trader ID',true):''}</div></article>`).join('');
 };
 window.renderHostSalaryRecords();
 })();
@@ -1370,7 +1384,7 @@ function closeHostSalaryBills() {
   const guidance = 'The platform recommends USDT as the preferred payment method. If you choose bank transfer, all incurred handling fees shall be borne by the recipient. If both payment methods are submitted, payout will be prioritized via USDT.';
   let editing = null, draft = null, verifiedId = '', returnFocus = null;
   const notice = () => {
-    const message = 'If total salary for the previous week is below $5, the platform will pay it in Coins at 1 USD = 20,000 Coins.';
+    const message = 'Positive final payouts below $5 are paid in Coins at 1 USD = 20,000 Coins.';
     return `<div class="salaryNotice" tabindex="0" aria-label="${message}"><span class="salaryNoticeIcon" aria-hidden="true">!</span><div class="salaryNoticeWindow" aria-hidden="true"><div class="salaryNoticeTrack"><span>${message}</span><span>${message}</span></div></div></div>`;
   };
   const sheet = document.getElementById('paymentMethodSheet');

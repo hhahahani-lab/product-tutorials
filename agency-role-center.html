@@ -1483,6 +1483,8 @@ body.salaryTheme .weekstat {
 body.salaryTheme .weekstat .num { color: #fff; font-size: 20px; }
 body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 </style>
+<link rel="stylesheet" href="assets/salary-collection.css?v=20261105-final9">
+<script src="assets/salary-collection.js?v=20261105-final9"></script>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04"><div class="app">
 <div class="top"><button class="l" onclick="goBack()" aria-label="Back">‹</button><span id="title">Agency Center</span></div>
@@ -2290,7 +2292,7 @@ function requestRewardClaim(){if(!rewardClaimAvailable)return;showDataConfirm('C
 function salaryStatusData(s){return s===1?['Under Review','review']:s===2?['Agency Confirmed','ok']:s===3?['Agency Rejected','no']:['Already Payout','ok']}
 function renderSalaryRecords(){
   const box=document.getElementById('salaryRecordList');if(!box)return;
-  box.innerHTML=agencySourceData.salaryBills.map(b=>{const st=salaryStatusData(b.status);return `<div class="salaryRecordCard"><button class="salaryRecordHead" onclick="openAnchorSalaryData('${b.periodId}')"><span><b>${b.start} - ${b.end}</b><small>View Host Salary Bills ›</small></span><span class="salaryStatus ${st[1]}">${st[0]}</span></button><div class="salaryRecordGrid"><div class="salaryRecordMetric"><b>${fmtData(b.gold)}</b><span>Total Coins</span></div><div class="salaryRecordMetric"><b>${fmtData(b.diamonds)}</b><span>Total Diamonds</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.hostSalary)}</b><span>Host Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.agencySalary)}</b><span>Agent Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.total)}</b><span>Total Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.shouldPay)}</b><span>Settlement Amount</span></div></div><div class="salaryPaymentBlock"><div class="salaryPayGrid"><div><b>${b.method}</b><span>Payment Method</span></div><div><b>$${fmtData(b.amount ?? b.shouldPay)}</b><span>Amount</span></div><div><b>${st[0]}</b><span>Process</span></div></div><div class="salaryPayee">Payee: ${b.payee}</div></div><div class="salaryActionsNew"><button onclick="toastData('Export file prepared')">Export</button>${b.status===1?`<button class="rejectAction" onclick="requestSalaryUpdate(${b.id},3)">Reject</button><button class="approveAction" onclick="requestSalaryUpdate(${b.id},2)">Confirm</button>`:''}${b.status===4?`<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>`:''}</div></div>`}).join('');
+  box.innerHTML=agencySourceData.salaryBills.map(b=>{const st=salaryStatusData(b.status);return `<div class="salaryRecordCard"><button class="salaryRecordHead" onclick="openAnchorSalaryData('${b.periodId}')"><span><b>${b.start} - ${b.end}</b><small>View Host Salary Bills ›</small></span><span class="salaryStatus ${st[1]}">${st[0]}</span></button><div class="salaryRecordGrid"><div class="salaryRecordMetric"><b>${fmtData(b.gold)}</b><span>Total Coins</span></div><div class="salaryRecordMetric"><b>${fmtData(b.diamonds)}</b><span>Total Diamonds</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.hostSalary)}</b><span>Host Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.agencySalary)}</b><span>Agent Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.total)}</b><span>Total Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.shouldPay)}</b><span>Settlement Amount</span></div></div><div class="salaryPaymentBlock"><div class="salaryPayGrid"><div><b>${b.method}</b><span>Payment Method</span></div><div><b>$${fmtData(b.amount ?? b.shouldPay)}</b><span>Amount</span></div><div><b>${st[0]}</b><span>Process</span></div></div><div class="salaryPayee">Payee: ${b.payee}</div></div><div class="salaryActionsNew">${b.status===1?`<button class="rejectAction" onclick="requestSalaryUpdate(${b.id},3)">Reject</button><button class="approveAction" onclick="requestSalaryUpdate(${b.id},2)">Confirm</button>`:''}${b.status===4?`<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>`:''}</div></div>`}).join('');
 }
 function requestSalaryUpdate(id,status){const b=agencySourceData.salaryBills.find(x=>x.id===id);if(!b)return;showDataConfirm(status===2?'Confirm Salary Bill':'Reject Salary Bill',`Total Salary: <b>$${fmtData(b.total)}</b><br>Payment Method: ${b.method} · $${fmtData(b.amount ?? b.shouldPay)}`,(status===2?'Confirm':'Reject'),()=>{b.status=status;renderSalaryRecords();toastData(status===2?'✓ Salary bill confirmed':'Salary bill rejected')})}
 function openAnchorSalaryData(periodId){document.getElementById('anchorSalaryPeriod').textContent=periodId+' · 2026-08-17 - 2026-08-23';renderAnchorSalaryData();openp('anchorSalary','Host Salary Bills')}
@@ -2306,7 +2308,7 @@ function renderApplicationsData(){
 function reviewApplicationData(id,status){const a=agencySourceData.applications.find(x=>x.id===id);if(a)a.reviewStatus=status;renderApplicationsData();toastData(status===1?'✓ Application approved':'Application rejected')}
 function selectReviewStatus(btn){document.querySelectorAll('#statusSheet .statusOption').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');const label=document.getElementById('reviewStatusLabel');if(label)label.textContent=btn.dataset.status;hideStatusSheet()}
 
-function showDataConfirm(title,body,actionLabel,action){confirmDataAction=action;document.getElementById('dataConfirmTitle').textContent=title;document.getElementById('dataConfirmBody').innerHTML=body;const btn=document.getElementById('dataConfirmAction');btn.textContent=actionLabel||'Confirm';btn.onclick=()=>{const fn=confirmDataAction;hideDataConfirm();confirmDataAction=null;if(fn)fn()};document.getElementById('dataConfirmOverlay').classList.add('show')}
+function showDataConfirm(title,body,actionLabel,action){confirmDataAction=action;document.getElementById('dataConfirmTitle').textContent=title;document.getElementById('dataConfirmBody').innerHTML=body;const btn=document.getElementById('dataConfirmAction');btn.textContent=actionLabel||'Confirm';btn.dataset.action=actionLabel==='Reject'?'reject':'confirm';btn.onclick=()=>{const fn=confirmDataAction;hideDataConfirm();confirmDataAction=null;if(fn)fn()};document.getElementById('dataConfirmOverlay').classList.add('show')}
 function hideDataConfirm(){document.getElementById('dataConfirmOverlay')?.classList.remove('show')}
 function closeDataConfirm(e){if(e.target?.id==='dataConfirmOverlay')hideDataConfirm()}
 
@@ -2672,6 +2674,9 @@ agencySourceData.salaryBills.forEach(bill => {
   bill.amount = bill.shouldPay;
 });
 
+collectionUI.prepare(agencySourceData.salaryBills);
+window.addEventListener('salary-bill-changed', () => renderSalaryRecords());
+
 function agencySalaryMetric(value, label) {
   return `<div><b>${value}</b><span>${label}</span></div>`;
 }
@@ -2689,42 +2694,44 @@ function agencyBillAdjustments(bill) {
   if (!bill.hostAdjustment && !bill.agentAdjustment) return '';
   return `<div class="agencyAdjustments">
     <div><span>Original Salary</span><b>${agencyMoney(bill.total)}</b></div>
-    ${agencyAdjustmentRow('Host Adjustment', bill.hostAdjustment, 'Adjustments to salaries collected for Hosts.')}
+    ${agencyAdjustmentRow('Host Adjustment', bill.hostAdjustment, 'Adjustments to all Host salaries in this bill.')}
     ${agencyAdjustmentRow('Agent Adjustment', bill.agentAdjustment, bill.adjustmentReason)}
   </div>`;
 }
 
 salaryStatusData = function (status) {
-  return ({1: ['Pending Confirmation', 'review'], 2: ['Confirmed', 'ok'],
-    3: ['Rejected', 'no'], 4: ['Paid', 'ok']})[status] || ['Pending', 'review'];
+  return ({1: ['Under review', 'review'], 2: ['Agency Confirmed', 'ok'],
+    3: ['Agency Rejected', 'no'], 4: ['Paid', 'ok']})[status] || ['Pending', 'review'];
 };
 
 renderSalaryRecords = function () {
   const container = document.getElementById('salaryRecordList');
   if (!container) return;
-  container.innerHTML = agencySourceData.salaryBills.filter(bill => bill.published).map(bill => {
+  container.innerHTML = agencySourceData.salaryBills.filter(bill => bill.published && (bill.status ?? bill.settlement) !== 3).map(bill => {
     const status = salaryStatusData(bill.status);
     return `<article class="salaryRecordCard">
-      <button class="salaryRecordHead" onclick="openAnchorSalaryData('${bill.periodId}')">
-        <span><b>${bill.start} – ${bill.end}</b><small>View Host Salary Bills ›</small></span>
+      <div class="salaryRecordHead">
+        <span><b>${bill.start} – ${bill.end}</b></span>
         <span class="salaryStatus ${status[1]}">${status[0]}</span>
-      </button>
+      </div>
       <div class="salaryRecordGrid">
         ${agencySalaryMetric(fmtData(bill.gold), 'Total Coins')}
         ${agencySalaryMetric(fmtData(bill.diamonds), 'Salary Diamonds')}
         ${agencySalaryMetric(agencyMoney(bill.hostSalary), 'Host Salary')}
         ${agencySalaryMetric(agencyMoney(bill.agencySalary), 'Agent Salary')}
       </div>
+      ${collectionUI.rejectionNote(bill)}
       ${agencyBillAdjustments(bill)}
-      <div class="agencyFinal"><span>Settlement Amount</span><b>${agencyMoney(bill.shouldPay)}</b></div>
+      ${collectionUI.breakdown(bill)}
+      <div class="agencyFinal"><span>Agency Payout</span><b>${agencyMoney(collectionUI.agencyAmount(bill))}</b></div>
       <div class="agencyBillPaymentMeta">
-        <div><b>${agencyEscape(bill.method)}</b><span>Payment</span></div>
-        <div><b>${bill.method === 'Coins' ? '—' : 'USD'}</b><span>Currency</span></div>
-        <div class="wideMeta"><b>${agencyEscape(bill.payee)}</b>
-          <span>${bill.method === 'USDT' ? 'USDT Address' : bill.method === 'Bank Card' ? 'Bank Account' : bill.method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>
+        <div><b>${agencyEscape(collectionUI.payment(bill).method)}</b><span>Payment</span></div>
+        <div><b>${['Coin Trader Top-up', 'Coins'].includes(collectionUI.payment(bill).method) ? 'Coins' : collectionUI.payment(bill).method === '—' ? '—' : 'USD'}</b><span>Currency</span></div>
+        <div class="wideMeta"><b>${agencyEscape(collectionUI.payment(bill).payee)}</b>
+          <span>${collectionUI.payment(bill).method === 'Coins' ? 'Personal Accounts' : collectionUI.payment(bill).method === 'Coin Trader Top-up' ? 'Coin Trader ID' : collectionUI.payment(bill).method === 'USDT' ? 'USDT Address' : collectionUI.payment(bill).method === 'Bank Card' ? 'Bank Account' : collectionUI.payment(bill).method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>
       </div>
+      <button class="salaryAction" onclick="openAnchorSalaryData('${bill.periodId}')">View Host Salary Bills ›</button>
       <div class="salaryActionsNew">
-        <button onclick="toastData('Export file prepared')">Export</button>
         ${bill.status === 1 ? `<button class="rejectAction" onclick="requestSalaryUpdate(${bill.id},3)">Reject</button>
           <button class="approveAction" onclick="requestSalaryUpdate(${bill.id},2)">Confirm</button>` : ''}
         ${bill.status === 4 ? `<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>` : ''}
@@ -2736,14 +2743,11 @@ renderSalaryRecords = function () {
 requestSalaryUpdate = function (id, status) {
   const bill = agencySourceData.salaryBills.find(item => item.id === id);
   if (!bill || !bill.published || bill.status !== 1) return;
-  showDataConfirm(status === 2 ? 'Confirm Salary Bill' : 'Reject Salary Bill',
-    `Settlement Amount: <b>${agencyMoney(bill.shouldPay)}</b><br>Payment: ${agencyEscape(bill.method)}<br>Payee: ${agencyEscape(bill.payee)}`,
-    status === 2 ? 'Confirm' : 'Reject', () => {
-      if (bill.status !== 1) return;
-      bill.status = status;
-      renderSalaryRecords();
-      toastData(status === 2 ? '✓ Salary bill confirmed' : 'Salary bill rejected');
-    });
+  collectionUI.openDecision(bill, status, toastData, () => {
+    bill.status = status;
+    renderSalaryRecords();
+    toastData(status === 2 ? 'Agency bill confirmed' : 'Agency bill rejected');
+  });
 };
 
 openAnchorSalaryData = function (periodId) {
@@ -2764,7 +2768,7 @@ renderAnchorSalaryData = function () {
     return;
   }
   container.innerHTML = bill.hostEntries.map(host => `<article class="hostSalaryCardNew">
-    <div class="hostSalaryHeadNew"><b>${agencyEscape(host.nick)}</b><small>User ID: ${agencyEscape(host.id)}</small></div>
+    <div class="hostSalaryHeadNew collectionHostHead"><div><b>${agencyEscape(host.nick)}</b><small>User ID: ${agencyEscape(host.id)}</small></div>${collectionUI.hostStatus(host, bill)}</div>
     <div class="hostSalaryGridNew">
       ${agencySalaryMetric(fmtData(host.goldNum), 'Total Coins')}
       ${agencySalaryMetric(fmtData(host.diamondNum), 'Salary Diamonds')}
@@ -2781,6 +2785,7 @@ renderAnchorSalaryData = function () {
     </div>` : ''}
     <div class="agencyFinal"><span>Settlement Amount</span>
       <b>${agencyMoney((Math.round(host.hostSalary * 100) + Math.round(host.adjustment * 100)) / 100)}</b></div>
+    ${collectionUI.hostRoute(host, bill)}
     <div class="achievementNew"><span>Working Time</span>
       <b class="${host.workingMet ? 'validYes' : 'validNo'}">${host.workingMet ? '✓ Achieved' : '× Not Met'}</b></div>
   </article>`).join('');
@@ -2852,6 +2857,6 @@ renderSalaryRecords();
 .salaryActionsNew,.sourceBillActions{padding:0 12px 14px;gap:8px}.salaryActionsNew button,.sourceBillActions button{min-height:40px;border-radius:22px;font-size:12px}.salaryActionsNew .approveAction,.sourceBillActions .confirmBill{flex:1}.salaryActionsNew .rejectAction,.sourceBillActions .rejectBill{flex:1}
 .salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
 </style>
-<link rel="stylesheet" href="assets/role-payment.css?v=20261105-width430">
-<script src="assets/role-payment.js?v=20261104"></script>
+<link rel="stylesheet" href="assets/role-payment.css?v=20261105-final9">
+<script src="assets/role-payment.js?v=20261105-final9"></script>
 </body></html>

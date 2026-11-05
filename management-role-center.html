@@ -948,6 +948,8 @@ body.salaryTheme .salaryEmpty {
   padding-block: 36px;
 }
 </style>
+<link rel="stylesheet" href="assets/salary-collection.css?v=20261105-final9">
+<script src="assets/salary-collection.js?v=20261105-final9"></script>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04">
 <div id="root" class="app"></div>
@@ -1283,13 +1285,13 @@ let selectedSalaryRange={start:'2026-09-28',end:'2026-10-25'};
 function managerPayName(t){return {1:'Agency Top-up',2:'USDT',3:'PayPal',4:'Bank Card',5:'Coins'}[t]||'—'}
 function managerSettlementName(s){return {1:'Under Review',2:'Manager Confirmed',3:'Manager Rejected',4:'Already Payout'}[s]||''}
 function managerSettlementClass(s){return s===3?'rejectedBill':s===4?'paid':s===2?'confirmedBill':''}
-function managerSalaryBillsMarkup(){return managerMonthBills.map(b=>`<div class="salaryCard"><div class="salaryHead"><span><b>${b.start} - ${b.end}</b><small>Monthly Salary Bill</small></span><span class="statusPill ${managerSettlementClass(b.settlement)}">${managerSettlementName(b.settlement)}</span></div><div class="salaryAmount"><span>Total Salary</span><b>$${b.total.toFixed(2)}</b></div><div class="salaryMeta sourceSalaryMeta"><div><span>Payment</span><b>${managerPayName(b.payeeType)}</b></div><div><span>Payment Process</span><b>${managerSettlementName(b.settlement)}</b></div><div class="wideMeta"><span>${b.payeeType===2?'USDT Address':'User ID'}</span><b>${b.payee}</b></div></div><button class="salaryAction" onclick="openWeeklySalary('${b.start}','${b.end}')">View Weekly Salary Bill ›</button>${b.settlement===1?`<div class="sourceBillActions"><button class="rejectBill" onclick="updateManagerBill(${b.id},3)">Reject</button><button class="confirmBill" onclick="confirmManagerBill(${b.id})">Confirm</button></div>`:''}${b.settlement===4?`<div class="sourceBillActions"><button onclick="toast('Transfer receipt opened')">Transfer Pic</button><button onclick="toast('Transfer URL copied')">Transfer URL</button></div>`:''}</div>`).join('')}
+function managerSalaryBillsMarkup(){return managerMonthBills.map(b=>`<div class="salaryCard"><div class="salaryHead"><span><b>${b.start} - ${b.end}</b><small>Monthly Salary Bill</small></span><span class="statusPill ${managerSettlementClass(b.settlement)}">${managerSettlementName(b.settlement)}</span></div><div class="salaryAmount"><span>Total Salary</span><b>$${b.total.toFixed(2)}</b></div><div class="salaryMeta sourceSalaryMeta"><div><span>Payment</span><b>${managerPayName(b.payeeType)}</b></div><div><span>Payment Process</span><b>${managerSettlementName(b.settlement)}</b></div><div class="wideMeta"><span>${b.payeeType===2?'USDT Address':'User ID'}</span><b>${b.payee}</b></div></div><button class="salaryAction" onclick="openWeeklySalary('${b.start}','${b.end}')">View Weekly Salary Bill ›</button>${b.settlement===1?`<div class="sourceBillActions"><button class="rejectBill" onclick="updateManagerBill(${b.id},3)">Reject</button><button class="confirmBill" onclick="confirmManagerBill(${b.id})">Confirm</button></div>`:''}${b.settlement===4?`<div class="sourceBillActions"></div>`:''}</div>`).join('')}
 function confirmManagerBill(id){const b=managerMonthBills.find(x=>x.id===id);if(!b)return;showBillConfirm(`<b>Total Salary: $${b.total.toFixed(2)}</b><br>Payment: ${managerPayName(b.payeeType)}<br>${b.payeeType===2?'USDT Address':'User ID'}: ${b.payee}`,()=>updateManagerBill(id,2))}
 function showBillConfirm(content,onConfirm){let o=document.getElementById('billConfirmOverlay');if(!o){o=document.createElement('div');o.id='billConfirmOverlay';o.className='paySheet';o.innerHTML='<div class="paySheetPanel billConfirmPanel" onclick="event.stopPropagation()"><div class="paySheetTitle">Confirm Salary Bill</div><div id="billConfirmContent" class="billConfirmContent"></div><div class="filterActions"><button onclick="hideBillConfirm()">Cancel</button><button id="billConfirmAction" class="confirm">Confirm</button></div></div>';o.onclick=e=>{if(e.target===o)hideBillConfirm()};document.body.appendChild(o)}document.getElementById('billConfirmContent').innerHTML=content+'<br><small>After confirmation, this bill will wait for payout.</small>';document.getElementById('billConfirmAction').onclick=()=>{hideBillConfirm();onConfirm()};o.classList.add('show')}
 function hideBillConfirm(){document.getElementById('billConfirmOverlay')?.classList.remove('show')}
 function updateManagerBill(id,status){const b=managerMonthBills.find(x=>x.id===id);if(b)b.settlement=status;render();toast(status===2?'Bill confirmed':'Bill rejected')}
 function openWeeklySalary(start,end){selectedSalaryRange={start,end};openp('weekSalary')}
-function managerWeeklySalaryMarkup(){return managerWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>Manager Level</span><b>Level ${w.grade}</b></div><div><span>Commission (5%)</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts below 70%; 50% of base salary granted.</div>`:''}<button class="salaryAction" onclick="toast('Agency details download link copied')">Copy Agency Details Download Link</button></div></div>`).join('')}
+function managerWeeklySalaryMarkup(){return managerWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>Manager Level</span><b>Level ${w.grade}</b></div><div><span>Commission (5%)</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts below 70%; 50% of base salary granted.</div>`:''}</div></div>`).join('')}
 function toggleWeek(week){document.getElementById('week'+week)?.classList.toggle('open')}
 function renderSalary(){const preferred=preferredPaymentMethod();const p=preferred?paymentProfiles[preferred]:null;return `<section class="salaryUnifiedPad"><div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="salarySectionTitle" style="margin-top:4px"><b>Payment Method</b></div><div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()"><span class="paymentLogo">${preferred?'★':'$'}</span><span><b>${preferred||'Payment method not set'}</b><small>${preferred?'Preferred payout method · Tap to manage':'Tap to complete payout information'}</small></span><i>›</i></button><button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button></div><div class="salaryDataNote">All times follow UTC+0. Data updates every Wednesday at 00:00.</div><div class="salarySectionTitle"><b>Salary Records</b><span>Monthly settlement</span></div><div class="salaryCards">${managerSalaryBillsMarkup()}</div></section>`}
 function renderWeekSalary(){return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">▣ &nbsp; <span>${selectedSalaryRange.start} - ${selectedSalaryRange.end}</span></div><div class="salaryDataNote">All times follow UTC+0. Data updates every Wednesday at 00:00.</div>${managerWeeklySalaryMarkup()}</section>`}
@@ -1410,7 +1412,7 @@ const roleApplications={
 function setReviewApplyStatus(id,status){const all=Object.values(roleApplications).flat();const a=all.find(x=>x.id===id);if(a)a.status=status;render();toast(status==='Approval'?'Review approved.':'Review rejected.')}
 function renderReviewApply(){const c=demoConfig(),types=c.review;if(!types.includes(state.reviewApplyType))state.reviewApplyType=types[0];const source=roleApplications[state.demoRole]||[],list=source.filter(a=>a.type===state.reviewApplyType&&(state.reviewApplyStatus==='All status'||a.status===state.reviewApplyStatus));return `<section class="page"><div class="scopeMiniNote"><b>${c.role} review scope</b> · Only applications inside the current authorized subtree and allowed role types are visible.</div><div class="reviewApplyTabs">${types.map(t=>`<button class="${state.reviewApplyType===t?'active':''}" onclick="state.reviewApplyType='${t}';render()">${t}</button>`).join('')}</div><div class="reviewApplyFilter"><select onchange="state.reviewApplyStatus=this.value"><option ${state.reviewApplyStatus==='All status'?'selected':''}>All status</option><option ${state.reviewApplyStatus==='Under review'?'selected':''}>Under review</option><option ${state.reviewApplyStatus==='Approval'?'selected':''}>Approval</option><option ${state.reviewApplyStatus==='Not pass'?'selected':''}>Not pass</option></select><button onclick="render()">Search</button></div>${list.length?list.map(a=>`<div class="panelCard reviewApplyCard"><div class="reviewApplyHead"><b>Apply status</b><span class="${reviewApplyStatusClass(a.status)}">${a.status==='Approval'?'Approval ✓':a.status}</span></div><div class="reviewApplyBody"><div class="reviewApplyAvatar">${a.letter}</div><div class="reviewApplyUser"><b>${a.username}</b><span>User ID: ${a.userId}</span><span>Apply for: ${a.type}</span><span>${a.country} · ${a.timeZone}</span><span>Parent: ${a.parent}</span></div>${a.status==='Under review'?`<div class="reviewApplyActions"><button class="approve" onclick="setReviewApplyStatus(${a.id},'Approval')">Approval</button><button class="reject" onclick="setReviewApplyStatus(${a.id},'Not pass')">Not pass</button></div>`:'<div class="reviewApplyActions"></div>'}</div></div>`).join(''):'<div class="reviewApplyEmpty">No applications in this permission scope</div>'}</section>`}
 
-function managerWeeklySalaryMarkup(){const role=demoConfig().role;return managerWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>${role} Level</span><b>Level ${w.grade}</b></div><div><span>Commission</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts below 70%; 50% of base salary granted.</div>`:''}<button class="salaryAction" onclick="toast('Agency details download link copied')">Copy Agency Details Download Link</button></div></div>`).join('')}
+function managerWeeklySalaryMarkup(){const role=demoConfig().role;return managerWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>${role} Level</span><b>Level ${w.grade}</b></div><div><span>Commission</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts below 70%; 50% of base salary granted.</div>`:''}</div></div>`).join('')}
 function renderSalaryRules(){const role=demoConfig().role;return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Salary Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. Salary Bill uses the same page structure for Manager / Super Admin / Admin.<br>2. Current demo role: <b>${role}</b>.<br>3. Total Salary = Commission + Actual Base.<br>4. Weekly Agency Salary is calculated from the current role's authorized organization scope without duplicate counting.<br>5. Commission rate, level threshold and Base follow the configured policy for the current role/level.<br>6. Effective Hosts completion affects Base according to policy and does not change the Center information architecture.</p></div></section>`}
 
 /* Initialize role-specific defaults after all original functions have loaded. */
@@ -1537,7 +1539,7 @@ const bdWeeks=[
  {week:32,start:'08-04',end:'08-10',total:171.00,grade:1,commission:146.00,agency:2920.00,basic:25.00,valid:39,required:70,update:1,validStatus:1},
  {week:31,start:'07-28',end:'08-03',total:124.00,grade:1,commission:104.00,agency:2080.00,basic:20.00,valid:35,required:70,update:0,validStatus:0}
 ];
-function bdWeeklySalaryMarkup(){return bdWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>BD Level</span><b>Level ${w.grade}</b></div><div><span>Commission (5%)</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts completion is between 50% and 70%; 50% of Full Base granted.</div>`:''}<button class="salaryAction" onclick="toast('Agency details download link copied')">Copy Agency Details Download Link</button></div></div>`).join('')}
+function bdWeeklySalaryMarkup(){return bdWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>BD Level</span><b>Level ${w.grade}</b></div><div><span>Commission (5%)</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts completion is between 50% and 70%; 50% of Full Base granted.</div>`:''}</div></div>`).join('')}
 const _renderSalaryBeforeBD=renderSalary,_renderWeekSalaryBeforeBD=renderWeekSalary,_renderSalaryRulesBeforeBD=renderSalaryRules,_renderRewardsBeforeBD=renderRewards;
 renderSalary=function(){if(state.demoRole!=='BD')return _renderSalaryBeforeBD();const preferred=preferredPaymentMethod();return `<section class="salaryUnifiedPad"><div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="salarySectionTitle" style="margin-top:4px"><b>Payment Method</b></div><div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()"><span class="paymentLogo">${preferred?'★':'$'}</span><span><b>${preferred||'Payment method not set'}</b><small>${preferred?'Preferred payout method · Tap to manage':'Tap to complete payout information'}</small></span><i>›</i></button><button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button></div><div class="salaryDataNote">All times follow UTC+0. Weekly salary bills are aggregated for payout every 4 weeks.</div><div class="salarySectionTitle"><b>Salary Records</b><span>Settlement every 4 weeks</span></div><div class="salaryCards">${managerSalaryBillsMarkup()}</div></section>`};
 renderWeekSalary=function(){if(state.demoRole!=='BD')return _renderWeekSalaryBeforeBD();return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">▣ &nbsp; <span>${selectedSalaryRange.start} - ${selectedSalaryRange.end}</span></div><div class="salaryDataNote">All times follow UTC+0. BD Level is rematched weekly by Weekly Agency Salary.</div>${bdWeeklySalaryMarkup()}</section>`};
@@ -2034,26 +2036,28 @@ function financeDetail(base, adjustment, reason, final, label = 'Original Salary
 }
 
 managerSalaryBillsMarkup = function () {
-  return financeBills().filter(bill => bill.published).map(bill => {
-    const coins = bill.total > 0 && bill.total < 5;
+  return financeBills().filter(bill => bill.published && (bill.status ?? bill.settlement) !== 3).map(bill => {
+    bill.ownerUid = demoConfig().id;
+    const payment = collectionUI.payment(bill);
+    if (bill.settlement !== 1 && !bill.method) payment.method = managerPayName(bill.payeeType);
+    const coins = payment.method === 'Coins';
     return `<article class="salaryCard">
       <div class="salaryHead"><span><b>${bill.start} – ${bill.end}</b><small>Payout cycle · 4 weeks</small></span>
-        <span class="statusPill ${managerSettlementClass(bill.settlement)}">${({1: 'Pending Confirmation', 2: 'Confirmed', 3: 'Rejected', 4: 'Paid'})[bill.settlement]}</span></div>
+        <span class="statusPill ${managerSettlementClass(bill.settlement)}">${({1: 'Under review', 2: 'Confirmed', 3: 'Rejected', 4: 'Paid'})[bill.settlement]}</span></div>
+      ${collectionUI.rejectionNote(bill)}
       ${financeDetail(bill.subtotal, bill.adj, bill.reason, bill.total)}
       <div class="salaryAmount"><span>Settlement Amount</span><b>${financeMoney(bill.total)}</b></div>
       <div class="salaryMeta sourceSalaryMeta">
-        <div><b>${coins ? 'Coins' : managerPayName(bill.payeeType)}</b><span>Payment</span></div>
-        <div><b>${coins ? '—' : 'USD'}</b><span>Currency</span></div>
-        <div class="wideMeta"><b>${financeEscape(coins ? demoConfig().id : bill.payee)}</b>
-          <span>${coins ? 'User ID' : bill.payeeType === 2 ? 'USDT Address' : 'User ID'}</span></div>
+        <div><b>${financeEscape(payment.method)}</b><span>Payment</span></div>
+        <div><b>${payment.method === 'Coin Trader Top-up' ? 'Coins' : ['Coins', '—'].includes(payment.method) ? '—' : 'USD'}</b><span>Currency</span></div>
+        <div class="wideMeta"><b>${financeEscape(payment.payee)}</b>
+          <span>${coins ? 'User ID' : payment.method === 'Coin Trader Top-up' ? 'Coin Trader ID' : payment.method === 'USDT' ? 'USDT Address' : 'User ID'}</span></div>
       </div>
       <button class="salaryAction" onclick="openWeeklySalary('${bill.start}','${bill.end}')">View Weekly Salary Bill ›</button>
       ${bill.settlement === 1 ? `<div class="sourceBillActions">
-        <button class="rejectBill" onclick="updateManagerBill(${bill.id},3)">Reject</button>
+        <button class="rejectBill" onclick="rejectManagerBill(${bill.id})">Reject</button>
         <button class="confirmBill" onclick="confirmManagerBill(${bill.id})">Confirm</button></div>` : ''}
-      ${bill.settlement === 4 ? `<div class="sourceBillActions">
-        <button onclick="toast('Transfer receipt opened')">Transfer Pic</button>
-        <button onclick="toast('Transfer URL copied')">Transfer URL</button></div>` : ''}
+
     </article>`;
   }).join('');
 };
@@ -2061,12 +2065,16 @@ managerSalaryBillsMarkup = function () {
 confirmManagerBill = function (id) {
   const bill = financeBills().find(item => item.id === id);
   if (!bill || bill.settlement !== 1) return;
-  const coins = bill.total > 0 && bill.total < 5;
-  showBillConfirm(`<div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.total)}</b></div>
-    ${financeDetail(bill.subtotal, bill.adj, bill.reason, bill.total)}
-    Payment: ${coins ? 'Coins' : managerPayName(bill.payeeType)}<br>${financeEscape(coins ? demoConfig().id : bill.payee)}`,
-    () => updateManagerBill(id, 2));
+  bill.ownerUid = demoConfig().id;
+  collectionUI.openDecision(bill, 2, toast, () => updateManagerBill(id, 2));
 };
+
+function rejectManagerBill(id) {
+  const bill = financeBills().find(item => item.id === id);
+  if (!bill || bill.settlement !== 1) return;
+  bill.ownerUid = demoConfig().id;
+  collectionUI.openDecision(bill, 3, toast, () => updateManagerBill(id, 3));
+}
 
 updateManagerBill = function (id, status) {
   const bill = financeBills().find(item => item.id === id);
@@ -2099,7 +2107,6 @@ function financeWeeklyMarkup() {
       </div>
       ${financeDetail(original, week.adj, week.reason, settlement)}
       <div class="weekSalaryTotal"><span>Settlement Amount</span><b>${financeMoney(settlement)}</b></div>
-      <button class="salaryAction" onclick="toast('Agency details download link copied')">Copy Agency Details Download Link</button>
       </div>
     </article>`;
   }).join('');
@@ -2398,6 +2405,8 @@ const personalAgencySnapshots = [
     ]
   }
 ];
+collectionUI.prepare(personalAgencySnapshots);
+window.addEventListener('salary-bill-changed', () => render());
 const personalAgencySnapshotOwners = new Set(['10032846', '530088', '20032846']);
 const personalAgencyBillsByOwner = new Map();
 let selectedPersonalAgencyBillId = null;
@@ -2436,7 +2445,7 @@ function personalAgencyBillAdjustments(bill) {
   if (!bill.hostAdjustment && !bill.agentAdjustment) return '';
   return `<div class="financeBreakdown">
     <div class="financeLine"><span>Original Salary</span><b>${financeMoney(bill.total)}</b></div>
-    ${financeDetail(bill.total, bill.hostAdjustment, 'Adjustments to salaries collected for Hosts.', bill.shouldPay, 'Original Salary', 'Host Adjustment', false)}
+    ${financeDetail(bill.total, bill.hostAdjustment, 'Adjustments to all Host salaries in this bill.', bill.shouldPay, 'Original Salary', 'Host Adjustment', false)}
     ${financeDetail(bill.total, bill.agentAdjustment, bill.adjustmentReason, bill.shouldPay, 'Original Salary', 'Agent Adjustment', false)}
   </div>`;
 }
@@ -2444,28 +2453,29 @@ function personalAgencyBillAdjustments(bill) {
 function personalAgencyBillsMarkup() {
   const bills = personalAgencyBills();
   if (!bills.length) return '<div class="salaryDataNote salaryEmpty">No agency salary bills yet.</div>';
-  return bills.map(bill => `<article class="salaryCard personalAgencyBill" data-bill-id="${bill.id}" data-owner-uid="${bill.ownerUid}">
+  return bills.filter(bill => bill.published !== false && bill.status !== 3).map(bill => `<article class="salaryCard personalAgencyBill" data-bill-id="${bill.id}" data-owner-uid="${bill.ownerUid}">
     <div class="salaryHead"><span><b>${bill.start} – ${bill.end}</b><small>Payout cycle · 1 week</small></span>
-      <span class="statusPill ${managerSettlementClass(bill.status)}">${({1: 'Pending Confirmation', 2: 'Confirmed', 3: 'Rejected', 4: 'Paid'})[bill.status]}</span></div>
-    <button class="salaryAction" onclick="openPersonalAgencySalary('${bill.id}')">View Host Salary Bills ›</button>
+      <span class="statusPill ${managerSettlementClass(bill.status)}">${({1: 'Under review', 2: 'Agency Confirmed', 3: 'Agency Rejected', 4: 'Paid'})[bill.status]}</span></div>
     <div class="salaryRecordGrid">
       ${financeMetric(bill.gold.toLocaleString('en-US'), 'Total Coins')}
       ${financeMetric(bill.diamonds.toLocaleString('en-US'), 'Salary Diamonds')}
       ${financeMetric(financeMoney(bill.hostSalary), 'Host Salary')}
       ${financeMetric(financeMoney(bill.agencySalary), 'Agent Salary')}
     </div>
+    ${collectionUI.rejectionNote(bill)}
     ${personalAgencyBillAdjustments(bill)}
-    <div class="salaryAmount"><span>Settlement Amount</span><b>${financeMoney(bill.shouldPay)}</b></div>
+    ${collectionUI.breakdown(bill)}
+    <div class="salaryAmount"><span>Agency Payout</span><b>${financeMoney(collectionUI.agencyAmount(bill))}</b></div>
     <div class="salaryMeta sourceSalaryMeta">
-      <div><b>${financeEscape(bill.method)}</b><span>Payment</span></div>
-      <div><b>${bill.method === 'Coins' ? '—' : 'USD'}</b><span>Currency</span></div>
-      <div class="wideMeta"><b>${financeEscape(bill.payee)}</b><span>${bill.method === 'USDT' ? 'USDT Address' : bill.method === 'Bank Card' ? 'Bank Account' : bill.method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>
+      <div><b>${financeEscape(collectionUI.payment(bill).method)}</b><span>Payment</span></div>
+      <div><b>${['Coin Trader Top-up', 'Coins'].includes(collectionUI.payment(bill).method) ? 'Coins' : collectionUI.payment(bill).method === '—' ? '—' : 'USD'}</b><span>Currency</span></div>
+      <div class="wideMeta"><b>${financeEscape(collectionUI.payment(bill).payee)}</b><span>${collectionUI.payment(bill).method === 'Coins' ? 'Personal Accounts' : collectionUI.payment(bill).method === 'Coin Trader Top-up' ? 'Coin Trader ID' : collectionUI.payment(bill).method === 'USDT' ? 'USDT Address' : collectionUI.payment(bill).method === 'Bank Card' ? 'Bank Account' : collectionUI.payment(bill).method === 'PayPal' ? 'PayPal Account' : 'User ID'}</span></div>
     </div>
+    <button class="salaryAction" onclick="openPersonalAgencySalary('${bill.id}')">View Host Salary Bills ›</button>
     <div class="sourceBillActions">
-      <button onclick="toast('Export file prepared')">Export</button>
       ${bill.status === 1 ? `<button class="rejectBill" onclick="rejectPersonalAgencyBill('${bill.id}')">Reject</button>
         <button class="confirmBill" onclick="confirmPersonalAgencyBill('${bill.id}')">Confirm</button>` : ''}
-      ${bill.status === 4 ? `<button onclick="toast('Transfer receipt opened')">Transfer Receipt</button>` : ''}
+      ${bill.status === 4 ? `` : ''}
     </div>
   </article>`).join('');
 }
@@ -2473,22 +2483,13 @@ function personalAgencyBillsMarkup() {
 function confirmPersonalAgencyBill(id) {
   const bill = personalAgencyBills().find(item => item.id === id);
   if (!bill || bill.status !== 1) return;
-  const owner = demoConfig();
-  showBillConfirm(`<div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.shouldPay)}</b></div>
-    <p>${financeEscape(owner.name)} · UID ${financeEscape(owner.id)}</p>
-    ${personalAgencyBillAdjustments(bill)}
-    Payment: ${financeEscape(bill.method)}<br>${financeEscape(bill.payee)}`,
-    () => updatePersonalAgencyBill(id, 2));
+  collectionUI.openDecision(bill, 2, toast, () => updatePersonalAgencyBill(id, 2));
 }
 
 function rejectPersonalAgencyBill(id) {
   const bill = personalAgencyBills().find(item => item.id === id);
   if (!bill || bill.status !== 1) return;
-  showModal(`<h3>Reject Salary Bill</h3>
-    <p>${bill.start} – ${bill.end}</p>
-    <div class="financeConfirmTotal"><span>Settlement Amount</span><b>${financeMoney(bill.shouldPay)}</b></div>
-    <div class="sourceBillActions"><button onclick="closeModal()">Cancel</button>
-      <button class="rejectBill" onclick="updatePersonalAgencyBill('${bill.id}',3)">Reject bill</button></div>`);
+  collectionUI.openDecision(bill, 3, toast, () => updatePersonalAgencyBill(id, 3));
 }
 
 function updatePersonalAgencyBill(id, status) {
@@ -2513,7 +2514,7 @@ function renderPersonalAgencySalary() {
   return `<section class="page"><div class="salarySectionTitle"><b>Host Salary Bills</b></div>
     <div class="salaryDataNote">${bill.start} – ${bill.end} · UTC+5</div>
     ${bill.hosts.map(host => `<article class="hostSalaryCardNew">
-      <div class="hostSalaryHeadNew"><b>${financeEscape(host.name)}</b><small>User ID: ${financeEscape(host.id)}</small></div>
+      <div class="hostSalaryHeadNew collectionHostHead"><div><b>${financeEscape(host.name)}</b><small>User ID: ${financeEscape(host.id)}</small></div>${collectionUI.hostStatus(host, bill)}</div>
       <div class="hostSalaryGridNew">
         ${financeMetric(host.coins.toLocaleString('en-US'), 'Total Coins')}
         ${financeMetric(host.diamonds.toLocaleString('en-US'), 'Salary Diamonds')}
@@ -2526,6 +2527,7 @@ function renderPersonalAgencySalary() {
       </div>
       ${financeDetail(host.hostSalary, host.adjustment, host.reason, host.hostSalary + host.adjustment)}
       <div class="agencyFinal"><span>Settlement Amount</span><b>${financeMoney((Math.round(host.hostSalary * 100) + Math.round(host.adjustment * 100)) / 100)}</b></div>
+      ${collectionUI.hostRoute(host, bill)}
       <div class="achievementNew"><span>Working Time</span><b class="${host.workingMet ? 'validYes' : 'validNo'}">${host.workingMet ? '✓ Achieved' : '× Not Met'}</b></div>
     </article>`).join('')}
   </section>`;
@@ -2644,7 +2646,7 @@ render();
 .salaryActionsNew,.sourceBillActions{padding:0 12px 14px;gap:8px}.salaryActionsNew button,.sourceBillActions button{min-height:40px;border-radius:22px;font-size:12px}.salaryActionsNew .approveAction,.sourceBillActions .confirmBill{flex:1}.salaryActionsNew .rejectAction,.sourceBillActions .rejectBill{flex:1}
 .salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
 </style>
-<link rel="stylesheet" href="assets/role-payment.css?v=20261105-width430">
-<script src="assets/role-payment.js?v=20261104"></script>
+<link rel="stylesheet" href="assets/role-payment.css?v=20261105-final9">
+<script src="assets/role-payment.js?v=20261105-final9"></script>
 </body>
 </html>
