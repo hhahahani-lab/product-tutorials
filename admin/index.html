@@ -2691,7 +2691,7 @@ syncSettlementPeriodOptions();renderSettlement();updatePendingCounters();
       <td>${money(x.hostSalary)}</td><td title="该 Host 对应的 Agent Salary；Working Time 未达标时按该 Coins Tier 标准的 70% 计算。">${money(x.agentSalary)}${x.agentSalaryRate===0.7?'<span class="settlementReadonlyState">按 70%</span>':''}</td>
       <td class="${hostRowAdjustment(x)<0?'redTxt':hostRowAdjustment(x)>0?'greenTxt':''}">${hostRowAdjustment(x)?((hostRowAdjustment(x)>0?'+':'')+money(hostRowAdjustment(x))):'$0.00'}</td>
       <td class="money">${money(hostFinalSalary(x))}</td><td class="money">${money(hostFinalSalary(x)+Number(x.agentSalary||0))}</td>
-      <td>${Number(hostFinalSalary(x)||0)<10?'金币':'现金'}</td><td>代理代收</td><td>${x.agencyUid}</td><td class="money">${fmt(x.excessCoins)}</td>
+      <td>${Number(hostFinalSalary(x)||0)<5?'金币':'现金'}</td><td>代理代收</td><td>${x.agencyUid}</td><td class="money">${fmt(x.excessCoins)}</td>
     </tr>`).join('');
     return `<div class="memberRelationNote"><b>主播周结算 = 代理周账单的逐 Host 构成。</b> 主播需调整只由财务修改；有效主播按 4 个有效天 + 10 小时有效上麦时长判断；Host 不单独生成用户账单。</div>
     <div class="table-responsive tableWrap"><table class="table settlementHostWeeklyTable"><thead><tr>
@@ -3782,22 +3782,22 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
       : '1 USD = 20,000 Coins';
   }
 
-  // Plan A: Coin Trader Top-up has a hard minimum actual payout amount of $10.
+  // Plan A: Coin Trader Top-up has a hard minimum actual payout amount of $5.
   window.actualSettlementMethod=function(x){
     const n=amountOf(x), c=configured(x);
-    if(Number.isFinite(n) && n>0 && n<10) return COINS;
+    if(Number.isFinite(n) && n>0 && n<5) return COINS;
     if(c===PERSONAL) return COINS;
     return c;
   };
   window.actualSettlementReason=function(x){
     const n=amountOf(x), actual=window.actualSettlementMethod(x);
-    if(Number.isFinite(n) && n>0 && n<10) return '低于 $10，统一发至个人 Coins';
+    if(Number.isFinite(n) && n>0 && n<5) return '低于 $5，统一发至个人 Coins';
     if(actual===COINS) return '个人账号结算';
     return '按用户配置';
   };
   window.actualSettlementAddress=function(x){
     const n=amountOf(x), c=configured(x), actual=window.actualSettlementMethod(x);
-    if(Number.isFinite(n) && n>0 && n<10) return personalAddressFinal(x);
+    if(Number.isFinite(n) && n>0 && n<5) return personalAddressFinal(x);
     if(c===CT && actual===CT) return x?.payAddress||'—';
     return actual===COINS ? personalAddressFinal(x) : (x?.payAddress||'—');
   };
@@ -3808,7 +3808,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
   };
 
   // Richer sample data:
-  // 310001: >= $10, Coin Trader Top-up is effective.
+  // 310001: >= $5, Coin Trader Top-up is effective.
   const aurora=(window.agencyWeeklySettlement||agencyWeeklySettlement||[]).find(x=>String(x.uid)==='310001');
   if(aurora){
     aurora.payType=CT; aurora.configuredPayType=CT;
@@ -3817,7 +3817,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
     aurora.finance='Published'; aurora.bill='Confirmed'; aurora.payout='Unpaid'; aurora.agentAdj=0;
   }
 
-  // 310017: < $10 but configured Coin Trader; Plan A forces personal Coins + Phase 1 split.
+  // 310017: < $5 but configured Coin Trader; Plan A forces personal Coins + Phase 1 split.
   const starlight=(window.agencyWeeklySettlement||agencyWeeklySettlement||[]).find(x=>String(x.uid)==='310017');
   if(starlight){
     starlight.payType=CT; starlight.configuredPayType=CT;
@@ -3837,8 +3837,8 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
     try{x=typeof getBill==='function'?getBill(type,uid):null}catch(e){}
     if(!x) return previousIssue?.(type,uid);
 
-    // Keep Phase-1 split modal unchanged for Agency Bill < $10.
-    if(type==='agencyWeekly' && amountOf(x)>0 && amountOf(x)<10 && x.agentOwnSalary!=null && x.hostSettlement!=null){
+    // Keep Phase-1 split modal unchanged for Agency Bill < $5.
+    if(type==='agencyWeekly' && amountOf(x)>0 && amountOf(x)<5 && x.agentOwnSalary!=null && x.hostSettlement!=null){
       return previousIssue(type,uid);
     }
     if(typeof window.canIssueCoinBill==='function' && !window.canIssueCoinBill(type,x)){
@@ -3877,7 +3877,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
   window.openCoinPayoutRecord=function(type,uid){
     let x=null;
     try{x=typeof getBill==='function'?getBill(type,uid):null}catch(e){}
-    if(type==='agencyWeekly' && x && amountOf(x)>0 && amountOf(x)<10 && x.payoutDetails){
+    if(type==='agencyWeekly' && x && amountOf(x)>0 && amountOf(x)<5 && x.payoutDetails){
       return previousRecord(type,uid);
     }
     if(!x?.coinTxnId) return previousRecord?.(type,uid);
@@ -3940,7 +3940,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
   document.querySelectorAll('#settlementTabs .tabBtn').forEach(btn=>{const k=btn.dataset.settlement;if(tabLabels[k])btn.textContent=tabLabels[k]});
 
   const managementCountryMap={'540001':'Singapore','530088':'Singapore','520044':'UAE','510026':'Malaysia','520119':'India','510088':'Pakistan'};
-  function settlementKindFromAmount(amount){return Number(amount||0)<10?'金币':'现金'}
+  function settlementKindFromAmount(amount){return Number(amount||0)<5?'金币':'现金'}
 
   /* Host-level final: Host settlement + the Agent salary generated by this Host. */
   function hostAgentSettlement(h){return hostFinalSalary(h)+Number(h.agentSalary||0)}
@@ -4017,7 +4017,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
       <td>${money(x.hostSalary)}</td><td title="该 Host 对应的 Agent Salary；Working Time 未达标时按该 Coins Tier 标准的 70% 计算。">${money(x.agentSalary)}${x.agentSalaryRate===0.7?'<span class="settlementReadonlyState">按 70%</span>':''}</td>
       <td class="${hostRowAdjustment(x)<0?'redTxt':hostRowAdjustment(x)>0?'greenTxt':''}">${hostRowAdjustment(x)?((hostRowAdjustment(x)>0?'+':'')+money(hostRowAdjustment(x))):'$0.00'}</td>
       <td class="money">${money(hostFinalSalary(x))}</td><td class="money">${money(hostFinalSalary(x)+Number(x.agentSalary||0))}</td>
-      <td>${Number(hostFinalSalary(x)||0)<10?'金币':'现金'}</td><td>代理代收</td><td>${x.agencyUid}</td><td class="money">${fmt(x.excessCoins)}</td>
+      <td>${Number(hostFinalSalary(x)||0)<5?'金币':'现金'}</td><td>代理代收</td><td>${x.agencyUid}</td><td class="money">${fmt(x.excessCoins)}</td>
     </tr>`).join('');
     return `<div class="memberRelationNote"><b>主播周结算 = 代理周账单的逐 Host 构成。</b> 主播需调整只由财务修改；对应代理本人薪资按该 Host 的 Coins Tier 计算，Working Time 未达标时按 70% 计入。Host 不单独生成用户账单。</div>
     <div class="table-responsive tableWrap"><table class="table settlementHostWeeklyTable"><thead><tr>
@@ -4115,7 +4115,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
 <script id="v38-bd-weekly-status-actions-script">
 /* v38 — BD+ weekly settlement now uses the same status/action workflow as BD+ monthly settlement. */
 (function(){
-  function settlementKindV38(amount){return Number(amount||0)<10?'金币':'现金'}
+  function settlementKindV38(amount){return Number(amount||0)<5?'金币':'现金'}
   function hostIsEffectiveV38(x){return Number(x.validDays||0)>=4 && Number(x.validHours||0)>=10}
 
   /* Preserve v36 filters and make BD+ weekly a billable settlement table. */
@@ -5089,8 +5089,8 @@ document.querySelectorAll('[data-ct-view]').forEach(function(button){
   const rcGlobalSkus=[{id:'SKU-001',usd:1,sort:1,visible:true,used:true},{id:'SKU-005',usd:5,sort:2,visible:true,used:true},{id:'SKU-010',usd:10,sort:3,visible:true,used:true},{id:'SKU-020',usd:20,sort:4,visible:true,used:true},{id:'SKU-050',usd:50,sort:5,visible:true,used:true},{id:'SKU-100',usd:100,sort:6,visible:true,used:true}];
   const rcOverrides={PK:{'SKU-001':{visible:false},'SKU-010':{localPrice:2799}},IN:{'SKU-005':{localPrice:419}},BD:{},NG:{'SKU-001':{visible:false}},EG:{}};
   const rcExtras={PK:[{id:'PK-500',usd:500/282,sort:1.5,visible:true,localPrice:500,used:true}],IN:[],BD:[],NG:[],EG:[]};
-  const rcRules={SELF:[{min:100,bonus:40},{min:500,bonus:42},{min:1000,bonus:44},{min:2000,bonus:45}],SALARY:[{min:10,bonus:36},{min:2000,bonus:45}],H5:[{min:1,bonus:0},{min:5,bonus:2},{min:10,bonus:4},{min:20,bonus:7},{min:50,bonus:10},{min:100,bonus:14}]};
-  const rcHistory=[{time:'刚刚',item:'Salary Payout 规则',change:'新增 $10 / 36% 与 $2,000 / 45% 档位 · V5',operator:'Current Admin'},{time:'刚刚',item:'Self Top-up 规则',change:'沿用原币商进货返币档位',operator:'Current Admin'},{time:'08/28 02:30',item:'PKR 内部汇率',change:'280 → 282',operator:'Admin A'},{time:'08/27 18:10',item:'Self Top-up 规则',change:'更新至 V3',operator:'Admin B'}];
+  const rcRules={SELF:[{min:100,bonus:40},{min:500,bonus:42},{min:1000,bonus:44},{min:2000,bonus:45}],SALARY:[{min:5,bonus:36},{min:2000,bonus:45}],H5:[{min:1,bonus:0},{min:5,bonus:2},{min:10,bonus:4},{min:20,bonus:7},{min:50,bonus:10},{min:100,bonus:14}]};
+  const rcHistory=[{time:'刚刚',item:'Salary Payout 规则',change:'新增 $5 / 36% 与 $2,000 / 45% 档位 · V5',operator:'Current Admin'},{time:'刚刚',item:'Self Top-up 规则',change:'沿用原币商进货返币档位',operator:'Current Admin'},{time:'08/28 02:30',item:'PKR 内部汇率',change:'280 → 282',operator:'Admin A'},{time:'08/27 18:10',item:'Self Top-up 规则',change:'更新至 V3',operator:'Admin B'}];
   let rcScope='GLOBAL',rcRuleType='SELF',rcEditSku=null,rcEditFx=null,rcEditCountry=null,rcStatusCountry=null;
   let rcSkuDraftMode='EDIT';
   const rcOpen=id=>$('#'+id)?.classList.add('show'),rcClose=id=>$('#'+id)?.classList.remove('show');
@@ -6454,8 +6454,8 @@ body:not([data-business-view="HQ"]) #ctBackendAddBtn,body:not([data-business-vie
   }
   normalizeAllPayments();
 
-  window.actualSettlementMethod=function(x){const configured=normalizeConfiguredMethod(x?.configuredPayType||x?.payType),amount=Number(x?.final);if(Number.isFinite(amount)&&amount<10)return COINS;if(configured===PERSONAL_ACCOUNT)return COINS;return configured};
-  window.actualSettlementReason=function(x){const configured=normalizeConfiguredMethod(x?.configuredPayType||x?.payType),actual=actualSettlementMethod(x),amount=Number(x?.final);if(Number.isFinite(amount)&&amount<10)return '低于 $10，系统自动转金币';if(actual===COINS)return '个人账号结算';return '按用户配置'};
+  window.actualSettlementMethod=function(x){const configured=normalizeConfiguredMethod(x?.configuredPayType||x?.payType),amount=Number(x?.final);if(Number.isFinite(amount)&&amount<5)return COINS;if(configured===PERSONAL_ACCOUNT)return COINS;return configured};
+  window.actualSettlementReason=function(x){const configured=normalizeConfiguredMethod(x?.configuredPayType||x?.payType),actual=actualSettlementMethod(x),amount=Number(x?.final);if(Number.isFinite(amount)&&amount<5)return '低于 $5，系统自动转金币';if(actual===COINS)return '个人账号结算';return '按用户配置'};
   window.actualSettlementAddress=function(x){const configured=normalizeConfiguredMethod(x?.configuredPayType||x?.payType),actual=actualSettlementMethod(x);if(configured===COIN_TRADER&&(actual===COIN_TRADER||actual===COINS))return x?.payAddress||'—';return actual===COINS?personalAddress(x):(x?.payAddress||'—')};
   window.syncSettlementMethodState=function(x){if(!x)return;normalizeBillRow(x);const actual=actualSettlementMethod(x);x.settlementType=(actual===COINS||actual===COIN_TRADER)?'金币':'现金'};
 
@@ -6508,15 +6508,15 @@ body:not([data-business-view="HQ"]) #ctBackendAddBtn,body:not([data-business-vie
 
   window.agencyWeeklyTable=function(){
     refreshAgencyWeeklyTotals();const type='agencyWeekly',rows=settlementFilter(agencyWeeklySettlement),body=rows.map(x=>`<tr><td class="coinSelectCell">${coinCheckbox(type,x)}</td><td>${identityMerged(x.name,x.uid)}</td><td>${displayCountry(x.country)}</td><td>${x.hosts}</td><td>${x.effectiveHosts}</td><td class="money">${fmt(x.totalCoins)}</td><td class="money">${fmt(x.totalDiamonds)}</td><td>${money(x.hostSalary)}</td><td>${money(x.hostSettlement)}</td><td>${money(x.agentOwnSalary)}</td><td>${money(x.agentTotalSalary)}</td><td class="${x.agentAdj<0?'redTxt':x.agentAdj>0?'greenTxt':''}">${x.agentAdj?((x.agentAdj>0?'+':'')+money(x.agentAdj)):'$0.00'}</td><td class="money">${money(x.final)}</td><td>${configuredMethodCell(x)}</td><td>${actualMethodCell(x)}</td><td>${actualSettlementAddress(x)}</td><td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td><td>${agencyWeeklyActions(x)}</td></tr>`).join('');
-    return `<div class="memberRelationNote"><b>代理周结算 = 实际付款账单。</b> 配置收款方式支持 Coins / USDT / 银行 / 电子钱包 / Coin Trader Top-up。<b>Final Salary &lt; $10 时统一发至个人 Coins 账户；Coin Trader Top-up 仅在 Final Salary ≥ $10 时生效。Agency 低金额账单继续执行一期 Host / Agency 拆分规则。</b></div><div class="table-responsive tableWrap"><table class="table settlementAgencyWeeklyTable"><thead><tr><th class="coinSelectCell">${coinHeader(type)}</th><th>代理昵称、ID</th><th>国家</th><th>总主播数</th><th>有效主播数</th><th>总金币</th><th>总钻石</th><th>主播总薪资</th><th>主播总结算</th><th>代理本人总薪资</th><th>代理总薪资</th><th>代理需调整</th><th>代理总结算</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>财务状态</th><th>用户账单状态</th><th>付款状态</th><th>拒绝原因</th><th>操作</th></tr></thead><tbody>${body||'<tr><td colspan="21"><div class="empty">暂无符合条件的代理周结算数据。</div></td></tr>'}</tbody></table></div>`;
+    return `<div class="memberRelationNote"><b>代理周结算 = 实际付款账单。</b> 配置收款方式支持 Coins / USDT / 银行 / 电子钱包 / Coin Trader Top-up。<b>Final Salary &lt; $5 时统一发至个人 Coins 账户；Coin Trader Top-up 仅在 Final Salary ≥ $5 时生效。Agency 低金额账单继续执行一期 Host / Agency 拆分规则。</b></div><div class="table-responsive tableWrap"><table class="table settlementAgencyWeeklyTable"><thead><tr><th class="coinSelectCell">${coinHeader(type)}</th><th>代理昵称、ID</th><th>国家</th><th>总主播数</th><th>有效主播数</th><th>总金币</th><th>总钻石</th><th>主播总薪资</th><th>主播总结算</th><th>代理本人总薪资</th><th>代理总薪资</th><th>代理需调整</th><th>代理总结算</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>财务状态</th><th>用户账单状态</th><th>付款状态</th><th>拒绝原因</th><th>操作</th></tr></thead><tbody>${body||'<tr><td colspan="21"><div class="empty">暂无符合条件的代理周结算数据。</div></td></tr>'}</tbody></table></div>`;
   };
 
   window.managementWeeklyTable=function(){
-    const type='managementWeekly',rows=settlementFilter(managementWeeklySettlement);return `<div class="memberRelationNote"><b>BD+ 周结算。</b> 支持完整账单状态；Final Salary &lt; $10 统一发至本人个人 Coins 账户；Coin Trader Top-up 仅在 Final Salary ≥ $10 时生效。</div><div class="table-responsive tableWrap"><table class="table settlementManagementWeeklyTable"><thead><tr><th class="coinSelectCell">${coinHeader(type)}</th><th>昵称、ID</th><th>角色</th><th>国家</th><th>总代理数</th><th>总主播数</th><th>有效主播数</th><th>代理总薪资</th><th>Weekly Agency Salary</th><th>等级</th><th>提成比例</th><th>提成薪资</th><th>等级底薪（实发）</th><th>总薪资</th><th>需调整</th><th>总结算</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>财务状态</th><th>用户账单状态</th><th>付款状态</th><th>拒绝原因</th><th>操作</th></tr></thead><tbody>${rows.map(x=>`<tr><td class="coinSelectCell">${coinCheckbox(type,x)}</td><td>${identityMerged(x.name,x.uid)}</td><td>${x.role}</td><td>${displayCountry(x.country)}</td><td>${x.totalAgents}</td><td>${x.totalHosts}</td><td>${x.effectiveHosts}</td><td>${money(x.agentTotalSalary)}</td><td>${money(x.weeklyAgencySalary??x.weekly)}</td><td>${x.level}</td><td>${x.rate}%</td><td>${money(x.commission)}</td><td>${money(x.base)}</td><td>${money(x.calc)}</td><td class="${x.adj<0?'redTxt':x.adj>0?'greenTxt':''}">${x.adj?((x.adj>0?'+':'')+money(x.adj)):'$0.00'}</td><td class="money">${money(x.final)}</td><td>${configuredMethodCell(x)}</td><td>${actualMethodCell(x)}</td><td>${actualSettlementAddress(x)}</td><td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td><td>${managementWeeklyActions(x)}</td></tr>`).join('')||'<tr><td colspan="24"><div class="empty">暂无 BD+ 周结算数据。</div></td></tr>'}</tbody></table></div>`;
+    const type='managementWeekly',rows=settlementFilter(managementWeeklySettlement);return `<div class="memberRelationNote"><b>BD+ 周结算。</b> 支持完整账单状态；Final Salary &lt; $5 统一发至本人个人 Coins 账户；Coin Trader Top-up 仅在 Final Salary ≥ $5 时生效。</div><div class="table-responsive tableWrap"><table class="table settlementManagementWeeklyTable"><thead><tr><th class="coinSelectCell">${coinHeader(type)}</th><th>昵称、ID</th><th>角色</th><th>国家</th><th>总代理数</th><th>总主播数</th><th>有效主播数</th><th>代理总薪资</th><th>Weekly Agency Salary</th><th>等级</th><th>提成比例</th><th>提成薪资</th><th>等级底薪（实发）</th><th>总薪资</th><th>需调整</th><th>总结算</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>财务状态</th><th>用户账单状态</th><th>付款状态</th><th>拒绝原因</th><th>操作</th></tr></thead><tbody>${rows.map(x=>`<tr><td class="coinSelectCell">${coinCheckbox(type,x)}</td><td>${identityMerged(x.name,x.uid)}</td><td>${x.role}</td><td>${displayCountry(x.country)}</td><td>${x.totalAgents}</td><td>${x.totalHosts}</td><td>${x.effectiveHosts}</td><td>${money(x.agentTotalSalary)}</td><td>${money(x.weeklyAgencySalary??x.weekly)}</td><td>${x.level}</td><td>${x.rate}%</td><td>${money(x.commission)}</td><td>${money(x.base)}</td><td>${money(x.calc)}</td><td class="${x.adj<0?'redTxt':x.adj>0?'greenTxt':''}">${x.adj?((x.adj>0?'+':'')+money(x.adj)):'$0.00'}</td><td class="money">${money(x.final)}</td><td>${configuredMethodCell(x)}</td><td>${actualMethodCell(x)}</td><td>${actualSettlementAddress(x)}</td><td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td><td>${managementWeeklyActions(x)}</td></tr>`).join('')||'<tr><td colspan="24"><div class="empty">暂无 BD+ 周结算数据。</div></td></tr>'}</tbody></table></div>`;
   };
 
   window.managementMonthlyTable=function(){
-    const type='managementMonthly',rows=settlementFilter(managementMonthlySettlement);return `<div class="memberRelationNote"><b>BD+ 月结算 = 本发放周期内 4 个已完成周结算的实际付款账单。</b> Final Salary &lt; $10 统一发至本人个人 Coins 账户；Final Salary ≥ $10 按 Preferred Payment Method 结算，Coin Trader Top-up 可发至指定 Coin Trader Inventory。</div><div class="table-responsive tableWrap"><table class="table settlementManagementMonthlyTable"><thead><tr><th class="coinSelectCell">${coinHeader(type)}</th><th>昵称、ID</th><th>角色</th><th>国家</th><th>周期范围</th>${(managementMonthlySettlement[0]?.weeklyEntries||[]).map(w=>`<th>${w.period}</th>`).join('')}<th>月累计薪资</th><th>月度财务调整</th><th>最终应发金额</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>财务状态</th><th>用户账单状态</th><th>付款状态</th><th>拒绝原因</th><th>操作</th></tr></thead><tbody>${rows.map(x=>`<tr><td class="coinSelectCell">${coinCheckbox(type,x)}</td><td>${identityMerged(x.name,x.uid)}</td><td>${x.role}</td><td>${displayCountry(x.country)}</td><td>${x.period}</td>${x.weeklyEntries.map(w=>`<td>${money(w.final)}</td>`).join('')}<td>${money(x.weeklyTotal)}</td><td class="${x.adj<0?'redTxt':x.adj>0?'greenTxt':''}">${x.adj?((x.adj>0?'+':'')+money(x.adj)):'$0.00'}</td><td class="money">${money(x.final)}</td><td>${configuredMethodCell(x)}</td><td>${actualMethodCell(x)}</td><td>${actualSettlementAddress(x)}</td><td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td><td>${monthlyManagementActions(x)}</td></tr>`).join('')||'<tr><td colspan="${16+(managementMonthlySettlement[0]?.weeklyEntries.length||4)}"><div class="empty">暂无 BD+ 月结算账单。</div></td></tr>'}</tbody></table></div>`;
+    const type='managementMonthly',rows=settlementFilter(managementMonthlySettlement);return `<div class="memberRelationNote"><b>BD+ 月结算 = 本发放周期内 4 个已完成周结算的实际付款账单。</b> Final Salary &lt; $5 统一发至本人个人 Coins 账户；Final Salary ≥ $5 按 Preferred Payment Method 结算，Coin Trader Top-up 可发至指定 Coin Trader Inventory。</div><div class="table-responsive tableWrap"><table class="table settlementManagementMonthlyTable"><thead><tr><th class="coinSelectCell">${coinHeader(type)}</th><th>昵称、ID</th><th>角色</th><th>国家</th><th>周期范围</th>${(managementMonthlySettlement[0]?.weeklyEntries||[]).map(w=>`<th>${w.period}</th>`).join('')}<th>月累计薪资</th><th>月度财务调整</th><th>最终应发金额</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>财务状态</th><th>用户账单状态</th><th>付款状态</th><th>拒绝原因</th><th>操作</th></tr></thead><tbody>${rows.map(x=>`<tr><td class="coinSelectCell">${coinCheckbox(type,x)}</td><td>${identityMerged(x.name,x.uid)}</td><td>${x.role}</td><td>${displayCountry(x.country)}</td><td>${x.period}</td>${x.weeklyEntries.map(w=>`<td>${money(w.final)}</td>`).join('')}<td>${money(x.weeklyTotal)}</td><td class="${x.adj<0?'redTxt':x.adj>0?'greenTxt':''}">${x.adj?((x.adj>0?'+':'')+money(x.adj)):'$0.00'}</td><td class="money">${money(x.final)}</td><td>${configuredMethodCell(x)}</td><td>${actualMethodCell(x)}</td><td>${actualSettlementAddress(x)}</td><td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td><td>${monthlyManagementActions(x)}</td></tr>`).join('')||'<tr><td colspan="${16+(managementMonthlySettlement[0]?.weeklyEntries.length||4)}"><div class="empty">暂无 BD+ 月结算账单。</div></td></tr>'}</tbody></table></div>`;
   };
 
   window.settlementQueueTable=function(status){
@@ -7377,7 +7377,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   const PERSONAL_COIN_RATE=20000;
   const round2=n=>Math.round((Number(n||0)+Number.EPSILON)*100)/100;
   const nowText=()=>typeof formatAdminTime==='function'?formatAdminTime(new Date(),8):new Date().toISOString().replace('T',' ').slice(0,19)+' UTC+8';
-  const splitBill=x=>!!x&&Number.isFinite(Number(x.final))&&Number(x.final)>0&&Number(x.final)<10&&x.agentOwnSalary!=null&&x.hostSettlement!=null;
+  const splitBill=x=>!!x&&Number.isFinite(Number(x.final))&&Number(x.final)>0&&Number(x.final)<5&&x.agentOwnSalary!=null&&x.hostSettlement!=null;
   const hostNotice='本次主播薪资已以 Coins 发放至你的个人 Coins 账户，请查收。';
   const agentNotice='本次代理薪资已以 Coins 发放至你的个人 Coins 账户。旗下主播薪资已分别发放至主播本人。';
 
@@ -7422,7 +7422,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   window.openAgencyPayoutDetails=function(uid){
     const a=agencyWeeklySettlement.find(x=>String(x.uid)===String(uid));if(!a)return toast('未找到代理结算单');
     const details=buildAgencyPayoutDetails(a);
-    openDrawer('Coins 发放明细',`<div class="detailHero"><div class="avatar">$</div><div><h3>${a.name}</h3><p>Agent Salary Bill · UID ${a.uid}</p></div></div><div class="detailSec"><div class="splitPayoutRule"><b>账单低于 $10，按薪资归属拆分发放。</b><span>Host Salary → Host 本人个人 Coins 账户；Agent Salary → Agency 本人个人 Coins 账户；统一按 1 USD = 20,000 Coins 换算。</span></div>${summaryHtml(a,details)}<div class="table-responsive tableWrap"><table class="table splitPayoutTable splitPayoutTableSimple"><thead><tr><th>收款人</th><th>薪资类型</th><th>金额（$）</th><th>折算金币</th><th>状态</th><th>操作</th></tr></thead><tbody>${payoutRowsHtml(details,true)}</tbody></table></div></div>`)
+    openDrawer('Coins 发放明细',`<div class="detailHero"><div class="avatar">$</div><div><h3>${a.name}</h3><p>Agent Salary Bill · UID ${a.uid}</p></div></div><div class="detailSec"><div class="splitPayoutRule"><b>账单低于 $5，按薪资归属拆分发放。</b><span>Host Salary → Host 本人个人 Coins 账户；Agent Salary → Agency 本人个人 Coins 账户；统一按 1 USD = 20,000 Coins 换算。</span></div>${summaryHtml(a,details)}<div class="table-responsive tableWrap"><table class="table splitPayoutTable splitPayoutTableSimple"><thead><tr><th>收款人</th><th>薪资类型</th><th>金额（$）</th><th>折算金币</th><th>状态</th><th>操作</th></tr></thead><tbody>${payoutRowsHtml(details,true)}</tbody></table></div></div>`)
   };
 
   window.openAgencyPayoutRecord=function(encodedKey){
@@ -7454,9 +7454,9 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   /* Add one low-amount Agency Bill fixture so the split payout flow is directly testable in the latest demo. */
   if(!agencyWeeklySettlement.some(a=>String(a.uid)==='310088')){
     const demoHosts=[
-      {uid:'99010001',name:'Ayla Mini',hostCountry:'Pakistan',agency:'Lite Voice Agency',agencyUid:'310088',level:'Lv5',newHost:false,totalCoins:180000,totalDiamonds:45000,diamondBalance:18000,validDays:4,validHours:10.4,tierSalary:1.80,diamondSalary:0.40,hostSalary:2.20,agentSalary:0.70,agentSalaryRate:1,adj:0,excessCoins:0,finance:'Published',bill:'—',payout:'—'},
-      {uid:'99010002',name:'Noor Mini',hostCountry:'Pakistan',agency:'Lite Voice Agency',agencyUid:'310088',level:'Lv5',newHost:false,totalCoins:250000,totalDiamonds:62500,diamondBalance:22000,validDays:4,validHours:11.1,tierSalary:2.00,diamondSalary:0.40,hostSalary:2.40,agentSalary:0.80,agentSalaryRate:1,adj:0,excessCoins:0,finance:'Published',bill:'—',payout:'—'},
-      {uid:'99010003',name:'Mina Mini',hostCountry:'Pakistan',agency:'Lite Voice Agency',agencyUid:'310088',level:'Lv4',newHost:true,totalCoins:140000,totalDiamonds:35000,diamondBalance:12000,validDays:4,validHours:10.2,tierSalary:1.20,diamondSalary:0.40,hostSalary:1.60,agentSalary:0.60,agentSalaryRate:1,adj:0,excessCoins:0,finance:'Published',bill:'—',payout:'—'}
+      {uid:'99010001',name:'Ayla Mini',hostCountry:'Pakistan',agency:'Lite Voice Agency',agencyUid:'310088',level:'Lv5',newHost:false,totalCoins:180000,totalDiamonds:45000,diamondBalance:18000,validDays:4,validHours:10.4,tierSalary:0.80,diamondSalary:0.20,hostSalary:1.00,agentSalary:0.30,agentSalaryRate:1,adj:0,excessCoins:0,finance:'Published',bill:'—',payout:'—'},
+      {uid:'99010002',name:'Noor Mini',hostCountry:'Pakistan',agency:'Lite Voice Agency',agencyUid:'310088',level:'Lv5',newHost:false,totalCoins:250000,totalDiamonds:62500,diamondBalance:22000,validDays:4,validHours:11.1,tierSalary:1.00,diamondSalary:0.20,hostSalary:1.20,agentSalary:0.40,agentSalaryRate:1,adj:0,excessCoins:0,finance:'Published',bill:'—',payout:'—'},
+      {uid:'99010003',name:'Mina Mini',hostCountry:'Pakistan',agency:'Lite Voice Agency',agencyUid:'310088',level:'Lv4',newHost:true,totalCoins:140000,totalDiamonds:35000,diamondBalance:12000,validDays:4,validHours:10.2,tierSalary:0.60,diamondSalary:0.20,hostSalary:0.80,agentSalary:0.30,agentSalaryRate:1,adj:0,excessCoins:0,finance:'Published',bill:'—',payout:'—'}
     ];
     demoHosts.forEach(h=>hostWeeklySettlement.push({...h,workingQualified:true,coinsQualified:true,tierQualified:true,agentSalaryFull:h.agentSalary,final:h.hostSalary}));
     agencyWeeklySettlement.push({uid:'310088',name:'Lite Voice Agency',country:'Pakistan',newAgent:true,hosts:3,effectiveHosts:3,salaryHosts:3,qualifiedHosts:3,unqualifiedTimeHosts:0,totalCoins:0,totalDiamonds:0,totalValidHours:0,hostSalary:0,hostSettlement:0,agentOwnSalary:0,agentTotalSalary:0,hostAdjustment:0,agencySalary:0,agentAdj:0,calc:0,final:0,payType:'USDT',configuredPayType:'USDT',payAddress:'TRC20 · TLow...0088',paymentDetails:{'网络':'TRC20','钱包地址':'TLowAmountDemo0088','账户名称':'Lite Voice Agency','代理 UID':'310088'},finance:'Published',bill:'Confirmed',payout:'Unpaid',rejectReason:'—'});
@@ -7493,7 +7493,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   const agencyTableBase=window.agencyWeeklyTable;
   window.agencyWeeklyTable=function(){
     let html=agencyTableBase();
-    html=html.replace(/<b>Settlement Salary &lt; \$10[\s\S]*?<\/b>/,'<b>Settlement Salary &lt; $10 时，Agency Bill 仍保留 1 张，实际付款拆成多条 Payout Detail：Host Salary → 各 Host 本人；Agent Salary Total → Agency 本人。</b>');
+    html=html.replace(/<b>Settlement Salary &lt; \$5[\s\S]*?<\/b>/,'<b>Settlement Salary &lt; $5 时，Agency Bill 仍保留 1 张，实际付款拆成多条 Payout Detail：Host Salary → 各 Host 本人；Agent Salary Total → Agency 本人。</b>');
     return html;
   };
 
@@ -7531,7 +7531,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
     const rows=boxes.map(b=>{const raw=b.dataset.coinKey||'',idx=raw.indexOf(':');const type=raw.slice(0,idx),uid=raw.slice(idx+1),x=getBill(type,uid);return {type,uid,x}}).filter(r=>r.x&&(!window.canIssueCoinBill||canIssueCoinBill(r.type,r.x)));
     if(!rows.length)return toast('请先勾选可发放的金币结算单');
     const total=round2(rows.reduce((s,r)=>s+Number(r.x.final||0),0)),totalCoins=rows.reduce((sum,r)=>sum+(r.type==='agencyWeekly'&&splitBill(r.x)?buildAgencyPayoutDetails(r.x).reduce((ss,d)=>ss+Number(d.coinsAmount||0),0):(String(r.x.configuredPayType||r.x.payType)==='Coin Trader Top-up'?Math.round(Number(r.x.final||0)*(Number(r.x.final||0)>=2000?20300:19040)):Math.round(Number(r.x.final||0)*PERSONAL_COIN_RATE))),0),detailCount=rows.reduce((n,r)=>n+(r.type==='agencyWeekly'&&splitBill(r.x)?buildAgencyPayoutDetails(r.x).length:1),0);
-    openModal('批量发放金币',`<div class="note"><b>将发放 ${rows.length} 张账单，共 ${detailCount} 条实际 Payout。</b><br>低于 $10 的账单统一按 <b>1 USD = 20,000 Coins</b> 发至个人 Coins 账户；Coin Trader Top-up 仅在金额 ≥ $10 时生效，并按币商代收薪资政策计算；低于 $10 的 Agency Bill 按一期规则拆分发放。</div><div class="coinBatchMeta"><div><span>账单数</span><b>${rows.length} 张</b></div><div><span>Payout 数</span><b>${detailCount} 条</b></div><div><span>Settlement Salary 合计</span><b>${money(total)}</b></div><div><span>发放 Coins 合计</span><b>${fmt(totalCoins)}</b></div></div>`,'确认批量发放',()=>{rows.forEach(r=>{if(r.type==='agencyWeekly'&&splitBill(r.x)){completeAgencySplitPayout(r.x)}else{r.x.payout='Paid';r.x.coinIssuedAt=nowText();r.x.coinIssuedBy='Current Admin';r.x.coinTxnId=`COIN-${Date.now()}-${r.x.uid}`;r.x.coinAmount=(String(r.x.configuredPayType||r.x.payType)==='Coin Trader Top-up'?Math.round(Number(r.x.final||0)*(Number(r.x.final||0)>=2000?20300:19040)):Math.round(Number(r.x.final||0)*PERSONAL_COIN_RATE))}});closeModal();renderSettlement();updatePendingCounters();toast(`已完成 ${detailCount} 条实际 Payout`)})
+    openModal('批量发放金币',`<div class="note"><b>将发放 ${rows.length} 张账单，共 ${detailCount} 条实际 Payout。</b><br>低于 $5 的账单统一按 <b>1 USD = 20,000 Coins</b> 发至个人 Coins 账户；Coin Trader Top-up 仅在金额 ≥ $5 时生效，并按币商代收薪资政策计算；低于 $5 的 Agency Bill 按一期规则拆分发放。</div><div class="coinBatchMeta"><div><span>账单数</span><b>${rows.length} 张</b></div><div><span>Payout 数</span><b>${detailCount} 条</b></div><div><span>Settlement Salary 合计</span><b>${money(total)}</b></div><div><span>发放 Coins 合计</span><b>${fmt(totalCoins)}</b></div></div>`,'确认批量发放',()=>{rows.forEach(r=>{if(r.type==='agencyWeekly'&&splitBill(r.x)){completeAgencySplitPayout(r.x)}else{r.x.payout='Paid';r.x.coinIssuedAt=nowText();r.x.coinIssuedBy='Current Admin';r.x.coinTxnId=`COIN-${Date.now()}-${r.x.uid}`;r.x.coinAmount=(String(r.x.configuredPayType||r.x.payType)==='Coin Trader Top-up'?Math.round(Number(r.x.final||0)*(Number(r.x.final||0)>=2000?20300:19040)):Math.round(Number(r.x.final||0)*PERSONAL_COIN_RATE))}});closeModal();renderSettlement();updatePendingCounters();toast(`已完成 ${detailCount} 条实际 Payout`)})
   };
 
   const payoutRecordBase=window.openCoinPayoutRecord;
@@ -7555,7 +7555,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
 <script id="v81-payout-account-link-script">
 (()=>{
   function isAgencySplitBill(x){
-    return !!x && Number.isFinite(Number(x.final)) && Number(x.final)>0 && Number(x.final)<10 && x.agentOwnSalary!=null && x.hostSettlement!=null;
+    return !!x && Number.isFinite(Number(x.final)) && Number(x.final)>0 && Number(x.final)<5 && x.agentOwnSalary!=null && x.hostSettlement!=null;
   }
   function agencySplitAccountCount(uid){
     const hosts=(window.hostWeeklySettlement||hostWeeklySettlement||[]).filter(h=>String(h.agencyUid)===String(uid) && Number(typeof hostFinalSalary==='function'?hostFinalSalary(h):h.hostSalary||0)>0);
@@ -7620,7 +7620,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
 
   const n=x=>Number(x?.final||0);
   const positive=x=>Number.isFinite(n(x)) && n(x)>0;
-  const low=x=>positive(x) && n(x)<10;
+  const low=x=>positive(x) && n(x)<5;
   const normalize=v=>{
     v=String(v??'').trim();
     if(!v||v==='—'||v==='Not set') return '';
@@ -7663,7 +7663,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   }
   function actualCell(x){
     const a=actualMethod(x);
-    const tip=low(x)?'低于 $10，系统自动转金币':(!configured(x)&&a===COINS?'未设置 Preferred，系统兜底':'');
+    const tip=low(x)?'低于 $5，系统自动转金币':(!configured(x)&&a===COINS?'未设置 Preferred，系统兜底':'');
     return `<div class="coinMethod"><div><span class="${a===COINS?'coinMethodMain':''}">${a}</span>${tip?`<small>${tip}</small>`:''}</div></div>`;
   }
 
@@ -7716,7 +7716,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   window.actualSettlementMethod=actualMethod;
   window.actualSettlementAddress=actualAddress;
   window.actualSettlementReason=x=>{
-    if(low(x)) return '低于 $10，系统自动转金币';
+    if(low(x)) return '低于 $5，系统自动转金币';
     if(!configured(x)&&actualMethod(x)===COINS) return '未设置 Preferred，系统兜底';
     return '按用户配置';
   };
@@ -7746,7 +7746,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       <td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td>
       <td>${agencyWeeklyActions(x)}</td>
     </tr>`).join('');
-    return `<div class="memberRelationNote"><b>代理周结算 = 实际付款账单。</b> Final Salary &lt; $10 时沿用一期拆分并统一发至 Host / Agency 本人个人 Coins；Coin Trader Top-up 仅在 Final Salary ≥ $10 时生效。未设置 Preferred 时由个人 Coins 账户兜底。</div>
+    return `<div class="memberRelationNote"><b>代理周结算 = 实际付款账单。</b> Final Salary &lt; $5 时沿用一期拆分并统一发至 Host / Agency 本人个人 Coins；Coin Trader Top-up 仅在 Final Salary ≥ $5 时生效。未设置 Preferred 时由个人 Coins 账户兜底。</div>
     <div class="table-responsive tableWrap"><table class="table settlementAgencyWeeklyTable"><thead><tr>
       <th class="coinSelectCell">${coinHeader(type)}</th><th>代理昵称、ID</th><th>国家</th><th>总主播数</th><th>有效主播数</th><th>总金币</th><th>总钻石</th>
       <th>主播总薪资</th><th>主播总结算</th><th>代理本人总薪资</th><th>代理总薪资</th><th>代理需调整</th><th>代理总结算</th>
@@ -7766,7 +7766,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       <td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td>
       <td>${monthlyManagementActions(x)}</td>
     </tr>`).join('');
-    return `<div class="memberRelationNote"><b>BD+ 月结算 = 实际付款账单。</b> Final Salary &lt; $10 统一发至本人个人 Coins；Final Salary ≥ $10 按 Preferred 结算。Coin Trader Top-up 最低实际代收金额为 $10；未设置 Preferred 时个人 Coins 兜底。</div>
+    return `<div class="memberRelationNote"><b>BD+ 月结算 = 实际付款账单。</b> Final Salary &lt; $5 统一发至本人个人 Coins；Final Salary ≥ $5 按 Preferred 结算。Coin Trader Top-up 最低实际代收金额为 $5；未设置 Preferred 时个人 Coins 兜底。</div>
     <div class="table-responsive tableWrap"><table class="table settlementManagementMonthlyTable"><thead><tr>
       <th class="coinSelectCell">${coinHeader(type)}</th><th>昵称、ID</th><th>角色</th><th>国家</th><th>周期范围</th>${weekHeaders}
       <th>月累计薪资</th><th>月度财务调整</th><th>最终应发金额</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th>
@@ -7940,7 +7940,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   function actualCell(x){
     const v=actual(x);
     let tip='';
-    if(Number(x?.final)>0&&Number(x?.final)<10) tip='低于 $10，系统自动转金币';
+    if(Number(x?.final)>0&&Number(x?.final)<5) tip='低于 $5，系统自动转金币';
     else if(!getConfigured(x)&&v===COINS) tip='未设置 Preferred，系统兜底';
     return `<div class="coinMethod"><div><span class="${v===COINS?'coinMethodMain':''}">${v}</span>${tip?`<small>${tip}</small>`:''}</div></div>`;
   }
@@ -8017,7 +8017,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       <td>${rejectReasonCell(x.rejectReason)}</td>
       <td>${agencyWeeklyActions(x)}</td>
     </tr>`).join('');
-    return `<div class="memberRelationNote"><b>代理周结算 = 实际付款账单。</b> Final Salary &lt; $10 时继续一期 Host / Agency 拆分并发至个人 Coins；Final Salary ≥ $10 时按 Preferred Payment Method 结算，Coin Trader Top-up 可发至 Coin Trader Inventory。</div>
+    return `<div class="memberRelationNote"><b>代理周结算 = 实际付款账单。</b> Final Salary &lt; $5 时继续一期 Host / Agency 拆分并发至个人 Coins；Final Salary ≥ $5 时按 Preferred Payment Method 结算，Coin Trader Top-up 可发至 Coin Trader Inventory。</div>
       <div class="table-responsive tableWrap"><table class="table settlementAgencyWeeklyTable"><thead><tr>
       <th class="coinSelectCell">${headerCheckbox(type)}</th>
       <th>代理信息</th><th>国家/地区</th><th>总主播数</th><th>有效主播数</th><th>总金币</th><th>总钻石</th><th title="旗下 Host 本合作段计薪钻石余额合计。">计薪钻石余额</th>
@@ -8059,7 +8059,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       <td>${statusBadge(x.finance)}</td><td>${statusBadge(x.bill)}</td><td>${statusBadge(x.payout)}</td><td>${rejectReasonCell(x.rejectReason)}</td>
       <td>${monthlyManagementActions(x)}</td>
     </tr>`).join('');
-    return `<div class="memberRelationNote"><b>BD+ 月结算 = 实际付款账单。</b> Final Salary &lt; $10 统一发至本人个人 Coins；Final Salary ≥ $10 按 Preferred Payment Method 结算。Coin Trader Top-up 最低实际代收金额为 $10。</div>
+    return `<div class="memberRelationNote"><b>BD+ 月结算 = 实际付款账单。</b> Final Salary &lt; $5 统一发至本人个人 Coins；Final Salary ≥ $5 按 Preferred Payment Method 结算。Coin Trader Top-up 最低实际代收金额为 $5。</div>
       <div class="table-responsive tableWrap"><table class="table settlementManagementMonthlyTable"><thead><tr>
       <th class="coinSelectCell">${headerCheckbox(type)}</th><th>成员信息</th><th>角色</th><th>国家/地区</th><th>周期范围</th>${weekHeaders}
       <th>月累计薪资</th><th>月需调整</th><th>月总结算</th><th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th>
@@ -8094,7 +8094,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
 <script id="v93-payout-action-fix">
 (()=>{
   function isSplitAgentBill(x){
-    return !!x && Number.isFinite(Number(x.final)) && Number(x.final)>0 && Number(x.final)<10 &&
+    return !!x && Number.isFinite(Number(x.final)) && Number(x.final)>0 && Number(x.final)<5 &&
       x.agentOwnSalary!=null && x.hostSettlement!=null;
   }
   function splitAccountCount(uid){
@@ -8196,7 +8196,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   }
   function coins(x){ return Math.round(Number(x?.final||0)*rate(x)); }
   function lowAgent(type,x){
-    return type==='agencyWeekly' && Number(x?.final)>0 && Number(x?.final)<10;
+    return type==='agencyWeekly' && Number(x?.final)>0 && Number(x?.final)<5;
   }
   function traderValid(x){
     return actual(x)!==CT || (window.ctDepositEligible ? window.ctDepositEligible(x) : x?.coinTraderAvailable!==false);
@@ -8507,7 +8507,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       : (x?.configuredPayType||x?.payType||'Coins');
   }
   function isLowAgentV98(type,x){
-    return type==='agencyWeekly' && Number(x?.final)>0 && Number(x?.final)<10;
+    return type==='agencyWeekly' && Number(x?.final)>0 && Number(x?.final)<5;
   }
   function traderRateV98(x){
     return Number(x?.final||0)>=2000 ? 20300 : 19040;
@@ -8556,7 +8556,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
 
     const groups=[
       p.count?groupBlock('个人 Coins 账户',p.count,p.salary,p.coins,'1 USD = 20,000 Coins'):'',
-      t.count?groupBlock('Coin Trader Inventory',t.count,t.salary,t.coins,'$10–<$2,000：1 USD = 19,040 Coins；≥$2,000：1 USD = 20,300 Coins'):''
+      t.count?groupBlock('Coin Trader Inventory',t.count,t.salary,t.coins,'$5–<$2,000：1 USD = 19,040 Coins；≥$2,000：1 USD = 20,300 Coins'):''
     ].join('');
 
     openModal('批量发放金币',
@@ -8665,7 +8665,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   window.openCoinPayoutRecord = function(type, uid){
     const x = typeof getBill === 'function' ? getBill(type, uid) : null;
 
-    if(type === 'agencyWeekly' && x && Number(x.final) > 0 && Number(x.final) < 10 && x?.payoutDetails?.length){
+    if(type === 'agencyWeekly' && x && Number(x.final) > 0 && Number(x.final) < 5 && x?.payoutDetails?.length){
       return openAgencyPayoutDetails(uid);
     }
 
@@ -8879,7 +8879,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       if(!cell) return;
 
       // 一期低金额 Agency 拆分已有专属 Host / Agency 个人账户（N）入口，保持不变。
-      if(type==='agencyWeekly' && Number(x.final)>0 && Number(x.final)<10){
+      if(type==='agencyWeekly' && Number(x.final)>0 && Number(x.final)<5){
         return;
       }
 
@@ -8932,8 +8932,8 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
   window.openCoinPayoutRecord = function(type, uid){
     const x = typeof getBill === 'function' ? getBill(type, uid) : null;
 
-    // Agency < $10 继续使用一期拆分发放明细
-    if(type === 'agencyWeekly' && x && Number(x.final) > 0 && Number(x.final) < 10 && x?.payoutDetails?.length){
+    // Agency < $5 继续使用一期拆分发放明细
+    if(type === 'agencyWeekly' && x && Number(x.final) > 0 && Number(x.final) < 5 && x?.payoutDetails?.length){
       return openAgencyPayoutDetails(uid);
     }
 
@@ -9168,7 +9168,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
     const x=(arr||[]).find(v=>String(v.uid)===String(uid));
     if(!x) return toast('未找到结算单');
 
-    if(type==='agencyWeekly' && Number(x.final)>0 && Number(x.final)<10){
+    if(type==='agencyWeekly' && Number(x.final)>0 && Number(x.final)<5){
       return window.openAgencyPayoutDetails(uid);
     }
     const method=typeof window.actualSettlementMethod==='function'
@@ -9326,7 +9326,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
           .find(x => String(x.uid) === String(uid))
       : null;
 
-    if(a && Number(a.final) > 0 && Number(a.final) < 10){
+    if(a && Number(a.final) > 0 && Number(a.final) < 5){
       return window.openAgencyPayoutDetails(uid);
     }
     return recordBaseV104 ? recordBaseV104(type,uid) : undefined;
@@ -9384,7 +9384,7 @@ const cashSelection=new Set();const cashEligible=b=>b.bill==='Confirmed'&&b.payo
 function deadline(at){if(cash.batchDeadline&&new Date(cash.batchDeadline)>new Date(at))return new Date(cash.batchDeadline).toISOString();const d=new Date(new Date(at).getTime()+5*3600000);let shift=(3-d.getUTCDay()+7)%7;if(!shift)shift=7;return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+shift)-5*3600000).toISOString()}
 const stamp=v=>new Date(v).toLocaleString('zh-CN',{timeZone:'Asia/Karachi',hour12:false})+' UTC+5';
 function source(type,x,amount,period){const rawPeriod=period||x.period||'';let label=rawPeriod;const week=String(rawPeriod).match(/(20\d{2})-W(\d{1,2})/);if(week)label=week[1]+'-W'+week[2].padStart(2,'0');else{const date=String(rawPeriod).match(/20\d{2}-\d{2}-\d{2}/);if(date){const d=new Date(date[0]+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));const y=d.getUTCFullYear();label=y+'-W'+String(Math.ceil((((d-new Date(Date.UTC(y,0,1)))/86400000)+1)/7)).padStart(2,'0')}else label='2026-W34'}return {id:'CS'+cash.seq++,type,uid:x.uid,name:x.name,role:type==='agencyWeekly'?'Agency':x.role||'BD',billRole:type==='agencyWeekly'?'Agency':x.billRole||x.role||'BD',amount:Number(amount),period:label,originalPeriod:rawPeriod,original:x,linked:null}}
-function add(type,x,amount,period){if(x.cashSourceId)return;const s=source(type,x,amount,period);x.cashSourceId=s.id;x.lowCashChoice='cash';x.bill='Confirmed';cash.sources.push(s);let r=cash.balances.find(r=>r.uid===s.uid&&r.role===s.role);if(!r){r={id:'CB'+cash.seq++,uid:s.uid,name:s.name,role:s.role,sources:[]};cash.balances.push(r)}r.sources.push(s);s.linked=r.id;if(total(r)>=10)generate(r);return s}
+function add(type,x,amount,period){if(x.cashSourceId)return;const s=source(type,x,amount,period);x.cashSourceId=s.id;x.lowCashChoice='cash';x.bill='Confirmed';cash.sources.push(s);let r=cash.balances.find(r=>r.uid===s.uid&&r.role===s.role);if(!r){r={id:'CB'+cash.seq++,uid:s.uid,name:s.name,role:s.role,sources:[]};cash.balances.push(r)}r.sources.push(s);s.linked=r.id;if(total(r)>=5)generate(r);return s}
 const total=r=>Math.round(r.sources.reduce((n,s)=>n+s.amount,0)*100)/100;
 function generate(r){const x=r.sources[r.sources.length-1].original;const b={id:'CP'+cash.seq++,uid:r.uid,name:r.name,role:r.role,sources:r.sources.slice(),final:total(r),finance:'Published',bill:'Pending Confirmation',payout:'Unpaid',configuredPayType:x.configuredPayType||x.payType||'',payType:'',cashActual:'',payAddress:'',paymentDetails:{},paymentDetailsVersion:0,publishedAt:cash.clock,due:deadline(cash.clock),period:r.sources.map(s=>s.period).join(' / '),cashPayout:true};b.sources.forEach(s=>s.linked=b.id);r.sources=[];cash.bills.push(b);cash.messages.push({title:'累计现金发放账单已发布',body:'请选择现金收款方式并确认账单。',id:b.id});return b}
 window.getBill=function(type,uid){return cash.bills.find(b=>b.id===uid)||baseGet(type,uid)};
@@ -9394,9 +9394,9 @@ window.canIssueCoinBill=function(t,x){return x?.lowCashChoice==='cash'?false:bas
 for(const [name,type]of [['agencyWeeklyActions','agencyWeekly'],['monthlyManagementActions','managementMonthly']]){const old=window[name];window[name]=function(x){if(x.lowCashChoice==='cash')return '';return old(x)}}
 const issueBase=window.issueCoinBill;window.issueCoinBill=function(t,u){if(getBill(t,u)?.lowCashChoice==='cash')return toast('该账单已转入累计，不可单独发放');return issueBase(t,u)};
 function find(id){return cash.balances.find(x=>x.id===id)||cash.bills.find(x=>x.id===id)}
-window.openCashSources=function(id){const r=find(id);if(!r)return;openModal('累计现金明细',`<div class="cashPerson"><div class="cashAvatar">${esc(r.name.slice(0,1))}</div><div><b>${esc(r.name)}</b><div class="muted">UID ${esc(r.uid)}</div></div></div><div class="note" style="margin-top:16px"><b>按结算角色分别累计，满 $10 后自动生成发放账单。</b><p>本批生成后金额及来源账单锁定，后续低额账单进入下一批累计。</p></div><div class="cashMeta"><span><b>${money(r.final??total(r))}</b> ${r.final!=null?'发放':'累计'}金额</span><span><b>${r.sources.length}</b> 张来源账单</span></div><div class="tableWrap"><table class="table cashSourceTable"><thead><tr><th>账单类型</th><th>账单角色</th><th>周期</th><th>金额（$）</th></tr></thead><tbody>${r.sources.map(s=>`<tr><td>${s.type==='agencyWeekly'?'代理周账单':'管理月账单'}</td><td>${esc(s.billRole||s.role)}</td><td>${esc(s.period)}</td><td class="money">${money(s.amount)}</td></tr>`).join('')}</tbody></table></div>`);document.getElementById('modalFoot').innerHTML='';};
+window.openCashSources=function(id){const r=find(id);if(!r)return;openModal('累计现金明细',`<div class="cashPerson"><div class="cashAvatar">${esc(r.name.slice(0,1))}</div><div><b>${esc(r.name)}</b><div class="muted">UID ${esc(r.uid)}</div></div></div><div class="note" style="margin-top:16px"><b>按结算角色分别累计，满 $5 后自动生成发放账单。</b><p>本批生成后金额及来源账单锁定，后续低额账单进入下一批累计。</p></div><div class="cashMeta"><span><b>${money(r.final??total(r))}</b> ${r.final!=null?'发放':'累计'}金额</span><span><b>${r.sources.length}</b> 张来源账单</span></div><div class="tableWrap"><table class="table cashSourceTable"><thead><tr><th>账单类型</th><th>账单角色</th><th>周期</th><th>金额（$）</th></tr></thead><tbody>${r.sources.map(s=>`<tr><td>${s.type==='agencyWeekly'?'代理周账单':'管理月账单'}</td><td>${esc(s.billRole||s.role)}</td><td>${esc(s.period)}</td><td class="money">${money(s.amount)}</td></tr>`).join('')}</tbody></table></div>`);document.getElementById('modalFoot').innerHTML='';};
 window.openCashLinked=function(type,uid){const x=baseGet(type,uid),s=cash.sources.find(s=>s.id===x?.cashSourceId);if(s)openCashSources(s.linked)};
-function decorate(){if(!['agencyWeekly','managementMonthly'].includes(state.settlementTab))return;const rows=state.settlementTab==='agencyWeekly'?agencyWeeklySettlement:managementMonthlySettlement;const table=document.querySelector('#settlementContent table');if(!table)return;const heads=[...table.querySelectorAll('thead th')].map(n=>n.textContent.trim()),method=heads.indexOf('实际结算方式'),account=heads.indexOf('收款账号'),pay=heads.indexOf('付款状态');for(const tr of table.querySelectorAll('tbody tr')){const x=rows.find(x=>tr.textContent.includes(String(x.uid)));if(!x?.lowCashChoice)continue;const td=tr.querySelectorAll('td');if(x.lowCashChoice==='cash'){if(td[method])td[method].textContent=CASH;if(td[account])td[account].innerHTML=`<button class="op cashLink" onclick="openCashLinked('${state.settlementTab}','${x.uid}')">查看累计明细</button>`;if(td[pay])td[pay].innerHTML='<span class="muted">—</span>';tr.querySelectorAll('input[type=checkbox]').forEach(n=>{n.checked=false;n.disabled=true})}}const note=document.querySelector('#settlementContent .memberRelationNote');if(note)note.innerHTML='<b>低额结算：</b>新账单正额不足 $10 可选金币或累计现金；到期未确认默认金币。累计现金原账单不单独发放，实际付款统一在累计发放账单处理。';}
+function decorate(){if(!['agencyWeekly','managementMonthly'].includes(state.settlementTab))return;const rows=state.settlementTab==='agencyWeekly'?agencyWeeklySettlement:managementMonthlySettlement;const table=document.querySelector('#settlementContent table');if(!table)return;const heads=[...table.querySelectorAll('thead th')].map(n=>n.textContent.trim()),method=heads.indexOf('实际结算方式'),account=heads.indexOf('收款账号'),pay=heads.indexOf('付款状态');for(const tr of table.querySelectorAll('tbody tr')){const x=rows.find(x=>tr.textContent.includes(String(x.uid)));if(!x?.lowCashChoice)continue;const td=tr.querySelectorAll('td');if(x.lowCashChoice==='cash'){if(td[method])td[method].textContent=CASH;if(td[account])td[account].innerHTML=`<button class="op cashLink" onclick="openCashLinked('${state.settlementTab}','${x.uid}')">查看累计明细</button>`;if(td[pay])td[pay].innerHTML='<span class="muted">—</span>';tr.querySelectorAll('input[type=checkbox]').forEach(n=>{n.checked=false;n.disabled=true})}}const note=document.querySelector('#settlementContent .memberRelationNote');if(note)note.innerHTML='<b>低额结算：</b>新账单正额不足 $5 可选金币或累计现金；到期未确认默认金币。累计现金原账单不单独发放，实际付款统一在累计发放账单处理。';}
 function table(){const q=(document.getElementById('cashSearch')?.value||'').trim().toLowerCase(),role=document.getElementById('cashRole')?.value||'';const rows=(cash.tab==='balance'?cash.balances.filter(r=>r.sources.length):cash.bills).filter(r=>(!q||(r.name+r.uid).toLowerCase().includes(q))&&(!role||r.role===role));return `<div class="tableWrap"><table class="table cashSettlementTable ${cash.tab==='payout'?'cashPayoutTable':''}"><thead><tr>${cash.tab==='payout'?'<th><input type="checkbox" aria-label="全选可付款账单" onchange="cashSelectAll(this.checked)"></th>':''}<th>接收方</th><th>角色</th><th>${cash.tab==='balance'?'累计':'发放'}金额</th><th>来源账单</th>${cash.tab==='payout'?'<th>配置收款方式</th><th>实际结算方式</th><th>收款账号</th><th>用户账单状态</th><th>付款状态</th><th>操作</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr>${cash.tab==='payout'?`<td><input type="checkbox" aria-label="选择账单 ${esc(r.uid)}" ${cashEligible(r)?'':'disabled'} ${cashSelection.has(r.id)?'checked':''} onchange="cashSelect('${r.id}',this.checked)"></td>`:''}<td>${identityMerged(r.name,r.uid)}</td><td>${esc(r.role)}</td><td class="money">${money(r.final??total(r))}</td><td><button class="op cashLink" onclick="openCashSources('${r.id}')">查看明细（${r.sources.length}）</button></td>${cash.tab==='payout'?`<td>${esc(r.configuredPayType||'未设置')}</td><td>${esc(r.cashActual||'—')}</td><td>${esc(r.payAddress||'—')}</td><td>${statusBadge(r.bill)}</td><td>${statusBadge(r.payout)}</td><td class="cashActionCell">${r.bill==='Confirmed'&&r.payout==='Unpaid'?`<button class="op good" onclick="confirmManualPayment('agencyWeekly','${r.id}')">确认打款</button><button class="op bad" onclick="returnManualBill('agencyWeekly','${r.id}')">退回</button>`:''}${r.paymentMessage?`<button class="op cashLink" onclick="previewPaymentMessage('agencyWeekly','${r.id}')">系统消息预览</button>`:''}</td>`:''}</tr>`).join('')||'<tr><td colspan="10"><div class="empty">暂无记录</div></td></tr>'}</tbody></table></div>`}
 window.cashSelect=function(id,on){const b=find(id);if(!cashEligible(b))return;if(on)cashSelection.add(id);else cashSelection.delete(id);const btn=document.getElementById('cashBatchBtn');if(btn)btn.textContent='批量确认打款（'+cashSelection.size+'）'};
 window.cashSelectAll=function(on){document.querySelectorAll('#cashRows tbody input[type=checkbox]:not(:disabled)').forEach(el=>{el.checked=on;el.dispatchEvent(new Event('change'))})};
@@ -9405,23 +9405,23 @@ window.renderCashRows=()=>{cashSelection.clear();document.getElementById('cashRo
 window.cashTab=t=>{cash.tab=t;cashSelection.clear();renderSettlement()};
 window.cashUserPreview=id=>{const b=find(id);openDrawer('用户账单预览（演示）',`<h3>Accumulated Cash Payout · ${money(b.final)}</h3><p>${b.bill==='Pending Confirmation'?'Pending Confirmation':b.payout==='Paid'?'Paid':'Pending Payment'}</p><p>截止：${stamp(b.due)}</p>${b.bill==='Pending Confirmation'?`<div class="field"><label>现金收款方式</label><select id="cashAccountMethod">${cashMethods.map(m=>`<option ${m===b.cashActual?'selected':''}>${m}</option>`).join('')}</select></div><div class="field"><label>收款账号</label><input id="cashAccountValue" value="${esc(b.payAddress)}"></div><button class="btn gold" onclick="cashConfirm('${b.id}')">确认账单（演示）</button>`:`<p>${esc(b.cashActual)} · ${esc(b.payAddress)}</p>`}`)};
 window.cashConfirm=id=>{const b=find(id),v=document.getElementById('cashAccountValue').value.trim(),m=document.getElementById('cashAccountMethod').value;if(!v)return toast('Please fill in the payment method before confirming the bill.');b.cashActual=m;b.payType=m;b.payAddress=v;b.bill='Confirmed';b.paymentReturned=false;b.paymentDetailsVersion++;closeDrawer();renderSettlement();updatePendingCounters();toast('用户已确认，进入待付款')};
-window.cashRunDeadline=(at)=>{const when=at||cash.clock;if(!Number.isFinite(new Date(when).getTime()))return toast('结算时间无效');cash.clock=new Date(when).toISOString();const now=new Date(cash.clock);for(const b of cash.bills){if(b.bill==='Pending Confirmation'&&new Date(b.due)<=now&&cashMethods.includes(b.cashActual)&&b.payAddress){b.bill='Confirmed';b.autoConfirmedAt=cash.clock;b.paymentReturned=false}}for(const [t,rows]of [['agencyWeekly',agencyWeeklySettlement],['managementMonthly',managementMonthlySettlement]])for(const x of rows){if(x.cashFeatureNew&&!x.lowCashChoice&&x.finance==='Published'&&x.bill==='Pending Confirmation'&&Number(x.final)>0&&Number(x.final)<10&&new Date(x.cashDue||deadline('2026-10-12T00:00:00+05:00'))<=now){x.lowCashChoice='coins';x.bill='Confirmed';x.payout='Unpaid';x.autoConfirmedAt=cash.clock}}renderSettlement();updatePendingCounters();toast('已执行演示到期检查：现金账户未填写的累计账单保持待确认')};
-window.cashDemoAdd=()=>{const x=agencyWeeklySettlement.find(x=>x.cashFeatureNew);if(!x)return;const clone={...x,cashSourceId:null,lowCashChoice:null};add('agencyWeekly',clone,6,'2026-W35');renderSettlement();toast('演示新增 $6：满额自动发布；截止后发布的批次顺延下次结算')};
+window.cashRunDeadline=(at)=>{const when=at||cash.clock;if(!Number.isFinite(new Date(when).getTime()))return toast('结算时间无效');cash.clock=new Date(when).toISOString();const now=new Date(cash.clock);for(const b of cash.bills){if(b.bill==='Pending Confirmation'&&new Date(b.due)<=now&&cashMethods.includes(b.cashActual)&&b.payAddress){b.bill='Confirmed';b.autoConfirmedAt=cash.clock;b.paymentReturned=false}}for(const [t,rows]of [['agencyWeekly',agencyWeeklySettlement],['managementMonthly',managementMonthlySettlement]])for(const x of rows){if(x.cashFeatureNew&&!x.lowCashChoice&&x.finance==='Published'&&x.bill==='Pending Confirmation'&&Number(x.final)>0&&Number(x.final)<5&&new Date(x.cashDue||deadline('2026-10-12T00:00:00+05:00'))<=now){x.lowCashChoice='coins';x.bill='Confirmed';x.payout='Unpaid';x.autoConfirmedAt=cash.clock}}renderSettlement();updatePendingCounters();toast('已执行演示到期检查：现金账户未填写的累计账单保持待确认')};
+window.cashDemoAdd=()=>{const x=agencyWeeklySettlement.find(x=>x.cashFeatureNew);if(!x)return;const clone={...x,cashSourceId:null,lowCashChoice:null};add('agencyWeekly',clone,3,'2026-W35');renderSettlement();toast('演示新增 $3：满额自动发布；截止后发布的批次顺延下次结算')};
 window.renderSettlement=function(){const own=state.settlementTab==='accumulatedCash';document.querySelector('.settlementFilters')?.classList.toggle('cashHidden',own);if(!own){const out=baseRender.apply(this,arguments);decorate();return out}document.querySelectorAll('#settlementTabs [data-settlement]').forEach(b=>b.classList.toggle('active',b.dataset.settlement==='accumulatedCash'));document.getElementById('settlementContent').innerHTML=`<div class="cashToolbar"><button class="btn ${cash.tab==='balance'?'gold':''}" onclick="cashTab('balance')">待累计</button><button class="btn ${cash.tab==='payout'?'gold':''}" onclick="cashTab('payout')">发放账单</button></div><div class="filterBar"><input class="input" id="cashSearch" placeholder="昵称 / UID" oninput="renderCashRows()"><select class="select" id="cashRole" onchange="renderCashRows()"><option value="">全部角色</option>${['Agency','BD','Super Admin','Manager'].map(r=>`<option>${r}</option>`).join('')}</select></div>${cash.tab==='payout'?'<div class="cashToolbar"><button class="btn gold" id="cashBatchBtn" onclick="cashBatchPay()">批量确认打款（0）</button></div>':''}<div id="cashRows">${table()}</div>`};
 const style=document.createElement('style');style.textContent='.cashHidden{display:none!important}';document.head.appendChild(style);
 const tabs=document.getElementById('settlementTabs');const btn=document.createElement('button');btn.className='tabBtn';btn.dataset.settlement='accumulatedCash';btn.textContent='累计现金';btn.onclick=e=>{e.stopPropagation();state.settlementQueueStatus=null;state.settlementTab='accumulatedCash';renderSettlement()};tabs.appendChild(btn);
 // Explicit new-feature fixtures; existing historical bills remain unchanged.
-const original=agencyWeeklySettlement.find(x=>x.uid==='310088')||agencyWeeklySettlement.find(x=>x.final>0&&x.final<10);
+const original=agencyWeeklySettlement.find(x=>x.uid==='310088')||agencyWeeklySettlement.find(x=>x.final>0&&x.final<5);
 if(original){original.cashFeatureNew=true;add('agencyWeekly',original,Number(original.final),original.period||'2026-W34');}
-const a=agencyWeeklySettlement.find(x=>x.uid==='310001');if(a){const x={...a,lowCashChoice:null,cashSourceId:null};add('agencyWeekly',x,6,'2026-W31');const y={...a,lowCashChoice:null,cashSourceId:null};add('agencyWeekly',y,7,'2026-W32');const b=cash.bills[cash.bills.length-1];if(b){b.cashActual='USDT';b.payType='USDT';b.payAddress='TRC20 · TVcK****TTJB';b.bill='Confirmed';}}
-const m=managementMonthlySettlement[0];if(m){const x={...m,lowCashChoice:null,cashSourceId:null};add('managementMonthly',x,6,'2026-W31');const y={...m,lowCashChoice:null,cashSourceId:null};add('managementMonthly',y,7,'2026-W32');}
+const a=agencyWeeklySettlement.find(x=>x.uid==='310001');if(a){const x={...a,lowCashChoice:null,cashSourceId:null};add('agencyWeekly',x,3,'2026-W31');const y={...a,lowCashChoice:null,cashSourceId:null};add('agencyWeekly',y,4,'2026-W32');const b=cash.bills[cash.bills.length-1];if(b){b.cashActual='USDT';b.payType='USDT';b.payAddress='TRC20 · TVcK****TTJB';b.bill='Confirmed';}}
+const m=managementMonthlySettlement[0];if(m){const x={...m,lowCashChoice:null,cashSourceId:null};add('managementMonthly',x,3,'2026-W31');const y={...m,lowCashChoice:null,cashSourceId:null};add('managementMonthly',y,4,'2026-W32');}
 // Exit clearance is a local demo API; it never sends real Coins.
-window.cashExitRole=function(uid,role){const r=cash.balances.find(r=>r.uid===uid&&r.role===role&&r.sources.length);if(!r||total(r)>=10)return toast('没有待结清的不足额累计余额');const lines=[];for(const s of r.sources){const x=s.original;if(role==='Agency'){if(!x.payoutDetails?.length){toast('需先取得原账单 Host / Agency 归属明细，不能整笔发给代理');return}const details=x.payoutDetails;if(Math.abs(details.reduce((n,d)=>n+Number(d.usdAmount||0),0)-s.amount)>0.011){toast('来源金额与拆分明细不一致，不能结清');return}for(const d of details)lines.push({source:s.id,uid:d.receiverUid,name:d.receiverName,amount:Number(d.usdAmount),coins:Math.round(Number(d.usdAmount)*20000),status:'Unpaid'})}else lines.push({source:s.id,uid:s.uid,name:s.name,amount:s.amount,coins:Math.round(s.amount*20000),status:'Unpaid'})}openModal('退出尾款金币结清',`<div class="note">角色解约或退出生效后，按原账单归属结清。此处仅模拟发放，不连接真实资金服务。</div><table class="table"><thead><tr><th>收款人</th><th>金额</th><th>Coins</th></tr></thead><tbody>${lines.map(d=>`<tr><td>${esc(d.name)} · ${esc(d.uid)}</td><td>${money(d.amount)}</td><td>${d.coins}</td></tr>`).join('')}</tbody></table>`,'确认结清（演示）',()=>{if(r.clearedAt)return toast('该记录已结清，不可重复发放');lines.forEach(d=>d.status='Paid');r.clearanceDetails=lines;r.clearedAt=cash.clock;r.clearanceAmount=total(r);r.clearedSources=r.sources.slice();r.sources=[];closeModal();renderSettlement();toast('尾款金币结清完成（演示），原账单状态保持不变')});};
+window.cashExitRole=function(uid,role){const r=cash.balances.find(r=>r.uid===uid&&r.role===role&&r.sources.length);if(!r||total(r)>=5)return toast('没有待结清的不足额累计余额');const lines=[];for(const s of r.sources){const x=s.original;if(role==='Agency'){if(!x.payoutDetails?.length){toast('需先取得原账单 Host / Agency 归属明细，不能整笔发给代理');return}const details=x.payoutDetails;if(Math.abs(details.reduce((n,d)=>n+Number(d.usdAmount||0),0)-s.amount)>0.011){toast('来源金额与拆分明细不一致，不能结清');return}for(const d of details)lines.push({source:s.id,uid:d.receiverUid,name:d.receiverName,amount:Number(d.usdAmount),coins:Math.round(Number(d.usdAmount)*20000),status:'Unpaid'})}else lines.push({source:s.id,uid:s.uid,name:s.name,amount:s.amount,coins:Math.round(s.amount*20000),status:'Unpaid'})}openModal('退出尾款金币结清',`<div class="note">角色解约或退出生效后，按原账单归属结清。此处仅模拟发放，不连接真实资金服务。</div><table class="table"><thead><tr><th>收款人</th><th>金额</th><th>Coins</th></tr></thead><tbody>${lines.map(d=>`<tr><td>${esc(d.name)} · ${esc(d.uid)}</td><td>${money(d.amount)}</td><td>${d.coins}</td></tr>`).join('')}</tbody></table>`,'确认结清（演示）',()=>{if(r.clearedAt)return toast('该记录已结清，不可重复发放');lines.forEach(d=>d.status='Paid');r.clearanceDetails=lines;r.clearedAt=cash.clock;r.clearanceAmount=total(r);r.clearedSources=r.sources.slice();r.sources=[];closeModal();renderSettlement();toast('尾款金币结清完成（演示），原账单状态保持不变')});};
 // Batch calendar can be supplied by the existing holiday settlement schedule.
 window.cashSetBatchDeadline=function(at){if(!Number.isFinite(new Date(at).getTime()))return toast('结算截止时间无效');cash.batchDeadline=at;};
-window.cashConfirmOriginal=function(type,uid,choice){const x=baseGet(type,uid);if(!x||!x.cashFeatureNew||x.bill!=='Pending Confirmation'||x.finance!=='Published'||!(x.final>0&&x.final<10))return toast('当前账单不符合低额确认条件');if(choice==='cash')add(type,x,Number(x.final),x.period);else if(choice==='coins'){x.lowCashChoice='coins';x.bill='Confirmed';x.payout='Unpaid'}else return toast('请选择结算方式');renderSettlement();updatePendingCounters()};
+window.cashConfirmOriginal=function(type,uid,choice){const x=baseGet(type,uid);if(!x||!x.cashFeatureNew||x.bill!=='Pending Confirmation'||x.finance!=='Published'||!(x.final>0&&x.final<5))return toast('当前账单不符合低额确认条件');if(choice==='cash')add(type,x,Number(x.final),x.period);else if(choice==='coins'){x.lowCashChoice='coins';x.bill='Confirmed';x.payout='Unpaid'}else return toast('请选择结算方式');renderSettlement();updatePendingCounters()};
 const oldPreview=window.previewPaymentBill;
-window.previewPaymentBill=function(type,uid){const x=baseGet(type,uid);if(x?.cashFeatureNew&&x.bill==='Pending Confirmation'&&x.final>0&&x.final<10){openDrawer('用户低额账单预览（演示）',`<h3>${esc(x.name)} · ${money(x.final)}</h3><p>到期未确认将默认按金币结算。</p><button class="btn" onclick="cashConfirmOriginal('${type}','${uid}','coins')">选择金币并确认（演示）</button><button class="btn gold" onclick="cashConfirmOriginal('${type}','${uid}','cash')">选择累计现金并确认（演示）</button>`);return}return oldPreview(type,uid)};
+window.previewPaymentBill=function(type,uid){const x=baseGet(type,uid);if(x?.cashFeatureNew&&x.bill==='Pending Confirmation'&&x.final>0&&x.final<5){openDrawer('用户低额账单预览（演示）',`<h3>${esc(x.name)} · ${money(x.final)}</h3><p>到期未确认将默认按金币结算。</p><button class="btn" onclick="cashConfirmOriginal('${type}','${uid}','coins')">选择金币并确认（演示）</button><button class="btn gold" onclick="cashConfirmOriginal('${type}','${uid}','cash')">选择累计现金并确认（演示）</button>`);return}return oldPreview(type,uid)};
 const prevCounters=window.updatePendingCounters;window.updatePendingCounters=function(){prevCounters();const pending=cash.bills.filter(b=>b.bill==='Pending Confirmation').length;const el=document.getElementById('pendingBillsCount');if(el)el.textContent=Number(el.textContent||0)+pending};
 renderSettlement();updatePendingCounters();
 })();
@@ -9616,3 +9616,7 @@ addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.data?.type!=
 open();
 })();
 </script>
+
+<link rel="stylesheet" href="host-salary-collection.css?v=20261106">
+<script src="../assets/salary-demo-store.js?v=20261107-linked5"></script>
+<script src="host-salary-collection.js?v=20261107-linked5"></script>

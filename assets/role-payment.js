@@ -14,7 +14,12 @@
       EPAY:{configured:false,preferred:false,email:''},
       'Coin Trader Top-up':{configured:false,preferred:false,traderId:''}
     });
-    return accounts.get(uid());
+    const profile=accounts.get(uid());
+    if(!profile.loaded){
+      try{Object.assign(profile,JSON.parse(localStorage.getItem('salary-payment-role-'+uid())||'{}'));}catch{}
+      Object.defineProperty(profile,'loaded',{value:true});
+    }
+    return profile;
   };
   const guidance = 'The platform recommends USDT as the preferred payment method. If you choose bank transfer, all incurred handling fees shall be borne by the recipient. If both payment methods are submitted, payout will be prioritized via USDT.';
   let editing = null, draft = null, verifiedId = '', returnFocus = null;
@@ -57,6 +62,8 @@
     }).join('');
   };
   const refreshSummary = () => {
+    localStorage.setItem('salary-payment-role-'+uid(),JSON.stringify(profiles()));
+    salaryDemo.configureAgency(uid(),window.payoutUI?.selectedAccount());
     if (host) {
       const method = preferredPaymentMethod();
       document.getElementById('salaryPaymentMethodLabel').textContent = method === 'Agency' ? 'Agency' : 'Coin Trader Top-up';
@@ -118,11 +125,7 @@
     resetTraderVerification();
     if (!id) return;
     // Local fixtures preserve existing test IDs and add the supplied screenshot examples.
-    const traders = {
-      '9198': {name: 'user9198', type: 'Public Coin Trader', available: true},
-      '10833021': {name: 'Demo Trader', type: 'Public Coin Trader', available: true},
-      '10833022': {name: 'Demo Trader', type: 'Private Coin Trader', available: false}
-    };
+    const traders = salaryDemo.traders;
     const trader = traders[id];
     if (!trader) {
       const toast = document.createElement('div');

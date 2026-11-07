@@ -48,4 +48,3 @@ body.salaryTheme .salaryDecisionActions .reject { background:#ff4f57!important; 
 .salaryActionsNew:empty,.sourceBillActions:empty { display:none; }
 
 .salaryDecisionRows b.salaryDecisionSecondaryAmount { color:#fff; font-size:15px; font-weight:500; }
-

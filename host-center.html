@@ -748,6 +748,113 @@ body.hostSalaryOpen .host-preview-controls { display: none; }
   #hostHistory .host-bill-total strong { font-size: 24px; text-align: right; }
 }
 </style>
+<script>/* Same-origin settlement fixtures shared by the four prototype entry points. */
+window.salaryDemo = (() => {
+  const key = 'salary-collection-linked-v1';
+  const traders = {
+    '1164083': {name:'LOVEDIA',type:'Private Coin Trader',available:true},
+    '1201386': {name:'SH-AGENCY',type:'Public Coin Trader',available:true},
+    '10833022': {name:'Demo Trader',type:'Private Coin Trader',available:false}
+  };
+  function read() {
+    try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch { return {}; }
+  }
+  function write(bill) {
+    const bills = read();
+    const previous = bills[bill.uid];
+    const candidate = {...bill};
+    delete candidate.revision;
+    const old = {...previous};
+    delete old.revision;
+    if (JSON.stringify(candidate) === JSON.stringify(old)) return;
+    bills[bill.uid] = {...candidate,revision:(previous?.revision || 0) + 1};
+    localStorage.setItem(key,JSON.stringify(bills));
+    window.dispatchEvent(new Event('salary-demo-change'));
+  }
+  const initial = read();
+  for (const [uid,start,end,salary,review] of [
+    ['319008','2026-10-19','2026-10-25',48.4,'Confirmed'],
+    ['319009','2026-10-12','2026-10-18',32,'Confirmed'],
+    ['319010','2026-10-26','2026-11-01',48.4,'Pending Confirmation'],
+    ['319011','2026-09-28','2026-10-04',5,'Pending Confirmation']
+  ]) {
+    if (initial[uid]) continue;
+    initial[uid] = {uid,name:'Aurora Media',ownerUid:'10032846',start,end,
+      period:start+' - '+end,finance:'Published',review,revision:1,
+      method:'USDT',payee:'TQ8Lw9p2xD7k3mN6cR4vB1zA5sF9hJ2uXq',
+      agentSalary:10,agentAdj:0,payments:review==='Pending Confirmation'?{}:{'host:88888888':{method:'Coin Trader Top-up',receiver:'Demo Trader · ID 10833022',receiverUid:'10833022',status:'Returned',available:false}},
+      hosts:[{uid:'88888888',name:'Alicia Moon',salary,target:Math.max(salary-8.4,0),diamond:Math.min(salary,8.4),
+        adjustment:0,coins:320000,diamonds:80000,days:4,hours:10,
+        collection:review==='Pending Confirmation'?'Agency':'Coin Trader Top-up',traderId:'10833022',traderName:'Demo Trader'}]};
+  }
+  Object.values(initial).forEach(bill=>{if(bill.review==='Confirmed')bill.rejectReason='';});
+  localStorage.setItem(key,JSON.stringify(initial));
+  function finalHost(host) { return Math.round((host.salary + host.adjustment)*100)/100; }
+  function total(bill) { return Math.round((bill.hosts.reduce((sum,host)=>sum+finalHost(host),0)+bill.agentSalary+bill.agentAdj)*100)/100; }
+  function split(bill) { return Math.round(bill.hosts.filter(host=>host.collection==='Coin Trader Top-up' && finalHost(host)>=5).reduce((sum,host)=>sum+finalHost(host),0)*100)/100; }
+  function route(bill,host) {
+    const payment = bill.payments['host:'+host.uid] || bill.payments['personal:'+host.uid];
+    if (payment) return payment;
+    const amount = finalHost(host);
+    if (host.collection==='Coin Trader Top-up' && amount>=5) return {method:host.collection,receiver:host.traderName+' · ID '+host.traderId,receiverUid:host.traderId,status:'Unpaid'};
+    const remaining = Math.round((total(bill)-split(bill))*100)/100;
+    if (remaining>0 && remaining<5) return {method:'Coins',receiver:'Personal UID '+host.uid,receiverUid:host.uid,status:'Unpaid'};
+    return {method:'Paid via Agency',receiver:bill.name+' · ID '+bill.uid,status:bill.payments['agency:'+bill.uid]?.status || 'Unpaid'};
+  }
+  function frontend(bill) {
+    const hostRows=bill.hosts.map(host=>{
+      const payment=route(bill,host);
+      return {id:host.uid,name:host.name,nick:host.name,hostSalary:host.salary,adjustment:host.adjustment,
+        agencySalary:0,agentSalary:0,targetSalary:host.target,diamondSalary:host.diamond,
+        goldNum:host.coins,diamondNum:host.diamonds,coins:host.coins,diamonds:host.diamonds,
+        validDay:host.days,validTime:host.hours,days:host.days,hours:host.hours,workingMet:host.days>=4,
+        collection:host.collection==='Coin Trader Top-up'?'trader':'agency',traderId:host.traderId,traderName:host.traderName,
+        payoutStatus:payment.status==='Returned'?'Payment issue':payment.status==='Paid'?'Paid':'Agency Confirmed',
+        paymentOverride:payment};
+    });
+    const remaining=Math.round((total(bill)-split(bill))*100)/100;
+    const agencyPayments=Object.entries(bill.payments).filter(([id])=>!id.startsWith('host:')).map(([,value])=>value);
+    return {id:Number(bill.uid),linkedUid:bill.uid,periodId:bill.uid,ownerUid:bill.ownerUid,
+      start:bill.start,end:bill.end,published:bill.finance==='Published',revision:bill.revision,
+      status:bill.review==='Rejected'?3:bill.review==='Pending Confirmation'?1:agencyPayments.length&&agencyPayments.every(item=>item.status==='Paid')?4:2,
+      gold:bill.hosts.reduce((sum,host)=>sum+host.coins,0),diamonds:bill.hosts.reduce((sum,host)=>sum+host.diamonds,0),
+      hostSalary:bill.hosts.reduce((sum,host)=>sum+host.salary,0),agencySalary:bill.agentSalary,
+      agentAdjustment:bill.agentAdj,hostAdjustment:bill.hosts.reduce((sum,host)=>sum+host.adjustment,0),
+      total:bill.hosts.reduce((sum,host)=>sum+host.salary,0)+bill.agentSalary,shouldPay:total(bill),
+      method:remaining>0&&remaining<5?'Coins':bill.method,payee:bill.payee,
+      agencyPayoutStatus:agencyPayments.length&&agencyPayments.every(item=>item.status==='Paid')?'Paid':'Agency Confirmed',
+      hosts:hostRows,hostEntries:hostRows};
+  }
+  function decision(view,status) {
+    const bill=read()[view.linkedUid];
+    if (!bill || bill.review!=='Pending Confirmation' || bill.finance!=='Published') return;
+    bill.review=status===3?'Rejected':'Confirmed';
+    if(status===3) {bill.finance='Ready to Publish';bill.rejectReason=view.rejectionReason;}
+    else {bill.method=view.method;bill.payee=view.payee;bill.rejectReason='';}
+    write(bill);
+  }
+  function configureAgency(ownerUid,account) {
+    if(!account)return;
+    Object.values(read()).filter(bill=>bill.ownerUid===String(ownerUid)&&bill.review==='Pending Confirmation'&&bill.finance==='Published').forEach(bill=>{
+      bill.method=account.method;
+      bill.payee=account.payee;
+      write(bill);
+    });
+  }
+  function configureHost(account) {
+    Object.values(read()).filter(bill=>bill.review==='Pending Confirmation'&&bill.finance==='Published').forEach(bill=>{
+      const host=bill.hosts.find(item=>item.uid==='88888888');
+      if(!host)return;
+      host.collection=account.method;
+      host.traderId=account.traderId || '';
+      host.traderName=traders[host.traderId]?.name || '';
+      write(bill);
+    });
+  }
+  window.addEventListener('storage',event=>{if(event.key===key)window.dispatchEvent(new Event('salary-demo-change'));});
+  return {key,read,write,traders,total,split,route,frontend,decision,configureHost,configureAgency};
+})();
+</script>
 </head>
 <body data-payment-role="host">
 <details class="host-preview-controls"><summary>Preview controls</summary>  <!-- Demo-only controls outside the rules sheet, never shipped in the actual Host Center. -->
@@ -918,12 +1025,12 @@ body.hostSalaryOpen .host-preview-controls { display: none; }
           <div class="value" id="coinsValue">3,230,000</div>
           <div class="label" id="coinsLabel">Coins</div>
         </div>
-        
+
       </article>
 
       <article class="metric">
         <div>
-          
+
           <div class="value" id="diamondValue">969</div>
           <div class="label" id="diamondLabel">Available Diamonds</div>
           <div class="diamond-note" id="diamondNote">(Received − Exchanged)</div>
@@ -938,7 +1045,7 @@ body.hostSalaryOpen .host-preview-controls { display: none; }
           <div class="value small" id="daysValue">3 / 4</div>
           <div class="label" id="daysLabel">Valid Days</div>
         </div>
-        
+
       </article>
 
       <article class="metric">
@@ -949,7 +1056,7 @@ body.hostSalaryOpen .host-preview-controls { display: none; }
           <div class="value small" id="micValue">8h 32m / 10h</div>
           <div class="label" id="micLabel">Up-mic Time</div>
         </div>
-        
+
       </article>
     </div>
   </section>
@@ -988,7 +1095,7 @@ body.hostSalaryOpen .host-preview-controls { display: none; }
       </div>
     </div>
     <button class="primary whatsapp-primary" onclick="alert('Open WhatsApp')">Contact via WhatsApp</button>
-    
+
   </div>
 </div>
 
@@ -1314,7 +1421,7 @@ const records=[
 {period:'2026-09-07 - 2026-09-13',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:0,days:'4',hours:'10.00',status:'Agency Confirmed',payoutStatus:'Agency Confirmed',payment:'Coin Trader Top-up',traderId:'10833021',traderName:'Demo Trader'},
 {period:'2026-08-31 - 2026-09-06',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:0,days:'4',hours:'10.00',status:'Under review',payment:'-'},
 {period:'2026-08-24 - 2026-08-30',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:1,adjustmentReason:'Additional performance reward.',days:'4',hours:'10.00',agencyBill:{status:'Agency Confirmed',payoutStatus:'Agency Confirmed',method:'USDT'}},
-{period:'2026-08-17 - 2026-08-23',coins:'248,000',diamonds:'50,000',target:5,diamond:2,host:7,adjustment:0,days:'4',hours:'10.00',agencyBill:{status:'Agency Confirmed',payoutStatus:'Paid',method:'USDT'}}];
+{billUid:'319007',period:'2026-08-17 - 2026-08-23',coins:'248,000',diamonds:'50,000',target:40,diamond:8.4,host:48.4,adjustment:0,days:'4',hours:'10.00',status:'Agency Confirmed',payment:'Coin Trader Top-up',traderId:'1201386',traderName:'SH-AGENCY'}];
 const escapeBillText=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=n=>'$'+n.toFixed(2);
 const cell=(value,label,wide=false)=>`<div class="host-bill-cell" ${wide?'style="grid-column:1/-1"':''}><div>${value}</div><small>${label}</small></div>`;
@@ -1324,7 +1431,25 @@ function recordStatus(record) {
   return record.agencyBill?.payoutStatus || record.payoutStatus || review;
 }
 window.renderHostSalaryRecords = function () {
-document.getElementById('historyCards').innerHTML=records.map(record => {
+let paymentUpdates = {};
+try { paymentUpdates = JSON.parse(localStorage.getItem('salary-collection-returns-v1') || '{}'); } catch {}
+const hostUid = new URLSearchParams(location.search).get('hostUid') || '88888888';
+const linkedRecords=Object.values(salaryDemo.read()).map(bill=>{
+  const host=bill.hosts.find(item=>item.uid===hostUid);
+  if(!host)return null;
+  const route=salaryDemo.route(bill,host);
+  return {billUid:bill.uid,period:bill.period,coins:host.coins.toLocaleString('en-US'),diamonds:host.diamonds.toLocaleString('en-US'),
+    target:host.target,diamond:host.diamond,host:host.salary,adjustment:host.adjustment,days:String(host.days),hours:host.hours.toFixed(2),
+    status:bill.review==='Pending Confirmation'?'Under review':'Agency Confirmed',published:bill.finance==='Published'&&bill.review!=='Rejected',
+    payoutStatus:route.status==='Returned'?'Payment issue':route.status==='Paid'?'Paid':'Agency Confirmed',
+    payment:route.method,receivingAccount:route.receiver};
+}).filter(Boolean);
+document.getElementById('historyCards').innerHTML=[...linkedRecords,...records].map(record => {
+  const payment = Object.values(paymentUpdates).find(item => String(item.billUid) === record.billUid && item.hostUid === hostUid);
+  if (payment) return {...record, payoutStatus:payment.status === 'Returned' ? 'Payment issue' : payment.status === 'Paid' ? 'Paid' : 'Agency Confirmed', payment:payment.method, receivingAccount:payment.receiver, traderId:undefined};
+  return record;
+}).map(record => {
+  if (record.billUid && salaryDemo.read()[record.billUid]) return record;
   if (recordStatus(record) !== 'Under review') return record;
   const account = window.payoutUI?.selectedAccount();
   if (!account) return {...record, payment: 'Paid via Agency'};
@@ -1343,7 +1468,7 @@ document.getElementById('historyCards').innerHTML=records.map(record => {
       receivingAccount:'Aurora Media · ID 66666666'};
   }
   return record;
-}).filter(r=>r.published!==false&&!['Rejected','Agency Rejected'].includes(r.agencyBill?.status||r.status)).map(r=>`<article class="host-bill-card"><div class="host-bill-heading"><b class="host-bill-period">${r.period}</b><span class="host-bill-status">${recordStatus(r)}</span></div><div class="host-bill-grid">${cell(r.coins,'Total Coins')}${cell(r.diamonds,'Salary Diamonds')}${cell(money(r.target),'Target Salary')}${cell(money(r.diamond),'Diamond Salary')}${cell(money(r.host),'Host Salary',true)}${cell(r.days,'Valid Days')}${cell(r.hours,'Valid Hours')}</div>${r.adjustment?`<div class="host-original-salary"><span>Original Salary</span><span>${money(r.host)}</span></div><details class="host-bill-adjustment"><summary><span>Adjustment</span><span class="host-adjust-value ${r.adjustment>0?'host-adjust-positive':''}">${r.adjustment<0?'−':'+'}${money(Math.abs(r.adjustment))}</span></summary><div class="host-adjust-reason">${escapeBillText(r.adjustmentReason)}</div></details>`:''}<div class="host-bill-total"><b>Settlement Amount</b><strong>${money(r.host+r.adjustment)}</strong></div><div class="host-bill-working ${r.days==='0'?'':'host-time-met'}"><span class="host-time-label">Working Time</span><span class="host-time-result"><span aria-hidden="true">${r.days==='0'?'✕':'✓'}</span> ${r.days==='0'?'Not Met':'Achieved'}</span></div><div class="host-bill-grid">${cell(r.agencyBill?'Paid via Agency':r.payment,'Payment')}${cell(['Coin Trader Top-up','Coins'].includes(r.payment)?'Coins':'-','Currency')}${r.receivingAccount?cell(escapeBillText(r.receivingAccount),r.payment==='Coins'?'User ID':r.payment==='Coin Trader Top-up'?'Coin Trader ID':'Agency',true):r.traderId?cell(escapeBillText(r.traderName)+' · ID '+escapeBillText(r.traderId),'Coin Trader ID',true):''}</div></article>`).join('');
+}).filter(r=>r.published!==false&&!['Rejected','Agency Rejected'].includes(r.agencyBill?.status||r.status)).map(r=>`<article class="host-bill-card" data-bill-uid="${r.billUid || ''}"><div class="host-bill-heading"><b class="host-bill-period">${r.period}</b><span class="host-bill-status">${recordStatus(r)}</span></div><div class="host-bill-grid">${cell(r.coins,'Total Coins')}${cell(r.diamonds,'Salary Diamonds')}${cell(money(r.target),'Target Salary')}${cell(money(r.diamond),'Diamond Salary')}${cell(money(r.host),'Host Salary',true)}${cell(r.days,'Valid Days')}${cell(r.hours,'Valid Hours')}</div>${r.adjustment?`<div class="host-original-salary"><span>Original Salary</span><span>${money(r.host)}</span></div><details class="host-bill-adjustment"><summary><span>Adjustment</span><span class="host-adjust-value ${r.adjustment>0?'host-adjust-positive':''}">${r.adjustment<0?'−':'+'}${money(Math.abs(r.adjustment))}</span></summary><div class="host-adjust-reason">${escapeBillText(r.adjustmentReason)}</div></details>`:''}<div class="host-bill-total"><b>Settlement Amount</b><strong>${money(r.host+r.adjustment)}</strong></div><div class="host-bill-working ${r.days==='0'?'':'host-time-met'}"><span class="host-time-label">Working Time</span><span class="host-time-result"><span aria-hidden="true">${r.days==='0'?'✕':'✓'}</span> ${r.days==='0'?'Not Met':'Achieved'}</span></div><div class="host-bill-grid">${cell(r.agencyBill?'Paid via Agency':r.payment,'Payment')}${cell(['Coin Trader Top-up','Coins'].includes(r.payment)?'Coins':'-','Currency')}${r.receivingAccount?cell(escapeBillText(r.receivingAccount),r.payment==='Coins'?'User ID':r.payment==='Coin Trader Top-up'?'Coin Trader ID':'Agency',true):r.traderId?cell(escapeBillText(r.traderName)+' · ID '+escapeBillText(r.traderId),'Coin Trader ID',true):''}</div></article>`).join('');
 };
 window.renderHostSalaryRecords();
 })();
@@ -1366,7 +1491,7 @@ function closeHostSalaryBills() {
 /* Shared prototype UI. Account data and eligibility fixtures are local demo state only. */
 (() => {
   const host = document.body.dataset.paymentRole === 'host';
-  const methods = host ? ['Agency', 'Coin Trader Top-up'] : ['USDT', 'Bank card or e-wallet', 'Coins', 'EPAY', 'Coin Trader Top-up'];
+  const methods = host ? ['Agency', 'Coin Trader Top-up', 'Coins'] : ['USDT', 'Bank card or e-wallet', 'Coins', 'EPAY', 'Coin Trader Top-up'];
   const accounts = new Map();
   const management = !!document.getElementById('root');
   const uid = () => host ? '88888888' : management ? String(demoConfig().id) : '10032846';
@@ -1379,10 +1504,16 @@ function closeHostSalaryBills() {
       EPAY:{configured:false,preferred:false,email:''},
       'Coin Trader Top-up':{configured:false,preferred:false,traderId:''}
     });
-    return accounts.get(uid());
+    const profile=accounts.get(uid());
+    if(!profile.loaded){
+      try{Object.assign(profile,JSON.parse(localStorage.getItem('salary-payment-host-'+uid())||'{}'));}catch{}
+      Object.defineProperty(profile,'loaded',{value:true});
+    }
+    return profile;
   };
   const guidance = 'The platform recommends USDT as the preferred payment method. If you choose bank transfer, all incurred handling fees shall be borne by the recipient. If both payment methods are submitted, payout will be prioritized via USDT.';
   let editing = null, draft = null, verifiedId = '', returnFocus = null;
+  let recovery = null;
   const notice = () => {
     const message = 'Positive final payouts below $5 are paid in Coins at 1 USD = 20,000 Coins.';
     return `<div class="salaryNotice" tabindex="0" aria-label="${message}"><span class="salaryNoticeIcon" aria-hidden="true">!</span><div class="salaryNoticeWindow" aria-hidden="true"><div class="salaryNoticeTrack"><span>${message}</span><span>${message}</span></div></div></div>`;
@@ -1393,13 +1524,51 @@ function closeHostSalaryBills() {
   const editor = document.getElementById('paymentInfoOverlay');
   editor.innerHTML = '<section class="onlinePaymentPage" role="dialog" aria-modal="true" aria-labelledby="onlineEditorTitle"><header class="onlinePaymentNav"><button type="button" class="onlinePaymentBack" aria-label="Back to payment methods" onclick="hidePaymentInfo()">‹</button><h2 id="onlineEditorTitle"></h2></header><form id="onlinePaymentForm" class="onlinePaymentBody" novalidate></form><footer class="onlinePaymentActions"><button type="button" onclick="hidePaymentInfo()">Cancel</button><button type="submit" form="onlinePaymentForm" class="onlineSave">Save</button></footer></section>';
   editor.onclick = null;
-  const icon = method => method === 'Agency' ? '<span class="onlineMethodIcon agency"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/></svg></span>' : method === 'USDT' ? '<span class="onlineMethodIcon">₮</span>' : method === 'Coins' ? '<span class="onlineMethodIcon coins">★</span>' : method === 'EPAY' ? '<span class="onlineMethodIcon epay">EPay</span>' : method === 'Coin Trader Top-up' ? '<span class="onlineMethodIcon trader">💰</span>' : '<span class="onlineMethodIcon bank">▤</span>';
+  const icon = method => method === 'Agency' ? '<span class="onlineMethodIcon agency"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/></svg></span>' : method === 'USDT' ? '<span class="onlineMethodIcon">₮</span>' : method === 'Coins' ? '<span class="onlineMethodIcon coins">◉</span>' : method === 'EPAY' ? '<span class="onlineMethodIcon epay">EPay</span>' : method === 'Coin Trader Top-up' ? '<span class="onlineMethodIcon trader">💰</span>' : '<span class="onlineMethodIcon bank">▤</span>';
   const summary = (method,p) => method === 'Agency' ? `${p.name} · ID ${p.agencyId}` : !p.configured ? 'Not set · Tap to complete' : method === 'USDT' ? `TRC20 · ${p.address.slice(0,5)}••••${p.address.slice(-4)}` : method === 'EPAY' ? p.email : method === 'Coin Trader Top-up' ? `ID ${p.traderId}` : `${p.code} · ••••${p.account.slice(-4)}`;
   preferredPaymentMethod = () => methods.find(m => profiles()[m]?.configured && profiles()[m].preferred) || null;
   renderPaymentMethodList = () => {
+    if (recovery) {
+      const selected = recovery.selection;
+      const trader = recovery.trader;
+      document.getElementById('paymentMethodList').innerHTML = `
+        <div class="onlineMethod" style="opacity:.45">${icon('Agency')}
+          <button type="button" class="onlineMethodMain" disabled><span class="onlineMethodName">Agency</span><small>${esc(summary('Agency',profiles().Agency))} · Unavailable</small></button>
+        </div>
+        <div class="onlineMethod">${icon('Coin Trader Top-up')}
+          <button type="button" class="onlineMethodMain" id="editRecoveryTrader"><span class="onlineMethodName">Coin Trader Top-up${selected?.method === 'Coin Trader Top-up' ? '<span class="onlinePreferred">Selected</span>' : ''}</span><small class="${trader ? '' : 'unset'}">${esc(trader ? trader.receiver : 'Not set · Tap to complete')}</small></button>
+          <button type="button" class="onlineStar ${selected?.method === 'Coin Trader Top-up' ? 'on' : ''}" id="selectRecoveryTrader" aria-label="Select Coin Trader Top-up" ${trader ? '' : 'disabled'}>${selected?.method === 'Coin Trader Top-up' ? '★' : '☆'}</button><span class="onlineChevron">›</span>
+        </div>
+        <div class="onlineMethod">${icon('Coins')}
+          <button type="button" class="onlineMethodMain" id="selectRecoveryCoins"><span class="onlineMethodName">Personal Coins account${selected?.method === 'Coins' ? '<span class="onlinePreferred">Selected</span>' : ''}</span><small>ID ${esc(uid())}</small></button>
+        </div>
+        <div class="onlinePaymentActions" style="position:static;padding:12px 0 0"><button type="button" class="onlineSave" id="submitRecoveryPayment">Submit</button></div>`;
+      document.getElementById('editRecoveryTrader').onclick = () => openPaymentInfo('Coin Trader Top-up');
+      document.getElementById('selectRecoveryTrader').onclick = () => {
+        recovery.selection = recovery.trader;
+        renderPaymentMethodList();
+      };
+      document.getElementById('selectRecoveryCoins').onclick = () => {
+        recovery.selection = {method:'Coins',receiverUid:uid(),receiver:'Personal UID ' + uid()};
+        renderPaymentMethodList();
+      };
+      const submit = document.getElementById('submitRecoveryPayment');
+      submit.disabled = !selected;
+      submit.onclick = () => {
+        const selection = recovery.selection;
+        if (!recovery.submit(selection)) return;
+        if (selection.method === 'Coin Trader Top-up') {
+          Object.values(profiles()).forEach(profile => profile.preferred = false);
+          profiles()['Coin Trader Top-up'] = {configured:true,preferred:true,traderId:selection.receiverUid};
+          refreshSummary();
+        }
+        hidePaymentMethodSheet();
+      };
+      return;
+    }
     document.getElementById('paymentMethodList').innerHTML = methods.map((method, index) => {
       if (method === 'Coins') {
-        return `<div class="onlineMethod">${icon(method)}<div class="onlineMethodStatic"><b>Coins</b><small>ID ${esc(uid())}</small></div></div>`;
+        return `<div class="onlineMethod">${icon(method)}<div class="onlineMethodStatic"><b>${host ? 'Personal Coins account' : 'Coins'}</b><small>ID ${esc(uid())}${host ? ' · Fallback payment method' : ''}</small></div></div>`;
       }
       const profile = profiles()[method];
       const isAgency = host && method === 'Agency';
@@ -1422,11 +1591,13 @@ function closeHostSalaryBills() {
     }).join('');
   };
   const refreshSummary = () => {
+    localStorage.setItem('salary-payment-host-'+uid(),JSON.stringify(profiles()));
     if (host) {
       const method = preferredPaymentMethod();
       document.getElementById('salaryPaymentMethodLabel').textContent = method === 'Agency' ? 'Agency' : 'Coin Trader Top-up';
       document.getElementById('salaryPaymentMethodHint').textContent = method === 'Agency' ? `${profiles().Agency.name} · ID ${profiles().Agency.agencyId}` : `Coin Trader ID ${profiles()['Coin Trader Top-up'].traderId}`;
       document.getElementById('salaryPaymentLogo').innerHTML = icon(method);
+      salaryDemo.configureHost({method,traderId:profiles()['Coin Trader Top-up'].traderId});
       window.renderHostSalaryRecords?.();
       return;
     }
@@ -1438,8 +1609,8 @@ function closeHostSalaryBills() {
     renderSalaryRecords();
   };
   if (!management) renderPaymentSummary = refreshSummary;
-  openPaymentMethodSheet = () => {returnFocus = document.activeElement;renderPaymentMethodList();sheet.classList.add('show');setBaseInert(true);sheet.querySelector('button')?.focus();};
-  hidePaymentMethodSheet = () => {sheet.classList.remove('show');if(!editor.classList.contains('show')){setBaseInert(false);(returnFocus?.isConnected ? returnFocus : document.querySelector(host ? '.hostPaymentSummary' : management?'.paymentMainRow':'#salary .paymentMainRow'))?.focus();}};
+  openPaymentMethodSheet = () => {recovery=null;sheet.querySelector('header p').textContent='Choose how to receive your salary';returnFocus = document.activeElement;renderPaymentMethodList();sheet.classList.add('show');setBaseInert(true);sheet.querySelector('button')?.focus();};
+  hidePaymentMethodSheet = () => {sheet.classList.remove('show');recovery=null;if(!editor.classList.contains('show')){setBaseInert(false);(returnFocus?.isConnected ? returnFocus : document.querySelector(host ? '.hostPaymentSummary' : management?'.paymentMainRow':'#salary .paymentMainRow'))?.focus();}};
   function setBaseInert(on) { const bases = host ? [document.querySelector('.phone'), document.getElementById('hostHistory')] : management ? [document.getElementById('root')] : document.querySelectorAll('.app > .top, .app > section.page'); bases.forEach(base => {if(base)base.inert=on;}); }
   const field = (key,label,placeholder='',readonly=false,type='text') => `<label class="onlineField"><span>${label}:</span><input aria-label="${label}:" aria-describedby="payout-error-${key}" name="${key}" value="${esc(draft[key]||'')}" placeholder="${esc(placeholder)}" ${readonly?'readonly':''} type="${type}"><small id="payout-error-${key}" class="onlineFieldError" data-error="${key}" aria-live="polite"></small></label>`;
   const select = (key,label,options,placeholder,disabled=false) => `<label class="onlineField"><span>${label}:</span><select aria-label="${label}:" aria-describedby="payout-error-${key}" name="${key}" ${disabled?'disabled':''}><option value="">${placeholder}</option>${options.map(v=>`<option value="${esc(v)}" ${draft[key]===v?'selected':''}>${esc(v)}</option>`).join('')}</select><small id="payout-error-${key}" class="onlineFieldError" data-error="${key}" aria-live="polite"></small></label>`;
@@ -1483,12 +1654,8 @@ function closeHostSalaryBills() {
     resetTraderVerification();
     if (!id) return;
     // Local fixtures preserve existing test IDs and add the supplied screenshot examples.
-    const traders = {
-      '9198': {name: 'user9198', type: 'Public Coin Trader', available: true},
-      '10833021': {name: 'Demo Trader', type: 'Public Coin Trader', available: true},
-      '10833022': {name: 'Demo Trader', type: 'Private Coin Trader', available: false}
-    };
-    const trader = traders[id];
+    const traders = salaryDemo.traders;
+    const trader = traders[id] && {...traders[id], available:traders[id].available && id !== recovery?.unavailableTraderId};
     if (!trader) {
       const toast = document.createElement('div');
       toast.className = 'onlineTraderToast';
@@ -1510,7 +1677,7 @@ function closeHostSalaryBills() {
   }
   openPaymentInfo = m => {
     if(!profiles()[m])return;
-    editing=m;draft={...profiles()[m],method:m==='EPAY'?'EPay':m};verifiedId='';
+    editing=m;draft=recovery ? {method:m,traderId:recovery.trader?.receiverUid || '',configured:!!recovery.trader} : {...profiles()[m],method:m==='EPAY'?'EPay':m};verifiedId='';
     document.getElementById('onlineEditorTitle').textContent=m==='Coin Trader Top-up'?m:(draft.configured?'Edit ':'Set up ')+(m==='EPAY'?'EPay':m);
     editor.classList.add('show');sheet.classList.remove('show');setBaseInert(true);drawFields();document.getElementById('onlinePaymentForm').scrollTop=0;editor.querySelector('.onlinePaymentBack').focus();
   };
@@ -1528,10 +1695,21 @@ function closeHostSalaryBills() {
     if(invalid.length){form.elements[invalid[0]].focus();return;}
     if(editing==='Coin Trader Top-up'&&(!verifiedId||verifiedId!==draft.traderId.trim()))return;
     Object.keys(draft).forEach(k=>{if(typeof draft[k]==='string')draft[k]=draft[k].trim();});
+    if (recovery) {
+      recovery.trader={method:'Coin Trader Top-up',receiverUid:verifiedId,receiver:document.querySelector('.onlineTraderCard header b').textContent+' · ID '+verifiedId};
+      if (recovery.selection?.method === 'Coin Trader Top-up') recovery.selection = recovery.trader;
+      hidePaymentInfo();
+      return;
+    }
     profiles()[editing]={...draft,configured:true};editor.classList.remove('show');editing=null;draft=null;refreshSummary();renderPaymentMethodList();sheet.classList.add('show');setBaseInert(true);sheet.querySelector('button')?.focus();
   };
-  togglePreferredPayment = m => {const p=profiles()[m];if(!p?.configured)return;const on=host ? true : !p.preferred;Object.values(profiles()).forEach(x=>x.preferred=false);p.preferred=on;refreshSummary();renderPaymentMethodList();setBaseInert(true);sheet.querySelector(`[aria-label="${host ? 'Select' : p.preferred?'Remove preferred':'Set preferred'} ${m}"]`)?.focus();};
-  window.payoutUI = {selectedAccount:() => {
+  togglePreferredPayment = m => {if(m==='Coins')return;const p=profiles()[m];if(!p?.configured)return;const on=host ? true : !p.preferred;Object.values(profiles()).forEach(x=>x.preferred=false);p.preferred=on;refreshSummary();renderPaymentMethodList();setBaseInert(true);sheet.querySelector(`[aria-label="${host ? 'Select' : p.preferred?'Remove preferred':'Set preferred'} ${m}"]`)?.focus();};
+  window.payoutUI = {recover:(record,submit)=>{
+    recovery={record,submit,selection:null,trader:null,unavailableTraderId:record.receiverUid || record.receiver.match(/ID\s+(\d+)/)?.[1] || ''};
+    returnFocus=document.activeElement;
+    sheet.querySelector('header p').textContent='Choose a payment method for this bill';
+    renderPaymentMethodList();sheet.classList.add('show');setBaseInert(true);sheet.querySelector('button')?.focus();
+  },selectedAccount:() => {
     const method = preferredPaymentMethod();
     if (!method) return null;
     const profile = profiles()[method];
@@ -1553,5 +1731,69 @@ function closeHostSalaryBills() {
 })();
 
 </script>
+<style>
+.hostRecoveryNotice{margin:14px 0;padding:14px;border:1px solid #614956;border-radius:15px;background:#291d30;color:#dec9d2;font-size:12px;line-height:1.6}.hostRecoveryNotice p{margin:8px 0}.hostRecoveryActions{display:flex;gap:8px;margin-top:16px}.hostRecoveryActions button{flex:1;min-height:44px;padding:10px 12px;border:0;border-radius:24px;background:#ff604c;color:#fff;font-size:13px;line-height:1.5}.hostRecoveryToast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:1800;background:#302a3d;color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;max-width:85vw}
+</style>
+<script>
+(() => {
+  const storageKey='salary-collection-returns-v1';
+  const hostUid=new URLSearchParams(location.search).get('hostUid') || '88888888';
+  const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const read=()=>{
+    let records={};
+    try{records=JSON.parse(localStorage.getItem(storageKey)||'{}');}catch{}
+    Object.values(salaryDemo.read()).forEach(bill=>{
+      const host=bill.hosts.find(item=>item.uid===hostUid);
+      if(!host)return;
+      const payment=salaryDemo.route(bill,host);
+      if(payment.status!=='Returned')return;
+      const id=bill.uid+':host:'+hostUid;
+      if(records[id]?.status==='Submitted')return;
+      records[id]={...records[id],billUid:bill.uid,key:'host:'+hostUid,hostUid,period:bill.period,amount:host.salary+host.adjustment,
+        ...payment,status:'Returned',version:bill.revision,reason:payment.returnReason || records[id]?.reason || 'Coin Trader account is unavailable.'};
+    });
+    return records;
+  };
+  function toast(message){const element=document.createElement('div');element.className='hostRecoveryToast';element.role='status';element.textContent=message;document.body.append(element);setTimeout(()=>element.remove(),2600);}
+  function renderReturns(){
+    renderBase();
+    const entries=Object.entries(read()).filter(([,record])=>record.hostUid===hostUid && record.status==='Returned' && ['Coin Trader Top-up','Coins'].includes(record.method));
+    entries.forEach(([id,record])=>{
+      const card=Array.from(document.querySelectorAll('#historyCards [data-bill-uid]')).find(element=>element.dataset.billUid===String(record.billUid));
+      if(!card)return;
+      const notice=document.createElement('div');
+      notice.className='hostRecoveryActions';
+      notice.innerHTML='<button>Reselect</button>';
+      notice.querySelector('button').onclick=()=>openRecovery(id);
+      card.append(notice);
+    });
+  }
+
+  function openRecovery(id){
+    const record=read()[id];
+    if(!record || record.hostUid!==hostUid || record.status!=='Returned')return toast('This payment record has changed. Please refresh.');
+    window.payoutUI.recover(record,selection=>{
+      const records=read(),current=records[id];
+      if(current?.status!=='Returned' || current.version!==record.version){toast('This payment record has changed. Please refresh.');return false;}
+      records[id]={...current,...selection,status:'Submitted',version:Date.now(),history:[...(current.history||[]),{method:current.method,receiver:current.receiver,reason:current.reason}]};
+      localStorage.setItem(storageKey,JSON.stringify(records));
+      const linked=salaryDemo.read()[current.billUid];
+      if(linked){
+        const rate=selection.method==='Coins'?20000:current.amount>=2000?20300:19040;
+        linked.payments[current.key]={...linked.payments[current.key],...selection,available:true,status:'Unpaid',rate,coins:Math.round(current.amount*rate)};
+        salaryDemo.write(linked);
+      }
+      renderReturns();toast('Payment details submitted.');return true;
+    });
+  }
+
+  const renderBase=window.renderHostSalaryRecords;
+  window.renderHostSalaryRecords=renderReturns;
+  window.addEventListener('storage',event=>{if(event.key===storageKey)renderReturns();});
+  window.addEventListener('salary-demo-change',renderReturns);
+  renderReturns();
+})();
+</script>
+
 </body>
 </html>

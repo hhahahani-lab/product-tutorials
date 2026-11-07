@@ -1484,7 +1484,8 @@ body.salaryTheme .weekstat .num { color: #fff; font-size: 20px; }
 body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 </style>
 <link rel="stylesheet" href="assets/salary-collection.css?v=20261105-coins10">
-<script src="assets/salary-collection.js?v=20261105-coins10"></script>
+<script src="assets/salary-collection.js?v=20261107-linked5"></script>
+<script src="assets/salary-demo-store.js?v=20261107-linked5"></script>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04"><div class="app">
 <div class="top"><button class="l" onclick="goBack()" aria-label="Back">‹</button><span id="title">Agency Center</span></div>
@@ -2292,7 +2293,7 @@ function requestRewardClaim(){if(!rewardClaimAvailable)return;showDataConfirm('C
 function salaryStatusData(s){return s===1?['Under Review','review']:s===2?['Agency Confirmed','ok']:s===3?['Agency Rejected','no']:['Already Payout','ok']}
 function renderSalaryRecords(){
   const box=document.getElementById('salaryRecordList');if(!box)return;
-  box.innerHTML=agencySourceData.salaryBills.map(b=>{const st=salaryStatusData(b.status);return `<div class="salaryRecordCard"><button class="salaryRecordHead" onclick="openAnchorSalaryData('${b.periodId}')"><span><b>${b.start} - ${b.end}</b><small>View Host Salary Bills ›</small></span><span class="salaryStatus ${st[1]}">${st[0]}</span></button><div class="salaryRecordGrid"><div class="salaryRecordMetric"><b>${fmtData(b.gold)}</b><span>Total Coins</span></div><div class="salaryRecordMetric"><b>${fmtData(b.diamonds)}</b><span>Total Diamonds</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.hostSalary)}</b><span>Host Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.agencySalary)}</b><span>Agent Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.total)}</b><span>Total Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.shouldPay)}</b><span>Settlement Amount</span></div></div><div class="salaryPaymentBlock"><div class="salaryPayGrid"><div><b>${b.method}</b><span>Payment Method</span></div><div><b>$${fmtData(b.amount ?? b.shouldPay)}</b><span>Amount</span></div><div><b>${st[0]}</b><span>Process</span></div></div><div class="salaryPayee">Payee: ${b.payee}</div></div><div class="salaryActionsNew">${b.status===1?`<button class="rejectAction" onclick="requestSalaryUpdate(${b.id},3)">Reject</button><button class="approveAction" onclick="requestSalaryUpdate(${b.id},2)">Confirm</button>`:''}${b.status===4?`<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>`:''}</div></div>`}).join('');
+  box.innerHTML=agencySourceData.salaryBills.map(b=>{const st=salaryStatusData(b.status);return `<div class="salaryRecordCard"><button class="salaryRecordHead" onclick="openAnchorSalaryData('${b.periodId}')"><span><b>${b.start} - ${b.end}</b><small>View Host Salary Bills ›</small></span><span class="salaryStatus ${st[1]}">${st[0]}</span></button><div class="salaryRecordGrid"><div class="salaryRecordMetric"><b>${fmtData(b.gold)}</b><span>Total Coins</span></div><div class="salaryRecordMetric"><b>${fmtData(b.diamonds)}</b><span>Total Diamonds</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.hostSalary)}</b><span>Host Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.agencySalary)}</b><span>Agent Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.total)}</b><span>Total Salary</span></div><div class="salaryRecordMetric"><b>$${fmtData(b.shouldPay)}</b><span>Settlement Amount</span></div></div><div class="salaryPaymentBlock"><div class="salaryPayGrid"><div><b>${b.method}</b><span>Payment Method</span></div><div><b>$${fmtData(b.amount ?? b.shouldPay)}</b><span>Amount</span></div><div><b>${st[0]}</b><span>Process</span></div></div><div class="salaryPayee">Payee: ${b.payee}</div></div><div class="salaryActionsNew">${b.status===1?`<button class="rejectAction" onclick="requestSalaryUpdate(${b.id},3)">Reject</button><button class="approveAction" onclick="requestSalaryUpdate(${b.id},2)">Confirm</button>`:''}</div></div>`}).join('');
 }
 function requestSalaryUpdate(id,status){const b=agencySourceData.salaryBills.find(x=>x.id===id);if(!b)return;showDataConfirm(status===2?'Confirm Salary Bill':'Reject Salary Bill',`Total Salary: <b>$${fmtData(b.total)}</b><br>Payment Method: ${b.method} · $${fmtData(b.amount ?? b.shouldPay)}`,(status===2?'Confirm':'Reject'),()=>{b.status=status;renderSalaryRecords();toastData(status===2?'✓ Salary bill confirmed':'Salary bill rejected')})}
 function openAnchorSalaryData(periodId){document.getElementById('anchorSalaryPeriod').textContent=periodId+' · 2026-08-17 - 2026-08-23';renderAnchorSalaryData();openp('anchorSalary','Host Salary Bills')}
@@ -2734,7 +2735,6 @@ ${collectionUI.payment(bill).method === 'Coins' ? '' : `        <div class="wide
       <div class="salaryActionsNew">
         ${bill.status === 1 ? `<button class="rejectAction" onclick="requestSalaryUpdate(${bill.id},3)">Reject</button>
           <button class="approveAction" onclick="requestSalaryUpdate(${bill.id},2)">Confirm</button>` : ''}
-        ${bill.status === 4 ? `<button onclick="toastData('Transfer receipt opened')">Transfer Receipt</button>` : ''}
       </div>
     </article>`;
   }).join('');
@@ -2858,5 +2858,18 @@ renderSalaryRecords();
 .salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
 </style>
 <link rel="stylesheet" href="assets/role-payment.css?v=20261105-coins10">
-<script src="assets/role-payment.js?v=20261105-coins10"></script>
+<script src="assets/role-payment.js?v=20261107-linked5"></script>
+<script>
+(() => {
+  const refresh = () => {
+    const bills=Object.values(salaryDemo.read()).map(salaryDemo.frontend);
+    const old=agencySourceData.salaryBills.filter(bill=>!bill.linkedUid);
+    agencySourceData.salaryBills=[...bills,...old];
+    renderSalaryRecords();
+    if(activeAgencySalaryPeriod)renderAnchorSalaryData();
+  };
+  window.addEventListener('salary-demo-change',refresh);
+  refresh();
+})();
+</script>
 </body></html>

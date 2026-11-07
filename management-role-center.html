@@ -949,7 +949,8 @@ body.salaryTheme .salaryEmpty {
 }
 </style>
 <link rel="stylesheet" href="assets/salary-collection.css?v=20261105-coins10">
-<script src="assets/salary-collection.js?v=20261105-coins10"></script>
+<script src="assets/salary-collection.js?v=20261107-linked5"></script>
+<script src="assets/salary-demo-store.js?v=20261107-linked5"></script>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04">
 <div id="root" class="app"></div>
@@ -2647,6 +2648,18 @@ render();
 .salaryAction{font-size:11px;min-height:40px}.sourceWeekBody .deductionNote{color:#c0b4c9;font-size:11px;margin:4px 14px 8px}
 </style>
 <link rel="stylesheet" href="assets/role-payment.css?v=20261105-coins10">
-<script src="assets/role-payment.js?v=20261105-coins10"></script>
+<script src="assets/role-payment.js?v=20261107-linked5"></script>
+<script>
+(() => {
+  const original=personalAgencyBills;
+  personalAgencyBills=function(){
+    const old=original();
+    if(String(demoConfig().id)!=='10032846')return old;
+    return [...Object.values(salaryDemo.read()).map(bill=>({...salaryDemo.frontend(bill),id:String(bill.uid)})),...old];
+  };
+  window.addEventListener('salary-demo-change',()=>render());
+  render();
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+#settlementContent .settlementAgencyWeeklyTable{min-width:3200px!important}
+#drawerBody .compositionTotals{margin:16px 0}
+
+.drawer:has(.hcPayoutDetail){width:min(1380px,96vw)!important}
+.drawer:has(.hcPayoutDetail) .compositionTotals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+
+
+.hcPaymentLine{min-height:58px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3px}.hcPaymentLine+.hcPaymentLine{border-top:1px solid #e5eaf2}.hcPaymentSection{margin-top:20px}.hcPaymentSection h4{margin:0 0 10px;color:#243b60}.hcPaymentMeta{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:12px;color:#6b7d96}.hcPaymentMeta b{color:#243b60}.hcPaymentMeta span{padding-left:12px;margin-left:4px;border-left:1px solid #dce4ef}.hcPaymentTable{width:100%;min-width:1050px}.hcPaymentTable td{white-space:normal;max-width:220px;overflow-wrap:anywhere}
+
+.hcPayoutProgress{font-size:12px;white-space:nowrap}
