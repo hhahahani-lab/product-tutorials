@@ -229,11 +229,18 @@
     const item = bill && paymentRows(bill).find(row => row.key === key);
     if (!item || !ready(bill) || item.status !== 'Unpaid') return toast('仅可退回未付款记录');
     const stamp = signature(bill);
-    openModal('退回付款记录', `<div class="note">${esc(item.source)} · ${money(item.amount)}<br>仅暂停这笔付款，通知收款人更新账号。</div><div class="field"><label>退回原因</label><textarea id="hcReturnReason" placeholder="请填写原因，将通知收款人"></textarea></div>`, '确认退回', () => {
-      const reason = document.getElementById('hcReturnReason').value.trim();
-      if (!reason) return toast('请填写退回原因');
+    openModal('退回账单', `<div class="note hcReturnNotice">退回后该笔付款回到财务处理流程，请选择退回原因；选择「其他」时需补充英文说明。</div><div class="field hcReturnField"><label><span class="hcRequired">*</span> 退回原因</label><select id="hcReturnReason"><option value="">请选择退回原因</option><option>收款信息有误或不完整</option><option>收款账户无法接收付款</option><option>其他</option></select></div><div class="field hcReturnField" id="hcReturnOtherField" hidden><label><span class="hcRequired">*</span> 英文说明</label><textarea id="hcReturnOther" placeholder="请输入英文说明"></textarea></div>`, '确认退回', () => {
+      const selected = document.getElementById('hcReturnReason').value;
+      const detail = document.getElementById('hcReturnOther').value.trim();
+      if (!selected) return toast('请选择退回原因');
+      if (selected === '其他' && !detail) return toast('请补充英文说明');
+      if (selected === '其他' && !/[a-zA-Z]/.test(detail)) return toast('请使用英文填写说明');
+      const reason = selected === '其他' ? detail : selected;
       if (stamp !== signature(bill)) return toast('付款记录已变化，请重新打开');
       returnPart(bill,item,reason);closeModal();renderSettlement();toast('该笔付款已退回，收款人通知已生成');
+    });
+    document.getElementById('hcReturnReason').addEventListener('change', event => {
+      document.getElementById('hcReturnOtherField').hidden = event.target.value !== '其他';
     });
   };
   function syncReturnedPayments() {
