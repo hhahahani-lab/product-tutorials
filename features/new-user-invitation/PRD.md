@@ -58,6 +58,21 @@ Facebook 优先分享专属落地页链接，并由落地页图片配置生成�
 | 游戏／送礼 | 好友、统计日期、当日返利、实际到账时间 |
 | 每日分享 | 奖励时间、金额、状态 |
 
+### 4. 奖励到账系统消息
+
+实际到账后发送，同一任务同批到账合并一条，金额为本批实际到账合计；不同任务分别通知。游戏、送礼在次日结算到账后通知。点击进入对应任务记录，重试不重复通知，补发仅通知新增到账金额。
+
+> Your {task} reward has been credited: {amount} {unit}.
+
+| 任务 | {task} | {unit} |
+|---|---|---|
+| 新人绑定 | friend invitation | Beans |
+| 新人首充 | friend’s first recharge | Coins |
+| 持续充值返利 | friend’s recharge rebate | Coins |
+| 游戏返利 | friend’s game rebate | Beans |
+| 送礼返利 | friend’s gift rebate | Coins |
+| 每日分享 | daily sharing | Beans |
+
 ## 二、Newcomer｜受邀侧
 
 ### 1. 绑定邀请人
