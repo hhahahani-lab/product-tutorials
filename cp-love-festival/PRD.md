@@ -80,10 +80,10 @@ Love Gifts 页面提供 Rewards 入口，展示两项权益：
 
 客户端礼物面板只写逻辑，不制作 Demo：
 
-- Banner 按选中的礼物 ID 读取，不使用综合周榜 Top1。
+- Banner 按选中的礼物 ID 读取该礼物上周榜 Top1 关系双方用户。
 - 点击 Banner 查看礼物大图、双方信息、活动值和结算周期。
 - 切换礼物时同步更新 Banner。
-- 非活动礼物或上周无获奖 CP 时不展示 Banner。
+- 上周无获奖 CP 时，Banner 用户信息留空。
 
 ## 4. 往期荣誉 Hall of Love
 
