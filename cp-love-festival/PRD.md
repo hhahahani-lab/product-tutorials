@@ -10,7 +10,7 @@
 | 榜单周期 | 周榜、月榜 |
 | 页面 Tab | Ranking、Love Gifts、Hall of Love |
 
-- 活动以 CP 关系为单位，展示双方头像和昵称，不展示 UID。
+- 活动以亲密关系为单位，展示双方头像和昵称，不展示 UID。
 
 ## 2. CP 榜单 Ranking
 
