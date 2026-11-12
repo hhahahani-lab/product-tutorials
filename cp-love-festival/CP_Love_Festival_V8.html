@@ -77,9 +77,6 @@ button{cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparen
 .podium-score{font-size:11px;color:#b02e68;font-weight:bold;margin-top:8px}
 .ranklist{display:flex;flex-direction:column;gap:10px}
 .rankrow{min-height:75px;display:flex;align-items:center;gap:9px;padding:10px 10px;border:1.5px solid #fff2e4;border-radius:15px 15px 22px 22px;background:linear-gradient(110deg,#f4a1c7,#ffe3eb);box-shadow:0 4px #c96293}
-.rankrow:nth-child(1){background:linear-gradient(110deg,#ffb573,#ffe5da)}
-.rankrow:nth-child(2){background:linear-gradient(110deg,#e3bbd5,#ffe5ed)}
-.rankrow:nth-child(3){background:linear-gradient(110deg,#f5a59b,#ffe0eb)}
 .rankrow .number{font:bold 19px Georgia,serif;width:19px}
 .rankrow .twins{display:flex;flex:none}
 .rankrow .twins span{width:37px;height:37px;border:2px solid #d29a48;border-radius:50%;background:#c27fa6;display:grid;place-items:center;font-size:23px}
@@ -357,7 +354,7 @@ function renderHistory(){
 }
 function renderCurrent(){
 const k=state.period==='week'?4:5;
-return `${clock(state.period,`${state.period==='week'?'Weekly':'Monthly'} Ranking Ends In`)}<div class="ranking-meta"><div class="brief">All eligible gifts count · Featured gifts ×1.2</div><button class="rewards-entry" data-open-rewards aria-label="View ranking rewards" title="Rewards"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 14h22v14H5z" fill="#c06b96" stroke="#ffe3a8" stroke-width="1.5"/><path d="M3 10h26v6H3z" fill="#edc577" stroke="#fff1c4"/><path d="M16 10v18m0-18C4 10 6 1 11 4Zm0 0C28 10 26 1 21 4Z" fill="#f4daa1" stroke="#fff1c4" stroke-width="1.5"/></svg><span>Rewards</span></button></div><div class="podium">${[1,0,2].map(i=>{const u=current[i];return `<div class="podium-card ${i===0?'first':''}"><div class="rank">${i===0?'👑 ':''}TOP ${i+1}</div><div class="faces"><span>${avatarSvg(u[0])}</span><span>${avatarSvg(u[1])}</span></div><div class="podium-name">${u[0]} &amp; ${u[1]}</div><div class="podium-score"><svg class="event-heart" aria-hidden="true" viewBox="0 0 24 24"><use href="#event-heart-shape"/></svg> ${formatScore(u[k])}</div></div>`;}).join('')}</div><div class="ranklist">${current.slice(3).map((u,index)=>{const i=index+3;return `<div class="rankrow"><div class="number">${i+1}</div><div class="twins"><span>${avatarSvg(u[0])}</span><span>${avatarSvg(u[1])}</span></div><div class="names">${u[0]} &amp; ${u[1]}</div><div class="amount"><svg class="event-heart" aria-hidden="true" viewBox="0 0 24 24"><use href="#event-heart-shape"/></svg> ${formatScore(u[k])}</div></div>`;}).join('')}</div>`;
+return `${clock(state.period,`${state.period==='week'?'Weekly':'Monthly'} Ranking Ends In`)}<div class="ranking-meta"><div class="brief">Regular gifts 100% · Lucky gifts 10% · Relationship gifts × configured rate</div><button class="rewards-entry" data-open-rewards aria-label="View ranking rewards" title="Rewards"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 14h22v14H5z" fill="#c06b96" stroke="#ffe3a8" stroke-width="1.5"/><path d="M3 10h26v6H3z" fill="#edc577" stroke="#fff1c4"/><path d="M16 10v18m0-18C4 10 6 1 11 4Zm0 0C28 10 26 1 21 4Z" fill="#f4daa1" stroke="#fff1c4" stroke-width="1.5"/></svg><span>Rewards</span></button></div>${rankingRows(current,k,0)}`;
 }
 function rankingControls(){return `<div class="ranking-controls"><div class="period-switch ranking-main" aria-label="Current ranking period">${[['week','Weekly'],['month','Monthly']].map(([v,t])=>`<button data-ranking-view="${v}" class="${state.rankingView===v?'active':''}">${t}</button>`).join('')}</div></div>`;}
 function renderRanking(){return rankingControls()+renderCurrent();}
