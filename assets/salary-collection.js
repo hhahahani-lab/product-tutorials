@@ -16,7 +16,11 @@ window.collectionUI = (() => {
       .map(host => ({uid:String(host.id), amount:finalHostSalary(host)}));
     const hostTotal = round(recipients.reduce((sum, recipient) => sum + recipient.amount, 0));
     const agentAmount = round(agencyAmount(bill) - hostTotal);
-    if (agentAmount > 0) recipients.push({uid:bill.ownerUid || '10032846', amount:agentAmount});
+    if (agentAmount > 0) {
+      const ownerUid=bill.ownerUid || '10032846', own=recipients.find(item=>item.uid===ownerUid);
+      if(own)own.amount=round(own.amount+agentAmount);
+      else recipients.push({uid:ownerUid,amount:agentAmount});
+    }
     return {method:'Coins', payee:'—', recipients,
       version:JSON.stringify(recipients)};
   }
@@ -49,7 +53,7 @@ window.collectionUI = (() => {
     const personalCoins = !usesTrader(host) && isLowAmount(agencyAmount(bill));
     const ownStatus = host.payoutStatus || host.collectionStatus;
     const agencyStatus = bill.agencyPayoutStatus || bill.payoutStatus;
-    const payout = usesTrader(host) || personalCoins
+    const payout = usesTrader(host) || personalCoins || String(host.id)===String(bill.ownerUid)
       ? ownStatus || (bill.status === 4 ? 'Paid' : 'Agency Confirmed')
       : agencyStatus === 'Paid' || bill.status === 4 ? 'Paid' : 'Agency Confirmed';
     const status = bill.status === 1 ? 'Under review' : payout;
@@ -71,7 +75,7 @@ window.collectionUI = (() => {
     const personalCoins = !trader && isLowAmount(agencyAmount(bill));
     if(host.paymentOverride && bill.status !== 1){
       const route=host.paymentOverride;
-      return `<div class="agencyBillPaymentMeta collectionPaymentMeta"><div><b>${escape(route.method)}</b><span>Payment</span></div><div><b>${route.method==='Paid via Agency'?'USD':'Coins'}</b><span>Currency</span></div><div class="wideMeta"><b>${escape(route.receiver)}</b><span>Receiving account</span></div></div>`;
+      return `<div class="agencyBillPaymentMeta collectionPaymentMeta"><div><b>${escape(route.method)}</b><span>Payment</span></div><div><b>${['Coin Trader Top-up','Coins'].includes(route.method)?'Coins':'USD'}</b><span>Currency</span></div><div class="wideMeta"><b>${escape(route.receiver)}</b><span>Receiving account</span></div></div>`;
     }
     const method = amount === 0 ? '—' : personalCoins ? 'Coins' : trader ? 'Coin Trader Top-up' : 'Paid via Agency';
     const receiver = amount === 0 ? '—' : personalCoins ? `ID ${host.id}`

@@ -37,18 +37,30 @@ window.salaryDemo = (() => {
         adjustment:0,coins:320000,diamonds:80000,days:4,hours:10,
         collection:review==='Pending Confirmation'?'Agency':'Coin Trader Top-up',traderId:'10833022',traderName:'Demo Trader'}]};
   }
+  // Existing bills also demonstrate users who hold their own Host identity.
+  for (const [uid,ownerUid,center] of [['319012','10032846','management'],['319013','10032847','agency']]) {
+    if (initial[uid]) continue;
+    initial[uid]={uid,ownerUid,collectionCenter:center,name:center==='management'?'Management Agency':'Host Agency',
+      start:'2026-11-02',end:'2026-11-08',period:'2026-11-02 - 2026-11-08',finance:'Published',review:'Pending Confirmation',revision:1,
+      method:'USDT',payee:'TQ8Lw9p2xD7k3mN6cR4vB1zA5sF9hJ2uXq',agentSalary:10,agentAdj:0,payments:{},
+      hosts:[{uid:ownerUid,name:center==='management'?'Management Host':'Agency Host',salary:48.4,target:40,diamond:8.4,
+        adjustment:0,coins:320000,diamonds:80000,days:4,hours:10,collection:'Agency'}]};
+  }
   Object.values(initial).forEach(bill=>{if(bill.review==='Confirmed')bill.rejectReason='';});
   localStorage.setItem(key,JSON.stringify(initial));
   function finalHost(host) { return Math.round((host.salary + host.adjustment)*100)/100; }
   function total(bill) { return Math.round((bill.hosts.reduce((sum,host)=>sum+finalHost(host),0)+bill.agentSalary+bill.agentAdj)*100)/100; }
-  function split(bill) { return Math.round(bill.hosts.filter(host=>host.collection==='Coin Trader Top-up' && finalHost(host)>=5).reduce((sum,host)=>sum+finalHost(host),0)*100)/100; }
+  const ownHost = (bill,host) => String(host.uid) === String(bill.ownerUid);
+  function split(bill) { return Math.round(bill.hosts.filter(host=>!ownHost(bill,host) && host.collection==='Coin Trader Top-up' && finalHost(host)>=5).reduce((sum,host)=>sum+finalHost(host),0)*100)/100; }
   function route(bill,host) {
-    const payment = bill.payments['host:'+host.uid] || bill.payments['personal:'+host.uid];
+    const own = ownHost(bill,host);
+    const payment = own ? bill.payments['agency:'+bill.uid] || bill.payments['personal:'+host.uid] || bill.payments['agent:'+bill.uid] : bill.payments['host:'+host.uid] || bill.payments['personal:'+host.uid];
     if (payment) return payment;
     const amount = finalHost(host);
-    if (host.collection==='Coin Trader Top-up' && amount>=5) return {method:host.collection,receiver:host.traderName+' · ID '+host.traderId,receiverUid:host.traderId,status:'Unpaid'};
+    if (!own && host.collection==='Coin Trader Top-up' && amount>=5) return {method:host.collection,receiver:host.traderName+' · ID '+host.traderId,receiverUid:host.traderId,status:'Unpaid'};
     const remaining = Math.round((total(bill)-split(bill))*100)/100;
     if (remaining>0 && remaining<5) return {method:'Coins',receiver:'Personal UID '+host.uid,receiverUid:host.uid,status:'Unpaid'};
+    if (own) return {method:bill.method,receiver:bill.payee,status:'Unpaid'};
     return {method:'Paid via Agency',receiver:bill.name+' · ID '+bill.uid,status:bill.payments['agency:'+bill.uid]?.status || 'Unpaid'};
   }
   function frontend(bill) {
@@ -58,7 +70,7 @@ window.salaryDemo = (() => {
         agencySalary:0,agentSalary:0,targetSalary:host.target,diamondSalary:host.diamond,
         goldNum:host.coins,diamondNum:host.diamonds,coins:host.coins,diamonds:host.diamonds,
         validDay:host.days,validTime:host.hours,days:host.days,hours:host.hours,workingMet:host.days>=4,
-        collection:host.collection==='Coin Trader Top-up'?'trader':'agency',traderId:host.traderId,traderName:host.traderName,
+        collection:!ownHost(bill,host)&&host.collection==='Coin Trader Top-up'?'trader':'agency',traderId:host.traderId,traderName:host.traderName,
         payoutStatus:payment.status==='Returned'?'Payment issue':payment.status==='Paid'?'Paid':'Agency Confirmed',
         paymentOverride:payment};
     });
@@ -72,7 +84,7 @@ window.salaryDemo = (() => {
       agentAdjustment:bill.agentAdj,hostAdjustment:bill.hosts.reduce((sum,host)=>sum+host.adjustment,0),
       total:bill.hosts.reduce((sum,host)=>sum+host.salary,0)+bill.agentSalary,shouldPay:total(bill),
       method:remaining>0&&remaining<5?'Coins':bill.method,payee:bill.payee,
-      agencyPayoutStatus:agencyPayments.length&&agencyPayments.every(item=>item.status==='Paid')?'Paid':'Agency Confirmed',
+      agencyPayoutStatus:agencyPayments.length&&agencyPayments.every(item=>item.status==='Paid')?'Paid':agencyPayments.some(item=>item.status==='Returned')?'Payment issue':'Agency Confirmed',
       hosts:hostRows,hostEntries:hostRows};
   }
   function decision(view,status) {
@@ -94,7 +106,7 @@ window.salaryDemo = (() => {
   function configureHost(account) {
     Object.values(read()).filter(bill=>bill.review==='Pending Confirmation'&&bill.finance==='Published').forEach(bill=>{
       const host=bill.hosts.find(item=>item.uid==='88888888');
-      if(!host)return;
+      if(!host || ownHost(bill,host))return;
       host.collection=account.method;
       host.traderId=account.traderId || '';
       host.traderName=traders[host.traderId]?.name || '';
@@ -102,5 +114,5 @@ window.salaryDemo = (() => {
     });
   }
   window.addEventListener('storage',event=>{if(event.key===key)window.dispatchEvent(new Event('salary-demo-change'));});
-  return {key,read,write,traders,total,split,route,frontend,decision,configureHost,configureAgency};
+  return {key,read,write,traders,ownHost,total,split,route,frontend,decision,configureHost,configureAgency};
 })();

@@ -16,7 +16,7 @@
   const agency = uid => agencyWeeklySettlement.find(row => String(row.uid) === String(uid));
   const agencyHosts = bill => hostWeeklySettlement.filter(host => String(host.agencyUid) === String(bill.uid));
   const hostAmount = host => round(hostFinalSalary(host));
-  const isTraderHost = host => host.collectionMethod === CT && hostAmount(host) >= 5;
+  const isTraderHost = host => String(host.uid) !== String(agency(host.agencyUid)?.ownerUid || '') && host.collectionMethod === CT && hostAmount(host) >= 5;
   const isAgency = bill => agencyWeeklySettlement.includes(bill);
   const low = amount => amount > 0 && amount < 5;
   const hasPerformance = bill => [bill.totalCoins, bill.totalDiamonds, bill.totalValidHours, bill.totalValidDays].some(value => Number(value) > 0) || agencyHosts(bill).some(host => Number(host.validDays) > 0);
@@ -46,8 +46,13 @@
         `${host.name} · UID ${host.uid}`, host.uid, '代理代收部分')));
       const own = round(remaining - viaAgency.reduce((sum, host) => sum + hostAmount(host), 0));
       if (own < 0) return {total:bill.final, trader, agency:remaining, parts, error:'代理本人应结金额为负，请先核对财务调整。'};
-      if (own > 0) parts.push(part('agent:' + bill.uid, '代理本人薪资', own, COINS,
-        `${bill.name} · UID ${bill.uid}`, bill.uid, '代理代收部分'));
+      const ownHostPart = parts.find(item => item.key === 'personal:' + bill.ownerUid);
+      if (own > 0 && ownHostPart) {
+        ownHostPart.amount=round(ownHostPart.amount+own);
+        ownHostPart.coins=Math.round(ownHostPart.amount*ownHostPart.rate);
+        ownHostPart.label='本人主播及代理薪资';
+      } else if (own > 0) parts.push(part('agent:' + bill.uid, '代理本人薪资', own, COINS,
+        `${bill.name} · UID ${bill.ownerUid || bill.uid}`, bill.ownerUid || bill.uid, '代理代收部分'));
     } else if (remaining > 0) {
       const proxy = {...bill, final:remaining};
       const method = originalActual(proxy);
@@ -415,7 +420,7 @@
       let bill=agency(uid);
       if(!bill){bill={...sourceValue,uid,name:source.name};agencyWeeklySettlement.unshift(bill);}
       if(bill.linkedRevision===source.revision)return;
-      bill.name=source.name;bill.period=source.period;bill.finance=source.finance;bill.bill=source.review;
+      bill.ownerUid=source.ownerUid;bill.name=source.name;bill.period=source.period;bill.finance=source.finance;bill.bill=source.review;
       bill.agentAdj=source.agentAdj;bill.payType=bill.configuredPayType=source.method;
       bill.payAddress=source.payee;bill.rejectReason=source.rejectReason || '';
       bill.paymentDetails={'Coin Trader ID':source.payee.match(/ID\s+(\d+)/)?.[1] || ''};
