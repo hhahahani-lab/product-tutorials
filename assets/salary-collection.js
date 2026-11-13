@@ -103,6 +103,37 @@ window.collectionUI = (() => {
   function rejectionNote(bill) {
     return bill.rejectionReason ? `<p class="billRejectionReason"><b>Rejection reason</b><span>${escape(bill.rejectionReason)}</span></p>` : '';
   }
+  function showMissingPayment() {
+    if (document.getElementById('salaryMissingPaymentOverlay')) return;
+    const trigger = document.activeElement;
+    const overlay = document.createElement('div');
+    overlay.id = 'salaryMissingPaymentOverlay';
+    overlay.className = 'salaryDecisionOverlay';
+    overlay.innerHTML = `<section class="salaryDecisionCard" role="alertdialog" aria-modal="true" aria-labelledby="salaryMissingPaymentTitle" aria-describedby="salaryMissingPaymentHint">
+      <h2 id="salaryMissingPaymentTitle">No preferred payment method</h2>
+      <p id="salaryMissingPaymentHint" class="salaryDecisionHint">Please complete your payment information and tap the star (★) before confirming the bill.</p>
+      <div class="salaryDecisionActions"><button type="button" data-cancel>Cancel</button><button type="button" data-settings class="confirm">Go to settings</button></div>
+    </section>`;
+    const background = [...document.body.children].filter(el => el instanceof HTMLElement && !el.inert);
+    background.forEach(el => el.inert = true);
+    const close = () => {
+      overlay.remove();
+      background.forEach(el => el.inert = false);
+      if (trigger?.isConnected) trigger.focus();
+    };
+    overlay.querySelector('[data-cancel]').onclick = close;
+    overlay.querySelector('[data-settings]').onclick = () => { close(); openPaymentMethodSheet(); };
+    overlay.onkeydown = event => {
+      if (event.key === 'Escape') { event.preventDefault(); close(); }
+      if (event.key === 'Tab') {
+        const first = overlay.querySelector('[data-cancel]'), last = overlay.querySelector('[data-settings]');
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    };
+    document.body.appendChild(overlay);
+    overlay.querySelector('[data-cancel]').focus();
+  }
   function openDecision(bill, status, notify, onSubmit) {
     const statusKey = 'settlement' in bill ? 'settlement' : 'status';
     if (bill[statusKey] !== 1 || bill.published === false) return;
@@ -112,7 +143,7 @@ window.collectionUI = (() => {
     const payout = agencyBill ? agencyAmount(bill) : total;
     const coins = isLowAmount(payout);
     const selection = coins ? payment(bill) : window.payoutUI.selectedAccount();
-    const missingPayment = () => notify('Please fill in the payment method and click [Star Mark] before confirming the bill.');
+    const missingPayment = showMissingPayment;
     if (status === 2 && payout > 0 && !selection) { missingPayment(); return; }
     const reject = status === 3;
     document.getElementById('salaryDecisionOverlay')?.remove();
