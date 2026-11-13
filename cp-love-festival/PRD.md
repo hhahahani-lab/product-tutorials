@@ -99,6 +99,7 @@ Hall of Love 仅展示已结算结果，内部切换 Weekly、Monthly。
 
 - 头图从页面顶部延伸至主 Tab，使用四张图片自动轮播。
 - 头图 Top1 展示放在右下角，不显示昵称；皇冠居中。
+- 头图标题右侧提供贴右边缘的 Rule 入口，点击打开活动规则弹窗，正文可滚动；规则文案见[活动规则文案](活动规则文案.md)。
 - Ranking：周榜、月榜、倒计时、Rewards、榜单列表及 My。
 - Love Gifts：周期切换、倒计时、Rewards、礼物卡片及当前周期底栏。
 - Hall of Love：Weekly、Monthly 往期获奖列表。
