@@ -120,6 +120,6 @@ Hall of Love 仅展示已结算结果，内部切换 Weekly、Monthly。
 
 ## 6. 通用规则与待补配置
 
-- 榜单同分、数值显示和发奖规则沿用[活动榜单通用规则](rules/activity-ranking-common.md)。
-- 奖励叠加规则沿用[活动奖励通用规则](rules/activity-reward-common.md)。
+- 榜单同分、数值显示和发奖规则沿用[活动榜单通用规则](../rules/activity-ranking-common.md)。
+- 奖励叠加规则沿用[活动奖励通用规则](../rules/activity-reward-common.md)。
 - 待补：活动起止时间、正式奖励素材及资源 ID。

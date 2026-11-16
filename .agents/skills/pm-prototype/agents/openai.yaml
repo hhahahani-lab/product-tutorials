@@ -1,0 +1,13 @@
+interface:
+  display_name: 交互原型设计与修改
+  short_description: 复用现有产品风格，先交互预览再生成 HTML，并同步检查业务状态
+  default_prompt: 使用 $pm-prototype，结合 PRD 和参考页面先给可交互布局预览，确认后再交付 HTML。
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
