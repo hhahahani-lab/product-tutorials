@@ -96,7 +96,19 @@
 /* v10 — Manager analytics filter + comparison */
 .analysisSearch{margin:0 0 9px}.analysisSearch .searchRow{margin-bottom:0}
 .analysisFilterSummary{display:flex;align-items:center;gap:6px;overflow:auto;margin:0 0 10px;padding-bottom:2px}.analysisFilterSummary .label{font-size:7.5px;color:#807486;font-weight:800;flex:none}.analysisFilterSummary button{height:29px;flex:none;padding:0 9px;border:1px solid var(--line);border-radius:9px;background:#281731;color:#c9bdcf;font-size:7.8px;font-weight:850}.analysisFilterSummary .filterOpen{width:30px;padding:0;color:#f2d071;font-size:14px}
-.analysisFilterOverlay{display:none;position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.64);align-items:flex-end;justify-content:center}.analysisFilterOverlay.show{display:flex}.analysisFilterSheet{width:min(430px,100%);background:linear-gradient(180deg,#26142f,#160b1e);border-radius:20px 20px 0 0;border-top:1px solid #6d467f;padding:10px 16px calc(18px + env(safe-area-inset-bottom))}.analysisFilterHandle{width:38px;height:4px;background:#715f78;border-radius:99px;margin:2px auto 13px}.analysisFilterGroup{margin-bottom:14px}.analysisFilterGroupTitle{font-size:9px;color:#9c8fa4;margin-bottom:7px;font-weight:900}.analysisFilterOptions{display:flex;gap:7px;flex-wrap:wrap}.analysisFilterOptions.two{display:grid;grid-template-columns:1fr 1fr}.analysisFilterOption{min-height:35px;padding:0 11px;border:1px solid #543d60;border-radius:9px;background:#2f1d38;color:#b7abbc;font-size:8.5px;font-weight:800}.analysisFilterOption.selected{background:linear-gradient(180deg,#765026,#8a5725);border-color:#caa96a;color:#fff0b0}.analysisFilterSheet:not(.yesterday) .analysisYesterdayOnly{display:none}.analysisFilterActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}.analysisFilterActions button{height:44px;border:0;border-radius:10px;background:#4b3c50;color:#e7e0e9;font-size:10px;font-weight:900}.analysisFilterActions .confirm{background:linear-gradient(#fff0a2,#ffbd17);color:#6a3600}
+.analysisFilterOverlay{position:fixed;inset:auto 0 0;margin:0 auto;width:min(430px,100%);max-width:none;max-height:76dvh;padding:0;border:0;border-radius:22px 22px 0 0;background:linear-gradient(#503077,#150d21);color:#fff;overflow:hidden}
+.analysisFilterOverlay::backdrop{background:#000a}
+.analysisFilterOverlay[open]{display:flex;flex-direction:column}
+.analysisFilterSheet{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:22px 4.25% 8px}
+.analysisFilterGroup + .analysisFilterGroup{margin-top:20px}
+.analysisFilterGroupTitle{font-size:17px;font-weight:500;margin:0 0 13px}
+.analysisFilterOptions{display:flex;gap:8px;flex-wrap:wrap}
+.analysisFilterOption{min-height:40px;padding:0 clamp(12px,4.4vw,19px);border:1px solid transparent;border-radius:99px;background:#ffffff29;color:white;font-size:clamp(14px,4.1vw,17px);font-weight:400}
+.analysisFilterOption.selected{background:#a565f475;border-color:#a565f4}
+.analysisFilterOption:disabled{opacity:.38;cursor:default}
+.analysisFilterActions{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:15px 4.25% calc(24px + env(safe-area-inset-bottom))}
+.analysisFilterActions button{min-height:54px;border:0;border-radius:99px;background:#ffffff32;color:white;font-size:18px;font-weight:500}
+.analysisFilterActions .confirm{background:#a565f4}
 .analysisValue em{display:block;margin-top:3px;font-size:7px;font-style:normal;font-weight:900}.analysisRow:active{background:rgba(255,255,255,.025)}.analysisNoMatch{padding:35px 15px;text-align:center;color:#887a90;font-size:10px}.analysisEffectiveNote{margin-top:5px;color:#817487!important;font-size:7px!important}.analysisCompareHead{display:flex;align-items:center;justify-content:space-between}.analysisCompareHead button{border:0;background:transparent;color:#f2d071;font-size:9px;font-weight:900}.chartLegend{display:flex;justify-content:center;gap:14px;margin:8px 0 0;color:#9b8da2;font-size:7.5px;font-weight:800}.chartLegend i{display:inline-block;width:13px;height:2px;margin-right:4px;vertical-align:middle;background:#f2d071}.chartWeeks{display:grid;grid-template-columns:repeat(3,1fr);margin-top:8px;border-top:1px solid var(--line)}.chartWeek{padding:9px 5px 2px;text-align:center;border-right:1px solid var(--line)}.chartWeek:last-child{border-right:0}.chartWeek b{display:block;color:#d9cddd;font-size:10px}.chartWeek span{display:block;margin-top:4px;color:#7f7386;font-size:6.8px;line-height:1.25}.chartWeek.current b{color:#f2d071}.chartPoint{fill:#f2d071;stroke:#21102d;stroke-width:3}.chartGuide{stroke:#5f4b68;stroke-width:1;stroke-dasharray:3 4;opacity:.55}.trendScopeCard small{display:block;margin-top:4px;color:#817487;font-size:7px}.trendSummary{grid-template-columns:repeat(3,1fr)}.trendSummary>div:nth-child(odd){border-right:1px solid var(--line)}.trendSummary>div{border-bottom:0!important}.trendSummary b{font-size:14px}.trendMetricNote{margin:8px 0 0;color:#84778b;font-size:8px;line-height:1.45}
 
 /* v12 — Team Management: current member relationship + weekly quality signals */
@@ -323,7 +335,8 @@ body.salaryTheme .app {
   overflow: hidden;
   padding-bottom: 0;
   margin: 0 auto;
-  background: var(--bg);
+  background: radial-gradient(ellipse 90% 145px at 75% -23px, #7952b9, transparent),
+    radial-gradient(ellipse 100% 137px at 17% -23px, #4346a5, transparent), var(--bg);
   color: var(--text);
 }
 body.salaryTheme .app > .page {
@@ -351,11 +364,11 @@ body.salaryTheme .top {
   min-height: 72px;
   height: auto;
   padding: 20px 60px;
-  background: linear-gradient(140deg, #37348b, #140c24);
+  background: transparent;
   border: 0;
   color: #fff;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 500;
   line-height: 1.35;
   text-align: center;
   overflow-wrap: anywhere;
@@ -372,12 +385,19 @@ body.salaryTheme .top .r {
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: #d8c6ec;
+  color: #fff;
   font-size: 28px;
   padding: 0;
 }
-body.salaryTheme .top .l { left: 14px; }
-body.salaryTheme .top .r { right: 14px; }
+body.salaryTheme .top .l { left: 12px; font-size: 32px; }
+body.salaryTheme .top .r {
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: 15px;
+}
 body.salaryTheme :is(.panelCard, .roleCard, .section, .hostMemberCard, .teamMemberCard,
   .teamFilterCard, .teamCard, .sourceAnalysisHost, .reviewCard, .reviewApplyCard,
   .memberInfoCard, .sourceHostCard, .rewardCard, .records, .hostSearch) {
@@ -970,46 +990,47 @@ body.salaryTheme .salaryEmpty {
     </div>
   </div>
 </div>
-<div id="analysisFilterOverlay" class="analysisFilterOverlay" onclick="if(event.target===this)closeAnalysisFilter()">
+<dialog id="analysisFilterOverlay" class="analysisFilterOverlay" aria-label="Data Analysis filters" onclick="if(event.target===this && event.clientY<this.getBoundingClientRect().top)this.close()">
   <div id="analysisFilterSheet" class="analysisFilterSheet">
-    <div class="analysisFilterHandle"></div>
     <div class="analysisFilterGroup">
       <div class="analysisFilterGroupTitle">Time</div>
-      <div class="analysisFilterOptions two">
-        <button class="analysisFilterOption" data-time="This Week" onclick="pickAnalysisTime(this)">This Week</button>
-        <button class="analysisFilterOption" data-time="Yesterday" onclick="pickAnalysisTime(this)">Yesterday</button>
+      <div class="analysisFilterOptions">
+        <button class="analysisFilterOption" data-time="This Week" onclick="pickAnalysisFilter(this)">This Week</button>
+        <button class="analysisFilterOption" data-time="Yesterday" onclick="pickAnalysisFilter(this)">Yesterday</button>
       </div>
     </div>
     <div class="analysisFilterGroup">
       <div class="analysisFilterGroupTitle">Sort</div>
       <div class="analysisFilterOptions">
-        <button class="analysisFilterOption" data-sort="Coins" onclick="pickAnalysisSort(this)">Coins</button>
-        <button class="analysisFilterOption" data-sort="Valid Hours" onclick="pickAnalysisSort(this)">Valid Hours</button>
-        <button class="analysisFilterOption" data-sort="Host" onclick="pickAnalysisSort(this)">Host</button>
-        <button class="analysisFilterOption" data-sort="Active Hosts" onclick="pickAnalysisSort(this)">Active Hosts</button>
-        <button class="analysisFilterOption" data-sort="Gifted Hosts" onclick="pickAnalysisSort(this)">Gifted Hosts</button>
-        <button class="analysisFilterOption" data-sort="New Hosts" onclick="pickAnalysisSort(this)">New Hosts</button>
+        <button class="analysisFilterOption" data-sort="Coins" onclick="pickAnalysisFilter(this)">Coins</button>
+        <button class="analysisFilterOption" data-sort="Valid Hours" onclick="pickAnalysisFilter(this)">Valid Hours</button>
+        <button class="analysisFilterOption" data-sort="Host" onclick="pickAnalysisFilter(this)">Host</button>
+        <button class="analysisFilterOption" data-sort="Active Hosts" onclick="pickAnalysisFilter(this)">Active Hosts</button>
+        <button class="analysisFilterOption" data-sort="Gifted Hosts" onclick="pickAnalysisFilter(this)">Gifted Hosts</button>
+        <button class="analysisFilterOption" data-sort="New Hosts" onclick="pickAnalysisFilter(this)">New Hosts</button>
       </div>
     </div>
     <div class="analysisFilterGroup">
+      <div class="analysisFilterGroupTitle">Value</div>
       <div class="analysisFilterOptions">
-        <button class="analysisFilterOption" data-value="Total Value" onclick="pickAnalysisValue(this)">Total Value</button>
-        <button class="analysisFilterOption analysisYesterdayOnly" data-value="Growth Value" onclick="pickAnalysisValue(this)">Growth Value</button>
-        <button class="analysisFilterOption analysisYesterdayOnly" data-value="Growth Rate" onclick="pickAnalysisValue(this)">Growth Rate</button>
+        <button class="analysisFilterOption" data-value="Total Value" onclick="pickAnalysisFilter(this)">Total Value</button>
+        <button class="analysisFilterOption analysisYesterdayOnly" data-value="Growth Value" onclick="pickAnalysisFilter(this)">Growth Value</button>
+        <button class="analysisFilterOption analysisYesterdayOnly" data-value="Growth Rate" onclick="pickAnalysisFilter(this)">Growth Rate</button>
       </div>
     </div>
     <div class="analysisFilterGroup">
-      <div class="analysisFilterOptions two">
-        <button class="analysisFilterOption" data-order="Descending" onclick="pickAnalysisOrder(this)">⇩ Descending</button>
-        <button class="analysisFilterOption" data-order="Ascending" onclick="pickAnalysisOrder(this)">⇧ Ascending</button>
+      <div class="analysisFilterGroupTitle">Order</div>
+      <div class="analysisFilterOptions">
+        <button class="analysisFilterOption" data-order="Descending" onclick="pickAnalysisFilter(this)">Descending</button>
+        <button class="analysisFilterOption" data-order="Ascending" onclick="pickAnalysisFilter(this)">Ascending</button>
       </div>
     </div>
-    <div class="analysisFilterActions"><button onclick="closeAnalysisFilter()">Cancel</button><button class="confirm" onclick="applyAnalysisFilter()">Confirm</button></div>
   </div>
-</div>
+  <div class="analysisFilterActions"><button onclick="closeAnalysisFilter()">Cancel</button><button class="confirm" onclick="applyAnalysisFilter()">Save</button></div>
+</dialog>
 <div id="toast" class="toast"></div>
 <script>
-const routes={home:'Manager Center',team:'Team Management',teamOverview:'Team Overview',memberDetails:'Member Details',agencyDetails:'Member Details',agencyTeam:'Agency Team',analysis:'Data Analysis',trend:'Data Trend',salary:'Salary Bill',weekSalary:'Weekly Salary Bill',salaryRules:'Rules',rewards:'Invitation Rewards',reviewApply:'Review Apply',rules:'Rules'};
+const routes={home:'Manager Center',team:'Team Management',teamOverview:'Team Overview',memberDetails:'Member Details',agencyDetails:'Member Details',agencyTeam:'Agency Team',analysis:'Data Analysis',trend:'Data Trend',salary:'Salary Bill',weekSalary:'Weekly Salary Bill',salaryRules:'Rules',rewards:'Invitation Rewards',reviewApply:'Review Apply',reviewInfo:'Review',props:'Benefits',rules:'Rules'};
 let hist=['home'];
 let state={salaryBillTab:'management',period:'current',inviteType:'agency',teamTab:'direct',teamManagementFilter:'All',teamManagementRole:'Super Admin',teamWeekStart:naturalWeekCurrentStart(),selectedAgency:null,selectedMember:null,selectedOverviewType:'Agency',analysisTab:'total',analysisTeamFilter:'All',analysisSelected:null,analysisQuery:'',trendMetric:'coins',reviewApplyType:'Agency',reviewApplyStatus:'All status',rewardType:1};
 const directAgencies=[
@@ -1062,17 +1083,6 @@ const applications=[
 {id:841,type:'Admin',status:'Approval',letter:'A',username:'Amina Noor',userId:'AMINA44',uid:'520044',country:'UAE',timeZone:'UTC+4',parent:'Manager · Jaden'},
 {id:851,type:'Super Admin',status:'Under review',letter:'S',username:'Sora Lee',userId:'SORA88',uid:'530088',country:'Singapore',timeZone:'UTC+8',parent:'Manager · Jaden'}
 ];
-const moderation={
- userNick:[{id:1101,value:'Luna Waves',status:'Under review',subject:'User 782201'},{id:1102,value:'Voice of Mia',status:'Approval',subject:'User 782216'}],
- userAvatar:[{id:1111,value:'New avatar image',status:'Under review',subject:'User 782224'}],
- userPhoto:[{id:1121,value:'Photo wall · 3 new photos',status:'Under review',subject:'User 782231'}],
- userDesc:[{id:1131,value:'Singer · late-night talk · English / Thai',status:'Under review',subject:'User 782301'}],
- roomTitle:[{id:1201,value:'Weekend Karaoke Party',status:'Under review',subject:'Room 80031'}],
- roomAvatar:[{id:1211,value:'New room cover image',status:'Approval',subject:'Room 80046'}],
- roomPlayInfo:[{id:1221,value:'Music, PK and friendly conversations.',status:'Under review',subject:'Room 80061'}],
- roomTips:[{id:1231,value:'Be respectful. No spam or promotional links.',status:'Under review',subject:'Room 80071'}]
-};
-const stats={user:[['userNick','Username review quantity',38,12,4],['userAvatar','Avatar review quantity',24,8,2],['userPhoto','Photo wall review quantity',19,6,1],['userDesc','Declaration review quantity',31,11,5]],room:[['roomTitle','Room name review quantity',27,9,3],['roomAvatar','Room avatar review quantity',18,5,1],['roomPlayInfo','Room announcement review quantity',22,7,2],['roomTips','Room review quantity',14,4,1]]};
 const fmt=n=>new Intl.NumberFormat('en-US').format(n);
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove('show'),1600)}
 function copy(v){navigator.clipboard?.writeText(v);toast('Copied')}
@@ -1098,7 +1108,7 @@ function workingGridDirect(d){return `<div class="workingGrid six"><div><b>${fmt
 function workingGridTeam(d){return `<div class="workingGrid six"><div><b>${fmt(d.gold)}</b><span>Coins</span></div><div><b>${fmt(d.diamonds)}</b><span>Diamonds</span></div><div class="managementMetric"><b>${d.management}<small>linked</small></b><span>Management Team</span><small class="managementBreakdown">${d.superAdmin} Super Admin · ${d.admin} Admin · ${d.bd} BD</small></div><div><b>${d.agency}</b><span>Total Agency</span></div><div><b>${d.voice}</b><span>Active Hosts</span></div><div><b>${d.gifted}</b><span>Gifted Hosts</span></div></div>`}
 function inviteData(){const map={agency:{label:'Invite Agency',code:'MGR-AG-82LQ',link:'https://example.app/invite?role=agency&code=MGR-AG-82LQ'},bd:{label:'Invite BD',code:'MGR-BD-31VN',link:'https://example.app/invite?role=bd&code=MGR-BD-31VN'},admin:{label:'Invite Admin',code:'MGR-AD-74KP',link:'https://example.app/invite?role=admin&code=MGR-AD-74KP'},superAdmin:{label:'Invite Super Admin',code:'MGR-SA-52QT',link:'https://example.app/invite?role=super-admin&code=MGR-SA-52QT'}};return map[state.inviteType]||map.agency}
 function renderInviteCard(){const d=inviteData();const tabs=[['agency','Agency'],['bd','BD'],['admin','Admin'],['superAdmin','Super Admin']];return `<div class="sectionHead"><b>Invite Team</b></div><div class="panelCard inviteReviewCard"><div class="inviteTypeTabs">${tabs.map(([k,label])=>`<button class="${state.inviteType===k?'active':''}" onclick="state.inviteType='${k}';render()">${label}</button>`).join('')}</div><div class="inviteCompactTop"><div class="inviteLinkBlock"><span>${d.label} · Invitation Link</span><div class="inviteLinkInline"><b>${d.link}</b><button class="copyIconBtn" onclick="copy('${d.link}')">⧉</button></div></div><button class="whatsappConfigBtn" onclick="event.stopPropagation();openWA()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>WhatsApp ›</button></div><div class="inviteActionGrid"><div class="inviteCodeItem"><span class="inviteActionIcon">#</span><span><b>Code</b><span class="inviteCodeValueInline"><small>${d.code}</small><button class="copyIconBtn" onclick="copy('${d.code}')">⧉</button></span></span></div><button onclick="openp('reviewApply')"><span class="inviteActionIcon">✓</span><span><b>Review Apply</b><small>Agency / BD / Admin / Super Admin</small></span></button></div></div>`}
-function renderHome(){const p=periodData();return `<section class="page"><div class="roleCard"><div class="roleMain"><div class="roleAvatar">J</div><div><div class="roleNameLine"><b>Jaden</b><span class="levelBadge">Manager · Lv2</span></div><div class="roleId">ID 10032846</div></div></div></div>${renderInviteCard()}<div class="panelCard teamWorkingCard" style="margin-top:18px"><div class="teamWorkingHead"><span>Team working data</span><button onclick="openp('team')">Team Management ›</button></div><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+0)</span></b><small>${p.update}</small></div><div class="workingGroupTitle">My Agency</div>${workingGridDirect(p.direct)}<div class="workingGroupTitle">Team Agency</div>${workingGridTeam(p.team)}</div><div class="sectionHead"><b>Tools</b></div><div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><div class="toolTile toolTileStatic"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></div><div class="toolTile toolTileStatic"><span class="toolTileIcon">✓</span><b>Review Info</b></div><div class="toolTile toolTileStatic"><span class="toolTileIcon">◇</span><b>Send Props</b></div></div></section>`}
+function renderHome(){const p=periodData();return `<section class="page"><div class="roleCard"><div class="roleMain"><div class="roleAvatar">J</div><div><div class="roleNameLine"><b>Jaden</b><span class="levelBadge">Manager · Lv2</span></div><div class="roleId">ID 10032846</div></div></div></div>${renderInviteCard()}<div class="panelCard teamWorkingCard" style="margin-top:18px"><div class="teamWorkingHead"><span>Team working data</span><button onclick="openp('team')">Team Management ›</button></div><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+5)</span></b><small>${p.update}</small></div><div class="workingGroupTitle">My Agency</div>${workingGridDirect(p.direct)}<div class="workingGroupTitle">Team Agency</div>${workingGridTeam(p.team)}</div><div class="sectionHead"><b>Tools</b></div><div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button><button class="toolTile" onclick="openp('reviewInfo')"><span class="toolTileIcon">✓</span><b>Review Info</b></button><div class="toolTile toolTileStatic"><span class="toolTileIcon">◇</span><b>Send Props</b></div></div></section>`}
 function agencyCard(a){return `<article class="memberCard managementMemberCard"><div class="memberHead"><div class="avatar">${a.name[0]}</div><div class="identity"><b>${a.name}</b><small>User ID ${a.userId} · UID ${a.uid}</small></div><span class="status ${memberStatusClass(a)}">${memberStatus(a)}</span></div><div class="memberBody"><div class="kvGrid memberBasics"><div class="kv"><span>Country / Time zone</span><b>${a.country} · ${a.timeZone}</b></div><div class="kv"><span>Agency Type</span><b>${a.type===2?'Official Agency':'Trial Agency'}</b></div>${invitationCodeField(a)}</div><div class="businessDataLabel"><span>This Week Business Data</span><small>For member quality evaluation</small></div><div class="kvGrid businessDataGrid"><div class="kv"><span>Week Coins</span><b>${fmt(a.gold)}</b></div><div class="kv"><span>Week Diamonds</span><b>${fmt(a.diamonds)}</b></div><div class="kv"><span>Total Hosts</span><b>${a.hosts}</b></div><div class="kv"><span>Effective Hosts</span><b>${a.effectiveHosts??'—'}</b></div><div class="kv"><span>Active Hosts</span><b>${a.voice}</b></div><div class="kv"><span>Gifted Hosts</span><b>${a.hostDiamonds}</b></div></div><div class="cardActions managementActions"><button class="plainBtn" onclick="openAgencyTeam(${a.id},'direct')">View Team</button><button class="plainBtn moreBtn" onclick="openAgencyActions(${a.id})">More ···</button></div></div></article>`}
 function teamAgencyCard(a){const viaTag=state.teamManagementFilter==='All'?`<span class="viaRoleTag">Via ${a.linkedRole}</span>`:'';return `<article class="memberCard managementMemberCard"><div class="memberHead"><div class="avatar">${a.name[0]}</div><div class="identity"><b>${a.name}</b><small>User ID ${a.userId} · UID ${a.uid}</small></div><span class="status ${memberStatusClass(a)}">${memberStatus(a)}</span></div><div class="memberBody">${viaTag}<div class="kvGrid memberBasics"><div class="kv"><span>Agency Type</span><b>${a.type===2?'Official Agency':'Trial Agency'}</b></div><div class="kv"><span>UTC</span><b>${a.timeZone}</b></div>${invitationCodeField(a)}</div><div class="businessDataLabel"><span>This Week Business Data</span><small>For member quality evaluation</small></div><div class="kvGrid businessDataGrid"><div class="kv"><span>Week Coins</span><b>${fmt(a.gold)}</b></div><div class="kv"><span>Week Diamonds</span><b>${fmt(a.diamonds)}</b></div><div class="kv"><span>Total Hosts</span><b>${a.hosts}</b></div><div class="kv"><span>Effective Hosts</span><b>${a.effectiveHosts??'—'}</b></div><div class="kv"><span>Active Hosts</span><b>${a.voice}</b></div><div class="kv"><span>Gifted Hosts</span><b>${a.hostDiamonds}</b></div></div><div class="cardActions managementActions"><button class="plainBtn" onclick="openAgencyTeam(${a.id},'team')">View Team</button></div><div class="indirectNote">Indirect member · relationship changes are handled by the direct superior.</div></div></article>`}
 function filterDirect(){const q=(document.getElementById('directSearch')?.value||'').toLowerCase();return directAgencies.filter(a=>`${a.name} ${a.uid} ${a.userId} ${a.code}`.toLowerCase().includes(q))}
@@ -1227,20 +1237,68 @@ function analysisMetricResult(a){const spec=analysisMetricMap[analysisFilter.sor
 function analysisCandidateList(kind){let list=kind==='team'?analysisLists.team:analysisLists.agency;if(kind==='team')list=list.filter(a=>state.analysisTeamFilter==='All'||a.linkedRole===state.analysisTeamFilter);const q=state.analysisQuery.trim().toLowerCase();if(q)list=list.filter(a=>`${a.name} ${a.userId} ${a.uid} ${a.code}`.toLowerCase().includes(q));return [...list].sort((a,b)=>analysisFilter.order==='Descending'?analysisMetricResult(b).raw-analysisMetricResult(a).raw:analysisMetricResult(a).raw-analysisMetricResult(b).raw)}
 function setAnalysisTab(k){state.analysisTab=k;state.analysisQuery='';render()}
 function searchAnalysis(){state.analysisQuery=(document.getElementById('analysisSearchInput')?.value||'').trim();render()}
-function analysisFilterSummary(){return `<div class="analysisFilterSummary"><span class="label">Time</span><button onclick="openAnalysisFilter()">${analysisFilter.time} ▲</button><span class="label">Sort</span><button onclick="openAnalysisFilter()">${analysisFilter.sort} ▲</button><button onclick="openAnalysisFilter()">${analysisFilter.value} ▲</button><button class="filterOpen" onclick="openAnalysisFilter()">☷</button></div>`}
-function syncAnalysisFilterSheet(){const sheet=document.getElementById('analysisFilterSheet');if(!sheet)return;sheet.classList.toggle('yesterday',analysisFilter.time==='Yesterday');[['time',analysisFilter.time],['sort',analysisFilter.sort],['value',analysisFilter.value],['order',analysisFilter.order]].forEach(([key,val])=>sheet.querySelectorAll(`[data-${key}]`).forEach(x=>x.classList.toggle('selected',x.dataset[key]===val)))}
-function openAnalysisFilter(){syncAnalysisFilterSheet();document.getElementById('analysisFilterOverlay')?.classList.add('show')}
-function closeAnalysisFilter(){document.getElementById('analysisFilterOverlay')?.classList.remove('show')}
-function pickAnalysisTime(btn){analysisFilter.time=btn.dataset.time;if(analysisFilter.time!=='Yesterday'&&['Growth Value','Growth Rate'].includes(analysisFilter.value))analysisFilter.value='Total Value';syncAnalysisFilterSheet()}
-function pickAnalysisSort(btn){analysisFilter.sort=btn.dataset.sort;syncAnalysisFilterSheet()}
-function pickAnalysisValue(btn){analysisFilter.value=btn.dataset.value;syncAnalysisFilterSheet()}
-function pickAnalysisOrder(btn){analysisFilter.order=btn.dataset.order;syncAnalysisFilterSheet()}
-function applyAnalysisFilter(){closeAnalysisFilter();render();toast('Filter applied')}
-function analysisRow(x,isTeam=false){const m=analysisMetricResult(x),via=isTeam&&state.analysisTeamFilter==='All'?`<span class="analysisViaTag">Via ${x.linkedRole}</span>`:'';return `<button class="analysisRow" onclick="openAnalysisTrend('${isTeam?'team':'agency'}',${x.id})"><div class="avatar">${x.name[0]}</div><div class="identity"><b>${x.name}</b><small>User ID ${x.userId} · UID ${x.uid}</small>${via}${analysisFilter.time==='This Week'?`<small class="analysisEffectiveNote">Effective Hosts ${x.analysis.week.effectiveHosts}</small>`:''}</div><div class="analysisValue"><b class="${m.tone}">${m.value}</b><small>${m.sub}</small></div><span class="chev">›</span></button>`}
-function analysisListMarkup(kind){const list=analysisCandidateList(kind);return `<div class="analysisSearch"><div class="searchRow"><input id="analysisSearchInput" value="${state.analysisQuery}" placeholder="Enter Agency ID / Name" onkeydown="if(event.key==='Enter')searchAnalysis()"><button onclick="searchAnalysis()">Search</button></div></div>${analysisFilterSummary()}<div class="panelCard">${list.length?list.map(x=>analysisRow(x,kind==='team')).join(''):'<div class="analysisNoMatch">No matching agency found</div>'}</div>`}
+function analysisFilterSummary(){
+  return `<div class="dataFilters"><div class="analysisFilterSummary">${[analysisFilter.time, analysisFilter.sort, analysisFilter.value, analysisFilter.order].map(value => `<button onclick="openAnalysisFilter()">${value} <span aria-hidden="true">▾</span></button>`).join('')}</div><button class="dataFilterBtn" aria-label="Filters" onclick="openAnalysisFilter()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 3h16l-6 7v10l-4-2v-8zM16 12h6m-6 4h6m-6 4h6"/></svg></button></div>`;
+}
+let analysisFilterDraft;
+
+function syncAnalysisFilterSheet() {
+  for (const button of document.querySelectorAll('#analysisFilterSheet .analysisFilterOption')) {
+    const [key, value] = Object.entries(button.dataset)[0];
+    const selected = analysisFilterDraft[key] === value;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', selected);
+    button.disabled = button.classList.contains('analysisYesterdayOnly') && analysisFilterDraft.time !== 'Yesterday';
+  }
+}
+function openAnalysisFilter() {
+  analysisFilterDraft = {...analysisFilter};
+  syncAnalysisFilterSheet();
+  document.getElementById('analysisFilterOverlay').showModal();
+  document.getElementById('analysisFilterSheet').scrollTop = 0;
+}
+function closeAnalysisFilter() {
+  document.getElementById('analysisFilterOverlay').close();
+}
+function pickAnalysisFilter(button) {
+  const [key, value] = Object.entries(button.dataset)[0];
+  analysisFilterDraft[key] = value;
+  if (analysisFilterDraft.time === 'This Week') analysisFilterDraft.value = 'Total Value';
+  syncAnalysisFilterSheet();
+}
+function applyAnalysisFilter() {
+  analysisFilter = {...analysisFilterDraft};
+  closeAnalysisFilter();
+  render();
+}
+function analysisRow(x,isTeam=false){
+  const m = analysisMetricResult(x);
+  const effective = analysisFilter.time === 'This Week' ? ` · Effective Hosts ${x.analysis.week.effectiveHosts}` : '';
+  const via = isTeam ? `<span class="analysisViaTag">Via ${x.linkedRole}</span>` : '';
+  return `<button class="analysisRow" onclick="openAnalysisTrend('${isTeam?'team':'agency'}',${x.id})"><div class="avatar">${x.name[0]}</div><div class="identity"><b>${x.name}</b><small>ID ${x.userId}${effective}</small>${via}</div><div class="analysisValue"><b class="${m.tone}">${m.value}</b><small>${m.sub}</small></div><span class="chev">›</span></button>`;
+}
+function analysisListMarkup(kind, caption = ''){const list=analysisCandidateList(kind);return `<div class="analysisSearch"><div class="searchRow"><input id="analysisSearchInput" value="${financeEscape(state.analysisQuery)}" placeholder="Enter Agency ID / Name" onkeydown="if(event.key==='Enter')searchAnalysis()"><button onclick="searchAnalysis()">Search</button></div></div>${analysisFilterSummary()}${caption}<div class="panelCard dataAgencyList">${list.length?list.map(x=>analysisRow(x,kind==='team')).join(''):'<div class="analysisNoMatch">No matching agency found</div>'}</div>`}
 function totalAnalysisScope(){return {scope:'total',name:'Total Team',analysis:{trend:{coins:[20119300,18750000,17960000],valid:[1070,1014,956],active:[199,186,174],gifted:[177,165,154]}}}}
 function openAnalysisTrend(scope,id=null){if(scope==='total')state.analysisSelected=totalAnalysisScope();else{const list=scope==='team'?analysisLists.team:analysisLists.agency;state.analysisSelected=list.find(a=>a.id===Number(id))||null}state.trendMetric='coins';openp('trend')}
-function chart(values=[20119300,18750000,17960000],unit='',label='Coins'){const raw=values.map(Number),vals=[raw[2],raw[1],raw[0]],labels=['Two Weeks Ago','Last Week','This Week'],max=Math.max(...vals,1),min=Math.min(...vals,0),range=Math.max(max-min,1),xs=[34,170,306],ys=vals.map(v=>128-((v-min)/range)*94),pts=vals.map((v,i)=>`${xs[i]},${ys[i]}`).join(' '),format=v=>unit==='h'?`${Number(v).toLocaleString(undefined,{maximumFractionDigits:1})}h`:fmt(Math.round(Number(v)));return `<div class="panelCard chartCard"><div class="chart"><svg viewBox="0 0 340 150" preserveAspectRatio="none"><path class="gridline" d="M0 30H340M0 60H340M0 90H340M0 120H340"/>${xs.map(x=>`<path class="chartGuide" d="M${x} 16V132"/>`).join('')}<polyline class="lineA" points="${pts}"/>${xs.map((x,i)=>`<circle class="chartPoint" cx="${x}" cy="${ys[i]}" r="5"/>`).join('')}</svg></div><div class="chartLegend"><span><i></i>${label} · 3-week comparison</span></div><div class="chartWeeks">${vals.map((v,i)=>`<div class="chartWeek ${i===2?'current':''}"><b>${format(v)}</b><span>${labels[i]}</span></div>`).join('')}</div></div>`}
+function chart(values, unit, label, comparison = false) {
+  const weeks = ['Two Weeks Ago', 'Last Week', 'This Week'];
+  const chronological = [...values].reverse().map(Number);
+  const ceiling = Math.max(...chronological) || 1;
+  const columns = [34, 170, 306];
+  const points = chronological.map((value, index) => [columns[index], 128 - value / ceiling * 94]);
+  const format = value => unit === 'h' ? `${value.toFixed(2)}h` : fmt(Math.round(value));
+  return `<div class="panelCard dataChart${comparison ? ' dataComparison' : ''}">
+    ${comparison ? `<div class="dataChartHead"><b>Data comparison</b><button onclick="openAnalysisTrend('total')">Details ›</button></div>` : ''}
+    <div class="dataChartHead"><b>${label}</b><span><i></i>${label} · 3-week comparison</span></div>
+    <svg viewBox="0 0 340 150" aria-hidden="true">
+      <path class="gridline" d="M0 30H340M0 60H340M0 90H340M0 120H340"/>
+      ${columns.map(x => `<path class="chartGuide" d="M${x} 16V132"/>`).join('')}
+      <polyline class="lineA" points="${points.map(point => point.join(',')).join(' ')}"/>
+      ${points.map(([x, y]) => `<circle class="chartPoint" cx="${x}" cy="${y}" r="5"/>`).join('')}
+    </svg>
+    <div class="chartWeeks">${chronological.map((value, index) => `<div class="chartWeek ${index === 2 ? 'current' : ''}"><b>${format(value)}</b><span>${weeks[index]}</span></div>`).join('')}</div>
+  </div>`;
+}
 function renderAnalysis(){const tabs=[['total','Total Data'],['agency','My Agency'],['team','Team Agency']];let body='';if(state.analysisTab==='total'){const t=totalAnalysisScope();body=`<div class="dataCaption"><strong>This Week's Data</strong> · Total Team = My Agency + Team Agency · same Agency counted once.</div><div class="panelCard analysisOrgGrid"><div><b>11</b><span>Management Team</span><small>2 Super Admin · 3 Admin · 6 BD</small></div><div><b>30</b><span>Agency</span><small>3 My Agency · 27 Team Agency</small></div><div><b>236</b><span>Host</span><small>All agencies, deduplicated</small></div></div><div class="sectionHead"><b>Production Data</b></div><div class="panelCard analysisProductionGrid"><div><b>20,119,300</b><span>Coins</span><small>My Agency + Team Agency</small></div><div><b>1,070.0h</b><span>Valid Hours</span><small>This week's data</small></div><div><b>23</b><span>New Hosts</span><small>This week's data</small></div><div><b>184</b><span>Effective Hosts</span><small>4 Effective Days + 10 Valid Working Hours</small></div><div><b>199</b><span>Active Hosts</span><small>Voice time &gt; 0</small></div><div><b>177</b><span>Gifted Hosts</span><small>Diamonds &gt; 0</small></div></div><div class="sectionHead analysisCompareHead"><b>Data comparison</b><button onclick="openAnalysisTrend('total')">Details ›</button></div>${chart(t.analysis.trend.coins,'','Coins')}`}
  else if(state.analysisTab==='agency'){body=`<div class="dataCaption"><strong>My Agency</strong> · Agencies directly managed by the current Manager · excludes today.</div>${analysisListMarkup('agency')}`}
  else{const filters=['All','Super Admin','Admin','BD'];body=`<div class="dataCaption"><strong>Team Agency</strong> · Filtered by the Manager's first-level management branch · excludes today.</div><div class="analysisBranchFilters">${filters.map(x=>`<button class="${state.analysisTeamFilter===x?'active':''}" onclick="state.analysisTeamFilter='${x}';render()">${x}</button>`).join('')}</div>${analysisListMarkup('team')}`}
@@ -1249,10 +1307,120 @@ function trendData(){const s=state.analysisSelected||totalAnalysisScope(),trend=
 function trendFormat(v,unit){return unit==='h'?`${Number(v).toLocaleString(undefined,{maximumFractionDigits:1})}h`:fmt(Math.round(Number(v)))}
 function renderTrend(){const d=trendData(),metrics=[['coins','Coins'],['valid','Valid Hours'],['active','Active Hosts'],['gifted','Gifted Hosts']];return `<section class="page"><div class="panelCard trendScopeCard"><span>Analysis Scope</span><b>${d.s.name}</b><small>${d.s.scope==='total'?'My Agency + Team Agency':'Single Agency'}</small></div><div class="pageTabs">${metrics.map(([k,l])=>`<button class="${state.trendMetric===k?'active':''}" onclick="state.trendMetric='${k}';render()">${l}</button>`).join('')}</div><div class="dataCaption">Last 3 completed/current weekly views · selected scope only</div>${chart(d.values,d.unit,d.label)}<p class="trendMetricNote">Effective Hosts is a settlement-period qualification metric, so it stays in weekly summaries and is not plotted as a daily/trend metric.</p></section>`}
 function renderRules(){return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Data Analysis Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. My Agency = Agencies directly managed by the current Manager.<br>2. Team Agency = Agencies reached through the Manager's directly linked Super Admin / Admin / BD branches; the first-level branch is used as the Team Agency filter.<br>3. Total Data = My Agency + Team Agency, with the same underlying Agency counted once only.<br>4. Management Team = Super Admin, Admin and BD members within the Manager's management scope.<br>5. Agency = Total number of Agencies in the selected scope, counted once only.<br>6. Host = Total number of Hosts under those Agencies.<br>7. Coins = Gift Coins received by Hosts in the selected period.<br>8. Valid Hours = Total valid on-mic time of Hosts in the selected period.<br>9. New Hosts = Hosts newly added during the selected period.<br>10. Effective Hosts = Hosts who complete at least 4 Effective Days and 10 Valid Working Hours in the settlement period.<br>11. Active Hosts = Hosts with on-mic time greater than 0.<br>12. Gifted Hosts = Hosts who received more than 0 diamonds.<br>13. Agency list filters support This Week / Yesterday, metric sorting, Total Value and Yesterday growth value/rate, plus ascending/descending order.<br>14. Data Trend compares business production metrics only; salary, Commission, Base and Manager Level remain in Salary Bill.</p></div></section>`}
-function reviewCard(r){return `<div class="panelCard reviewCard"><div class="memberHead"><div class="avatar">${r.subject[0]}</div><div class="identity"><b>${r.subject}</b><small>ID ${r.id}</small></div><span class="status ${r.status==='Approval'?'ok':r.status==='Not pass'?'no':''}">${r.status}</span></div><div class="reviewContent">${r.value}</div>${r.status==='Under review'?`<div class="reviewActions"><button class="approve" onclick="setModeration(${r.id},'Approval')">Approve</button><button class="reject" onclick="setModeration(${r.id},'Not pass')">Reject</button></div>`:''}</div>`}
-function setModeration(id,status){Object.values(moderation).flat().forEach(r=>{if(r.id===id)r.status=status});render();toast(status==='Approval'?'Review approved.':'Review rejected.')}
-function renderReviewInfo(){const cards=stats[state.reviewType];return `<section class="page"><div class="reviewTypeTabs"><button class="${state.reviewType==='user'?'active':''}" onclick="state.reviewType='user';render()">User</button><button class="${state.reviewType==='room'?'active':''}" onclick="state.reviewType='room';render()">Room</button></div>${cards.map(([key,title,total,weekly,daily])=>`<div class="reviewSection"><div class="reviewTitle">${title}</div><div class="reviewBox"><button class="reviewJump" onclick="state.reviewListType='${key}';openp('reviewList')"><span>Review</span><span>›</span></button><div class="countGrid"><div><b>${total}</b><span>Total</span></div><div><b>${weekly}</b><span>Weekly</span></div><div><b>${daily}</b><span>Daily</span></div></div></div></div>`).join('')}</section>`}
-function renderReviewList(){const list=moderation[state.reviewListType]||[];return `<section class="page"><div class="list">${list.map(reviewCard).join('')||'<div class="empty">No more data here</div>'}</div></section>`}
+const reviewInfoItems = {
+  Profile: ['Avatar', 'Nickname', 'Bio'],
+  Room: ['Cover', 'Room Name', 'Announcement', 'Background']
+};
+const reviewInfoEntries = [
+  {id:1, category:'Profile', type:'Nickname', name:'host', userId:9365, avatar:'host', submitted:'2026-09-24 09:46:20', before:'User9365', after:'host'},
+  {id:2, category:'Profile', type:'Nickname', name:'فتههددلبيشتنن', userId:8947, avatar:'member', submitted:'2026-09-22 11:30:04', before:'GgggDududududududu', after:'فتههددلبيشتنن'},
+  {id:3, category:'Room', type:'Background', name:'فتههددلبيشتنن', userId:8947, avatar:'member', submitted:'2026-09-15 16:34:35', afterImage:'background'},
+  {id:4, category:'Room', type:'Announcement', name:'فتههددلبيشتنن', userId:8947, avatar:'member', submitted:'2026-09-15 10:21:53', after:'Every night at 9 PM. Please keep the room friendly, respect other users, avoid interrupting the host, and follow the room schedule shown in the announcement.'},
+  {id:5, category:'Profile', type:'Avatar', name:'jayden123', userId:12345, avatar:'avatar-old', submitted:'2026-07-27 09:40', beforeImage:'avatar-old', afterImage:'avatar-new', result:'Approved', reviewer:'Official', reviewed:'2026-07-27 10:30'},
+  {id:6, category:'Profile', type:'Nickname', name:'jayden123', userId:12345, avatar:'avatar-old', submitted:'2026-07-26 09:40', before:'jayden123', after:'Mia BABY', result:'Rejected', reviewer:'Official', reviewed:'2026-07-26 10:30', reason:'Please choose a different nickname.'},
+  {id:7, category:'Profile', type:'Bio', name:'jayden123', userId:12345, avatar:'avatar-old', submitted:'2026-07-25 09:40', before:'Hello everyone', after:'Music and chat every night. Welcome to join our room, talk about daily life, sing together, and meet new friends.', result:'Approved', reviewer:'Official', reviewed:'2026-07-25 10:30'},
+  {id:8, category:'Profile', type:'Avatar', name:'Mia', userId:9128, avatar:'avatar-old', submitted:'2026-09-21 10:08:00', beforeImage:'avatar-old', afterImage:'avatar-new'},
+  {id:9, category:'Profile', type:'Bio', name:'Luna', userId:9175, avatar:'host', submitted:'2026-09-20 13:24:00', before:'Hello everyone!', after:'I host a small music room every Friday. Join us to share your favorite songs, request a track, and chat with other listeners.'},
+  {id:10, category:'Room', type:'Cover', name:'Weekend Karaoke', userId:80124, avatar:'room', submitted:'2026-09-14 19:20:00', afterImage:'invitation-rewards-banner'},
+  {id:11, category:'Room', type:'Room Name', name:'Late Night Lounge', userId:80137, avatar:'room', submitted:'2026-09-14 18:12:00', before:'Late Night Lounge', after:'Midnight Music Club'},
+  {id:12, category:'Room', type:'Announcement', name:'Acoustic Corner', userId:80152, avatar:'room', submitted:'2026-09-12 16:10:00', before:'Open mic on Friday.', after:'Open mic on Friday and Saturday at 8 PM.', result:'Approved', reviewer:'Official', reviewed:'2026-09-12 16:30:00'},
+  {id:13, category:'Room', type:'Room Name', name:'Music Lounge', userId:80166, avatar:'room', submitted:'2026-09-11 12:35:00', before:'Music Lounge', after:'Official Music Lounge', result:'Rejected', reviewer:'Official', reviewed:'2026-09-11 13:00:00', reason:'Please remove “Official” from the room name.'}
+];
+const reviewInfoView = {status:'Pending', category:'Profile', item:'All'};
+
+function switchReviewInfo(field, value) {
+  reviewInfoView[field] = value;
+  if (field === 'category') reviewInfoView.item = 'All';
+  render();
+  const active = document.querySelector('[data-review-switch="' + field + '"][aria-pressed="true"]');
+  active?.focus({preventScroll:true});
+  if (field === 'item') active?.scrollIntoView({block:'nearest', inline:'nearest'});
+}
+function reviewInfoImage(name, alt = '') {
+  const asset = name === 'invitation-rewards-banner' ? name : `review-${name}`;
+  return `<img src="assets/${asset}.webp" alt="${alt}">`;
+}
+function reviewInfoCard(entry) {
+  const changes = ['before','after'].filter(key => entry[key] || entry[key + 'Image']);
+  const images = Boolean(entry.afterImage);
+  const singleImage = images && changes.length === 1;
+  return `<article class="reviewInfoPanel reviewInfoEntry">
+    <div class="reviewInfoMeta"><b>${entry.type}</b><span>Submitted<br>${entry.submitted}</span></div>
+    <div class="reviewInfoIdentity">${reviewInfoImage(entry.avatar)}<div><bdi>${financeEscape(entry.name)}</bdi><small>ID: ${entry.userId}</small></div></div>
+    <div class="reviewInfoChanges ${images ? 'imageChanges' : 'textChanges'}${singleImage ? ' singleImageChange' : ''}">
+      ${changes.map((key,index) => {
+        const label = key === 'before' ? 'Before' : 'After';
+        const image = entry[key + 'Image'];
+        const value = entry[key];
+        const long = value?.length > 90;
+        return `${images && index ? '<span class="reviewInfoArrow" aria-hidden="true">➜</span>' : ''}<div class="reviewInfoChange ${key}">
+          <span>${label}</span>
+          ${image ? `<button type="button" aria-label="Preview ${label.toLowerCase()} ${entry.type}" onclick="openReviewInfoDialog(${entry.id},'${key}')">${reviewInfoImage(image)}</button>` :
+            `<div><bdi class="${long ? 'reviewInfoClamped' : ''}">${financeEscape(value)}</bdi>${long ? `<button type="button" class="reviewInfoFullText" onclick="openReviewInfoDialog(${entry.id},'${key}')">View Full Text ›</button>` : ''}</div>`}
+        </div>`;
+      }).join('')}
+    </div>
+    ${entry.result ? `<div class="reviewInfoResult"><b class="${entry.result.toLowerCase()}">${entry.result}</b><span>Reviewer: ${entry.reviewer}<br>${entry.reviewed}</span></div>
+      ${entry.reason ? `<p class="reviewInfoReason">Rejection reason: ${financeEscape(entry.reason)}</p>` : ''}` :
+      `<div class="reviewInfoActions"><button type="button" class="reject" onclick="openReviewInfoDialog(${entry.id},'reject')">Reject</button><button type="button" class="approve" onclick="completeReviewInfo(${entry.id},'Approved')">Approve</button></div>`}
+  </article>`;
+}
+function renderReviewInfo() {
+  const {status, category, item} = reviewInfoView;
+  const counts = Object.fromEntries(Object.keys(reviewInfoItems).map(key => [key, reviewInfoEntries.filter(entry => entry.category === key && !entry.result).length]));
+  const entries = reviewInfoEntries.filter(entry => entry.category === category && (item === 'All' || entry.type === item) && (status === 'History' ? entry.result : !entry.result));
+  if (status === 'History') entries.sort((a,b) => b.reviewed.localeCompare(a.reviewed));
+  const control = (key, value, content) => `<button type="button" data-review-switch="${key}" aria-pressed="${reviewInfoView[key] === value}" onclick="switchReviewInfo('${key}','${value}')">${content}</button>`;
+  return `<section class="page reviewInfoPage ${category === 'Room' ? 'roomReviewInfo' : ''}">
+    <div class="reviewInfoTabs" role="group" aria-label="Review status">${['Pending','History'].map(value => control('status',value,value)).join('')}</div>
+    <div class="reviewInfoCategories" role="group" aria-label="Review category">${Object.keys(reviewInfoItems).map(value => control('category',value,`${reviewInfoImage(value.toLowerCase())}<span><b>${value}</b><small>${counts[value]} pending</small></span>`)).join('')}</div>
+    <div class="reviewInfoPanel reviewInfoFilters"><h2>${category} Review Items</h2><div role="group" aria-label="Review items">${['All',...reviewInfoItems[category]].map(value => control('item',value,value)).join('')}</div></div>
+    ${entries.length ? entries.map(reviewInfoCard).join('') : `<div class="reviewInfoPanel reviewInfoEmpty">${status === 'Pending' ? 'No pending review items.' : 'No review history yet.'}</div>`}
+    <dialog class="reviewInfoDialog" id="reviewInfoDialog" aria-labelledby="reviewInfoDialogTitle"></dialog>
+  </section>`;
+}
+function openReviewInfoDialog(id, key) {
+  const entry = reviewInfoEntries.find(item => item.id === id);
+  const dialog = document.getElementById('reviewInfoDialog');
+  if (key === 'reject') {
+    if (entry.result) return;
+    dialog.innerHTML = `<form onsubmit="submitReviewInfoRejection(event,${id})" novalidate>
+      <h2 id="reviewInfoDialogTitle">Reject</h2>
+      <p>The rejection reason is required and will be shown to the host.</p>
+      <div class="reviewInfoReasonField"><textarea id="reviewInfoReason" aria-label="Rejection reason" aria-describedby="reviewInfoError" required maxlength="200" placeholder="Enter a rejection reason (required)" oninput="document.getElementById('reviewInfoCounter').textContent=this.value.length+'/200';this.removeAttribute('aria-invalid');document.getElementById('reviewInfoError').hidden=true"></textarea><span id="reviewInfoCounter">0/200</span></div>
+      <p id="reviewInfoError" role="alert" hidden>Enter a rejection reason.</p>
+      <div class="reviewInfoActions"><button type="button" onclick="this.closest('dialog').close()">Cancel</button><button class="confirmReject" type="submit">Confirm</button></div>
+    </form>`;
+  } else {
+    const image = entry[key + 'Image'];
+    dialog.innerHTML = `<div class="reviewInfoPreviewHead"><h2 id="reviewInfoDialogTitle">${entry.type}</h2><button type="button" aria-label="Close preview" onclick="this.closest('dialog').close()">×</button></div>
+      ${image ? reviewInfoImage(image,entry.type) : `<p class="reviewInfoPreviewText" dir="auto">${financeEscape(entry[key])}</p>`}`;
+  }
+  dialog.showModal();
+}
+function submitReviewInfoRejection(event, id) {
+  event.preventDefault();
+  const field = document.getElementById('reviewInfoReason');
+  const reason = field.value.trim();
+  if (!reason || reason.length > 200) {
+    field.setAttribute('aria-invalid','true');
+    document.getElementById('reviewInfoError').hidden = false;
+    field.focus();
+    return;
+  }
+  document.getElementById('reviewInfoDialog').close();
+  completeReviewInfo(id,'Rejected',reason);
+}
+function completeReviewInfo(id, result, reason = '') {
+  const entry = reviewInfoEntries.find(item => item.id === id);
+  if (!entry || entry.result) return;
+  const scrollTop = document.querySelector('.reviewInfoPage').scrollTop;
+  const displayTime = new Date(Date.now() + 5 * 3600000).toISOString().slice(0,19).replace('T',' ');
+  Object.assign(entry,{result, reason, reviewer:'Me', reviewed:displayTime});
+  render();
+  document.querySelector('.reviewInfoPage').scrollTop = scrollTop;
+  toast(result === 'Approved' ? 'Review approved.' : 'Review rejected.');
+}
 function reviewApplyStatusClass(status){return status==='Approval'?'approved':status==='Not pass'?'rejected':'under'}
 function setReviewApplyStatus(id,status){const a=applications.find(x=>x.id===id);if(a)a.status=status;render();toast(status==='Approval'?'Review approved.':'Review rejected.')}
 function renderReviewApply(){const types=['Agency','BD','Admin','Super Admin'];const list=applications.filter(a=>a.type===state.reviewApplyType&&(state.reviewApplyStatus==='All status'||a.status===state.reviewApplyStatus));return `<section class="page"><div class="reviewApplyTabs">${types.map(t=>`<button class="${state.reviewApplyType===t?'active':''}" onclick="state.reviewApplyType='${t}';render()">${t}</button>`).join('')}</div><div class="reviewApplyFilter"><select onchange="state.reviewApplyStatus=this.value"><option ${state.reviewApplyStatus==='All status'?'selected':''}>All status</option><option ${state.reviewApplyStatus==='Under review'?'selected':''}>Under review</option><option ${state.reviewApplyStatus==='Approval'?'selected':''}>Approval</option><option ${state.reviewApplyStatus==='Not pass'?'selected':''}>Not pass</option></select><button onclick="render()">Search</button></div>${list.length?list.map(a=>`<div class="panelCard reviewApplyCard"><div class="reviewApplyHead"><b>Apply status</b><span class="${reviewApplyStatusClass(a.status)}">${a.status==='Approval'?'Approval ✓':a.status}</span></div><div class="reviewApplyBody"><div class="reviewApplyAvatar">${a.letter}</div><div class="reviewApplyUser"><b>${a.username}</b><span>User ID: ${a.userId}</span><span>Apply for: ${a.type}</span><span>${a.country} · ${a.timeZone}</span><span>Parent: ${a.parent}</span></div>${a.status==='Under review'?`<div class="reviewApplyActions"><button class="approve" onclick="setReviewApplyStatus(${a.id},'Approval')">Approval</button><button class="reject" onclick="setReviewApplyStatus(${a.id},'Not pass')">Not pass</button></div>`:'<div class="reviewApplyActions"></div>'}</div></div>`).join(''):'<div class="reviewApplyEmpty">No more data here</div>'}</section>`}
@@ -1294,14 +1462,236 @@ function updateManagerBill(id,status){const b=managerMonthBills.find(x=>x.id===i
 function openWeeklySalary(start,end){selectedSalaryRange={start,end};openp('weekSalary')}
 function managerWeeklySalaryMarkup(){return managerWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>Manager Level</span><b>Level ${w.grade}</b></div><div><span>Commission (5%)</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts below 70%; 50% of base salary granted.</div>`:''}</div></div>`).join('')}
 function toggleWeek(week){document.getElementById('week'+week)?.classList.toggle('open')}
-function renderSalary(){const preferred=preferredPaymentMethod();const p=preferred?paymentProfiles[preferred]:null;return `<section class="salaryUnifiedPad"><div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="salarySectionTitle" style="margin-top:4px"><b>Payment Method</b></div><div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()"><span class="paymentLogo">${preferred?'★':'$'}</span><span><b>${preferred||'Payment method not set'}</b><small>${preferred?'Preferred payout method · Tap to manage':'Tap to complete payout information'}</small></span><i>›</i></button><button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button></div><div class="salaryDataNote">All times follow UTC+0. Data updates every Wednesday at 00:00.</div><div class="salarySectionTitle"><b>Salary Records</b><span>Monthly settlement</span></div><div class="salaryCards">${managerSalaryBillsMarkup()}</div></section>`}
-function renderWeekSalary(){return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">▣ &nbsp; <span>${selectedSalaryRange.start} - ${selectedSalaryRange.end}</span></div><div class="salaryDataNote">All times follow UTC+0. Data updates every Wednesday at 00:00.</div>${managerWeeklySalaryMarkup()}</section>`}
-function renderSalaryRules(){return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Salary Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. All times follow UTC+0. Data updates every Wednesday at 00:00.<br>2. Total Salary = Commission + Actual Base.<br>3. Commission = Weekly Agency Salary × 5%.<br>4. Weekly Agency Salary is calculated from Total Team Agency salary value without duplicate counting.<br>5. Manager Level is matched by the current week's Weekly Agency Salary.<br>6. Effective Hosts completion affects Base only and does not reduce Commission.</p></div></section>`}
+function renderSalary(){const preferred=preferredPaymentMethod();const p=preferred?paymentProfiles[preferred]:null;return `<section class="salaryUnifiedPad"><div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="salarySectionTitle" style="margin-top:4px"><b>Payment Method</b></div><div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()"><span class="paymentLogo">${preferred?'★':'$'}</span><span><b>${preferred||'Payment method not set'}</b><small>${preferred?'Preferred payout method · Tap to manage':'Tap to complete payout information'}</small></span><i>›</i></button><button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button></div><div class="salaryDataNote">All times follow UTC+5. Data updates every Wednesday at 00:00.</div><div class="salarySectionTitle"><b>Salary Records</b><span>Monthly settlement</span></div><div class="salaryCards">${managerSalaryBillsMarkup()}</div></section>`}
+function renderWeekSalary(){return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">▣ &nbsp; <span>${selectedSalaryRange.start} - ${selectedSalaryRange.end}</span></div><div class="salaryDataNote">All times follow UTC+5. Data updates every Wednesday at 00:00.</div>${managerWeeklySalaryMarkup()}</section>`}
+function renderSalaryRules(){return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Salary Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. All times follow UTC+5. Data updates every Wednesday at 00:00.<br>2. Total Salary = Commission + Actual Base.<br>3. Commission = Weekly Agency Salary × 5%.<br>4. Weekly Agency Salary is calculated from Total Team Agency salary value without duplicate counting.<br>5. Manager Level is matched by the current week's Weekly Agency Salary.<br>6. Effective Hosts completion affects Base only and does not reduce Commission.</p></div></section>`}
 /* rewards */
-function renderRewards(){return `<section id="rewards"><div class="panelCard rewardEligibilityCard"><div class="rewardEligibilityHead"><b>Reward Eligibility</b><span class="eligibilityBadge">Qualified</span></div><div class="rewardEligibilityGrid"><div><b>31</b><span>New Hosts</span></div><div><b>24 <small>/ 10</small></b><span>Eligible Hosts</span></div></div></div><div class="rewardbox"><h3>Rewards to be claimed</h3><div class="rewardIntro">Manager receives team invitation rewards only when team Eligible Hosts ≥ 10. Choose Coins or Game Coins.</div><div class="rewardcards"><button class="reward ${state.rewardType===1?'on':''}" onclick="state.rewardType=1;render()"><div class="rewardPic">●</div><div class="rewardName">12,600 Coins</div></button><span class="rewardOr">OR</span><button class="reward bean ${state.rewardType===2?'on':''}" onclick="state.rewardType=2;render()"><div class="rewardPic">◆</div><div class="rewardName">Game Coins · Bonus included</div></button></div><button class="claim" onclick="toast('Claim successful')">One-click Claim</button></div><div class="records"><div class="recHead"><span>Statistical Time</span><span>Rewards</span><span>Status</span></div><div class="recRow"><span>2026-08-18 ~ 08-24</span><b>12,600 Coins</b><span>Unclaimed</span></div></div></section>`}
+const invitationRewardScenarios = {
+  empty: ['无奖励', 'No rewards available.', 'There are no rewards to claim currently.'],
+  pending: ['统计中', 'Calculating rewards…', 'Rewards are being calculated. Please try again after Tuesday 01:00 (UTC+5).'],
+  available: ['可领取', 'Choose 1 reward. Beans +50%.'],
+  claimed: ['已领取', 'Reward received.', 'This reward has already been claimed.'],
+  expired: ['已过期', 'Claim period ended.', 'The claim period has ended.']
+};
+const invitationRewardDemo = {qualified: false, reward: 'empty', history: false};
+
+function updateInvitationRewardDemo(field, value, controlId) {
+  const scrollTop = document.getElementById('rewards').scrollTop;
+  invitationRewardDemo[field] = value;
+  render();
+  document.getElementById('rewards').scrollTop = scrollTop;
+  if (controlId) document.getElementById(controlId).focus({preventScroll: true});
+}
+function claimInvitationReward() {
+  const scenario = invitationRewardDemo.reward;
+  if (scenario !== 'available') {
+    toast(invitationRewardScenarios[scenario][2]);
+    return;
+  }
+  updateInvitationRewardDemo('reward', 'claimed', 'invitationClaimButton');
+  toast('Claim successful');
+}
+function renderRewards() {
+  const {qualified, reward: scenario, history} = invitationRewardDemo;
+  const available = scenario === 'available';
+  const claimed = scenario === 'claimed';
+  const coins = available || claimed || scenario === 'expired' ? (state.demoRole === 'Manager' ? 3500 : 7000) : 0;
+  const amounts = [coins, Math.round(coins * 1.5)];
+  const rewardTypes = ['Coins', 'Beans'];
+  const claimedIndex = state.rewardType - 1;
+  const expired = scenario === 'expired';
+  const records = [];
+  if (claimed) records.push(['Nov 9–Nov 15', `${fmt(amounts[claimedIndex])} ${rewardTypes[claimedIndex]}`, 'Claimed']);
+  if (expired) records.push(['Nov 9–Nov 15', `Coins ${fmt(amounts[0])} / Beans ${fmt(amounts[1])}`, 'Expired']);
+  if (history) records.push(['Nov 2–Nov 8', `${state.demoRole === 'Manager' ? '5,250' : '10,500'} Beans`, 'Claimed']);
+  return `<section id="rewards">
+    <div class="inviteRewardDemo" aria-label="演示控制">
+      <label for="invitationProgressScenario">本周进度</label>
+      <select id="invitationProgressScenario" onchange="updateInvitationRewardDemo('qualified', this.value === 'qualified', this.id)">
+        <option value="not-qualified" ${qualified ? '' : 'selected'}>未达标</option>
+        <option value="qualified" ${qualified ? 'selected' : ''}>已达标</option>
+      </select>
+      <label for="invitationRewardScenario">上周奖励</label>
+      <select id="invitationRewardScenario" onchange="updateInvitationRewardDemo('reward', this.value, this.id)">
+        ${Object.entries(invitationRewardScenarios).map(([key,[label]])=>`<option value="${key}" ${key === scenario ? 'selected' : ''}>${label}</option>`).join('')}
+      </select>
+      <label class="inviteHistoryControl"><input id="invitationHistory" type="checkbox" ${history ? 'checked' : ''} onchange="updateInvitationRewardDemo('history', this.checked, this.id)"> 显示历史记录</label>
+    </div>
+    <div class="panelCard inviteRewardPanel">
+      <div class="inviteProgressHead"><h2>This Week's Progress</h2><span class="${qualified ? 'qualified' : ''}">${qualified ? 'Qualified' : 'Not Qualified'}</span></div>
+      <p class="inviteRewardPeriod">This Week: Nov 16–Nov 22</p>
+      <div class="inviteProgressGrid">
+        <div><strong>${qualified ? 14 : 0}</strong><span>New Hosts</span></div>
+        <div><strong>${qualified ? 12 : 0}</strong> <small>/ 10</small><span>Eligible Hosts</span></div>
+      </div>
+      <p class="inviteProgressHint">${qualified ? 'Used to qualify for next week’s reward.' : 'Reach 10 Eligible Hosts to qualify.'}</p>
+    </div>
+    <div class="panelCard inviteRewardPanel inviteLastReward">
+      <img class="inviteRewardBanner" src="assets/invitation-rewards-banner.webp" alt="Invitation New Hosts Rewards" width="720" height="204">
+      <h2>Last Week's Reward</h2>
+      <p class="inviteEmptyMessage" role="status">${invitationRewardScenarios[scenario][1]}</p>
+      <p class="inviteRewardPeriod">Last Week: Nov 9–Nov 15</p>
+      <div class="inviteRewardChoices" role="group" aria-label="Reward type">
+        ${rewardTypes.map((type,index)=>`${index ? '<span class="inviteRewardOr">OR</span>' : ''}
+          <label class="inviteRewardChoice">
+            <input type="radio" name="invite-reward" aria-label="${type}" ${state.rewardType === index + 1 ? 'checked' : ''} ${available || scenario === 'empty' ? '' : 'disabled'} onchange="state.rewardType=${index + 1}">
+            <span class="inviteRewardArt"><img src="assets/invitation-rewards-${type.toLowerCase()}.webp" alt="" width="309" height="247">${index ? '<small>+50%</small>' : ''}</span>
+            <b>${type}</b><strong>${scenario === 'pending' ? '--' : fmt(amounts[index])}</strong>
+          </label>`).join('')}
+      </div>
+      <button id="invitationClaimButton" class="inviteClaim" aria-disabled="${!available}" onclick="claimInvitationReward()">One-click claim</button>
+      ${available ? '<p class="inviteEmptyMessage">Claim by the end of Sunday (UTC+5).</p>' : ''}
+    </div>
+    <div class="panelCard inviteRewardPanel">
+      <h2>Rewards Records</h2>
+      ${records.length ? records.map(([period, amount, status]) => `<div class="inviteRewardRecord">
+        <span>${period}</span><b>${amount}</b><span>${status}</span>
+      </div>`).join('') : '<p class="inviteEmptyMessage inviteRecordsEmpty">No reward records yet.</p>'}
+    </div>
+  </section>`;
+}
 /* props */
-function renderProps(){return `<section class="page"><div class="panelCard propPanel"><div class="propCredit">This week's remaining credit gold amount:<b>120,000</b></div><div class="formGroup"><label>Enter User ID</label><div class="propCheck"><textarea id="propUsers">782201, 782216, 782240</textarea><button class="goldBtn" onclick="toast('Check completed')">Check</button></div></div><div class="formGroup"><label>Props type</label><select><option>Avatar Frame</option><option>Profile Badge</option><option>VIP</option></select></div><div class="formGroup"><label>Props name</label><select><option>Purple Crown · 500 Coins/day</option><option>Golden Orbit · 800 Coins/day</option></select></div><div class="formGroup"><label>Select duration</label><select><option>1 day</option><option>3 days</option><option>7 days</option></select></div><button class="goldBtn" style="width:100%;height:44px;margin-top:15px" onclick="toast('Props sent')">Confirm</button></div></section>`}
-function render(){let body='';switch(current()){case'home':body=renderHome();break;case'team':body=renderTeam();break;case'teamOverview':body=renderTeamOverview();break;case'memberDetails':body=renderManagementMemberDetails();break;case'agencyDetails':body=renderAgencyDetails();break;case'agencyTeam':body=renderAgencyTeam();break;case'analysis':body=renderAnalysis();break;case'trend':body=renderTrend();break;case'rules':body=renderRules();break;case'salary':body=renderSalary();break;case'weekSalary':body=renderWeekSalary();break;case'personalAgencySalary':body=renderPersonalAgencySalary();break;case'salaryRules':body=renderSalaryRules();break;case'rewards':body=renderRewards();break;case'reviewApply':body=renderReviewApply();break;default:body=renderHome()}document.getElementById('root').innerHTML=shell(body);window.scrollTo(0,0)}
+const benefitRules = {
+  BD: {maxVip:3, tiers:[[0,0,5,5],[80,10,10,3],[500,20,15,5],[1000,50,20,7]]},
+  'Super Admin': {maxVip:5, tiers:[[0,0,10,10],[600,30,15,5],[1500,60,20,7],[4500,100,25,null]]},
+  Manager: {maxVip:6, tiers:[[0,0,15,10],[1000,30,20,5],[2000,80,25,7],[5000,200,30,null]]}
+};
+const benefitRecipients = {'9111': {name:'IM manager', art:'recipient'}, '9365': {name:'host'}};
+const benefitAccounts = {};
+let benefitTab = 'VIP', benefitOutfit = 'Badge', benefitVip = 1, benefitInput = '', benefitRecipient = '';
+
+function benefitAccount() {
+  const role = demoConfig().role;
+  if (!benefitAccounts[role]) {
+    const [, , vip, outfit] = benefitRules[role].tiers[0];
+    benefitAccounts[role] = {
+      limits:{VIP:vip, Outfits:outfit}, used:{VIP:0, Outfits:0},
+      deadline:Date.now() + (4 * 86400 + 22 * 3600 + 39 * 60 + 28) * 1000,
+      records:role === 'Manager' ? [{time:'2026-09-28 17:03:08', recipient:'9111', item:'VIP6'}] : []
+    };
+  }
+  return benefitAccounts[role];
+}
+function openBenefits() {
+  benefitTab = 'VIP';
+  benefitOutfit = 'Badge';
+  benefitVip = 1;
+  benefitInput = benefitRecipient = '';
+  openp('props');
+}
+function benefitArt(key, alt = '') {
+  return `<img src="assets/benefits-${key}.webp" alt="${alt}">`;
+}
+function benefitRemaining(account) {
+  const seconds = Math.max(0, Math.ceil((account.deadline - Date.now()) / 1000));
+  const pad = n => String(n).padStart(2,'0');
+  return `${Math.floor(seconds / 86400)}d ${pad(Math.floor(seconds / 3600) % 24)}:${pad(Math.floor(seconds / 60) % 60)}:${pad(seconds % 60)}`;
+}
+function benefitCanGrant(account) {
+  return Boolean(benefitRecipient) && account.used[benefitTab] < account.limits[benefitTab] && Date.now() < account.deadline;
+}
+function refreshBenefits() {
+  const y = document.getElementById('benefitsPage').scrollTop;
+  render();
+  document.getElementById('benefitsPage').scrollTop = y;
+}
+function editBenefitRecipient(value) {
+  benefitInput = value;
+  benefitRecipient = '';
+  document.getElementById('benefitRecipientCard').innerHTML = '';
+  document.getElementById('benefitGrant').disabled = true;
+  document.getElementById('benefitClear').hidden = !value;
+}
+function clearBenefitRecipient() {
+  const input = document.getElementById('benefitRecipientInput');
+  input.value = '';
+  editBenefitRecipient('');
+  input.focus();
+}
+function searchBenefitRecipient(event) {
+  event.preventDefault();
+  const id = benefitInput.trim();
+  if (!/^\d+$/.test(id)) return toast('Please enter a valid user ID.');
+  if (!benefitRecipients[id]) return toast('User not found.');
+  benefitInput = benefitRecipient = id;
+  refreshBenefits();
+}
+function grantBenefit() {
+  const account = benefitAccount();
+  if (!benefitCanGrant(account)) return;
+  const item = benefitTab === 'VIP' ? `VIP${benefitVip}` : benefitOutfit === 'Badge' ? 'PRIDE' : 'Avatar Frame';
+  const time = new Date(Date.now() + 5 * 3600000).toISOString().slice(0,19).replace('T',' ');
+  account.used[benefitTab]++;
+  account.records.unshift({time, recipient:benefitRecipient, item});
+  account.records.length = Math.min(account.records.length,90);
+  benefitInput = benefitRecipient = '';
+  refreshBenefits();
+  toast('Grant successful.');
+}
+function renderProps() {
+  const role = demoConfig().role;
+  const account = benefitAccount();
+  const recipient = benefitRecipients[benefitRecipient];
+  const vip = benefitTab === 'VIP';
+  const options = vip ? Array.from({length:benefitRules[role].maxVip},(_,i)=>[`VIP${i+1}`,`vip${i+1}`]) :
+    [benefitOutfit === 'Badge' ? ['PRIDE','pride'] : ['Avatar Frame',null]];
+  return `<section id="benefitsPage" class="page benefitsPage">
+    <div class="benefitsWeekly">
+      <div class="benefitsWeeklyHead"><h2>Weekly benefits</h2><button type="button" onclick="openBenefitRules()">View</button></div>
+      <div class="benefitsPanel">
+        <div class="benefitsRole">${role === 'Manager' ? benefitArt('manager',role) : `<b>${role}</b>`}</div>
+        <div class="benefitsQuotas">${[['VIP','VIP quota','vip-quota'],['Outfits','Outfit quota','outfit-quota']].map(([key,label,art])=>`<div>${benefitArt(art)}<span>${label}<small><strong>${account.limits[key]-account.used[key]}</strong> /${account.limits[key]} left</small></span></div>`).join('')}</div>
+        <p class="benefitsTimer">Quota valid for 7 days, remaining time: <strong id="benefitsCountdown">${benefitRemaining(account)}</strong></p>
+      </div>
+    </div>
+    <div class="benefitsTabs" role="group" aria-label="Benefit type">${['VIP','Outfits'].map(tab=>`<button type="button" aria-pressed="${benefitTab===tab}" onclick="benefitTab='${tab}';refreshBenefits()">${tab}</button>`).join('')}</div>
+    <div class="benefitsPanel benefitsGrantPanel">
+      <h2>${vip?'Grant VIP':'Grant Outfit'}</h2>
+      <label for="benefitRecipientInput">Recipient ID</label>
+      <form class="benefitsSearch" onsubmit="searchBenefitRecipient(event)">
+        <div><input id="benefitRecipientInput" inputmode="numeric" autocomplete="off" placeholder="Please enter the user ID" value="${financeEscape(benefitInput)}" oninput="editBenefitRecipient(this.value)">
+        <button type="button" id="benefitClear" aria-label="Clear recipient" ${benefitInput?'':'hidden'} onclick="clearBenefitRecipient()">×</button></div>
+        <button type="submit" class="benefitsPrimary">Search</button>
+      </form>
+      <div id="benefitRecipientCard">${recipient ? `<div class="benefitsRecipient">${recipient.art?benefitArt(recipient.art):'<span class="benefitsRecipientInitial">H</span>'}<span><b>${recipient.name}</b><small>ID: ${benefitRecipient}</small></span></div>` : ''}</div>
+      ${vip ? '' : `<label>Outfit category</label><div class="benefitsCategories" role="group" aria-label="Outfit category">${['Badge','Avatar Frame'].map(category=>`<button type="button" aria-pressed="${benefitOutfit===category}" onclick="benefitOutfit='${category}';refreshBenefits()">${category}</button>`).join('')}</div>`}
+      <div class="benefitsItems">${options.map(([label,art],index)=>`<button type="button" aria-pressed="${!vip||benefitVip===index+1}" ${vip ? `onclick="benefitVip=${index+1};refreshBenefits()"` : ''}>${art ? benefitArt(art) : '<span class="benefitsFrame" aria-hidden="true"></span>'}<b>${label}</b><small>7 Days</small></button>`).join('')}</div>
+      <button type="button" class="benefitsPrimary benefitsWide" id="benefitGrant" ${benefitCanGrant(account)?'':'disabled'} onclick="grantBenefit()">Confirm Grant</button>
+    </div>
+    <dialog class="benefitsDialog" id="benefitsDialog" aria-labelledby="benefitsDialogTitle"></dialog>
+  </section>`;
+}
+function benefitDialog(markup) {
+  const dialog = document.getElementById('benefitsDialog');
+  dialog.innerHTML = markup;
+  if (!dialog.open) dialog.showModal();
+}
+function openBenefitRules(role = demoConfig().role) {
+  const rules = benefitRules[role];
+  benefitDialog(`<h2 class="benefitsRulesTitle" id="benefitsDialogTitle">Benefit Rules</h2>
+    <p>This week's level benefits depend on last week's total team salary and effective host count.</p>
+    <div class="benefitsTabs" role="group" aria-label="Benefit role">${Object.keys(benefitRules).map(key=>`<button type="button" aria-pressed="${role===key}" onclick="openBenefitRules('${key}')">${key}</button>`).join('')}</div>
+    <table class="benefitsRules"><thead><tr><th>Level</th><th>Requirements (Both met)</th><th>Benefits</th></tr></thead><tbody>
+    ${rules.tiers.map(([salary,hosts,vip,outfit],index)=>`<tr><th scope="row">${index?'Lv.'+index:'Basic'}</th><td>${index?`Team Salary ≥ $${fmt(salary)}<br>Effective Hosts ≥ ${hosts}`:'Not Met'}</td><td>VIP1~VIP${rules.maxVip} quota × ${vip}${outfit===null?'':`<br>Outfit quota × ${outfit}`}</td></tr>`).join('')}</tbody></table>
+    <div class="benefitsNotes"><b>Notes:</b><ol><li>Benefit will be automatically issued after the requirements are met.</li><li>Use the VIP quota and Outfit quota within the validity period. Check the recipient ID, as successful issuance cannot be withdrawn.</li></ol></div>
+    <form method="dialog"><button class="benefitsPrimary benefitsWide">Confirm</button></form>`);
+  document.querySelector('#benefitsDialog [aria-pressed="true"]').focus({preventScroll:true});
+}
+function openBenefitRecords() {
+  const {records} = benefitAccount();
+  benefitDialog(`<h2 id="benefitsDialogTitle">Grant Records</h2><p>Only the latest 90 records are displayed.</p>
+    <div class="benefitsRecords"><table><thead><tr><th>Grant Time</th><th>Recipient ID</th><th>Grant Details</th></tr></thead><tbody>
+    ${records.length ? records.map(record=>`<tr><td>${record.time.replace(' ','<br>')}</td><td>${record.recipient}</td><td>${record.item} X 7Days</td></tr>`).join('') : '<tr><td colspan="3">No grant records yet.</td></tr>'}</tbody></table></div>
+    <form method="dialog"><button class="benefitsPrimary benefitsWide">Close</button></form>`);
+}
+setInterval(() => {
+  const countdown = document.getElementById('benefitsCountdown');
+  if (!countdown) return;
+  const account = benefitAccount();
+  countdown.textContent = benefitRemaining(account);
+  document.getElementById('benefitGrant').disabled = !benefitCanGrant(account);
+},1000);
+function render(){let body='';switch(current()){case'home':body=renderHome();break;case'team':body=renderTeam();break;case'teamOverview':body=renderTeamOverview();break;case'memberDetails':body=renderManagementMemberDetails();break;case'agencyDetails':body=renderAgencyDetails();break;case'agencyTeam':body=renderAgencyTeam();break;case'analysis':body=renderAnalysis();break;case'trend':body=renderTrend();break;case'rules':body=renderRules();break;case'salary':body=renderSalary();break;case'weekSalary':body=renderWeekSalary();break;case'personalAgencySalary':body=renderPersonalAgencySalary();break;case'salaryRules':body=renderSalaryRules();break;case'rewards':body=renderRewards();break;case'props':body=renderProps();break;case'reviewInfo':body=renderReviewInfo();break;case'reviewApply':body=renderReviewApply();break;default:body=renderHome()}document.getElementById('root').innerHTML=shell(body);window.scrollTo(0,0)}
 render();
 
 
@@ -1361,7 +1751,12 @@ function setDemoRole(role){
   if(paymentProfiles?.['Bank Card']){paymentProfiles['Bank Card'].name=c.paymentName;paymentProfiles['Bank Card'].email=c.paymentEmail}
   render();
 }
-function shell(body){const id=current(),home=id==='home';const title=home?`${demoConfig().role} Center`:(routes[id]||`${demoConfig().role} Center`);return `<div class="${home?'homeView':''}"><header class="top"><button class="l" onclick="goBack()">‹</button><span>${title}</span></header>${body}</div>`}
+function shell(body) {
+  const id = current(), home = id === 'home', salary = id === 'salary';
+  const title = home ? `${demoConfig().role} Center` : routes[id];
+  const help = salary ? `<button type="button" class="r" aria-label="Salary rules" onclick="openp('salaryRules')">?</button>` : id === 'props' ? `<button type="button" class="r benefitsRecordsButton" aria-label="Grant Records" onclick="openBenefitRecords()"><span aria-hidden="true"></span></button>` : '';
+  return `<div class="${home ? 'homeView' : ''}"><header class="top"><button class="l" onclick="goBack()">‹</button><span>${title || `${demoConfig().role} Center`}</span>${help}</header>${body}</div>`;
+}
 
 const rolePeriodPresets={
  Manager:{current:{direct:{gold:8549300,diamonds:633140,agency:3,hosts:91,effective:70,voice:78,gifted:69},team:{gold:11570000,diamonds:839520,management:11,superAdmin:2,admin:3,bd:6,agency:27,effective:114,voice:121,gifted:108}},last:{direct:{gold:7920100,diamonds:580920,agency:3,hosts:86,effective:65,voice:73,gifted:64},team:{gold:10830000,diamonds:790200,management:10,superAdmin:2,admin:3,bd:5,agency:25,effective:106,voice:113,gifted:101}}},
@@ -1374,7 +1769,7 @@ function workingGridTeam(d){const pieces=[];if(d.superAdmin)pieces.push(`${d.sup
 
 function inviteData(){const c=demoConfig();const labels={agency:'Agency',bd:'BD',admin:'Admin',superAdmin:'Super Admin'};const slugs={agency:'agency',bd:'bd',admin:'admin',superAdmin:'super-admin'};const k=state.inviteType;const suffix={agency:'AG-82LQ',bd:'BD-31VN',admin:'AD-74KP',superAdmin:'SA-52QT'}[k]||'AG-82LQ';const code=`${c.codePrefix}-${suffix}`;return {label:`Invite ${labels[k]||'Agency'}`,code,link:`https://example.app/invite?role=${slugs[k]||'agency'}&code=${code}`}}
 function renderInviteCard(){const c=demoConfig(),d=inviteData(),tabs=c.invite;return `<div class="sectionHead"><b>Invite Team</b></div><div class="panelCard inviteReviewCard"><div class="inviteTypeTabs">${tabs.map(([k,label])=>`<button class="${state.inviteType===k?'active':''}" onclick="state.inviteType='${k}';render()">${label}</button>`).join('')}</div><div class="inviteCompactTop"><div class="inviteLinkBlock"><span>${d.label} · Invitation Link</span><div class="inviteLinkInline"><b>${d.link}</b><button class="copyIconBtn" onclick="copy('${d.link}')">⧉</button></div></div><button class="whatsappConfigBtn" onclick="event.stopPropagation();openWA()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>WhatsApp ›</button></div><div class="inviteActionGrid"><div class="inviteCodeItem"><span class="inviteActionIcon">#</span><span><b>Code</b><span class="inviteCodeValueInline"><small>${d.code}</small><button class="copyIconBtn" onclick="copy('${d.code}')">⧉</button></span></span></div><button onclick="openp('reviewApply')"><span class="inviteActionIcon">✓</span><span><b>Review Apply</b><small>${c.review.join(' / ')}</small></span></button></div></div>`}
-function renderHome(){const p=periodData(),c=demoConfig();return `<section class="page">${roleDemoSwitch()}<div class="roleCard"><div class="roleMain"><div class="roleAvatar">${c.avatar}</div><div><div class="roleNameLine"><b>${c.name}</b><span class="levelBadge">${c.role} · ${c.level}</span></div><div class="roleId">ID ${c.id}</div></div></div></div>${renderInviteCard()}<div class="panelCard teamWorkingCard" style="margin-top:18px"><div class="teamWorkingHead"><span>Team working data</span><button onclick="openp('team')">Team Management ›</button></div><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+0)</span></b><small>${p.update}</small></div><div class="workingGroupTitle">My Agency</div>${workingGridDirect(p.direct)}<div class="workingGroupTitle">Team Agency</div>${workingGridTeam(p.team)}</div><div class="sectionHead"><b>Tools</b></div><div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><div class="toolTile toolTileStatic"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></div><div class="toolTile toolTileStatic"><span class="toolTileIcon">✓</span><b>Review Info</b></div><div class="toolTile toolTileStatic"><span class="toolTileIcon">◇</span><b>Send Props</b></div></div></section>`}
+function renderHome(){const p=periodData(),c=demoConfig();return `<section class="page">${roleDemoSwitch()}<div class="roleCard"><div class="roleMain"><div class="roleAvatar">${c.avatar}</div><div><div class="roleNameLine"><b>${c.name}</b><span class="levelBadge">${c.role} · ${c.level}</span></div><div class="roleId">ID ${c.id}</div></div></div></div>${renderInviteCard()}<div class="panelCard teamWorkingCard" style="margin-top:18px"><div class="teamWorkingHead"><span>Team working data</span><button onclick="openp('team')">Team Management ›</button></div><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+5)</span></b><small>${p.update}</small></div><div class="workingGroupTitle">My Agency</div>${workingGridDirect(p.direct)}<div class="workingGroupTitle">Team Agency</div>${workingGridTeam(p.team)}</div><div class="sectionHead"><b>Tools</b></div><div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button><button class="toolTile" onclick="openp('reviewInfo')"><span class="toolTileIcon">✓</span><b>Review Info</b></button>${c.role==='Admin' ? '' : '<button class="toolTile" onclick="openBenefits()"><span class="toolTileIcon">◇</span><b>Send Props</b></button>'}</div></section>`}
 
 function roleScopedManagementMembers(){const c=demoConfig();if(c.role==='Manager')return managementMembers;return managementMembers.filter(m=>m.id!==Number(c.id)&&String(m.managementPath||'').includes(c.pathNeedle))}
 function managementRoleList(){const c=demoConfig(),q=(document.getElementById('teamMemberSearch')?.value||'').trim().toLowerCase();return roleScopedManagementMembers().filter(m=>m.role===state.teamManagementRole&&`${m.name} ${m.uid} ${m.role}`.toLowerCase().includes(q))}
@@ -1499,7 +1894,7 @@ function workingGridBD(d){return `<div class="workingGrid six"><div><b>${fmt(d.g
 const _renderHomeBeforeBD=renderHome;
 renderHome=function(){
  if(state.demoRole!=='BD')return _renderHomeBeforeBD();
- const p=periodData(),c=demoConfig();return `<section class="page">${roleDemoSwitch()}<div class="roleCard"><div class="roleMain"><div class="roleAvatar">${c.avatar}</div><div><div class="roleNameLine"><b>${c.name}</b><span class="levelBadge">BD ${c.level}</span></div><div class="roleId">ID ${c.id}</div></div></div></div>${renderInviteCard()}<div class="panelCard teamWorkingCard" style="margin-top:18px"><div class="teamWorkingHead"><span>Team working data</span><button onclick="openp('team')">Team Management ›</button></div><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+0)</span></b><small>${p.update}</small></div>${workingGridBD(p.direct)}</div><div class="sectionHead"><b>Tools</b></div><div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button></div></section>`;
+ const p=periodData(),c=demoConfig();return `<section class="page">${roleDemoSwitch()}<div class="roleCard"><div class="roleMain"><div class="roleAvatar">${c.avatar}</div><div><div class="roleNameLine"><b>${c.name}</b><span class="levelBadge">BD ${c.level}</span></div><div class="roleId">ID ${c.id}</div></div></div></div>${renderInviteCard()}<div class="panelCard teamWorkingCard" style="margin-top:18px"><div class="teamWorkingHead"><span>Team working data</span><button onclick="openp('team')">Team Management ›</button></div><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+5)</span></b><small>${p.update}</small></div>${workingGridBD(p.direct)}</div><div class="sectionHead"><b>Tools</b></div><div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button></div></section>`;
 };
 
 const _managementMemberCardBeforeBD=managementMemberCard;
@@ -1524,12 +1919,12 @@ renderAnalysis=function(){
  if(state.demoRole!=='BD')return _renderAnalysisBeforeBD();
  const tabs=[['total','Total Data'],['agency','My Agency']];let body='';
  if(state.analysisTab==='team')state.analysisTab='total';
- if(state.analysisTab==='total')body=`<div class="dataCaption"><strong>This Week's Data</strong> · Excludes today · refreshes daily at 00:30 (UTC-11).</div><div class="panelCard analysisProductionGrid"><div><b>3</b><span>Agency</span><small>Agencies under BD</small></div><div><b>91</b><span>Hosts</span><small>Hosts under managed Agencies</small></div><div><b>8,460,320</b><span>Coins</span><small>This week's data</small></div><div><b>1,842.5h</b><span>Valid Hours</span><small>This week's data</small></div><div><b>14</b><span>New Hosts</span><small>This week's data</small></div><div><b>62</b><span>Effective Hosts</span><small>4 Valid Days + 10 Valid Hours</small></div><div><b>54</b><span>Active Hosts</span><small>Voice time &gt; 0</small></div><div><b>47</b><span>Gifted Hosts</span><small>Diamonds &gt; 0</small></div></div><div class="sectionHead"><b>Yesterday's Data</b></div><div class="panelCard analysisProductionGrid"><div><b>1,260,800</b><span>Coins</span><small class="pos">↑ 12.6% vs day before</small></div><div><b>266.5h</b><span>Valid Hours</span><small class="pos">↑ 8.4% vs day before</small></div><div><b>54</b><span>Active Hosts</span><small class="neg">↓ 3.6% vs day before</small></div><div><b>47</b><span>Gifted Hosts</span><small class="pos">↑ 6.8% vs day before</small></div></div>`;
+ if(state.analysisTab==='total')body=`<div class="dataCaption"><strong>This Week's Data</strong> · Excludes today · refreshes daily at 00:30 (UTC+5).</div><div class="panelCard analysisProductionGrid"><div><b>3</b><span>Agency</span><small>Agencies under BD</small></div><div><b>91</b><span>Hosts</span><small>Hosts under managed Agencies</small></div><div><b>8,460,320</b><span>Coins</span><small>This week's data</small></div><div><b>1,842.5h</b><span>Valid Hours</span><small>This week's data</small></div><div><b>14</b><span>New Hosts</span><small>This week's data</small></div><div><b>62</b><span>Effective Hosts</span><small>4 Valid Days + 10 Valid Hours</small></div><div><b>54</b><span>Active Hosts</span><small>Voice time &gt; 0</small></div><div><b>47</b><span>Gifted Hosts</span><small>Diamonds &gt; 0</small></div></div><div class="sectionHead"><b>Yesterday's Data</b></div><div class="panelCard analysisProductionGrid"><div><b>1,260,800</b><span>Coins</span><small class="pos">↑ 12.6% vs day before</small></div><div><b>266.5h</b><span>Valid Hours</span><small class="pos">↑ 8.4% vs day before</small></div><div><b>54</b><span>Active Hosts</span><small class="neg">↓ 3.6% vs day before</small></div><div><b>47</b><span>Gifted Hosts</span><small class="pos">↑ 6.8% vs day before</small></div></div>`;
  else body=`<div class="dataCaption"><strong>My Agency</strong> · Agencies directly managed by the current BD · excludes today.</div>${analysisListMarkup('agency')}`;
  return `<section class="page"><div class="scopeMiniNote"><b>BD view scope</b> · Own Agency team only; there is no Team Agency layer below BD.</div><div class="analysisTabsWrap"><div class="analysisTabs">${tabs.map(x=>`<button class="${state.analysisTab===x[0]?'active':''}" onclick="setAnalysisTab('${x[0]}')">${x[1]}</button>`).join('')}</div><button class="analysisHelpBtn" onclick="openp('rules')">?</button></div>${body}</section>`;
 };
 const _renderRulesBeforeBD=renderRules;
-renderRules=function(){if(state.demoRole!=='BD')return _renderRulesBeforeBD();return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Data Analysis Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. Time zone: UTC-11; data refreshes daily at 00:30 and excludes the current day.<br>2. Total Data = combined data of all Agencies under the BD.<br>3. Agency = number of Agencies under the BD; Hosts = total Hosts under those Agencies.<br>4. Coins = gift Coins received by Hosts; Valid Hours = total valid on-mic time.<br>5. New Hosts = Hosts newly added during the selected period.<br>6. Effective Hosts = 4 Valid Days + 10 Valid Hours.<br>7. Active Hosts = voice time &gt; 0; Gifted Hosts = Diamonds &gt; 0.<br>8. My Agency supports This Week / Yesterday, metric sorting, Total Value, Growth Value / Rate and ascending / descending order.</p></div></section>`};
+renderRules=function(){if(state.demoRole!=='BD')return _renderRulesBeforeBD();return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Data Analysis Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. Time zone: UTC+5; data refreshes daily at 00:30 and excludes the current day.<br>2. Total Data = combined data of all Agencies under the BD.<br>3. Agency = number of Agencies under the BD; Hosts = total Hosts under those Agencies.<br>4. Coins = gift Coins received by Hosts; Valid Hours = total valid on-mic time.<br>5. New Hosts = Hosts newly added during the selected period.<br>6. Effective Hosts = 4 Valid Days + 10 Valid Hours.<br>7. Active Hosts = voice time &gt; 0; Gifted Hosts = Diamonds &gt; 0.<br>8. My Agency supports This Week / Yesterday, metric sorting, Total Value, Growth Value / Rate and ascending / descending order.</p></div></section>`};
 
 const _renderReviewApplyBeforeBD=renderReviewApply;
 renderReviewApply=function(){if(state.demoRole!=='BD')return _renderReviewApplyBeforeBD();const c=demoConfig(),types=c.review;if(!types.includes(state.reviewApplyType))state.reviewApplyType=types[0];const source=roleApplications.BD,list=source.filter(a=>a.type===state.reviewApplyType&&(state.reviewApplyStatus==='All status'||a.status===state.reviewApplyStatus));return `<section class="page"><div class="scopeMiniNote"><b>BD review scope</b> · Agency / Host applications inside the current BD organization.</div><div class="reviewApplyTabs">${types.map(t=>`<button class="${state.reviewApplyType===t?'active':''}" onclick="state.reviewApplyType='${t}';render()">${t}</button>`).join('')}</div><div class="reviewApplyFilter"><select onchange="state.reviewApplyStatus=this.value"><option ${state.reviewApplyStatus==='All status'?'selected':''}>All status</option><option ${state.reviewApplyStatus==='Under review'?'selected':''}>Under review</option><option ${state.reviewApplyStatus==='Approval'?'selected':''}>Approval</option><option ${state.reviewApplyStatus==='Not pass'?'selected':''}>Not pass</option></select><button onclick="render()">Search</button></div>${list.length?list.map(a=>`<div class="panelCard reviewApplyCard"><div class="reviewApplyHead"><b>Apply status</b><span class="${reviewApplyStatusClass(a.status)}">${a.status==='Approval'?'Approval ✓':a.status}</span></div><div class="reviewApplyBody"><div class="reviewApplyAvatar">${a.letter}</div><div class="reviewApplyUser"><b>${a.username}</b><span>User ID: ${a.userId}</span><span>Apply for: ${a.type}</span><span>${a.country} · ${a.timeZone}</span><span>Parent: ${a.parent}</span></div>${a.status==='Under review'?`<div class="reviewApplyActions"><button class="approve" onclick="setReviewApplyStatus(${a.id},'Approval')">Approval</button><button class="reject" onclick="setReviewApplyStatus(${a.id},'Not pass')">Not pass</button></div>`:'<div class="reviewApplyActions"></div>'}</div></div>`).join(''):'<div class="reviewApplyEmpty">No applications in this permission scope</div>'}</section>`};
@@ -1541,11 +1936,10 @@ const bdWeeks=[
  {week:31,start:'07-28',end:'08-03',total:124.00,grade:1,commission:104.00,agency:2080.00,basic:20.00,valid:35,required:70,update:0,validStatus:0}
 ];
 function bdWeeklySalaryMarkup(){return bdWeeks.map((w,i)=>`<div class="weekCard sourceWeekCard ${i===0?'open':''}" id="week${w.week}"><button class="weekCardHead sourceWeekHead" onclick="toggleWeek(${w.week})"><span><b>${w.start} - ${w.end}</b><span>Week ${w.week}${w.update?'':' · Updated 08-20'}</span></span><i>⌄</i></button><div class="sourceWeekBody"><div class="weekSalaryTotal"><span>Total Salary</span><b>$${w.total.toFixed(2)}</b></div><div class="weekGrid"><div><span>BD Level</span><b>Level ${w.grade}</b></div><div><span>Commission (5%)</span><b>$${w.commission.toFixed(2)}</b></div><div><span>Weekly Agency Salary ($)</span><b>$${w.agency.toFixed(2)}</b></div><div><span>Basic Salary</span><b>$${w.basic.toFixed(2)}</b></div><div><span>Effective Hosts</span><b>${w.valid} / ${w.required}</b></div></div>${w.validStatus?`<div class="deductionNote">Effective Hosts completion is between 50% and 70%; 50% of Full Base granted.</div>`:''}</div></div>`).join('')}
-const _renderSalaryBeforeBD=renderSalary,_renderWeekSalaryBeforeBD=renderWeekSalary,_renderSalaryRulesBeforeBD=renderSalaryRules,_renderRewardsBeforeBD=renderRewards;
-renderSalary=function(){if(state.demoRole!=='BD')return _renderSalaryBeforeBD();const preferred=preferredPaymentMethod();return `<section class="salaryUnifiedPad"><div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="salarySectionTitle" style="margin-top:4px"><b>Payment Method</b></div><div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()"><span class="paymentLogo">${preferred?'★':'$'}</span><span><b>${preferred||'Payment method not set'}</b><small>${preferred?'Preferred payout method · Tap to manage':'Tap to complete payout information'}</small></span><i>›</i></button><button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button></div><div class="salaryDataNote">All times follow UTC+0. Weekly salary bills are aggregated for payout every 4 weeks.</div><div class="salarySectionTitle"><b>Salary Records</b><span>Settlement every 4 weeks</span></div><div class="salaryCards">${managerSalaryBillsMarkup()}</div></section>`};
-renderWeekSalary=function(){if(state.demoRole!=='BD')return _renderWeekSalaryBeforeBD();return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">▣ &nbsp; <span>${selectedSalaryRange.start} - ${selectedSalaryRange.end}</span></div><div class="salaryDataNote">All times follow UTC+0. BD Level is rematched weekly by Weekly Agency Salary.</div>${bdWeeklySalaryMarkup()}</section>`};
-renderSalaryRules=function(){if(state.demoRole!=='BD')return _renderSalaryRulesBeforeBD();return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Salary Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. All times follow UTC+0. A weekly salary bill is generated for each settlement week; payout is aggregated every 4 weeks.<br>2. Total Salary = Commission + Actual Base Salary.<br>3. Commission = Weekly Agency Salary × 5%.<br>4. Effective Hosts completion ≥70% grants 100% of Full Base; ≥50% and &lt;70% grants 50%; &lt;50% grants 0.<br>5. BD Level is determined by Weekly Agency Salary and rematched every week.<br>6. Weekly Agency Salary = Total Team Agency Weekly Actual Salary, counted once per underlying Agency.<br>7. Effective Hosts = 4 Valid Days + 10 Valid Hours.</p></div></section>`};
-renderRewards=function(){if(state.demoRole!=='BD')return _renderRewardsBeforeBD();return `<section id="rewards"><div class="panelCard rewardEligibilityCard"><div class="rewardEligibilityHead"><b>Reward Eligibility</b><span class="eligibilityBadge">Qualified</span></div><div class="rewardEligibilityGrid"><div><b>14</b><span>New Hosts</span></div><div><b>12 <small>/ 10</small></b><span>Eligible Hosts</span></div></div></div><div class="rewardbox"><h3>120,000 rewards available to claim.</h3><div class="rewardIntro">Choose 1 of the 2 rewards. Choose Beans to get +50% bonus.</div><div class="rewardcards"><button class="reward ${state.rewardType===1?'on':''}" onclick="state.rewardType=1;render()"><div class="rewardPic">●</div><div class="rewardName">120,000 Coins</div></button><span class="rewardOr">OR</span><button class="reward bean ${state.rewardType===2?'on':''}" onclick="state.rewardType=2;render()"><div class="rewardPic">◆</div><span class="bonusTag">+50%</span><div class="rewardName">180,000 Beans</div></button></div><button class="claim" onclick="toast('Claim successful')">One-click Claim</button><div class="rewardRule">UTC+0 · Claim window: Tuesday 1:00 AM to Sunday 12:00 AM.</div></div><div class="records"><div class="recHead"><span>Statistical Time</span><span>Rewards</span><span>Status</span></div><div class="recRow"><span>Aug 10–16</span><b>120,000 Coins</b><span>Unclaimed</span></div><div class="recRow"><span>Aug 03–09</span><b>142,500 Beans</b><span>Claimed</span></div></div></section>`};
+const _renderSalaryBeforeBD=renderSalary,_renderWeekSalaryBeforeBD=renderWeekSalary,_renderSalaryRulesBeforeBD=renderSalaryRules;
+renderSalary=function(){if(state.demoRole!=='BD')return _renderSalaryBeforeBD();const preferred=preferredPaymentMethod();return `<section class="salaryUnifiedPad"><div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="salarySectionTitle" style="margin-top:4px"><b>Payment Method</b></div><div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()"><span class="paymentLogo">${preferred?'★':'$'}</span><span><b>${preferred||'Payment method not set'}</b><small>${preferred?'Preferred payout method · Tap to manage':'Tap to complete payout information'}</small></span><i>›</i></button><button class="secondaryTextBtn" onclick="openPaymentMethodSheet()">Manage payment methods</button></div><div class="salaryDataNote">All times follow UTC+5. Weekly salary bills are aggregated for payout every 4 weeks.</div><div class="salarySectionTitle"><b>Salary Records</b><span>Settlement every 4 weeks</span></div><div class="salaryCards">${managerSalaryBillsMarkup()}</div></section>`};
+renderWeekSalary=function(){if(state.demoRole!=='BD')return _renderWeekSalaryBeforeBD();return `<section class="page"><div class="weekSalaryTop"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')">?</button></div><div class="panelCard monthRangeCard">▣ &nbsp; <span>${selectedSalaryRange.start} - ${selectedSalaryRange.end}</span></div><div class="salaryDataNote">All times follow UTC+5. BD Level is rematched weekly by Weekly Agency Salary.</div>${bdWeeklySalaryMarkup()}</section>`};
+renderSalaryRules=function(){if(state.demoRole!=='BD')return _renderSalaryRulesBeforeBD();return `<section class="page"><div class="panelCard" style="padding:16px"><b style="color:#f2d071;font-size:13px">Salary Rules</b><p style="font-size:10px;line-height:1.65;color:#b8aabd">1. All times follow UTC+5. A weekly salary bill is generated for each settlement week; payout is aggregated every 4 weeks.<br>2. Total Salary = Commission + Actual Base Salary.<br>3. Commission = Weekly Agency Salary × 5%.<br>4. Effective Hosts completion ≥70% grants 100% of Full Base; ≥50% and &lt;70% grants 50%; &lt;50% grants 0.<br>5. BD Level is determined by Weekly Agency Salary and rematched every week.<br>6. Weekly Agency Salary = Total Team Agency Weekly Actual Salary, counted once per underlying Agency.<br>7. Effective Hosts = 4 Valid Days + 10 Valid Hours.</p></div></section>`};
 
 
 /* vBD restore — Agency Team Overview must drill into actionable Host list */
@@ -1863,9 +2257,9 @@ renderHome=function(){
     ? `${workingGridBD(p.direct)}`
     : `<div class="workingGroupTitle">My Agency</div>${workingGridDirect(p.direct)}<div class="workingGroupTitle">Team Agency</div>${workingGridTeam(p.team)}`;
   const tools=isBD
-    ? `<div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button></div>`
-    : `<div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><div class="toolTile toolTileStatic"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></div><div class="toolTile toolTileStatic"><span class="toolTileIcon">✓</span><b>Review Info</b></div><div class="toolTile toolTileStatic"><span class="toolTileIcon">◇</span><b>Send Props</b></div></div>`;
-  return `<section class="page">${roleDemoSwitch()}<div class="roleCard"><div class="roleMain"><div class="roleAvatar">${c.avatar}</div><div><div class="roleNameLine"><b>${c.name}</b><span class="levelBadge">${isBD?'BD '+c.level:c.role+' · '+c.level}</span></div><div class="roleId">ID ${c.id}</div></div></div></div>${renderInviteCard()}<div class="sectionHead homeSectionHead teamWorkingSectionHead"><b>Team working data</b><button class="homeSectionAction" onclick="openp('team')">Team Management ›</button></div><div class="panelCard teamWorkingCard"><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+0)</span></b><small>${p.update}</small></div>${workingBody}</div><div class="sectionHead"><b>Tools</b></div>${tools}</section>`;
+    ? `<div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button><button class="toolTile" onclick="openBenefits()"><span class="toolTileIcon">◇</span><b>Send Props</b></button></div>`
+    : `<div class="toolGrid"><button class="toolTile" onclick="openp('analysis')"><span class="toolTileIcon">▥</span><b>Data Analysis</b></button><button class="toolTile" onclick="openp('salary')"><span class="toolTileIcon">$</span><b>Salary Bill</b></button><button class="toolTile" onclick="openp('rewards')"><span class="toolTileIcon">✦</span><b>Invitation Rewards</b></button><button class="toolTile" onclick="openp('reviewInfo')"><span class="toolTileIcon">✓</span><b>Review Info</b></button>${c.role==='Admin' ? '' : '<button class="toolTile" onclick="openBenefits()"><span class="toolTileIcon">◇</span><b>Send Props</b></button>'}</div>`;
+  return `<section class="page">${roleDemoSwitch()}<div class="roleCard"><div class="roleMain"><div class="roleAvatar">${c.avatar}</div><div><div class="roleNameLine"><b>${c.name}</b><span class="levelBadge">${isBD?'BD '+c.level:c.role+' · '+c.level}</span></div><div class="roleId">ID ${c.id}</div></div></div></div>${renderInviteCard()}<div class="sectionHead homeSectionHead teamWorkingSectionHead"><b>Team working data</b><button class="homeSectionAction" onclick="openp('team')">Team Management ›</button></div><div class="panelCard teamWorkingCard"><div class="billingPeriodSwitch"><button class="${state.period==='current'?'active':''}" onclick="switchPeriod('current')">Current Billing Cycle</button><button class="${state.period==='last'?'active':''}" onclick="switchPeriod('last')">Last Billing Cycle</button></div><div class="teamWorkingMeta"><b>${p.period} <span class="workingTimezone">(UTC+5)</span></b><small>${p.update}</small></div>${workingBody}</div><div class="sectionHead"><b>Tools</b></div>${tools}</section>`;
 };
 
 setDemoRole(state.demoRole);
@@ -1910,7 +2304,7 @@ renderAnalysis=function(){
     const tabs=[['total','Total Data'],['agency','My Agency']];let body='';
     if(state.analysisTab==='team')state.analysisTab='total';
     if(state.analysisTab==='total'){
-      body=`<div class="dataCaption"><strong>This Week's Data</strong> · Excludes today · refreshes daily at 00:30 (UTC-11).</div>
+      body=`<div class="dataCaption"><strong>This Week's Data</strong> · Excludes today · refreshes daily at 00:30 (UTC+5).</div>
       <div class="panelCard analysisProductionGrid cleanProductionGrid">
         <div><b>3</b><span>Agency</span></div><div><b>91</b><span>Hosts</span></div>
         <div><b>8,460,320</b><span>Coins</span></div><div><b>1,842.5h</b><span>Valid Hours</span></div>
@@ -1925,43 +2319,44 @@ renderAnalysis=function(){
         <div><b>47</b><span>Gifted Hosts</span><small class="pos">↑ 6.8% vs day before</small></div>
       </div>`;
     }else{
-      body=`<div class="dataCaption"><strong>My Agency</strong> · Agencies directly managed by the current BD · excludes today.</div>${analysisListMarkup('agency')}`;
+      body=`${analysisListMarkup('agency', `<div class="dataCaption"><strong>My Agency</strong> · Agencies directly managed by the current BD · excludes today.</div>`)}`;
     }
-    return `<section class="page"><div class="analysisTabsWrap"><div class="analysisTabs">${tabs.map(x=>`<button class="${state.analysisTab===x[0]?'active':''}" onclick="setAnalysisTab('${x[0]}')">${x[1]}</button>`).join('')}</div><button class="analysisHelpBtn" onclick="openp('rules')">?</button></div>${body}</section>`;
+    return `<section class="page dataAnalysisPage"><div class="analysisTabsWrap"><div class="analysisTabs">${tabs.map(x=>`<button class="${state.analysisTab===x[0]?'active':''}" onclick="setAnalysisTab('${x[0]}')">${x[1]}</button>`).join('')}</div></div>${body}</section>`;
   }
 
   const a=roleAnalysisSummary[state.demoRole],tabs=[['total','Total Data'],['agency','My Agency'],['team','Team Agency']];let body='';
   if(state.analysisTab==='total'){
     const t=totalAnalysisScope();
     body=`<div class="dataCaption"><strong>This Week's Data</strong> · Same Agency counted once.</div>
-    <div class="panelCard analysisOrgGrid"><div><b>${a.management}</b><span>Management Team</span><small>${a.breakdown}</small></div><div><b>${a.agency}</b><span>Agency</span><small>${a.agencyNote}</small></div><div><b>${a.host}</b><span>Hosts</span></div></div>
-    <div class="sectionHead"><b>Production Data</b></div>
-    <div class="panelCard analysisProductionGrid cleanProductionGrid">
+    <h2 class="dataOrgTitle">Organization</h2><div class="panelCard analysisOrgGrid"><div><b>${a.management}</b><span>Management Team</span><small>${a.breakdown}</small></div><div><b>${a.agency}</b><span>Agency</span><small>${a.agencyNote}</small></div><div><b>${a.host}</b><span>Hosts</span></div></div>
+    <div class="panelCard dataProduction"><h2>Production Data</h2>
+    <div class="analysisProductionGrid cleanProductionGrid">
       <div><b>${a.coins}</b><span>Coins</span></div><div><b>${a.hours}</b><span>Valid Hours</span></div>
       <div><b>${a.newHosts}</b><span>New Hosts</span></div><div><b>${a.effective}</b><span>Effective Hosts</span></div>
       <div><b>${a.active}</b><span>Active Hosts</span></div><div><b>${a.gifted}</b><span>Gifted Hosts</span></div>
-    </div>
-    <div class="sectionHead analysisCompareHead"><b>Data comparison</b><button onclick="openAnalysisTrend('total')">Details ›</button></div>${chart(t.analysis.trend.coins,'','Coins')}`;
+    </div></div>
+    ${chart(t.analysis.trend.coins,'','Coins',true)}`;
   }else if(state.analysisTab==='agency'){
-    body=`<div class="dataCaption"><strong>My Agency</strong> · Directly managed Agencies · excludes today.</div>${analysisListMarkup('agency')}`;
+    body=`${analysisListMarkup('agency', `<div class="dataCaption"><strong>My Agency</strong> · Directly managed Agencies · excludes today.</div>`)}`;
   }else{
     state.analysisTeamFilter='All';
-    body=`<div class="dataCaption"><strong>Team Agency</strong> · Agencies reached through lower management branches · excludes today.</div>${analysisListMarkup('team')}`;
+    body=`${analysisListMarkup('team', `<div class="dataCaption"><strong>Team Agency</strong> · Agencies reached through lower management branches · excludes today.</div>`)}`;
   }
-  return `<section class="page"><div class="analysisTabsWrap"><div class="analysisTabs">${tabs.map(x=>`<button class="${state.analysisTab===x[0]?'active':''}" onclick="setAnalysisTab('${x[0]}')">${x[1]}</button>`).join('')}</div><button class="analysisHelpBtn" onclick="openp('rules')">?</button></div>${body}</section>`;
+  return `<section class="page dataAnalysisPage"><div class="analysisTabsWrap"><div class="analysisTabs">${tabs.map(x=>`<button class="${state.analysisTab===x[0]?'active':''}" onclick="setAnalysisTab('${x[0]}')">${x[1]}</button>`).join('')}</div></div>${body}</section>`;
 };
 
 function trendIdentityData(){
   const c=demoConfig(),s=state.analysisSelected;
-  if(!s||s.scope==='total')return {name:c.name,role:c.role,level:c.level||'Lv1',avatar:c.avatar||c.name[0]};
-  return {name:s.name,role:'Agency',level:s.level||'Lv1',avatar:(s.name||'A')[0]};
+  if(!s||s.scope==='total')return {name:c.name,role:c.role,scope:c.role==='BD'?'My Agency':'My Agency + Team Agency',avatar:c.avatar||c.name[0]};
+  return {name:s.name,role:'Agency',scope:state.analysisTab==='team'?'Team Agency':'My Agency',avatar:(s.name||'A')[0]};
 }
 renderTrend=function(){
   const d=trendData(),id=trendIdentityData(),metrics=[['coins','Coins'],['valid','Valid Hours'],['active','Active Hosts'],['gifted','Gifted Hosts']];
-  return `<section class="page">
-    <div class="panelCard trendIdentityCard"><div class="overviewIdentity"><div class="avatar">${id.avatar}</div><div class="overviewIdentityText"><b>${id.name}</b><small>${id.role} · ${id.level}</small></div></div></div>
-    <div class="pageTabs">${metrics.map(([k,l])=>`<button class="${state.trendMetric===k?'active':''}" onclick="state.trendMetric='${k}';render()">${l}</button>`).join('')}</div>
-    <div class="dataCaption">Last 3 completed/current weekly views</div>${chart(d.values,d.unit,d.label)}
+  return `<section class="page dataTrendPage">
+    <div class="panelCard trendIdentityCard"><div class="overviewIdentity"><div class="avatar">${id.avatar}</div><div class="overviewIdentityText"><b>${id.name}</b><small>${id.role} · ${id.scope}</small></div></div></div>
+    <div class="dataMetricTabs">${metrics.map(([k,l])=>`<button class="${state.trendMetric===k?'active':''}" onclick="state.trendMetric='${k}';render()">${l.replace(' ', '<br>')}</button>`).join('')}</div>
+    <div class="dataCaption">Last 3 completed/current weekly views · selected scope only</div>${chart(d.values,d.unit,d.label)}
+    <p class="dataCaption">Effective Hosts is a settlement-period qualification metric, so it stays in weekly summaries and is not plotted as a trend metric.</p>
   </section>`;
 };
 
@@ -2537,7 +2932,6 @@ function renderPersonalAgencySalary() {
 renderSalary = function () {
   const preferred = preferredPaymentMethod();
   return `<section class="salaryUnifiedPad">
-    <div class="salaryTopAction"><button class="analysisHelpBtn salaryHelp" onclick="openp('salaryRules')" aria-label="Salary rules">?</button></div>
     <div class="salarySectionTitle"><b>Payment Method</b></div>
     <div class="panelCard salaryPaymentCard"><button class="paymentMainRow" onclick="openPaymentMethodSheet()">
       <span class="paymentLogo">${preferred === 'USDT' ? '₮' : '$'}</span>
@@ -2661,5 +3055,282 @@ render();
   render();
 })();
 </script>
+<style>
+.app:has(.dataView){padding-bottom:0}
+.dataView{--data-muted:#a098ad;--data-accent:#a565f4;--data-yellow:#fff01a;--data-card:linear-gradient(90deg,#4b2a77,#190434);height:100vh;height:100dvh;display:flex;flex-direction:column;color:white}
+.dataView .page{min-height:0;flex:1;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;padding:12px 13px calc(16px + env(safe-area-inset-bottom))}
+.dataView .dataTrendPage{padding-inline:17px}
+body.salaryTheme .dataView .panelCard{background:var(--data-card);border:1px solid #805ca5;border-radius:13px;box-shadow:none}
+.dataView h2,.dataChartHead b{font-size:18px;line-height:1.2;font-weight:600;margin:0;color:white}
+.dataView .dataCaption{font-size:13px;color:var(--data-muted);line-height:1.35;margin:13px 0}
+.dataView .dataCaption strong{color:white;font-weight:600}
+.dataView .dataOrgTitle{margin:16px 0}
+.dataView .analysisTabsWrap{border:0;margin:0 0 12px}
+body.salaryTheme .dataView .analysisTabs{display:flex;gap:clamp(8px,5vw,22px);background:none;border:0;padding:0;box-shadow:none;border-radius:0}
+body.salaryTheme .dataView .analysisTabs button{position:relative;flex:none;height:auto;min-height:42px;background:none;padding:0 0 12px;color:var(--data-muted);border:0;border-radius:0;box-shadow:none;font-size:clamp(13px,4.2vw,17px);font-weight:500}
+body.salaryTheme .dataView .analysisTabs button.active{background:none;color:var(--data-accent)}
+.dataView .analysisTabs button.active::after{content:"";position:absolute;bottom:0;left:50%;width:21px;height:3px;transform:translateX(-50%);background:var(--data-accent);border-radius:9px}
+.dataView :is(.analysisOrgGrid,.analysisProductionGrid){display:grid;gap:8px}
+.dataView .analysisOrgGrid{grid-template-columns:1fr;padding:12px}
+.dataView .analysisOrgGrid>div,.dataView .analysisProductionGrid>div{min-width:0;border:0;border-radius:13px;background:#ffffff26;padding:13px;min-height:61px}
+.dataView .analysisOrgGrid>div{display:block}
+.dataView .analysisOrgGrid b,.dataView .analysisProductionGrid b{font-size:22px;color:var(--data-yellow);font-weight:500;overflow-wrap:anywhere}
+.dataView .analysisOrgGrid span{display:inline;color:white;font-size:16px;margin-left:8px}
+.dataView .analysisOrgGrid small,.dataView .analysisProductionGrid span{display:block;color:var(--data-muted);font-size:13px;margin-top:5px}
+.dataView .dataProduction,.dataView .dataComparison{margin-top:21px;padding:16px 12px}
+.dataView .dataProduction h2{margin:0 0 15px}
+.dataView .analysisProductionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.salaryTheme .dataView .dataProduction .analysisProductionGrid{padding:0}
+body.salaryTheme .dataView .analysisProductionGrid>div{background:#ffffff26;min-height:78px}
+body.salaryTheme .dataView .dataChart:not(.dataComparison){background:#311651;padding:16px 12px}
+.dataChartHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.dataChartHead span{text-align:right;font-size:clamp(10px,3vw,12px);line-height:1.2}
+.dataChartHead i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--data-yellow);margin-right:5px}
+.dataChartHead button{border:0;background:none;color:var(--data-muted);padding:4px 0;font-size:13px}
+.dataChart svg{display:block;width:100%;height:auto;aspect-ratio:340/150}
+.dataChart .gridline{fill:none;stroke:#ffffff26}
+.dataChart .lineA{fill:none;stroke:var(--data-yellow);stroke-width:2}
+.dataChart .chartPoint{fill:var(--data-yellow);stroke:#180e22;stroke-width:2}
+.dataChart .chartWeeks,.dataChart .chartWeek{border:0}
+.dataChart .chartWeek b{font-size:14px;color:white;overflow-wrap:anywhere}
+.dataChart .chartWeek.current b{color:var(--data-yellow)}
+.dataChart .chartWeek span{font-size:11px;color:var(--data-muted)}
+.dataView .trendIdentityCard{padding:17px;margin-bottom:14px}
+.dataView .overviewIdentity{grid-template-columns:43px minmax(0,1fr)}
+.dataView .overviewIdentityText b{font-size:17px!important}
+.dataView .overviewIdentityText small{font-size:12px!important;color:var(--data-muted)!important}
+.dataMetricTabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:99px;background:#291c41}
+.dataMetricTabs button{min-height:42px;border:0;border-radius:99px;background:none;color:var(--data-muted);font-size:clamp(13px,4vw,16px);line-height:1.05;padding:3px}
+.dataMetricTabs button.active{background:var(--data-accent);color:white}
+.dataView .analysisSearch .searchRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+body.salaryTheme .dataView .analysisSearch :is(input,button){height:50px;border-radius:99px;font-size:16px}
+body.salaryTheme .dataView .analysisSearch input{min-width:0;width:100%;padding:0 16px;background:#ffffff1c;border:1px solid #ffffff52;color:white;font-weight:400}
+body.salaryTheme .dataView .analysisSearch button{padding:0 18px;background:var(--data-accent);color:white;border:0}
+.dataFilters{display:flex;gap:8px;align-items:center;margin:12px 0 18px}
+.dataView .analysisFilterSummary{min-width:0;flex:1;overflow-x:auto;scrollbar-width:none;margin:0;padding:0;gap:8px}
+.dataView .analysisFilterSummary button{height:32px;padding:0 12px;border:1px solid #ffffff52;border-radius:99px;background:#ffffff1c;color:white;font-size:14px;font-weight:500}
+.dataFilterBtn{display:grid;place-items:center;flex:0 0 32px;height:32px;border:0;background:none;color:white;padding:4px}
+.dataFilterBtn svg{width:24px}
+.dataAgencyList{padding:0 10px}
+.dataView .dataAgencyList .analysisRow{width:100%;display:grid;grid-template-columns:38px minmax(0,1fr) auto 10px;gap:8px;align-items:center;min-height:63px;padding:9px 0;background:none;border:0;border-bottom:1px solid #ffffff18}
+.dataView .dataAgencyList .analysisRow:last-child{border-bottom:0}
+.dataView .analysisRow .avatar{width:38px;height:38px}
+.dataView .analysisRow .identity{min-width:0}
+.dataView .analysisRow .identity b{font-size:15px;color:white}
+.dataView .analysisRow :is(.identity,.analysisValue) small{font-size:10px;color:var(--data-muted)}
+.dataView .analysisRow .analysisValue b{font-size:17px;color:var(--data-yellow);font-weight:500}
+.dataView .analysisRow .analysisValue b.pos{color:var(--green)}
+.dataView .analysisRow .analysisValue b.neg{color:var(--red)}
+.dataRules{position:fixed;inset:auto 0 0;margin:0 auto;width:min(100%,430px);max-width:none;max-height:72dvh;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;padding:20px 17px calc(14px + env(safe-area-inset-bottom));border:0;border-radius:22px 22px 0 0;background:linear-gradient(#513177,#170d23);color:#baaccb}
+.dataRules::backdrop{background:rgba(0,0,0,.65)}
+.dataRules h2{color:var(--data-yellow);font-size:19px}
+.dataRules p{margin:14px 0 0;font-size:14px;line-height:1.36}
+</style>
+<script>
+const shellBeforeDataAnalysis = shell;
+const dataAnalysisRules = [
+  'All dates and times follow UTC+5.',
+  'Data is refreshed daily at 00:30 (UTC+5).',
+  "The current day's data is not included. Data is updated through 23:59:59 of the previous day.",
+  'My Agency: Agencies directly managed by the current management role.',
+  "Team Agency: Agencies managed through lower management roles within the current role's authorized organization subtree.",
+  'Total Data: Combined data from My Agency and Team Agency. The same Agency is counted only once.',
+  'Management Team: Includes only the lower management roles available to the current role.',
+  'Agency: Total number of Agencies within the selected scope.',
+  'Hosts: Total number of Hosts under the Agencies within the selected scope.',
+  'Coins: Regular Gift Coins are counted at 100%, while Lucky Gift Coins are counted at 10%.<br><br>Coins = Regular Gift Coins + Lucky Gift Coins × 10%.',
+  'Valid Hours: Total Valid Hours completed by Hosts within the selected scope.',
+  'New Hosts: Users who became Hosts for the first time during the selected period. Host transfers or re-signing do not count as New Hosts.',
+  'Effective Hosts:<br><br>• Lv1–Lv9 Hosts are counted as Effective Hosts after completing 4 Valid Days + 10 Valid Hours.<br><br>• Lv10+ Hosts are counted directly as Effective Hosts once they reach the applicable Target Coins.',
+  'Active Hosts: Hosts with on-mic time greater than 0 during the selected period.',
+  'Gifted Hosts: Hosts who received more than 0 Diamonds during the selected period.',
+  'Data Trend: Displays data for the current week and the previous two weeks within the selected scope. It supports Coins, Valid Hours, Active Hosts, and Gifted Hosts.',
+  'Effective Hosts is a settlement-period qualification metric. It is displayed only in weekly data summaries and is not included as a trend metric.',
+  'Manager, Super Admin, Admin, and BD share the same page structure and metric definitions. Only the organization scope and role-level permissions differ.',
+  'Data Trend displays business-production data only. Salary-related rules and calculations are handled in Salary Bill.'
+];
+function openDataRules() {
+  const dialog = document.getElementById('dataRules');
+  dialog.scrollTop = 0;
+  dialog.showModal();
+}
+function closeDataRulesOnBackdrop(event) {
+  const dialog = event.currentTarget;
+  if (event.target === dialog && event.clientY < dialog.getBoundingClientRect().top) dialog.close();
+}
+shell = function (body) {
+  const route = current();
+  if (route !== 'analysis' && route !== 'trend') return shellBeforeDataAnalysis(body);
+  const rules = route === 'analysis';
+  return `<div class="dataView">
+    <header class="top"><button class="l" aria-label="Back" onclick="goBack()">‹</button><span>${routes[route]}</span>
+    ${rules ? '<button class="r" aria-label="Rules" onclick="openDataRules()">?</button>' : ''}</header>
+    ${body}
+    ${rules ? `<dialog id="dataRules" class="dataRules" aria-labelledby="dataRulesTitle" tabindex="-1" onclick="closeDataRulesOnBackdrop(event)"><h2 id="dataRulesTitle">Rules</h2>${dataAnalysisRules.map((rule, index) => `<p>${index + 1}. ${rule}</p>`).join('')}</dialog>` : ''}
+  </div>`;
+};
+render();
+</script>
+<style>
+#rewards{--reward-yellow:#fff01a;--reward-muted:#c8bcd5;padding:16px 4.25% calc(20px + env(safe-area-inset-bottom))}
+body.salaryTheme #rewards .inviteRewardPanel{padding:clamp(14px,4.4vw,21px);border:1px solid #8562ac;border-radius:20px;background:linear-gradient(90deg,#4b2a77,#190434)}
+.inviteRewardPanel + .inviteRewardPanel{margin-top:20px}
+.inviteRewardPanel h2{margin:0;color:white;font-size:clamp(15px,4.2vw,19px);font-weight:600;line-height:1.2}
+.inviteProgressHead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.inviteProgressHead span{flex:none;color:#ff636a;border:1px solid currentColor;border-radius:99px;padding:6px 8px;font-size:clamp(10px,3vw,12px)}
+.inviteRewardPeriod{color:var(--reward-muted);margin:12px 0;font-size:clamp(13px,4vw,17px)}
+.inviteProgressGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.inviteProgressGrid>div{padding:12px 14px;border:1px solid #ffffff45;background:#ffffff1a;border-radius:12px}
+.inviteProgressGrid strong,.inviteRewardChoice strong{color:var(--reward-yellow);font-size:23px;font-weight:500}
+.inviteProgressGrid span{display:block;margin-top:4px;font-size:12px;color:var(--reward-muted)}
+.inviteProgressGrid small,.inviteProgressHint,.inviteEmptyMessage{color:var(--reward-muted)}
+.inviteProgressHint{margin:13px 0 0;font-size:12px}
+.inviteRewardBanner{display:block;width:100%;height:auto;border-radius:9px}
+.inviteLastReward h2{margin-top:20px;text-align:center;color:var(--reward-yellow)}
+.inviteEmptyMessage{margin:8px 0 0;text-align:center;font-size:12px}
+.inviteRewardChoices{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:19px 0}
+.inviteRewardChoice{display:grid;justify-items:center;gap:7px;position:relative;min-width:0;padding:18px 8px;border:1.5px solid transparent;border-radius:12px;background:#ffffff30;color:white;cursor:pointer}
+.inviteRewardChoice:has(input:checked){border-color:var(--reward-yellow)}
+.inviteRewardChoice:has(input:focus-visible){outline:2px solid white;outline-offset:2px}
+.inviteRewardChoice input{position:absolute;opacity:0;width:1px;height:1px}
+.inviteRewardArt{width:75%;position:relative}
+.inviteRewardArt img{display:block;width:100%;height:auto;border-radius:8px}
+.inviteRewardArt small{position:absolute;top:-9px;right:0;padding:2px 7px;border:1px solid #ffcd68;border-radius:9px 9px 3px 9px;background:#f3314d;color:#fff0a0;font-size:10px}
+.inviteRewardOr{font-size:16px;font-weight:600}
+.inviteRewardChoice strong{font-size:16px}
+.inviteClaim{width:100%;min-height:49px;border:0;border-radius:99px;background:#86713e;color:#251336;font-size:19px;font-weight:600}
+.inviteRewardDemo{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 10px;margin-bottom:14px;padding:8px 10px;border:1px dashed #80649c;border-radius:10px;color:#d6c7e6}
+.inviteRewardDemo label{font-size:12px}
+.inviteHistoryControl{grid-column:1/-1;display:flex;align-items:center;gap:4px}
+body.salaryTheme .inviteRewardDemo select{font-size:13px;min-height:36px}
+.inviteProgressHead .qualified{color:#7ce4af}
+.inviteRewardRecord{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;margin-top:16px;padding:12px 0 0;border-top:1px solid #ffffff35;font-size:12px}
+.inviteRewardRecord b{color:var(--reward-yellow)}
+.inviteClaim[aria-disabled="false"]{background:#fff01a}
+.inviteClaim[aria-disabled="true"]{cursor:default}
+.inviteRecordsEmpty{margin:20px 0}
+</style>
+<style>
+.reviewInfoPage{--review-accent:#a565f4;--review-light:#f6e7ff;--review-muted:#c7b8d7;padding:12px 4.25% calc(20px + env(safe-area-inset-bottom))}
+.roomReviewInfo{--review-accent:#359ef4;--review-light:#e5f5ff}
+.reviewInfoTabs,.reviewInfoCategories,.reviewInfoActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.reviewInfoTabs{padding:4px;gap:0;border-radius:99px;background:#2b2337;margin-bottom:14px}
+.reviewInfoTabs button,.reviewInfoCategories button,.reviewInfoActions button{border:0;border-radius:99px;color:white;background:transparent}
+.reviewInfoTabs button{min-height:43px;color:#b4a8c2;font-size:16px}
+.reviewInfoTabs button[aria-pressed="true"],.reviewInfoCategories button[aria-pressed="true"]{background:#a565f4;color:white}
+.reviewInfoCategories{margin-bottom:18px}
+.reviewInfoCategories button{position:relative;display:flex;align-items:center;gap:clamp(6px,2.6vw,12px);min-height:60px;padding:8px clamp(8px,3.5vw,17px);background:#2b2337;text-align:left}
+.reviewInfoCategories button[aria-pressed="true"]::after{content:"";position:absolute;width:10px;height:10px;background:#a565f4;bottom:-4px;left:calc(50% - 5px);transform:rotate(45deg);border-radius:2px}
+.reviewInfoCategories img{width:clamp(34px,10vw,42px);aspect-ratio:1;border-radius:50%}
+.reviewInfoCategories b,.reviewInfoCategories small{display:block;line-height:1.25}
+.reviewInfoCategories b{font-size:17px;font-weight:600}
+.reviewInfoCategories small{margin-top:2px;color:#d4c8e2;font-size:13px}
+.reviewInfoPanel,.reviewInfoDialog{background:linear-gradient(90deg,#4b2a77,#190434);border-radius:16px;color:white}
+.reviewInfoPanel{padding:clamp(12px,4vw,17px);margin-bottom:14px;min-width:0}
+.reviewInfoFilters h2{margin:0 0 13px;font-size:16px;font-weight:600}
+.reviewInfoFilters [role="group"]{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.reviewInfoFilters button,.reviewInfoMeta b{flex:none;padding:7px 12px;background:#ffffff08;border:1px solid #ffffff32;border-radius:9px;color:white;white-space:nowrap;font-size:14px}
+.reviewInfoFilters button[aria-pressed="true"],.reviewInfoMeta b{background:var(--review-light);border-color:var(--review-accent);color:var(--review-accent)}
+.reviewInfoMeta,.reviewInfoResult{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.reviewInfoMeta span,.reviewInfoResult span{text-align:right;color:var(--review-muted);font-size:clamp(10px,3vw,13px);line-height:1.35}
+.reviewInfoIdentity{display:flex;align-items:center;gap:10px;margin:15px 0;overflow-wrap:anywhere}
+.reviewInfoIdentity img{width:48px;aspect-ratio:1;border-radius:50%;object-fit:cover}
+.reviewInfoIdentity small{display:block;color:var(--review-muted);margin-top:2px}
+.reviewInfoChanges{display:grid;gap:10px;padding:15px 0;border-block:1px dashed #ffffff30;margin-bottom:15px}
+.reviewInfoChange{display:grid;grid-template-columns:62px minmax(0,1fr);align-items:start;gap:7px;padding:11px 12px;border:1px solid #ffffff26;border-radius:11px;background:#ffffff1b;overflow-wrap:anywhere}
+.reviewInfoChange span{color:var(--review-muted)}
+.reviewInfoChange.after{background:#0003;color:#fff01a}
+.reviewInfoFullText,.imageChanges button{border:0;padding:0;color:white;background:none;text-align:left}
+.reviewInfoFullText{display:block;margin-top:5px;font-size:12px}
+.reviewInfoClamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.imageChanges{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}
+.singleImageChange{grid-template-columns:minmax(0,1fr)}
+.imageChanges .reviewInfoChange{display:grid;gap:8px;padding:0;border:0;background:none;grid-template-columns:1fr}
+.imageChanges button{width:100%;max-width:145px}
+.singleImageChange button{width:43%;min-width:100px;max-width:150px}
+.textChanges .reviewInfoChange.before{background:#ffffff24}
+.textChanges .reviewInfoChange:has(.reviewInfoClamped){align-items:start;padding-block:13px}
+.imageChanges img,.reviewInfoDialog>img{width:100%;height:auto;display:block;border-radius:10px}
+.reviewInfoArrow{color:var(--review-accent);font-size:20px}
+.reviewInfoActions button{min-height:48px;background:#ffffff25;font-size:15px;font-weight:600}
+.reviewInfoActions .approve{background:var(--review-accent)}
+.reviewInfoActions .reject{border:1px solid #ff636a96;background:#ff636a12;color:#ff7076}
+.reviewInfoResult b{padding:5px 9px;border-radius:7px;font-size:12px;background:#12754f}
+.reviewInfoResult .rejected,.reviewInfoActions .confirmReject{background:#ff5055}
+.reviewInfoReason,.reviewInfoPreviewText{padding:10px;border-radius:8px;background:#ffffff1c;overflow-wrap:anywhere;white-space:pre-wrap}
+.reviewInfoEmpty{text-align:center;padding-block:28px;color:var(--review-muted)}
+.reviewInfoDialog{width:min(calc(100% - 36px),374px);max-height:85dvh;overflow:auto;border:1px solid #ffffff20;padding:16px;color:white}
+.reviewInfoDialog::backdrop{background:#000b}
+.reviewInfoDialog h2{margin:0;text-align:center;font-size:19px}
+.reviewInfoDialog form>p{color:#dbcbe8;margin:15px 0}
+.reviewInfoReasonField{position:relative;background:#0003;border-radius:11px}
+body.salaryTheme .reviewInfoReasonField textarea{width:100%;min-height:126px;display:block;padding:12px 12px 28px;resize:vertical;border:0;background:transparent;color:white;font-size:14px}
+.reviewInfoReasonField span{position:absolute;bottom:6px;right:10px;color:#c5b5d4;pointer-events:none}
+.reviewInfoDialog .reviewInfoActions{margin-top:16px}
+.reviewInfoDialog #reviewInfoError{color:#ff8b91;margin:7px 0 0}
+.reviewInfoPreviewHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.reviewInfoPreviewHead button{width:32px;height:32px;border:0;border-radius:6px;background:#ffffff26;color:white;font-size:20px}
+</style>
+<style>
+.benefitsPage{padding:12px 4.25% calc(20px + env(safe-area-inset-bottom));--benefits-accent:#a565f4;--benefits-muted:#c6b5d5}
+.benefitsPage h2,.benefitsDialog h2{font-size:17px;font-weight:600;margin:0}
+.benefitsWeekly{border-radius:20px;background:linear-gradient(100deg,#d42aee,#7000ff);overflow:hidden}
+.benefitsWeeklyHead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px}
+.benefitsWeeklyHead button{border:0;border-radius:99px;background:white;color:#7633b5;padding:7px 16px;font-weight:600}
+.benefitsPanel,.benefitsDialog{border-radius:18px;background:linear-gradient(90deg,#4b2a77,#190434);color:white}
+.benefitsPanel{padding:16px}
+.benefitsRole{height:42px;display:flex;align-items:center;margin-bottom:16px}
+.benefitsRole img{height:100%;width:auto}
+.benefitsRole b{padding:5px 13px;border-radius:8px;background:#ffffff23}
+.benefitsQuotas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;color:#251d31}
+.benefitsQuotas>div{display:flex;align-items:center;gap:7px;background:#fbf2ff;border-radius:12px;padding:8px;min-height:60px}
+.benefitsQuotas img{width:clamp(28px,9vw,39px);aspect-ratio:1;border-radius:8px}
+.benefitsQuotas span{font-size:11px;color:#655a70;line-height:1.35}
+.benefitsQuotas small{display:block;margin-top:4px;white-space:nowrap;font-size:11px}
+.benefitsQuotas strong{color:#252030;font-size:15px}
+.benefitsTimer{margin:15px 0 2px;font-size:11px;color:var(--benefits-muted)}
+.benefitsTimer strong{font-variant-numeric:tabular-nums;color:#bd88ff;font-size:14px;white-space:nowrap}
+.benefitsTabs{display:flex;gap:3px;border-radius:99px;background:#ffffff19;padding:5px;margin:16px 0}
+.benefitsTabs button,.benefitsCategories button{border:0;border-radius:99px;background:none;color:#c7bbd4;padding:7px 9px;font-size:14px}
+.benefitsTabs button{flex:1;min-width:0}
+.benefitsTabs button[aria-pressed="true"],.benefitsCategories button[aria-pressed="true"],.benefitsPrimary{background:#a565f4;color:white}
+.benefitsGrantPanel h2{margin:2px 0 12px}
+.benefitsGrantPanel label{display:block;color:var(--benefits-muted);margin:13px 0 6px}
+.benefitsSearch{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.benefitsSearch>div{position:relative}
+body.salaryTheme .benefitsSearch #benefitRecipientInput{width:100%;height:44px;padding:0 32px 0 12px;border-radius:99px;background:#10042370;border-color:#a48abb;font-size:13px;font-weight:400}
+.benefitsSearch #benefitClear{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:20px;height:20px;padding:0;border:0;border-radius:50%;background:#c9b7db;color:#30194b;line-height:1}
+.benefitsPrimary{border:0;border-radius:99px;padding:8px 15px;font-size:14px;font-weight:600}
+.benefitsPrimary:disabled{background:#7a4aac80;color:#eadaf8;cursor:default}
+.benefitsRecipient{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px;border:1px solid #b082f1;border-radius:12px;background:#f3e3fc;color:#20162c}
+.benefitsRecipient img,.benefitsRecipientInitial{display:grid;place-items:center;width:42px;aspect-ratio:1;border-radius:50%;background:#d1aaf4}
+.benefitsRecipient small{display:block;color:#665772;margin-top:2px}
+.benefitsCategories{display:flex;flex-wrap:wrap;gap:8px}
+.benefitsCategories button{border:1px solid #ffffff38}
+.benefitsItems{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 20px}
+.benefitsItems button{display:grid;justify-items:center;align-content:start;gap:4px;min-width:0;min-height:103px;padding:9px 4px;border:1px solid #ffffff55;border-radius:11px;background:#fff1;color:white;overflow-wrap:anywhere}
+.benefitsItems button[aria-pressed="true"]{border-color:#dfb2ff;box-shadow:inset 0 0 0 1px #bc72f5}
+.benefitsItems img,.benefitsFrame{width:50px;height:50px;object-fit:contain;border-radius:10px}
+.benefitsFrame{width:43px;height:43px;margin:4px;border:4px double #ffdf85;border-radius:50%;box-shadow:0 0 8px #ba73ff}
+.benefitsItems small{color:var(--benefits-muted);font-size:11px}
+.benefitsWide{width:100%;min-height:45px}
+body.salaryTheme .top .benefitsRecordsButton{width:34px;height:34px;border:0}
+.benefitsRecordsButton span{position:relative;width:20px;height:20px;border:2px solid currentColor;border-left-color:transparent;border-radius:50%}
+.benefitsRecordsButton span::before{content:"";position:absolute;top:0;left:-2px;width:6px;height:6px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-15deg)}
+.benefitsRecordsButton span::after{content:"";position:absolute;top:3px;left:7px;width:5px;height:6px;border-left:2px solid currentColor;border-bottom:2px solid currentColor}
+.benefitsDialog{width:min(calc(100% - 36px),384px);max-height:88dvh;padding:16px;border:1px solid #ffffff20;overflow:auto}
+.benefitsDialog::backdrop{background:#000b}
+.benefitsDialog h2,.benefitsDialog>p{text-align:center}
+.benefitsDialog>p{color:#d5c6df;font-size:13px;margin:11px 0 16px}
+.benefitsDialog .benefitsRulesTitle{color:#fff01a}
+.benefitsDialog table{width:100%;border-collapse:collapse;font-size:12px;overflow-wrap:anywhere}
+.benefitsDialog th,.benefitsDialog td{padding:10px 4px;border-bottom:1px solid #ffffff30;text-align:left;vertical-align:top}
+.benefitsDialog thead th{color:#d1c1df}
+.benefitsRules td:nth-child(2){color:#ffe773}
+.benefitsRecords{max-height:48dvh;overflow:auto}
+.benefitsDialog form{margin-top:14px}
+.benefitsNotes{padding:10px;margin-top:12px;border-radius:10px;background:#ffffff23;font-size:12px}
+.benefitsNotes ol{margin:6px 0 0;padding-left:19px}
+</style>
 </body>
 </html>
