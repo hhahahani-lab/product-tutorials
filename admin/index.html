@@ -438,13 +438,13 @@ body{font-size:14px!important}
 .batchImportSummary span{color:var(--muted)}
 .batchImportSummary span b{color:var(--text);font-variant-numeric:tabular-nums}
 .batchImport .tableWrap{border:1px solid var(--line);border-radius:8px;overflow:auto}
-.batchImport .table{min-width:0;margin:0;font-size:12px}
+.batchImport .tableWrap>.table{width:100%!important;min-width:max(100%,560px)!important;margin:0}
+.batchImport .batchCashBills>.table{width:max-content!important;min-width:100%!important}
 .batchImport .table :is(th,td){padding:9px 10px!important}
 .batchImport .table :is(th,.batchImportNumber){white-space:nowrap}
 .batchImport .batchImportNumber{text-align:right;font-variant-numeric:tabular-nums}
-.batchImport .batchBillHeader th{background:#f8fbff!important;white-space:normal}
-.batchBillIdentity{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
-.batchBillIdentity small{color:var(--muted);font-weight:400}
+.batchImport .table .batchImportText{white-space:normal!important;overflow-wrap:anywhere}
+.batchImport .table tbody+tbody tr:first-child td{border-top:1px solid var(--line)}
 .batchImportIssues{
   margin-top:12px;padding:9px 12px;border:1px solid #ecdaba;border-radius:8px;
   background:#fffaf1;color:#81550e;font-size:12px;
@@ -1922,6 +1922,29 @@ function openBatchPayment(title, label, source, candidates, selected, submit) {
   const tab = state.settlementTab;
   const period = document.getElementById('settlementPeriod');
   const selectedPeriod = period?.value;
+  const originalTable = document.querySelector('#settlementContent table');
+  const originalBillRows = new Map([...originalTable?.querySelectorAll('tbody input[data-coin-key]') || []]
+    .map(input => [input.dataset.coinKey, input.closest('tr')]));
+  function cashBillPreview(bills) {
+    const table = document.createElement('table');
+    table.className = 'table';
+    table.append(originalTable.tHead.cloneNode(true));
+    const body = table.createTBody();
+    for (const bill of bills.keys()) {
+      body.append(originalBillRows.get(`${tab}:${bill.uid}`).cloneNode(true));
+    }
+    // The review uses the source table's data columns. The dialog owns the batch action.
+    for (const row of table.rows) {
+      row.deleteCell(-1);
+      row.deleteCell(0);
+    }
+    for (const element of table.querySelectorAll('button, input, a')) {
+      element.removeAttribute('onclick');
+      element.removeAttribute('href');
+      if ('disabled' in element) element.disabled = true;
+    }
+    return `<div class="tableWrap batchCashBills" tabindex="0" aria-label="匹配的原账单">${table.outerHTML}</div>`;
+  }
   function groupByBill(rows) {
     const bills = new Map();
     for (const row of rows) {
@@ -1955,7 +1978,6 @@ function openBatchPayment(title, label, source, candidates, selected, submit) {
     const total = [...bills.keys()].reduce((sum, bill) => sum + Number(bill.final), 0);
     const coinTotal = showCoins ? rows.reduce((sum, row) => sum + Number(row.coins), 0) : 0;
     const hasPayoutDetails = rows.some(row => row.salary);
-    const columnCount = 3 + (hasPayoutDetails ? 2 : 0) + (showCoins ? 1 : 0);
     preview.innerHTML = rows.length ? `<div class="batchImportSummary">
         <b>匹配 ${bills.size} 张账单 · 待处理 ${rows.length} 笔</b>
         <div class="batchImportTotals">
@@ -1963,25 +1985,20 @@ function openBatchPayment(title, label, source, candidates, selected, submit) {
           ${showCoins ? `<span>金币合计 <b>${fmt(coinTotal)}</b></span>` : ''}
         </div>
       </div>
-      <div class="tableWrap"><table class="table"><thead><tr>
+      ${showCoins ? `<div class="tableWrap"><table class="table"><thead><tr>
         ${hasPayoutDetails ? '<th>薪资归属</th><th>薪资类型</th>' : ''}
         <th class="batchImportNumber">金额（$）</th><th>结算方式</th><th>收款账号</th>
-        ${showCoins ? '<th class="batchImportNumber">折算金币</th>' : ''}
+        <th class="batchImportNumber">折算金币</th>
       </tr></thead>
-      ${[...bills].map(([bill, billRows]) => `<tbody>
-        <tr class="batchBillHeader"><th scope="rowgroup" colspan="${columnCount}">
-          <div class="batchBillIdentity">
-            <div>${esc(bill.name)} <small>UID ${esc(bill.uid)}</small></div>
-            <small>原账单结算金额 ${money(bill.final)}</small>
-          </div>
-        </th></tr>
+      ${[...bills.values()].map(billRows => `<tbody>
         ${billRows.map(row => `<tr>
-          ${hasPayoutDetails ? `<td>${esc(row.salary?.owner)}</td><td>${esc(row.salary?.type)}</td>` : ''}
-          <td class="batchImportNumber">${money(row.amount)}</td><td>${esc(row.method)}</td><td>${esc(row.account)}</td>
-          ${showCoins ? `<td class="batchImportNumber">${fmt(row.coins)}</td>` : ''}
+          ${hasPayoutDetails ? `<td class="batchImportText">${esc(row.salary?.owner)}</td><td>${esc(row.salary?.type)}</td>` : ''}
+          <td class="batchImportNumber">${money(row.amount)}</td><td>${esc(row.method)}</td>
+          <td class="batchImportText">${esc(row.account)}</td>
+          <td class="batchImportNumber">${fmt(row.coins)}</td>
         </tr>`).join('')}
-      </tbody>`).join('')}</table></div>
-      <p class="batchImportHint">${showCoins ? '确认后将发放上方记录的金币。' : '确认后将登记上方记录为已打款。'}</p>`
+      </tbody>`).join('')}</table></div>` : cashBillPreview(bills)}
+      <p class="batchImportHint">${showCoins ? '确认后将发放上方记录的金币。' : '确认后将登记匹配账单的现金款为已打款。'}</p>`
       : `<p class="batchImportHint">${esc(message || (fileInput.files.length ? '没有匹配到可处理的记录。' : '导入后可核对匹配记录和金额。'))}</p>`;
     confirm.disabled = rows.length === 0;
   }
