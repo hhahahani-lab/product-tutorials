@@ -456,6 +456,20 @@ body{font-size:14px!important}
   .batchImportFileCopy{width:100%}
 }
 
+#pendingRoleApplicationDialog{
+  width:min(460px,calc(100% - 32px));
+  max-height:calc(100dvh - 32px);
+  padding:0;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  color:var(--text);
+  box-shadow:0 18px 48px rgba(15,42,84,.18);
+}
+#pendingRoleApplicationDialog::backdrop{background:rgba(15,42,84,.22)}
+#pendingRoleApplicationDialog .modalFoot{flex-wrap:wrap}
+#pendingRoleApplicationMessage{white-space:pre-line}
+
 /* Table column spacing */
 .table th{padding-left:18px!important;padding-right:18px!important}
 .table td{padding-left:18px!important;padding-right:18px!important}
@@ -764,7 +778,7 @@ window.nextBusinessCycleStart=function(value){const n=new Date(new Date(value).g
         <div class="panel">
           <div class="tabs" id="appRoleTabs"></div>
           <div class="memberRelationNote">同一 UID 同一时间仅允许 1 条待审核申请；拒绝 / 失效后可重新使用有效邀请码提交，新申请生成新记录。</div>
-          <div class="filterBar"><input class="input" id="appSearch" placeholder="输入 UID 或昵称" oninput="renderApplications()"><select class="select" id="appStatus" onchange="renderApplications()"><option value="Pending">待审核</option><option value="Approved">已通过</option><option value="Rejected">已拒绝</option><option value="Expired">已失效</option><option value="All Status">全部状态</option></select><span class="filterSpacer"></span><span class="countText" id="appCount"></span></div>
+          <div class="filterBar"><input class="input" id="appSearch" placeholder="输入 UID 或昵称" oninput="delete this.dataset.exactUid;renderApplications()"><select class="select" id="appStatus" onchange="renderApplications()"><option value="Pending">待审核</option><option value="Approved">已通过</option><option value="Rejected">已拒绝</option><option value="Expired">已失效</option><option value="All Status">全部状态</option></select><span class="filterSpacer"></span><span class="countText" id="appCount"></span></div>
           <div class="table-responsive tableWrap"><table class="table applicationListTable"><colgroup><col style="width:250px"><col style="width:140px"><col style="width:170px"><col style="width:230px"><col style="width:230px"><col style="width:220px"><col style="width:130px"><col style="width:240px"></colgroup><thead><tr><th>申请人头像、昵称、ID</th><th>申请角色</th><th>国家 / 地区</th><th>邀请人昵称、ID</th><th>直属上级昵称、ID</th><th>申请时间（UTC+8）</th><th>状态</th><th>操作</th></tr></thead><tbody id="applicationRows"></tbody></table></div>
         </div>
       </section>
@@ -857,6 +871,19 @@ window.nextBusinessCycleStart=function(value){const n=new Date(new Date(value).g
 
 <div class="drawerBack" id="drawerBack" onclick="if(event.target===this)closeDrawer()"><aside class="drawer"><div class="drawerHead"><b id="drawerTitle">详情</b><button class="close" onclick="closeDrawer()">×</button></div><div class="drawerBody" id="drawerBody"></div></aside></div>
 <div class="modalBack" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modalHead"><b id="modalTitle">操作</b><button class="close" onclick="closeModal()">×</button></div><div class="modalBody" id="modalBody"></div><div class="modalFoot" id="modalFoot"></div></div></div>
+<dialog id="pendingRoleApplicationDialog" aria-labelledby="pendingRoleApplicationTitle" aria-describedby="pendingRoleApplicationMessage">
+  <form method="dialog">
+    <div class="modalHead">
+      <b id="pendingRoleApplicationTitle">用户有待审核申请</b>
+      <button class="close" value="cancel" aria-label="返回新增业务成员">×</button>
+    </div>
+    <div class="modalBody" id="pendingRoleApplicationMessage"></div>
+    <div class="modalFoot">
+      <button class="btn" value="review" autofocus>跳转查看</button>
+      <button class="btn gold" value="add">确认添加</button>
+    </div>
+  </form>
+</dialog>
 <div class="toast" id="toast">已保存</div>
 <script>
 const members=[
@@ -1078,7 +1105,7 @@ function displaySuperior(v){return String(v||'—').replace('Platform-direct','�
 function fmt(n){return Number(n).toLocaleString(undefined,{maximumFractionDigits:2})}
 function money(n){return '$'+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
 function initials(name){return name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
-function statusBadge(s){if(!s||s==='—')return '<span class="muted">—</span>';const cls=s==='Active'||s==='Effective'||s==='Eligible'?'active':s==='Pending'||s==='Pending Confirmation'||s==='Unpaid'||s==='Unissued'||s==='Unclaimed'||s==='Scheduled'||s==='Pending Finance Review'||s==='Ready to Publish'?'pending':s==='Rejected'?'rejected':s==='Paid'?'paid':s==='Issued'||s==='Claimed'?'issued':s==='Failed'?'failed':s==='Confirmed'||s==='Published'?'confirmed':s==='Cancelled'||s==='Expired'?'rejected':'';return `<span class="badge ${cls}">${displayStatus(s)}</span>`}
+function statusBadge(s,label=displayStatus(s)){if(!s||s==='—')return '<span class="muted">—</span>';const cls=s==='Active'||s==='Effective'||s==='Eligible'?'active':s==='Pending'||s==='Pending Confirmation'||s==='Unpaid'||s==='Unissued'||s==='Unclaimed'||s==='Scheduled'||s==='Pending Finance Review'||s==='Ready to Publish'?'pending':s==='Rejected'?'rejected':s==='Paid'?'paid':s==='Issued'||s==='Claimed'?'issued':s==='Failed'?'failed':s==='Confirmed'||s==='Published'?'confirmed':s==='Cancelled'||s==='Expired'?'rejected':'';return `<span class="badge ${cls}">${label}</span>`}
 function identityMerged(name,id,extra=''){if(!name||name==='—')return '<span class="muted">—</span>';return `<div class="identityMerged"><b>${name}</b>${id?`<small>ID ${id}${extra?` · ${extra}`:''}</small>`:(extra?`<small>${extra}</small>`:'')}</div>`}
 function relationIdentity(v){const raw=String(v||'—');if(raw==='Platform-direct'||raw==='无上级')return '<span class="muted">无上级</span>';const m=raw.match(/^(.*) · (?:UID )?(\d+)$/);return m?identityMerged(m[1],m[2]):`<span>${raw}</span>`}
 function memberCell(name,id){return `<div class="nameCell"><div class="avatar">${initials(name)}</div><div><b>${name}</b><small>ID ${id}</small></div></div>`}
@@ -1491,17 +1518,20 @@ function applicationInviteState(a){
  if(!canInviteRole(inviter.role,a.role))return {valid:false,reason:`邀请人当前 Role（${inviter.role}）已无权邀请 ${a.role}`};
  return {valid:true,inviter};
 }
+function applicationStatusLabel(status){return status==='Rejected'?'已拒绝':displayStatus(status)}
 function renderApplications(){
  refreshExpiredApplications();renderAppTabs();
- const q=(document.getElementById('appSearch')?.value||'').toLowerCase(),status=document.getElementById('appStatus')?.value||'Pending';
- const rows=applications.filter(a=>(state.appRole==='All'||a.role===state.appRole)&&(!q||a.uid.includes(q)||a.name.toLowerCase().includes(q))&&(status==='All Status'||a.status===status));
+ const search=document.getElementById('appSearch');
+ const q=(search?.value||'').toLowerCase(),status=document.getElementById('appStatus')?.value||'Pending';
+ const matchesSearch=a=>search?.dataset.exactUid?a.uid===q:(!q||a.uid.includes(q)||a.name.toLowerCase().includes(q));
+ const rows=applications.filter(a=>(state.appRole==='All'||a.role===state.appRole)&&matchesSearch(a)&&(status==='All Status'||a.status===status));
  document.getElementById('appCount').textContent=`共 ${rows.length} 条申请`;
- document.getElementById('applicationRows').innerHTML=rows.map(a=>{const iv=applicationInviteState(a);const inviteText=a.inviteUid?identityMerged(a.invite,a.inviteUid,iv.inviter?'':'已解约'):(a.invite==='Platform'?'<span class="muted">平台</span>':`<span>${a.invite}</span>`);return `<tr><td>${memberCell(a.name,a.uid)}</td><td><span class="roleText">${a.role}</span></td><td>${displayCountry(a.country)}</td><td>${inviteText}</td><td>${relationIdentity(a.superior)}</td><td>${a.time}</td><td>${statusBadge(a.status)}</td><td>${a.status==='Pending'?`<div class="opCell"><button class="op view" onclick="reviewApplication(${a.id})">查看</button><button class="op good" onclick="approveApplication(${a.id})">通过</button><button class="op bad" onclick="rejectApplication(${a.id})">拒绝</button></div>`:'—'}</td></tr>`}).join('')||`<tr><td colspan="8"><div class="empty">当前筛选暂无申请。</div></td></tr>`;
+ document.getElementById('applicationRows').innerHTML=rows.map(a=>{const iv=applicationInviteState(a);const inviteText=a.inviteUid?identityMerged(a.invite,a.inviteUid,iv.inviter?'':'已解约'):(a.invite==='Platform'?'<span class="muted">平台</span>':`<span>${a.invite}</span>`);return `<tr data-application-id="${a.id}"><td>${memberCell(a.name,a.uid)}</td><td><span class="roleText">${a.role}</span></td><td>${displayCountry(a.country)}</td><td>${inviteText}</td><td>${relationIdentity(a.superior)}</td><td>${a.time}</td><td>${statusBadge(a.status,applicationStatusLabel(a.status))}</td><td>${a.status==='Pending'?`<div class="opCell"><button class="op view" onclick="reviewApplication(${a.id})">查看</button><button class="op good" onclick="approveApplication(${a.id})">通过</button><button class="op bad" onclick="rejectApplication(${a.id})">拒绝</button></div>`:'—'}</td></tr>`}).join('')||`<tr><td colspan="8"><div class="empty">当前筛选暂无申请。</div></td></tr>`;
 }
 function reviewApplication(id){
  const a=applications.find(x=>x.id===id);if(!a)return;refreshExpiredApplications();const iv=applicationInviteState(a);
  const inviteAlert=!iv.valid&&a.status==='Pending'?`<div class="note" style="margin-bottom:12px"><b>${iv.reason}。</b> 当前申请不能通过，用户需使用新的有效邀请码重新提交申请。</div>`:'';
- openDrawer('申请审核',`${inviteAlert}<div class="detailHero"><div class="avatar">${initials(a.name)}</div><div><h3>${a.name}</h3><p>UID ${a.uid} · 申请角色：${a.role}</p></div></div><div class="detailSec"><h4>申请信息</h4><div class="kv"><div><span>国家 / 地区</span><b>${displayCountry(a.country)}</b></div><div><span>申请角色</span><b>${a.role}</b></div><div><span>邀请码</span><b>${a.inviteCode}</b></div><div><span>提交时间（UTC+8）</span><b>${a.time}</b></div><div><span>邀请人</span>${a.inviteUid?identityMerged(a.invite,a.inviteUid):`<b>${a.invite}</b>`}</div><div><span>状态</span><b>${displayStatus(a.status)}</b></div><div><span>直属上级</span>${relationIdentity(a.superior)}</div></div></div><div class="detailSec"><div class="note"><b>首次直属关系不可在审核页修改。</b> 角色由申请入口决定；邀请码只识别邀请人。通过前系统会再次校验邀请人的当前角色与邀请权限。</div></div>${a.status==='Pending'?`<div class="drawerActions"><button class="btn red" onclick="rejectApplication(${a.id});closeDrawer()">拒绝</button><button class="btn green" ${iv.valid?'': 'disabled'} onclick="approveApplication(${a.id});closeDrawer()">通过</button></div>`:''}`)
+ openDrawer('申请审核',`${inviteAlert}<div class="detailHero"><div class="avatar">${initials(a.name)}</div><div><h3>${a.name}</h3><p>UID ${a.uid} · 申请角色：${a.role}</p></div></div><div class="detailSec"><h4>申请信息</h4><div class="kv"><div><span>国家 / 地区</span><b>${displayCountry(a.country)}</b></div><div><span>申请角色</span><b>${a.role}</b></div><div><span>邀请码</span><b>${a.inviteCode}</b></div><div><span>提交时间（UTC+8）</span><b>${a.time}</b></div><div><span>邀请人</span>${a.inviteUid?identityMerged(a.invite,a.inviteUid):`<b>${a.invite}</b>`}</div><div><span>状态</span><b>${applicationStatusLabel(a.status)}</b></div><div><span>直属上级</span>${relationIdentity(a.superior)}</div></div></div><div class="detailSec"><div class="note"><b>首次直属关系不可在审核页修改。</b> 角色由申请入口决定；邀请码只识别邀请人。通过前系统会再次校验邀请人的当前角色与邀请权限。</div></div>${a.status==='Pending'?`<div class="drawerActions"><button class="btn red" onclick="rejectApplication(${a.id});closeDrawer()">拒绝</button><button class="btn green" ${iv.valid?'': 'disabled'} onclick="approveApplication(${a.id});closeDrawer()">通过</button></div>`:''}`)
 }
 function approveApplication(id){
  const a=applications.find(x=>x.id===id);if(!a)return;refreshExpiredApplications();
@@ -1512,7 +1542,19 @@ function approveApplication(id){
  renderApplications();updatePendingCounters();toast('申请已通过，业务身份立即生效');
 }
 function rejectApplication(id){const a=applications.find(x=>x.id===id);if(!a)return;refreshExpiredApplications();if(a.status!=='Pending'){toast('当前申请不可拒绝');return}a.status='Rejected';renderApplications();updatePendingCounters();toast('申请已拒绝，可重新使用有效邀请码提交新申请')}
-function openPendingApplications(){state.appRole='All';goView('applications');const st=document.getElementById('appStatus');if(st)st.value='Pending';renderApplications()}
+function openPendingApplications(uid=''){
+ state.appRole='All';
+ const search=document.getElementById('appSearch');
+ if(uid){
+   search.value=uid;
+   search.dataset.exactUid='true';
+ }else if(search.dataset.exactUid){
+   search.value='';
+   delete search.dataset.exactUid;
+ }
+ document.getElementById('appStatus').value='Pending';
+ goView('applications');
+}
 function syncTabs(id,prefix,val){document.querySelectorAll(`#${id} .tabBtn`).forEach(b=>b.classList.toggle('active',b.dataset[prefix]===val))}
 document.querySelectorAll('#dataTabs .tabBtn').forEach(b=>b.onclick=()=>{state.dataTab=b.dataset.data;state.dataManagementScopeUid=null;state.dataAgencyUid=null;const q=document.getElementById('dataMember');if(q)q.value='';const sc=document.getElementById('dataScope');if(sc)sc.value='All';renderData()});
 
@@ -5605,12 +5647,15 @@ document.querySelectorAll('[data-ct-view]').forEach(function(button){
   window.renderMembers=function(){const out=boMembersBase?.apply(this,arguments);if(state.memberTab==='list'){if((state.memberScope||'all')==='all')boDecorateMemberRows('memberRows',2,'boMemberOperatorFilter','memberCount','当前成员',9);else if(state.memberScope==='host')window.renderHostMemberList();else if(state.memberScope==='agent')window.renderAgentMemberList();else if(state.memberScope==='management')window.renderManagementMemberList()}return out};
 
   const boApplicationsBase=window.renderApplications;
-  window.renderApplications=function(){boApplicationsBase?.apply(this,arguments);const body=$('#applicationRows');if(!body)return;const scope=boScopeOperator('boApplicationOperatorFilter');let visible=0;Array.from(body.querySelectorAll('tr')).forEach(tr=>{const id=boExtractId(tr),a=applications.find(x=>String(x.uid)===String(id));if(!a)return;if(scope&&a.operator!==scope){tr.remove();return}const td=document.createElement('td');td.innerHTML=boOperatorTag(a.operator);tr.insertBefore(td,tr.children[3]||null);visible++});$('#appCount').textContent=`共 ${visible} 条申请`;if(!visible)body.innerHTML='<tr><td colspan="9"><div class="empty">当前运营视角暂无符合条件的申请。</div></td></tr>'};
+  window.renderApplications=function(){boApplicationsBase?.apply(this,arguments);const body=$('#applicationRows');if(!body)return;const scope=boScopeOperator('boApplicationOperatorFilter');let visible=0;Array.from(body.querySelectorAll('tr')).forEach(tr=>{const a=applications.find(x=>String(x.id)===tr.dataset.applicationId);if(!a)return;if(scope&&a.operator!==scope){tr.remove();return}const td=document.createElement('td');td.innerHTML=boOperatorTag(a.operator);tr.insertBefore(td,tr.children[3]||null);visible++});$('#appCount').textContent=`共 ${visible} 条申请`;if(!visible)body.innerHTML='<tr><td colspan="9"><div class="empty">当前运营视角暂无符合条件的申请。</div></td></tr>'};
   const boApproveBase=window.approveApplication;
   window.approveApplication=function(id){const a=applications.find(x=>x.id===id);boApproveBase?.apply(this,arguments);const m=a&&members.find(x=>x.id===a.uid);if(m){const inviter=members.find(x=>x.id===String(a.inviteUid||''));m.operator=inviter?.operator||a.operator||m.operator||'Nora';renderApplications()}};
 
-  function boDashboardData(){return boMode==='Nora'?{coins:'112.8M',usd:'$7,050',diamonds:'28.2M',hosts:'1,724',agencies:'196',management:'38',roles:[23,8,4,3],newHosts:'79',effective:'1,176',pending:4,bills:3,rejected:1,trader:2}:boMode==='Daniel'?{coins:'73.6M',usd:'$4,600',diamonds:'18.4M',hosts:'1,122',agencies:'120',management:'24',roles:[15,6,2,1],newHosts:'49',effective:'758',pending:1,bills:2,rejected:2,trader:0}:{coins:'186.4M',usd:'$11,650',diamonds:'46.6M',hosts:'2,846',agencies:'316',management:'62',roles:[38,14,6,4],newHosts:'128',effective:'1,934',pending:5,bills:5,rejected:3,trader:2}}
-  function boUpdateDashboard(){const d=boDashboardData(),cards=$$('#view-dashboard .kpi');const byLabel=label=>cards.find(c=>$('.kpiLabel',c)?.textContent.trim()===label);const set=(label,v)=>{const e=$('.kpiValue',byLabel(label));if(e)e.textContent=v};set('本周 Coins',d.coins);set('本周 Coins 流水价值',d.usd);set('本周 Diamonds',d.diamonds);set('Host 总数',d.hosts);set('Agency 数',d.agencies);set('管理线成员',d.management);set('新增 Host',d.newHosts);set('有效 Host',d.effective);const breakdown=$$('.managementBreakdown span');breakdown.forEach((x,i)=>{const b=$('b',x);if(b)b.textContent=d.roles[i]});if($('#pendingApplicationsCount'))$('#pendingApplicationsCount').textContent=d.pending;if($('#pendingBillsCount'))$('#pendingBillsCount').textContent=d.bills;if($('#rejectedBillsCount'))$('#rejectedBillsCount').textContent=d.rejected;if($('#ctDashboardPendingCount'))$('#ctDashboardPendingCount').textContent=d.trader;const scopeText=$('#view-dashboard .dashboardPeriodLine .muted');if(scopeText)scopeText.innerHTML=`${boMode==='HQ'?'全部运营数据':`仅统计运营 ${boMode} 的业务数据`} <span class="boScopeChip">${boMode==='HQ'?'总部视角':boMode}</span>`}
+  function boDashboardData(){return boMode==='Nora'?{coins:'112.8M',usd:'$7,050',diamonds:'28.2M',hosts:'1,724',agencies:'196',management:'38',roles:[23,8,4,3],newHosts:'79',effective:'1,176',bills:3,rejected:1,trader:2}:boMode==='Daniel'?{coins:'73.6M',usd:'$4,600',diamonds:'18.4M',hosts:'1,122',agencies:'120',management:'24',roles:[15,6,2,1],newHosts:'49',effective:'758',bills:2,rejected:2,trader:0}:{coins:'186.4M',usd:'$11,650',diamonds:'46.6M',hosts:'2,846',agencies:'316',management:'62',roles:[38,14,6,4],newHosts:'128',effective:'1,934',bills:5,rejected:3,trader:2}}
+  function boUpdateDashboard(){const d=boDashboardData(),cards=$$('#view-dashboard .kpi');const byLabel=label=>cards.find(c=>$('.kpiLabel',c)?.textContent.trim()===label);const set=(label,v)=>{const e=$('.kpiValue',byLabel(label));if(e)e.textContent=v};set('本周 Coins',d.coins);set('本周 Coins 流水价值',d.usd);set('本周 Diamonds',d.diamonds);set('Host 总数',d.hosts);set('Agency 数',d.agencies);set('管理线成员',d.management);set('新增 Host',d.newHosts);set('有效 Host',d.effective);const breakdown=$$('.managementBreakdown span');breakdown.forEach((x,i)=>{const b=$('b',x);if(b)b.textContent=d.roles[i]});if($('#pendingApplicationsCount')){
+    const pending=applications.filter(a=>a.status==='Pending'&&(boMode==='HQ'||a.operator===boMode));
+    $('#pendingApplicationsCount').textContent=pending.length;
+  }if($('#pendingBillsCount'))$('#pendingBillsCount').textContent=d.bills;if($('#rejectedBillsCount'))$('#rejectedBillsCount').textContent=d.rejected;if($('#ctDashboardPendingCount'))$('#ctDashboardPendingCount').textContent=d.trader;const scopeText=$('#view-dashboard .dashboardPeriodLine .muted');if(scopeText)scopeText.innerHTML=`${boMode==='HQ'?'全部运营数据':`仅统计运营 ${boMode} 的业务数据`} <span class="boScopeChip">${boMode==='HQ'?'总部视角':boMode}</span>`}
 
   function boSyncFilters(){const ids=['boMemberOperatorFilter','boHostOperatorFilter','boAgentOperatorFilter','boManagementOperatorFilter','boApplicationOperatorFilter'];ids.forEach(id=>{const sel=document.getElementById(id),wrap=sel?.closest('.boOperatorFilter');if(!sel||!wrap)return;if(boMode==='HQ'){wrap.classList.remove('boScopeLocked')}else{sel.value=boMode;wrap.classList.add('boScopeLocked')}})}
   function boSetMode(mode){boMode=mode;$$('.boViewSelect').forEach(x=>x.value=mode);boSyncFilters();boUpdateDashboard();if(state.view==='members')renderMembers();if(state.view==='applications')renderApplications();window.syncSettlementScope?.()}
@@ -5618,7 +5663,57 @@ document.querySelectorAll('[data-ct-view]').forEach(function(button){
 
   function boAddOperatorValue(){return boMode==='HQ'?(document.getElementById('addMemberOperator')?.value||'Nora'):boMode}
   window.updateAddMemberSuperior=function(){const role=document.getElementById('addMemberRole')?.value||'Host',sel=document.getElementById('addMemberSuperior'),hint=document.getElementById('addMemberSuperiorHint'),op=boAddOperatorValue();if(!sel)return;const allowed=superiorCandidates(role).filter(m=>m.operator===op),direct=role==='Host'?'':'<option value="Platform-direct">无上级（直属平台）</option>';sel.innerHTML=direct+allowed.map(m=>`<option value="${m.id}">${m.name} · ${m.role} · ${m.id}</option>`).join('');sel.required=role==='Host';if(hint)hint.innerHTML=role==='Host'?`<b>Host 必须绑定 ${op} 运营旗下具有 Agency 业务的有效成员</b>，所属运营自动继承为 ${op}。`:`可选择无上级，或运营 ${op} 旗下的合法上级；创建后所属运营为 <b>${op}</b>。`;const inherited=$('#addMemberOperatorInherited');if(inherited)inherited.innerHTML=boOperatorTag(op)};
-  window.openAddMember=function(){const opField=boMode==='HQ'?`<div class="field"><label>所属运营</label><select id="addMemberOperator" onchange="updateAddMemberSuperior()">${BO_OPERATORS.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`:`<div class="field"><label>所属运营</label><div class="boInheritedOperator" id="addMemberOperatorInherited">${boOperatorTag(boMode)}</div></div>`;openModal('新增业务成员',`<div class="note"><b>从已有 APP 用户建立首次业务身份，确认后立即生效。</b><br>单一运营创建时自动归属当前运营；总部创建时必须指定所属运营。成员加入已有角色旗下后继承该角色的所属运营。</div><div class="formGrid" style="margin-top:12px"><div class="field full"><label>用户 UID</label><input id="addMemberUid" value="10999921" oninput="previewAddMemberUid()" placeholder="输入已有 APP 用户 UID"></div><div class="field full"><label>APP 账号信息</label><div class="note" id="userPreview">${addMemberPreviewMarkup('10999921')}</div></div>${opField}<div class="field"><label>角色</label><select id="addMemberRole" onchange="updateAddMemberSuperior()"><option>Host</option><option>Agency</option><option>BD</option><option>Admin</option><option>Super Admin</option><option>Manager</option></select></div><div class="field"><label>直属上级</label><select id="addMemberSuperior"></select></div><div class="field full"><div class="note" id="addMemberSuperiorHint"></div></div><div class="field full"><label>备注</label><textarea placeholder="选填"></textarea></div></div>`,`确认新增`,()=>{const uid=($('#addMemberUid')?.value||'').trim(),role=$('#addMemberRole')?.value,superior=$('#addMemberSuperior')?.value,operator=boAddOperatorValue();if(!uid)return toast('请输入已有 APP 用户 UID');if(members.some(x=>x.id===uid))return toast('该用户已有业务角色，请通过「角色变更」处理');if(role==='Host'&&!superior)return toast('Host 必须选择具有 Agency 业务的有效成员');const sup=members.find(x=>x.id===String(superior||''));if(sup&&sup.operator!==operator)return toast('直属上级与所属运营不一致');const a=demoAppAccount(uid);members.push({id:uid,name:a.name,role,level:'—',country:a.country,status:'Active',superior:superiorLabelFromValue(superior),operator,join:'2026-08-29',invite:'—',joinedType:'Backend Add',joinAt:'2026-08-29 01:23:00',tz:a.tz,path:[a.name],contactPayment:{whatsapp:'—',payType:'未配置',payAddress:'—'}});closeModal();renderMembers();toast(`业务成员已创建并归属运营 ${operator}`)});setTimeout(updateAddMemberSuperior,0)};
+  function showPendingRoleApplication(uid, count, onAdd){
+    const dialog=$('#pendingRoleApplicationDialog');
+    $('#pendingRoleApplicationMessage').textContent=
+      `用户 ${uid} 有 ${count} 条待审核的角色申请。\n确认添加后，当前操作将立即生效，系统会自动拒绝该用户的待审核申请。`;
+    dialog.returnValue='';
+    dialog.onclose=()=>{
+      if(dialog.returnValue==='review'){
+        closeModal();
+        if(boMode==='HQ')$('#boApplicationOperatorFilter').value='All';
+        openPendingApplications(uid);
+        if(!$('#applicationRows [data-application-id]'))toast('当前运营视角下暂无可查看的待审核申请');
+      }else if(dialog.returnValue==='add'){
+        onAdd();
+      }
+    };
+    dialog.showModal();
+  }
+
+  window.openAddMember=function({validateAddition=()=>'',onAdded=()=>{}}={}){
+    const opField=boMode==='HQ'?`<div class="field"><label>所属运营</label><select id="addMemberOperator" onchange="updateAddMemberSuperior()">${BO_OPERATORS.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`:`<div class="field"><label>所属运营</label><div class="boInheritedOperator" id="addMemberOperatorInherited">${boOperatorTag(boMode)}</div></div>`;
+    function submit(confirmedUid){
+      const uid=($('#addMemberUid')?.value||'').trim(),role=$('#addMemberRole')?.value;
+      const superior=$('#addMemberSuperior')?.value,operator=boAddOperatorValue();
+      const error=validateAddition(uid,role,superior);
+      if(error)return toast(error);
+      if(!uid)return toast('请输入已有 APP 用户 UID');
+      if(members.some(x=>x.id===uid))return toast('该用户已有业务角色，请通过「角色变更」处理');
+      if(role==='Host'&&!superior)return toast('Host 必须选择具有 Agency 业务的有效成员');
+      const sup=members.find(x=>x.id===String(superior||''));
+      if(sup&&sup.operator!==operator)return toast('直属上级与所属运营不一致');
+      refreshExpiredApplications();
+      const pending=applications.filter(a=>a.uid===uid&&a.status==='Pending');
+      if(pending.length&&confirmedUid!==uid){
+        return showPendingRoleApplication(uid,pending.length,()=>submit(uid));
+      }
+      const a=demoAppAccount(uid);
+      members.push({id:uid,name:a.name,role,level:'—',country:a.country,status:'Active',superior:superiorLabelFromValue(superior),operator,join:'2026-08-29',invite:'—',joinedType:'Backend Add',joinAt:'2026-08-29 01:23:00',tz:a.tz,path:[a.name],contactPayment:{whatsapp:'—',payType:'未配置',payAddress:'—'}});
+      pending.forEach(application=>{application.status='Rejected'});
+      onAdded(uid,role,superior);
+      closeModal();
+      renderMembers();
+      if(pending.length){
+        renderApplications();
+        updatePendingCounters();
+      }
+      const result=`业务成员已创建并归属运营 ${operator}`;
+      toast(pending.length?`${result}，已自动拒绝 ${pending.length} 条待审核申请`:result);
+    }
+    openModal('新增业务成员',`<div class="note"><b>从已有 APP 用户建立首次业务身份，确认后立即生效。</b><br>单一运营创建时自动归属当前运营；总部创建时必须指定所属运营。成员加入已有角色旗下后继承该角色的所属运营。</div><div class="formGrid" style="margin-top:12px"><div class="field full"><label>用户 UID</label><input id="addMemberUid" value="10999921" oninput="previewAddMemberUid()" placeholder="输入已有 APP 用户 UID"></div><div class="field full"><label>APP 账号信息</label><div class="note" id="userPreview">${addMemberPreviewMarkup('10999921')}</div></div>${opField}<div class="field"><label>角色</label><select id="addMemberRole" onchange="updateAddMemberSuperior()"><option>Host</option><option>Agency</option><option>BD</option><option>Admin</option><option>Super Admin</option><option>Manager</option></select></div><div class="field"><label>直属上级</label><select id="addMemberSuperior"></select></div><div class="field full"><div class="note" id="addMemberSuperiorHint"></div></div><div class="field full"><label>备注</label><textarea placeholder="选填"></textarea></div></div>`,'确认新增',()=>submit());
+    setTimeout(updateAddMemberSuperior,0);
+  };
 
   window.openSuperior=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(hasPendingAdjustment(id)){showPendingAdjustmentBlocked(id,'修改直属上级');return}const candidates=superiorCandidates(m.role,m.id).filter(x=>boMode==='HQ'||x.operator===m.operator),direct=m.role==='Host'?'':'<option value="Platform-direct">无上级（直属平台）</option>',opts=direct+candidates.map(x=>`<option value="${x.id}">${x.name} · ${x.role} · ${x.id} · 运营 ${x.operator}</option>`).join('');openModal('修改直属上级',`<div class="note"><b>整个下属团队随成员一起迁移，内部关系不变。</b> 若新上级属于其他运营，确认后该成员及全部下级的所属运营将在所选时间同步变更。</div><div class="formGrid" style="margin-top:12px"><div class="field full"><label>成员</label><input value="${m.name} · ${m.id} · ${m.role}" disabled></div><div class="field"><label>当前所属运营</label><div class="boInheritedOperator">${boOperatorTag(m.operator)}</div></div><div class="field"><label>当前直属上级</label><input value="${displaySuperior(m.superior)}" disabled></div><div class="field full"><label>新直属上级</label><select id="editSuperior">${opts}</select></div><div class="field"><label>生效方式</label><select id="superiorEffect"><option value="next">下一 Billing Period</option><option value="immediate">立即生效（Product / Technical）</option></select></div><div class="field full"><label>调整原因</label><textarea id="superiorReason" placeholder="必填"></textarea></div></div>`,`确认调整`,()=>{const val=$('#editSuperior')?.value,effect=$('#superiorEffect')?.value,reason=($('#superiorReason')?.value||'').trim();if(!reason)return toast('请输入调整原因');if(m.role==='Host'&&!val)return toast('Host 必须绑定有效 Agency');const target=members.find(x=>x.id===String(val||'')),after=superiorLabelFromValue(val),before=m.superior,fromOp=m.operator,toOp=target?.operator||fromOp,cross=fromOp!==toOp,desc=memberDescendants(m.id),affected=desc.length+1;if(cross){const when=effect==='immediate'?'立即生效':'下一 Billing Period 生效',message=`确认跨运营调整？\n\n${m.name} 将从运营 ${fromOp} 转移至运营 ${toOp}。\n该成员及其下级团队共 ${affected} 人的所属运营将在${when}时同步变更。\n\n生效前的数据及结算仍归原运营；生效后归新运营，历史数据不会回溯修改。`;if(!confirm(message))return}else if(effect==='immediate'&&!confirm('该操作将立即改变当前组织归属；生效时间点后的业务数据将归属新团队。确认立即生效？'))return;if(effect==='immediate'){m.superior=after;m.bindAt='2026-08-28 05:49:00';if(cross)[m,...desc].forEach(x=>x.operator=toOp);orgRecords.unshift({member:`${m.name} · ${m.id}`,type:cross?'直属上级调整 · 跨运营':'直属上级调整',from:before,to:after,effective:'2026-08-28 10:49:00 UTC+5',operator:'Current Admin',status:'Effective',operatorFrom:fromOp,operatorTo:toOp,affected});closeModal();renderMembers();toast(cross?`已转移至运营 ${toOp}，共影响 ${affected} 人`:'直属上级已立即生效')}else{orgPending.unshift({id:`PA-${Date.now()}`,memberId:m.id,member:`${m.name} · ${m.id}`,type:cross?'直属上级调整 · 跨运营':'直属上级调整',current:before,after,period:'2026-W36',status:'Scheduled',operatorFrom:fromOp,operatorTo:toOp,affected});closeModal();state.memberTab='pending';renderMembers();toast(cross?`跨运营调整已加入待生效，共影响 ${affected} 人`:'组织关系调整已加入待生效')}});const sel=$('#editSuperior'),old=currentSuperiorId(m);if(sel&&[...sel.options].some(o=>o.value===old))sel.value=old};
 
@@ -7389,7 +7484,14 @@ if(k==='role'&&window.__upgradeReviewRows){const row=window.__upgradeReviewRows.
 window.openRoleChange=id=>openSettlementAction(id,'role');window.openSuperior=id=>openSettlementAction(id,'superior');window.openTermination=id=>openSettlementAction(id,'terminate');
 window.openUpgradeDecision=function(id,mode){if(mode==='immediate'&&!platformImmediate())return toast('立即生效仅对平台视角开放');const row=window.__upgradeReviewRows?.find(r=>String(r.uid)===String(id)&&r.status==='Pending');if(!row)return;openSettlementAction(String(id),'role');if(!document.getElementById('modalBack').classList.contains('show')||!$('stRole')||ctx?.id!==String(id)||ctx?.kind!=='role')return;$('stRole').value=row.to;$('stEffect').value=mode;refreshSettlementAction()};
 window.applyUpgradeDecision=(id,mode)=>window.openUpgradeDecision(String(id),mode);
-const oldAdd=window.openAddMember;window.openAddMember=function(){oldAdd();const btn=$('modalConfirm'),run=btn.onclick;[...$('addMemberRole').options].filter(o=>o.value==='Admin').forEach(o=>o.remove());btn.onclick=()=>{const id=$('addMemberUid').value.trim(),role=$('addMemberRole').value,a=$('addMemberSuperior').value,e=errorJoin(id,role,a);if(e)return toast(e);run();if(member(id)?.role==='Host')seen.add(id+':'+a)}};
+const oldAdd=window.openAddMember;
+window.openAddMember=function(){
+  oldAdd({
+    validateAddition:errorJoin,
+    onAdded:(uid,role,superior)=>{if(role==='Host')seen.add(uid+':'+superior)}
+  });
+  [...$('addMemberRole').options].find(option=>option.value==='Admin')?.remove();
+};
 const oldApprove=window.approveApplication;window.approveApplication=function(id){const a=applications.find(x=>x.id===id);if(!a)return;const e=errorJoin(a.uid,a.role,String(a.superior).split(' · ')[1]);if(e)return toast(e);oldApprove(id);if(a.status==='Approved'&&a.role==='Host')seen.add(a.uid+':'+currentSuperiorId(member(a.uid)))};
 window.openSettlementRules=function(){openDrawer('当周结算规则',`<div class="detailSec"><h4>Host 合作段</h4><p>旧、新合作段分别考核等级薪资与 Agent Salary，不合并流水、有效天或有效时长。同周不得再次加入曾合作的 Agency。</p><h4>钻石薪资</h4><p>仅期末仍有效的最后一段合作可结。数量取本段本期计薪钻石上限与结算可用余额的较小值，25,000 Diamonds = $1，由 Agency 代收并扣除／锁定钻石。旧段额度不结、不补结、不结转。</p><p>示例：旧余额 250,000，本段新增 100,000；兑换 50,000 后结 $4；累计兑换 300,000 后余额 50,000，结 $2。兑换不减少计薪上限。</p><h4>管理角色的 Agency 业务</h4><p>BD / Super Admin / Manager 默认支持本人代理业务。Agency 升级时保留直属 Host，合作不切段；本人代理业务整周符合口径的工资计入本人及期末上级的 Weekly Agency Salary。直属 Host 纳入本人及上级的 Host 数、有效主播数及 Base 考核，各统计范围按 UID 去重。例：升级前 $100、升级后 $30，管理结算基数共计 $130。</p><h4>Agency 业务解约结束（升级不适用）</h4><p>旧等级薪资及 Agent Salary 保留，旧钻石薪资不结，旧 Agency 工资不计入任何管理线 Weekly Agency Salary。</p><h4>管理工资</h4><p>按期末最终角色、等级及组织链整周计算；解约者当周 Commission / Base 均不结。所有管理角色的 Base 均按有效主播考核，最终团队 Host 为 0 时不发 Base；Commission 不受 Base 扣减影响。</p><h4>操作记录</h4>${events.length?events.map(e=>`<p><b>${esc(e.name)} · ${e.id}</b><br>${esc(e.impact)}<br><small>${esc(e.at)} · ${esc(e.reason)}</small></p>`).join(''):'<p class="muted">暂无本次演示产生的立即变更记录。</p>'}<p class="muted">邀请奖励不在本次调整范围。开播状态处理待定。此页面为交互演示，工资明细以结算账单为准。</p></div>`)};
 const mount=()=>{const area=$('memberRows')?.closest('.view')||$('view-members');if(area&&!$('settlementRuleBtn')){const b=document.createElement('button');b.id='settlementRuleBtn';b.className='btn';b.textContent='当周结算规则 / 操作影响';b.onclick=openSettlementRules;b.style.marginBottom='12px';area.prepend(b)}};mount();
