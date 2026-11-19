@@ -412,6 +412,50 @@ body{font-size:14px!important}
   gap:12px!important;
 }
 
+.modal:has(.batchImport){width:min(680px,100%)!important;display:flex;flex-direction:column}
+.modal:has(.batchImport) :is(.modalHead,.modalFoot){flex-shrink:0}
+.modal:has(.batchImport) .modalBody{min-height:0;overflow:auto}
+.modal:has(.batchImport) .modalHead .close{background:transparent!important;color:var(--muted)!important}
+.modal:has(.batchImport) .modalHead .close:hover{background:#e7edf5!important;color:var(--text)!important}
+.modal:has(.batchImport) #modalConfirm:disabled{
+  background:#e7edf5!important;color:#657794!important;opacity:1;cursor:not-allowed;
+}
+.batchImportFile{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px;border:1px solid var(--line);border-radius:10px;background:#f8fbff;
+}
+.batchImportFileCopy{min-width:0;display:grid;gap:4px}
+.batchImportFileCopy b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.batchImportFileCopy span,.batchImportHint{font-size:12px;line-height:1.55;color:var(--muted)}
+.batchImportFile .btn{flex-shrink:0;white-space:nowrap}
+.batchImportFile .btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px;box-shadow:none!important}
+.batchImportHint{margin:12px 0 0}
+.batchImportSummary{
+  display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;
+  gap:4px 12px;margin:18px 0 8px;font-size:13px;
+}
+.batchImportTotals{display:flex;flex-wrap:wrap;gap:4px 16px}
+.batchImportSummary span{color:var(--muted)}
+.batchImportSummary span b{color:var(--text);font-variant-numeric:tabular-nums}
+.batchImport .tableWrap{border:1px solid var(--line);border-radius:8px;overflow:auto}
+.batchImport .table{min-width:0;margin:0;font-size:12px}
+.batchImport .table :is(th,td){padding:9px 10px!important}
+.batchImport .table :is(th,.batchImportNumber){white-space:nowrap}
+.batchImport .batchImportNumber{text-align:right;font-variant-numeric:tabular-nums}
+.batchImport .batchBillHeader th{background:#f8fbff!important;white-space:normal}
+.batchBillIdentity{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 12px}
+.batchBillIdentity small{color:var(--muted);font-weight:400}
+.batchImportIssues{
+  margin-top:12px;padding:9px 12px;border:1px solid #ecdaba;border-radius:8px;
+  background:#fffaf1;color:#81550e;font-size:12px;
+}
+.batchImportIssues summary{cursor:pointer}
+.batchImportIssues ul{margin:8px 0 0;padding-left:20px;max-height:120px;overflow:auto}
+@media (max-width:420px){
+  .batchImportFile{flex-wrap:wrap;gap:10px}
+  .batchImportFileCopy{width:100%}
+}
+
 /* Table column spacing */
 .table th{padding-left:18px!important;padding-right:18px!important}
 .table td{padding-left:18px!important;padding-right:18px!important}
@@ -1830,6 +1874,127 @@ function exportRewards(){if(state.rewardMain==='room')return exportRoomRewards()
 
 function openDrawer(title,body){document.getElementById('drawerTitle').textContent=title;document.getElementById('drawerBody').innerHTML=body;document.getElementById('drawerBack').classList.add('show')}
 function closeDrawer(){document.getElementById('drawerBack').classList.remove('show')}
+function openBatchPayment(title, label, source, candidates, selected, submit) {
+  const esc = value => String(value ?? '').replace(/[&<>]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[char]));
+  const showCoins = title === '批量发放金币';
+  const tab = state.settlementTab;
+  const period = document.getElementById('settlementPeriod');
+  const selectedPeriod = period?.value;
+  function groupByBill(rows) {
+    const bills = new Map();
+    for (const row of rows) {
+      if (!bills.has(row.bill)) bills.set(row.bill, []);
+      bills.get(row.bill).push(row);
+    }
+    return bills;
+  }
+  const candidateBills = [...groupByBill(candidates)];
+  openModal(title, `<div class="batchImport">
+    <div class="batchImportFile">
+      <div class="batchImportFileCopy">
+        <b id="batchPaymentFileName">${source}</b>
+        <span>CSV · 账单上的 UID、原账单结算金额（USD）</span>
+      </div>
+      <input type="file" id="batchPaymentFile" aria-label="导入名单" accept=".csv,text/csv" hidden>
+      <button type="button" class="btn" id="batchPaymentChoose">选择 CSV</button>
+    </div>
+    <div id="batchPaymentIssues" role="status"></div>
+    <div id="batchPaymentPreview" aria-live="polite"></div>
+  </div>`, label);
+  const fileInput = document.getElementById('batchPaymentFile');
+  const choose = document.getElementById('batchPaymentChoose');
+  const fileName = document.getElementById('batchPaymentFileName');
+  const confirm = document.getElementById('modalConfirm');
+  const issues = document.getElementById('batchPaymentIssues');
+  const preview = document.getElementById('batchPaymentPreview');
+  let rows = selected;
+  function render(message) {
+    const bills = groupByBill(rows);
+    const total = [...bills.keys()].reduce((sum, bill) => sum + Number(bill.final), 0);
+    const coinTotal = showCoins ? rows.reduce((sum, row) => sum + Number(row.coins), 0) : 0;
+    const hasPayoutDetails = rows.some(row => row.salary);
+    const columnCount = 3 + (hasPayoutDetails ? 2 : 0) + (showCoins ? 1 : 0);
+    preview.innerHTML = rows.length ? `<div class="batchImportSummary">
+        <b>匹配 ${bills.size} 张账单 · 待处理 ${rows.length} 笔</b>
+        <div class="batchImportTotals">
+          <span>金额合计 <b>${money(total)}</b></span>
+          ${showCoins ? `<span>金币合计 <b>${fmt(coinTotal)}</b></span>` : ''}
+        </div>
+      </div>
+      <div class="tableWrap"><table class="table"><thead><tr>
+        ${hasPayoutDetails ? '<th>薪资归属</th><th>薪资类型</th>' : ''}
+        <th class="batchImportNumber">金额（$）</th><th>结算方式</th><th>收款账号</th>
+        ${showCoins ? '<th class="batchImportNumber">折算金币</th>' : ''}
+      </tr></thead>
+      ${[...bills].map(([bill, billRows]) => `<tbody>
+        <tr class="batchBillHeader"><th scope="rowgroup" colspan="${columnCount}">
+          <div class="batchBillIdentity">
+            <div>${esc(bill.name)} <small>UID ${esc(bill.uid)}</small></div>
+            <small>原账单结算金额 ${money(bill.final)}</small>
+          </div>
+        </th></tr>
+        ${billRows.map(row => `<tr>
+          ${hasPayoutDetails ? `<td>${esc(row.salary?.owner)}</td><td>${esc(row.salary?.type)}</td>` : ''}
+          <td class="batchImportNumber">${money(row.amount)}</td><td>${esc(row.method)}</td><td>${esc(row.account)}</td>
+          ${showCoins ? `<td class="batchImportNumber">${fmt(row.coins)}</td>` : ''}
+        </tr>`).join('')}
+      </tbody>`).join('')}</table></div>
+      <p class="batchImportHint">${showCoins ? '确认后将发放上方记录的金币。' : '确认后将登记上方记录为已打款。'}</p>`
+      : `<p class="batchImportHint">${esc(message || (fileInput.files.length ? '没有匹配到可处理的记录。' : '导入后可核对匹配记录和金额。'))}</p>`;
+    confirm.disabled = rows.length === 0;
+  }
+  choose.onclick = () => fileInput.click();
+  confirm.onclick = () => {
+    if (state.settlementTab !== tab || period?.value !== selectedPeriod) {
+      return toast('结算期次已变化，请重新导入名单');
+    }
+    if (rows.length) submit(rows);
+  };
+  fileInput.onchange = async () => {
+    const file = fileInput.files[0];
+    rows = [];
+    issues.textContent = '';
+    fileName.textContent = file ? file.name : source;
+    fileName.title = file ? file.name : '';
+    choose.textContent = file ? '更换文件' : '选择 CSV';
+    render(file ? '正在匹配名单…' : '');
+    if (!file) return;
+    try {
+      const content = await file.text();
+      if (fileInput.files[0] !== file || !fileInput.isConnected) return;
+      const lines = content.trim().split(/\r?\n/);
+      const problems = [];
+      const seen = new Set();
+      lines.forEach((line, index) => {
+        if (!line.trim()) return;
+        const [uid, amount, ...extra] = line.split(',').map(cell => cell.trim().replace(/^"|"$/g, '').trim());
+        if (index === 0 && /^(用户\s*ID|UID)$/i.test(uid)) return;
+        const amountValid = /^\d+(?:\.\d{1,2})?$/.test(amount || '') && Number(amount) > 0;
+        const matching = candidateBills.filter(([bill]) => String(bill.uid) === uid);
+        const exact = matching.filter(([bill]) => amountValid && Math.round(bill.final * 100) === Math.round(Number(amount) * 100));
+        let reason = '';
+        if (!uid || !amountValid || extra.length) reason = '用户 ID 或金额格式有误';
+        else if (!matching.length) reason = '当前期次无对应的可处理账单';
+        else if (!exact.length) reason = '金额与原账单不符';
+        else if (exact.length > 1) reason = '匹配多张账单';
+        else if (seen.has(exact[0][0])) reason = '重复账单';
+        else {
+          const [bill, matchedRows] = exact[0];
+          seen.add(bill);
+          rows.push(...matchedRows);
+        }
+        if (reason) problems.push(`第 ${index + 1} 行 · ${reason}`);
+      });
+      issues.innerHTML = problems.length ? `<details class="batchImportIssues"><summary>${problems.length} 行未纳入</summary><ul>${problems.map(problem => `<li>${esc(problem)}</li>`).join('')}</ul></details>` : '';
+    } catch {
+      if (fileInput.files[0] !== file || !fileInput.isConnected) return;
+      render('读取名单失败，请更换文件。');
+      return;
+    }
+    render();
+  };
+  render();
+}
 function openModal(title,body,confirmLabel,fn){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalFoot').innerHTML=`<button class="btn" onclick="closeModal()">取消</button><button class="btn gold" id="modalConfirm">${confirmLabel||'确认'}</button>`;document.getElementById('modalBack').classList.add('show');document.getElementById('modalConfirm').onclick=fn||closeModal}
 function closeModal(){document.getElementById('modalBack').classList.remove('show')}
 function downloadCSV(name,rows){const keys=Object.keys(rows[0]||{});const esc=v=>`"${String(v??'').replaceAll('"','""')}"`;const csv=[keys.map(esc).join(','),...rows.map(r=>keys.map(k=>esc(r[k])).join(','))].join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('导出文件已生成')}
@@ -7397,6 +7562,25 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
  function fingerprint(x){return JSON.stringify([x.final,actualSettlementMethod(x),actualSettlementAddress(x),x.paymentDetailsVersion||0])}
  function log(x,action,detail){(x.paymentHistory||(x.paymentHistory=[])).push({action,detail,operator:actor(),time:formatAdminTime(new Date(),8)})}
  window.confirmManualPayment=function(type,uid){const x=getBill(type,uid);if(!eligible(type,x))return toast('当前账单不满足确认打款条件');const snapshot=fingerprint(x);openModal('确认打款',`<div class="note">确认已完成实际转账？确认后账单将标记为已付款。此操作仅登记付款结果，不执行转账。</div>${summary(x)}`,'确认打款',()=>{if(!eligible(type,x)||fingerprint(x)!==snapshot)return toast('账单状态或收款信息已变化，请重新打开');x.payout='Paid';x.manualPaidAt=formatAdminTime(new Date(),5);log(x,'确认打款',actualSettlementAddress(x));closeModal();refresh();toast('已确认打款');});};
+ window.openManagementCashBatch=function(){
+   const type='managementMonthly';
+   const candidates=[...document.querySelectorAll('#settlementContent input[data-coin-key^="managementMonthly:"]')]
+     .map(box=>getBill(type,box.dataset.coinKey.split(':')[1]))
+     .filter(x=>eligible(type,x)&&Number(x.final)>0&&actualSettlementAddress(x)&&actualSettlementAddress(x)!=='—')
+     .map(x=>({x,bill:x,amount:x.final,method:actualSettlementMethod(x),
+       account:actualSettlementAddress(x),stamp:fingerprint(x)}));
+   openBatchPayment('批量确认打款','确认已打款','导入外部转账成功名单',candidates,[],rows=>{
+     if(rows.some(({x,stamp})=>!eligible(type,x)||fingerprint(x)!==stamp)){
+       return toast('账单状态或收款信息已变化，请重新打开');
+     }
+     rows.forEach(({x})=>{
+       x.payout='Paid';
+       x.manualPaidAt=formatAdminTime(new Date(),5);
+       log(x,'批量确认打款',actualSettlementAddress(x));
+     });
+     closeModal();refresh();toast('已批量确认打款');
+   });
+ };
  window.returnManualBill=function(type,uid){const x=getBill(type,uid);if(!eligible(type,x))return toast('当前账单不能退回');const snapshot=fingerprint(x);openModal('退回账单',`<div class="note">退回后需用户修改收款信息并重新确认，薪资金额不变。仅在确定未付款或转账失败时退回；转账结果未明确时请先核实。</div>${summary(x)}<div class="detailSec"><h4>退回原因（至少选择一项）</h4>${reasons.map((r,i)=>`<label style="display:block;margin:12px 0"><input type="checkbox" name="paymentReturnReason" value="${i}" onchange="document.getElementById('returnOtherField').hidden=!document.getElementsByName('paymentReturnReason')[2].checked"> ${r[0]}</label>`).join('')}<div id="returnOtherField" hidden><textarea class="input" id="paymentReturnOther" placeholder="必填，说明将展示给用户"></textarea></div></div>`,'确认退回',()=>{if(!eligible(type,x)||fingerprint(x)!==snapshot)return toast('账单状态或收款信息已变化，请重新打开');const selected=[...document.querySelectorAll('[name=paymentReturnReason]:checked')].map(e=>Number(e.value)),other=document.getElementById('paymentReturnOther').value.trim();if(!selected.length)return toast('请至少选择一项退回原因');if(selected.includes(2)&&!other)return toast('请填写其他原因');x.paymentReturnReasons=selected.map(i=>i===2?'其他：'+other:reasons[i][0]);const en=selected.map(i=>i===2?'Other: '+other:reasons[i][1]);x.bill='Pending Confirmation';x.payout='Unpaid';x.paymentReturned=true;x.paymentDetailsVersion=(x.paymentDetailsVersion||0)+1;x.paymentMessage={title:'Salary Bill Returned',body:`Your salary bill for ${x.period||'2026-W34'} has been returned due to an issue with your payment details.\n\nReason: ${en.join('; ')}\n\nPlease update your payment details and confirm the bill again. Your salary amount remains unchanged.`,type,uid};log(x,'退回账单',x.paymentReturnReasons.join('；'));closeModal();refresh();toast('账单已退回，系统消息已生成（演示）');});};
  window.previewPaymentMessage=function(type,uid){const x=getBill(type,uid);if(!x?.paymentMessage)return;openDrawer('系统消息预览',`<div class="detailSec"><h4>${esc(x.paymentMessage.title)}</h4><p style="white-space:pre-wrap">${esc(x.paymentMessage.body)}</p><button class="btn" onclick="previewPaymentBill('${type}','${uid}')">View Bill</button></div>`)};
  window.previewPaymentBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const returned=x.paymentReturned&&x.bill==='Pending Confirmation';openDrawer('用户账单预览（演示）',`<div class="detailSec"><h4>${esc(x.name)} · ${esc(x.period||'2026-W34')}</h4><p>状态：${x.payout==='Paid'?'已付款':returned?'待用户确认':'待付款'}</p>${summary(x)}${x.payout==='Paid'?`<p>付款时间：${esc(x.manualPaidAt||'—')}</p>`:''}${returned?`<div class="note">${x.paymentReturnReasons.map(esc).join('<br>')}</div><div class="field" style="margin-top:12px"><label>收款账号</label><input class="input" id="returnedPaymentAccount" value="${esc(x.payAddress)}"></div><p class="muted">本次修改仅用于当前账单，薪资金额不变。</p><button class="btn gold" onclick="simulatePaymentReconfirm('${type}','${uid}')">提交并重新确认（演示）</button>`:''}</div>`)};
@@ -8531,6 +8715,17 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
     const btn=ensurePhase2BatchButton();
     if(!btn) return;
 
+    let cashButton=document.getElementById('settlementCashBatchBtn');
+    if(!cashButton){
+      cashButton=document.createElement('button');
+      cashButton.id='settlementCashBatchBtn';
+      cashButton.className='btn gold';
+      cashButton.textContent='批量确认打款';
+      cashButton.onclick=()=>state.settlementTab==='agencyWeekly' ? window.openAgencyCashBatch?.() : openManagementCashBatch();
+      btn.before(cashButton);
+    }
+    cashButton.style.display=isBatchTab() && (state.settlementTab==='managementMonthly'||window.openAgencyCashBatch) ? '' : 'none';
+
     if(!isBatchTab()){
       btn.style.display='none';
       btn.textContent='批量发放金币（0）';
@@ -8543,7 +8738,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
       .filter(x=>!x.disabled);
 
     btn.textContent=`批量发放金币（${checked.length}）`;
-    btn.disabled=checked.length===0;
+    btn.disabled=false;
   }
 
   // Replace the legacy button updater so older settlement code can no longer
@@ -8644,57 +8839,21 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
     if(actualV98(x)===CT) return Math.round(Number(x?.final||0)*traderRateV98(x));
     return Math.round(Number(x?.final||0)*PERSONAL_RATE);
   }
-  function groupBlock(title, count, salary, coins, rule){
-    return `<div class="batchPayoutGroup">
-      <div class="batchPayoutGroupHead">${title}<span>${count} 笔</span></div>
-      <div class="batchPayoutGroupGrid">
-        <div><small>Settlement Salary</small><b>${money(salary)}</b></div>
-        <div><small>发放 Coins</small><b>${fmt(coins)}</b></div>
-        <div style="grid-column:1 / -1;border-right:0"><small>折算规则</small><b>${rule}</b></div>
-      </div>
-    </div>`;
-  }
-
-  const batchBaseV98=window.batchIssueCoins;
-
   window.batchIssueCoins=function(){
-    const boxes=[...document.querySelectorAll('#settlementContent input[data-coin-key]:checked')]
-      .filter(x=>!x.disabled);
+    const rows=[...document.querySelectorAll('#settlementContent input[data-coin-key]:not(:disabled)')]
+      .map(box=>{
+        const [type,uid]=box.dataset.coinKey.split(':');
+        const x=resolveBillV98(type,uid);
+        return {type,uid,x,bill:x,box,amount:x?.final,method:x ? actualV98(x) : '',
+          account:x ? actualSettlementAddress(x) : '',coins:x ? rowCoinsV98(type,x) : 0,stamp:JSON.stringify(x)};
+      }).filter(row=>row.x && window.canIssueCoinBill?.(row.type,row.x));
 
-    const rows=boxes.map(b=>{
-      const raw=b.dataset.coinKey||'';
-      const i=raw.indexOf(':');
-      const type=raw.slice(0,i),uid=raw.slice(i+1);
-      return {type,uid,x:resolveBillV98(type,uid),box:b};
-    }).filter(r=>r.x && window.canIssueCoinBill?.(r.type,r.x));
-
-    if(!rows.length) return toast('请先勾选可发放的金币结算单');
-
-    const personal=rows.filter(r=>isLowAgentV98(r.type,r.x)||actualV98(r.x)!==CT);
-    const trader=rows.filter(r=>!isLowAgentV98(r.type,r.x)&&actualV98(r.x)===CT);
-
-    const calc=group=>({
-      count:group.length,
-      salary:group.reduce((s,r)=>s+Number(r.x.final||0),0),
-      coins:group.reduce((s,r)=>s+rowCoinsV98(r.type,r.x),0)
-    });
-    const p=calc(personal),t=calc(trader);
-    const totalSalary=p.salary+t.salary,totalCoins=p.coins+t.coins;
-
-    const groups=[
-      p.count?groupBlock('个人 Coins 账户',p.count,p.salary,p.coins,'1 USD = 20,000 Coins'):'',
-      t.count?groupBlock('Coin Trader Inventory',t.count,t.salary,t.coins,'$5–<$2,000：1 USD = 19,040 Coins；≥$2,000：1 USD = 20,300 Coins'):''
-    ].join('');
-
-    openModal('批量发放金币',
-      `<div class="batchPayoutTotal">
-        <span>共 <b>${rows.length}</b> 笔</span><i></i>
-        <span>Settlement Salary 合计 <b>${money(totalSalary)}</b></span><i></i>
-        <span>发放 Coins 合计 <b>${fmt(totalCoins)}</b></span>
-      </div>
-      <div class="batchPayoutGroups">${groups}</div>`,
-      '确认批量发放',
-      ()=>{
+    openBatchPayment('批量发放金币','确认发放金币','导入外部待发金币名单',rows,
+      rows.filter(row=>row.box.checked),selected=>{
+        if(selected.some(row=>row.stamp!==JSON.stringify(row.x) || !window.canIssueCoinBill(row.type,row.x))){
+          return toast('账单或收款信息已变化，请重新打开');
+        }
+        const rows=selected;
         let paid=0,returned=0;
 
         for(const r of rows){
@@ -8774,7 +8933,7 @@ publishBill=function(type,uid){const x=getBill(type,uid);if(!x)return;const reco
         updatePendingCounters();
 
         const btn=document.getElementById('coinBatchIssueBtn');
-        if(btn){btn.textContent='批量发放金币（0）';btn.disabled=true;}
+        if(btn){btn.textContent='批量发放金币（0）';btn.disabled=false;}
 
         toast(returned
           ? `已发放 ${paid} 笔，${returned} 笔因收款方式异常已退回`
@@ -9680,7 +9839,7 @@ open();
 
 <link rel="stylesheet" href="host-salary-collection.css?v=20261106">
 <script src="../assets/salary-demo-store.js?v=20261107-linked5"></script>
-<script src="host-salary-collection.js?v=20261107-linked5"></script>
+<script src="host-salary-collection.js?v=20261119-batch3"></script>
 
 <style id="activity-config-style">
 #view-activityConfig{color:var(--text,#26344b)}

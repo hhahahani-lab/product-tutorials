@@ -13,8 +13,10 @@
   const originalOpenBill = window.openBill;
   const originalPublish = window.publishBill;
   const originalExport = window.exportSettlement;
+  const originalSyncPeriods = window.syncSettlementPeriodOptions;
   const agency = uid => agencyWeeklySettlement.find(row => String(row.uid) === String(uid));
   const agencyHosts = bill => hostWeeklySettlement.filter(host => String(host.agencyUid) === String(bill.uid));
+  const agencyPeriod = bill => bill.period || '2026-W34';
   const hostAmount = host => round(hostFinalSalary(host));
   const isTraderHost = host => String(host.uid) !== String(agency(host.agencyUid)?.ownerUid || '') && host.collectionMethod === CT && hostAmount(host) >= 5;
   const isAgency = bill => agencyWeeklySettlement.includes(bill);
@@ -73,7 +75,7 @@
     return plan(bill).parts.map(item => ({...item, status:bill.payout === 'Paid' && !bill.collectionPayments ? 'Paid' : 'Unpaid', ...saved[item.key]}));
   }
   function signature(bill) {
-    return JSON.stringify({plan:plan(bill),finance:bill.finance,bill:bill.bill,payments:bill.collectionPayments || {}});
+    return JSON.stringify({plan:plan(bill),amount:bill.final,finance:bill.finance,bill:bill.bill,payout:bill.payout,payments:bill.collectionPayments || {}});
   }
   function totals(bill) {
     const data = plan(bill);
@@ -121,6 +123,16 @@
     });
   }
   window.actualSettlementAddress = bill => isAgency(bill) ? accountCell(bill) : originalAddress(bill);
+  window.syncSettlementPeriodOptions = () => {
+    originalSyncPeriods();
+    if (state.settlementTab !== 'agencyWeekly') return;
+    const picker = document.getElementById('settlementPeriod');
+    const currentOptions = new Set([...picker.options].map(option => option.value));
+    const savedPeriods = new Set(agencyWeeklySettlement.map(agencyPeriod));
+    for (const period of savedPeriods) {
+      if (!currentOptions.has(period)) picker.add(new Option(period,period));
+    }
+  };
   window.settlementFilter = rows => {
     if (!rows.some(isAgency)) return originalFilter(rows);
     const picker = document.getElementById('settlementPaymentMethod');
@@ -128,8 +140,12 @@
     if (picker) picker.value = 'All Payment Types';
     const filtered = originalFilter(rows);
     if (picker) picker.value = value;
-    return filtered.filter(bill => !isAgency(bill) || !value || value === 'All Payment Types'
-      || plan(bill).parts.some(item => item.method === value));
+    const period = document.getElementById('settlementPeriod')?.value;
+    return filtered.filter(bill => {
+      if (!isAgency(bill)) return true;
+      if (state.settlementTab === 'agencyWeekly' && !state.settlementQueueStatus && period && agencyPeriod(bill) !== period) return false;
+      return !value || value === 'All Payment Types' || plan(bill).parts.some(item => item.method === value);
+    });
   };
   window.canIssueCoinBill = (type, bill) => type === 'agencyWeekly'
     ? eligibleParts(bill, true).length > 0 : originalCanIssue(type, bill);
@@ -186,6 +202,13 @@
     openDrawer('代理周结算详情', `<div class="detailHero"><div><h3>${esc(bill.name)}</h3><p>代理 UID ${uid}</p></div></div>${totals(bill)}<div class="detailSec"><div class="kv"><div><span>财务状态</span><b>${displayStatus(bill.finance)}</b></div><div><span>账单状态</span><b>${displayStatus(bill.bill)}</b></div><div><span>付款状态</span><b>${payoutCell(bill)}</b></div><div><span>配置收款方式</span><b>${esc(methodLabel(configured(bill)))}</b></div></div></div><div class="drawerActions"><button class="btn" onclick="openAgencyComposition('${uid}')">查看主播薪资</button><button class="btn" onclick="hcPayoutDetails('${uid}')">查看付款明细</button></div>`);
   };
   let activeDetailKind;
+  function paymentSalary(item) {
+    const [kind] = item.key.split(':');
+    return {
+      owner: kind === 'personal' || kind === 'agent' ? item.receiver : item.source,
+      type: kind === 'host' || kind === 'personal' ? '主播薪资' : kind === 'agent' ? '代理本人薪资' : '代理实付'
+    };
+  }
   window.hcPayoutDetails = (uid, kind) => {
     activeDetailKind = kind;
     const bill = agency(uid);
@@ -195,8 +218,7 @@
       const coins = group.kind === 'coins';
       const headers = ['薪资归属','薪资类型','金额（$）','结算方式','收款账号',...(coins ? ['折算比例','折算金币'] : []),'状态','操作'];
       const rows = group.rows.map(item => {
-        const salaryType = item.key.startsWith('host:') || item.key.startsWith('personal:') ? '主播薪资' : item.key.startsWith('agent:') ? '代理本人薪资' : '代理实付';
-        const owner = item.key.startsWith('personal:') || item.key.startsWith('agent:') ? item.receiver : item.source;
+        const {owner,type:salaryType} = paymentSalary(item);
         const action = ready(bill) && item.status === 'Unpaid' ? `<button class="op" onclick="hcPayPart('${uid}','${item.key}')">${coins ? '发放金币' : '确认打款'}</button><button class="op bad" onclick="hcReturnPart('${uid}','${item.key}')">退回</button>` : item.status === 'Returned' ? `<span class="muted">待更新收款信息</span>` : '—';
         const cells = [esc(owner),salaryType,money(item.amount),esc(methodLabel(item.method)),esc(item.receiver),...(coins ? ['1 USD = ' + fmt(item.rate) + ' 金币',fmt(item.coins)] : []),(item.status === 'Returned' ? '<span class="badge rejected">收款信息异常</span><div class="muted">'+esc(item.returnReason)+'</div>' : statusBadge(item.status)),action];
         return '<tr>' + cells.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
@@ -279,9 +301,11 @@
     });
   }
   window.addEventListener('storage',event => {if (event.key === returnStorageKey || event.key === paidStorageKey) renderSettlement();});
-  function issueRows(bills, coinsOnly, selectedKey) {
+  function issueRows(bills, coinsOnly, selectedKey, batchRows) {
     const selections = bills.map(bill => ({bill, stamp:signature(bill), rows:eligibleParts(bill,coinsOnly)
-      .filter(item => !selectedKey || item.key === selectedKey)})).filter(entry => entry.rows.length);
+      .filter(item => batchRows
+        ? batchRows.some(row => row.bill === bill && row.item.key === item.key)
+        : !selectedKey || item.key === selectedKey)})).filter(entry => entry.rows.length);
     if (!selections.length) return toast('暂无可处理的付款部分');
     const invalid = selections.flatMap(entry => entry.rows.filter(item => !traderValid(item)).map(item => ({bill:entry.bill,item})));
     if (invalid.length) {
@@ -291,8 +315,7 @@
         closeModal();renderSettlement();toast('异常付款记录已打回，并生成收款人通知');
       });
     }
-    const rows = selections.flatMap(entry => entry.rows.map(item => `<tr><td>${esc(entry.bill.name)}</td><td>${esc(item.label)}</td><td>${money(item.amount)}</td><td>${methodLabel(item.method)}</td><td>${esc(item.receiver)}</td><td>${item.coins === null ? '—' : fmt(item.coins)}</td></tr>`)).join('');
-    openModal(coinsOnly ? '发放金币' : '登记付款', `<div class="tableWrap"><table class="table"><thead><tr><th>账单</th><th>付款部分</th><th>金额（USD）</th><th>方式</th><th>账号</th><th>金币</th></tr></thead><tbody>${rows}</tbody></table></div>`, '确认', () => {
+    const complete = () => {
       if (selections.some(entry => entry.stamp !== signature(entry.bill) || !ready(entry.bill)
         || entry.rows.some(item => !traderValid(item)))) return toast('账单或收款信息已变化，请重新打开确认');
       selections.forEach(({bill,rows}) => {
@@ -311,7 +334,10 @@
       closeModal();renderSettlement();updatePendingCounters();
       if (selections.length === 1 && document.getElementById('drawerBack').classList.contains('show')) hcPayoutDetails(selections[0].bill.uid,activeDetailKind);
       toast('付款结果已更新');
-    });
+    };
+    if (batchRows) return complete();
+    const rows = selections.flatMap(entry => entry.rows.map(item => `<tr><td>${esc(entry.bill.name)}</td><td>${esc(item.label)}</td><td>${money(item.amount)}</td><td>${methodLabel(item.method)}</td><td>${esc(item.receiver)}</td><td>${item.coins === null ? '—' : fmt(item.coins)}</td></tr>`)).join('');
+    openModal(coinsOnly ? '发放金币' : '登记付款', `<div class="tableWrap"><table class="table"><thead><tr><th>账单</th><th>付款部分</th><th>金额（USD）</th><th>方式</th><th>账号</th><th>金币</th></tr></thead><tbody>${rows}</tbody></table></div>`, '确认', complete);
   }
   window.hcPayPart = (uid,key) => {
     const bill = agency(uid);
@@ -320,12 +346,29 @@
     if (item) issueRows([bill],coinMethod(item.method),key);
   };
   window.issueCoinBill = (type,uid) => type === 'agencyWeekly' ? issueRows([agency(uid)].filter(Boolean),true) : originalIssue(type,uid);
-  window.batchIssueCoins = () => {
-    if (state.settlementTab !== 'agencyWeekly') return originalBatch();
-    const bills = [...document.querySelectorAll('#settlementContent input[data-coin-key]:checked')]
-      .map(input => agency(input.dataset.coinKey.split(':')[1])).filter(Boolean);
-    issueRows(bills,true);
-  };
+  function openAgencyBatch(coinsOnly) {
+    const candidates = [...document.querySelectorAll('#settlementContent input[data-coin-key]')]
+      .flatMap(box => {
+        const bill = agency(box.dataset.coinKey.split(':')[1]);
+        if (!bill) return [];
+        const stamp = signature(bill);
+        return eligibleParts(bill).filter(item => coinMethod(item.method) === coinsOnly && item.amount > 0)
+          .filter(item => coinsOnly || (item.receiver && item.receiver !== '—'))
+          .map(item => ({bill,item,stamp,box,
+            salary:paymentSalary(item),method:methodLabel(item.method),account:item.receiver,amount:item.amount,coins:item.coins}));
+      });
+    const selected = coinsOnly ? candidates.filter(row => row.box.checked && !row.box.disabled) : [];
+    openBatchPayment(coinsOnly ? '批量发放金币' : '批量确认打款',
+      coinsOnly ? '确认发放金币' : '确认已打款',
+      coinsOnly ? '导入外部待发金币名单' : '导入外部转账成功名单', candidates, selected, rows => {
+        if (rows.some(row => signature(row.bill) !== row.stamp || !ready(row.bill))) {
+          return toast('账单或收款信息已变化，请重新打开');
+        }
+        issueRows([...new Set(rows.map(row => row.bill))], coinsOnly, null, rows);
+      });
+  }
+  window.openAgencyCashBatch = () => openAgencyBatch(false);
+  window.batchIssueCoins = () => state.settlementTab === 'agencyWeekly' ? openAgencyBatch(true) : originalBatch();
   window.publishBill = (type,uid) => {
     if (type !== 'agencyWeekly') return originalPublish(type,uid);
     const bill = agency(uid);
@@ -468,7 +511,8 @@
       if (rows.length && rows.every(item => item.status === 'Paid')) bill.payout='Paid';
     });
     const result = renderSettlementBase.apply(this,arguments);
-    if (state.settlementTab !== 'agencyWeekly' || state.settlementQueueStatus) return result;
+    const isAgencyTab = state.settlementTab === 'agencyWeekly' && !state.settlementQueueStatus;
+    if (!isAgencyTab) return result;
     const table = document.querySelector('#settlementContent .settlementAgencyWeeklyTable');
     if (!table) return result;
     document.querySelectorAll('#settlementContent .memberRelationNote').forEach(note => {
