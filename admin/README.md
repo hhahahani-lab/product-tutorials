@@ -1,5 +1,7 @@
 # 业务运营后台 Demo
 
+- [房间贡献周奖励调整 PRD](room-contribution-rewards.md)
+
 - [在线预览](https://hhahahani-lab.github.io/product-tutorials/admin/)
 - [HTML](index.html)
 

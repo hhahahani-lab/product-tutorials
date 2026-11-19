@@ -500,6 +500,12 @@ html,body{font-size:14px}
 #view-members .opCell{display:flex!important;align-items:center!important;gap:18px!important;min-width:430px!important;white-space:nowrap!important;flex-wrap:nowrap!important}
 #view-members .op{font-size:13.5px!important;line-height:36px!important}
 .rewardPolicyNote{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:12px 0 14px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#f8fbff;font-size:12.5px;line-height:1.55;color:var(--text)}
+#view-rewards .roomRewardSummary{grid-template-columns:repeat(2,minmax(0,1fr))}
+#view-rewards .roomRewardSort{display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;color:inherit;font:inherit;font-weight:inherit;padding:4px 0;cursor:pointer;white-space:nowrap}
+#view-rewards .roomRewardSort:hover,#view-rewards .roomRewardSort.isActive{color:var(--blue)}
+#view-rewards .roomRewardSort:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:3px}
+#view-rewards .roomRewardSort .sortArrow{min-width:1em;text-align:center;color:var(--muted)}
+#view-rewards .roomRewardSort.isActive .sortArrow{color:inherit}
 .rewardPolicyNote b{font-size:13px;color:#244d8f}.rewardPolicyNote span{color:var(--muted)}
 .rewardRecipientTable{table-layout:fixed!important;min-width:1420px!important}.rewardHostTable{table-layout:fixed!important;min-width:1320px!important}
 .rewardRecipientTable td,.rewardHostTable td{overflow:visible!important;text-overflow:clip!important}
@@ -972,11 +978,51 @@ const invitationByHost=[
  {uid:'10828491',name:'Ayesha Live',level:'Lv8',coins:1500000,time:'4 Days / 12.4h',newHost:true,eligible:true},
  {uid:'10567320',name:'Lina Voice',level:'Lv5',coins:550000,time:'3 Days / 9.2h',newHost:true,eligible:false}
 ];
-const roomRewards=[
-{period:'2026-W35',room:'800118',name:'Aurora Lounge',owner:'Aurora Agency',country:'Pakistan',coins:5200000,ctier:'Lv5',mic:112,mtier:'Lv4',coinReward:135000,beansReward:36000,eligibility:'Eligible',payoutStatus:'Issued'},
-{period:'2026-W35',room:'800233',name:'Moonlight Voice',owner:'Starlight Club',country:'UAE',coins:2100000,ctier:'Lv4',mic:71,mtier:'Lv3',coinReward:54000,beansReward:16000,eligibility:'Eligible',payoutStatus:'Failed',reason:'发放服务异常，等待发奖服务自动重试'},
-{period:'2026-W35',room:'800412',name:'Meme Party',owner:'Nova Voices',country:'Philippines',coins:860000,ctier:'Lv2',mic:42,mtier:'Lv2',coinReward:12000,beansReward:8000,eligibility:'Cancelled',payoutStatus:null,eligibilityReason:'违规取消获奖资格'}
+const roomRewardLevels=[
+  {coins:300000,mic:25,reward:15000},
+  {coins:500000,mic:40,reward:25000},
+  {coins:1000000,mic:70,reward:50000},
+  {coins:2000000,mic:100,reward:100000},
+  {coins:5000000,mic:150,reward:300000},
+  {coins:10000000,mic:300,reward:600000},
+  {coins:20000000,mic:500,reward:1200000},
 ];
+const roomRewardPeriod='示例周';
+function calculateRoomReward(coins,mic,eligibility){
+  const contributionLevel=roomRewardLevels.filter(tier=>coins>=tier.coins).length;
+  const micLevel=roomRewardLevels.filter(tier=>mic>=tier.mic).length;
+  const rewardLevel=eligibility==='Cancelled'?0:Math.min(contributionLevel,micLevel);
+  return {
+    ctier:contributionLevel?`Lv${contributionLevel}`:'未达档',
+    mtier:micLevel?`Lv${micLevel}`:'未达档',
+    rewardTier:rewardLevel?`Lv${rewardLevel}`:null,
+    coinReward:rewardLevel?roomRewardLevels[rewardLevel-1].reward:0
+  };
+}
+const roomRewards=[
+  {room:'800118',name:'Aurora Lounge',owner:'Aurora Agency',country:'Pakistan',coins:5200000,mic:112,eligibility:'Eligible',payoutStatus:'Issued'},
+  {room:'800233',name:'Moonlight Voice',owner:'Starlight Club',country:'UAE',coins:2100000,mic:71,eligibility:'Eligible',payoutStatus:'Failed',reason:'发放服务异常，等待发奖服务自动重试'},
+  {room:'800412',name:'Meme Party',owner:'Nova Voices',country:'Philippines',coins:860000,mic:42,eligibility:'Cancelled',eligibilityReason:'违规取消获奖资格'},
+  {room:'800528',name:'Sunset Lounge',owner:'Aurora Agency',country:'Pakistan',coins:500000,mic:24.99,eligibility:'Eligible'},
+  {room:'800613',name:'Amber Lounge',owner:'Starlight Club',country:'UAE',coins:300000,mic:25,eligibility:'Eligible'},
+  // 模拟各贡献档位与麦时档位的组合，便于验证跨页排序。
+  ...roomRewardLevels.flatMap((contributionTier,contributionIndex)=>roomRewardLevels.map((micTier,micIndex)=>{
+    const sampleNumber=contributionIndex*roomRewardLevels.length+micIndex+1;
+    return {
+      room:String(801000+sampleNumber),
+      name:`语音房示例 ${String(sampleNumber).padStart(2,'0')}`,
+      owner:'Aurora Agency',
+      country:'Pakistan',
+      coins:contributionTier.coins+sampleNumber*1000,
+      mic:micTier.mic+sampleNumber/100,
+      eligibility:'Eligible',
+      payoutStatus:sampleNumber%3===0?'Issued':'Unissued'
+    };
+  }))
+].map(row=>{
+  const reward=calculateRoomReward(row.coins,row.mic,row.eligibility);
+  return {period:roomRewardPeriod,...row,...reward,payoutStatus:reward.coinReward?(row.payoutStatus||'Unissued'):null};
+});
 let state={view:'dashboard',appRole:'All',memberTab:'list',dataTab:'host',hostDataMode:'daily',dataManagementScopeUid:null,dataAgencyUid:null,settlementTab:'hostWeekly',settlementQueueStatus:null,rewardMain:'invitation',invitationTab:'recipient'};
 const titles={dashboard:['工作台','平台业务概览与待处理事项'],members:['成员管理','管理当前业务成员'],applications:['申请审核','审核新的业务角色申请'],data:['数据中心','平台业务数据查询与组织下钻'],settlement:['结算对账','财务审核、发布、用户确认与付款状态追踪'],rewards:['活动奖励','邀请奖励与房间奖励数据']};
 const statusZh={'Active':'启用','Suspended':'封禁','Pending':'待审核','Approved':'已通过','Rejected':'用户已拒绝','Pending Confirmation':'待用户确认','Confirmed':'用户已确认','Unpaid':'未付款','Paid':'已付款','Pending Finance Review':'待财务审核','Ready to Publish':'待发布','Published':'已发布','Issued':'已发放','Failed':'发放失败','Cancelled':'已取消','Eligible':'正常','Scheduled':'待生效','Expired':'已失效','Effective':'已生效','Terminated':'已解约','Claimed':'已领取','Unclaimed':'未领取','Unissued':'待发放','Qualified':'已达标','Not Qualified':'未达标'};
@@ -1666,7 +1712,7 @@ function updatePendingCounters(){
  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
  set('appNavPending',app);set('pendingApplicationsCount',app);set('pendingBillsCount',pending);set('rejectedBillsCount',rejected);
 }
-function renderRewards(){const title=document.getElementById('rewardPageTitle'),desc=document.getElementById('rewardPageDesc');if(title)title.textContent=state.rewardMain==='invitation'?'邀请新主播奖励':'房间贡献奖励';if(desc)desc.textContent=state.rewardMain==='invitation'?'按奖励周期查询达标 Host、领取资格与领取结果。Coins / Beans 二选一，选择 Beans 时额外 +50%。':'按房间奖励周期查询 Coins / Beans 奖励计算与自动发放结果；每个房间每个周期一行，仅用于查询与追溯。';document.getElementById('rewardContent').innerHTML=state.rewardMain==='invitation'?renderInvitationRewards():renderRoomRewards()}
+function renderRewards(){const title=document.getElementById('rewardPageTitle'),desc=document.getElementById('rewardPageDesc');if(title)title.textContent=state.rewardMain==='invitation'?'邀请新主播奖励':'房间贡献奖励';if(desc)desc.textContent=state.rewardMain==='invitation'?'按奖励周期查询达标 Host、领取资格与领取结果。Coins / Beans 二选一，选择 Beans 时额外 +50%。':'按房间奖励周期查询双达标档位、Coins 奖励及发放结果。';document.getElementById('rewardContent').innerHTML=state.rewardMain==='invitation'?renderInvitationRewards():renderRoomRewards()}
 function renderInvitationRewards(){return `<div class="tabs"><button class="tabBtn ${state.invitationTab==='recipient'?'active':''}" onclick="state.invitationTab='recipient';renderRewards()">按领奖人</button><button class="tabBtn ${state.invitationTab==='host'?'active':''}" onclick="state.invitationTab='host';renderRewards()">按 Host</button></div>
 <div class="rewardPolicyNote"><b>奖励周期 · UTC+5</b><span>周二 01:00 ～ 周日 24:00 可领取；周一 00:00 ～ 周二 01:00 为统计期，不可领取。</span><span>Agency：每名达标 Host 达标后直接获得奖励；BD 及以上：达标 Host ≥ 10 后，按本周期全部达标 Host 计算奖励。</span><span>只有已达标并产生奖励后，才进入未领取 / 已领取状态。</span></div>
 <div class="filterBar"><select class="select rewardPeriodSelect"><option>2026-W35 · UTC+5</option></select><select class="select"><option>全部角色</option><option>Agency</option><option>BD</option><option>Admin</option><option>Super Admin</option><option>Manager</option></select><select class="select"><option>全部达标状态</option><option>已达标</option><option>未达标</option></select><select class="select"><option>全部领取状态</option><option>未领取</option><option>已领取</option></select><input class="input" placeholder="输入领奖人 / Host UID 或昵称"><span class="filterSpacer"></span></div>${state.invitationTab==='recipient'?invitationRecipientTable():invitationHostTable()}`}
@@ -1696,9 +1742,91 @@ function openEligibleHosts(uid){
 
 function invitationRecipientTable(){return `<div class="table-responsive tableWrap"><table class="table rewardTable rewardRecipientTable"><colgroup><col style="width:230px"><col style="width:110px"><col style="width:110px"><col style="width:170px"><col style="width:130px"><col style="width:150px"><col style="width:160px"><col style="width:130px"><col style="width:210px"></colgroup><thead><tr><th>领奖成员</th><th>角色</th><th>新增 Host</th><th>达标 Host / 要求</th><th>达标状态</th><th>Coins 可领</th><th>Beans 可领 (+50%)</th><th>领取状态</th><th>领取结果 / 详情</th></tr></thead><tbody>${invitationByRecipient.map(x=>{const qualified=invitationQualified(x),base=invitationBaseReward(x),beans=invitationBeansReward(x),claimed=qualified&&x.claimStatus==='Claimed',claimAmount=x.claimType==='Beans'?beans:base;return `<tr><td>${memberCell(x.name,x.uid)}</td><td><span class="roleText">${x.role}</span></td><td>${x.newHosts}</td><td><button class="linkText" onclick="openEligibleHosts('${x.uid}')">${x.eligibleHosts.length}${x.role==='Agency'?'':' / 10'}</button></td><td>${statusBadge(qualified?'Qualified':'Not Qualified')}</td><td class="money">${qualified?fmt(base):'—'}</td><td class="money">${qualified?fmt(beans):'—'}</td><td>${qualified?statusBadge(x.claimStatus):'—'}</td><td>${claimed?`<b>${x.claimType} · ${fmt(claimAmount)}</b>`:(qualified?'可领取':'—')}<div><button class="linkText" onclick="openEligibleHosts('${x.uid}')">查看明细</button></div></td></tr>`}).join('')}</tbody></table></div>`}
 function invitationHostTable(){return `<div class="table-responsive tableWrap"><table class="table rewardTable rewardHostTable"><colgroup><col style="width:230px"><col style="width:110px"><col style="width:150px"><col style="width:180px"><col style="width:120px"><col style="width:120px"><col style="width:110px"><col style="width:110px"><col style="width:130px"><col style="width:110px"></colgroup><thead><tr><th>Host</th><th>Host 等级</th><th>本周 Coins</th><th>有效时长</th><th>达标 Host</th><th>Agency</th><th>BD</th><th>Admin</th><th>Super Admin</th><th>Manager</th></tr></thead><tbody>${invitationByHost.map(x=>`<tr><td>${memberCell(x.name,x.uid)}</td><td>${x.level}</td><td>${fmt(x.coins)}</td><td>${x.time}</td><td>${x.eligible?'<span class="greenTxt">是</span>':'<span class="redTxt">否</span>'}</td><td>${x.eligible?fmt(invitationRate('Agency',x.level)):'—'}</td><td>${x.eligible?fmt(invitationRate('BD',x.level)):'—'}</td><td>${x.eligible?fmt(invitationRate('Admin',x.level)):'—'}</td><td>${x.eligible?fmt(invitationRate('Super Admin',x.level)):'—'}</td><td>${x.eligible?fmt(invitationRate('Manager',x.level)):'—'}</td></tr>`).join('')}</tbody></table></div>`}
-function renderRoomRewards(){return `<div class="rewardPolicyNote"><b>自动发放型奖励</b><span>Coins 与 Beans 分别按房间贡献和 Mic Time 独立计算，档位无需一致。</span><span>违规房间取消获奖资格；达标奖励每周二自动发放至房主。</span></div><div class="filterBar"><select class="select"><option>2026-W35 · 房间奖励周期</option></select><select class="select"><option>全部获奖资格</option><option>正常</option><option>已取消</option></select><select class="select"><option>全部发放状态</option><option>待发放</option><option>已发放</option><option>发放失败</option></select><input class="input" placeholder="输入房间 ID / 房间名称 / 房主"><span class="filterSpacer"></span><span class="countText">每个房间每个周期一行；Coins / Beans 两项奖励独立计算</span></div><div class="table-responsive tableWrap"><table class="table rewardTable rewardRoomTable"><colgroup><col style="width:150px"><col style="width:220px"><col style="width:160px"><col style="width:130px"><col style="width:160px"><col style="width:150px"><col style="width:140px"><col style="width:150px"><col style="width:170px"><col style="width:140px"><col style="width:150px"><col style="width:190px"></colgroup><thead><tr><th>奖励周期</th><th>房间</th><th>房主</th><th>国家 / 地区</th><th>贡献 Coins</th><th>贡献档位</th><th>Coins 奖励</th><th>房间上麦时长</th><th>房间上麦时长档位</th><th>Beans 奖励</th><th>获奖资格</th><th>发放状态</th></tr></thead><tbody>${roomRewards.map(x=>{const eligible=x.eligibility!=='Cancelled';const hasReward=(Number(x.coinReward)||0)>0||(Number(x.beansReward)||0)>0;return `<tr><td>${x.period}</td><td><b>${x.name}</b><div class="muted" style="font-size:11px">房间 ID ${x.room}</div></td><td>${x.owner}</td><td>${displayCountry(x.country)}</td><td>${fmt(x.coins)}</td><td>${x.ctier||'未达档'}</td><td class="money">${eligible&&x.coinReward?fmt(x.coinReward):'—'}</td><td>${x.mic}h</td><td>${x.mtier||'未达档'}</td><td class="money">${eligible&&x.beansReward?fmt(x.beansReward):'—'}</td><td>${statusBadge(x.eligibility||'Eligible')}${x.eligibility==='Cancelled'&&x.eligibilityReason?`<div class="muted" style="font-size:11px;margin-top:4px">${x.eligibilityReason}</div>`:''}</td><td>${eligible&&hasReward?statusBadge(x.payoutStatus||'Unissued'):'—'}${eligible&&x.payoutStatus==='Failed'&&x.reason?`<div class="muted" style="font-size:11px;margin-top:4px">${x.reason}</div>`:''}</td></tr>`}).join('')}</tbody></table></div>`}
+const roomRewardQuery={tier:'',eligibility:'',payoutStatus:'',search:'',sortKey:'',sortDirection:'desc'};
+let roomRewardInScope=()=>true;
+function getRoomRewardRows(){
+  const {tier,eligibility,payoutStatus,search,sortKey,sortDirection}=roomRewardQuery;
+  const keyword=search.trim().toLowerCase();
+  const rows=roomRewards.filter(row=>roomRewardInScope(row)
+    && (!tier||(row.rewardTier||'none')===tier)
+    && (!eligibility||row.eligibility===eligibility)
+    && (!payoutStatus||row.payoutStatus===payoutStatus)
+    && (!keyword||[row.room,row.name,row.owner].some(value=>value.toLowerCase().includes(keyword))));
+  if(!sortKey)return rows;
+  const direction=sortDirection==='asc'?1:-1;
+  return rows.sort((a,b)=>direction*(a[sortKey]-b[sortKey])||a.room.localeCompare(b.room));
+}
+function roomRewardSortDirection(key){
+  if(roomRewardQuery.sortKey!==key)return 'none';
+  return roomRewardQuery.sortDirection==='asc'?'ascending':'descending';
+}
+function roomRewardSortHeader(label,key){
+  const direction=roomRewardSortDirection(key);
+  return `<th aria-sort="${direction}"><button type="button" class="roomRewardSort${direction==='none'?'':' isActive'}" data-room-reward-sort="${key}" title="按全部筛选结果排序" onclick="sortRoomRewards('${key}')">${label}<span class="sortArrow" aria-hidden="true">${direction==='ascending'?'↑':direction==='descending'?'↓':'↕'}</span></button></th>`;
+}
+function roomRewardFilter(key,label,options){
+  return `<select class="select" aria-label="${label}" onchange="setRoomRewardFilter('${key}',this.value)">${options.map(([value,text])=>`<option value="${value}"${roomRewardQuery[key]===value?' selected':''}>${text}</option>`).join('')}</select>`;
+}
+function renderRoomRewardSummary(rows){
+  let issuedRooms=0,issuedCoins=0;
+  for(const row of rows){
+    if(row.payoutStatus!=='Issued')continue;
+    issuedRooms++;
+    issuedCoins+=row.coinReward;
+  }
+  return `<div><b>${fmt(issuedRooms)}</b><span>已发奖房间数</span></div><div><b>${fmt(issuedCoins)}</b><span>已发金币数</span></div>`;
+}
+function refreshRoomRewardResults(){
+  const table=document.querySelector('#rewardContent .rewardRoomTable');
+  if(!table)return;
+  const rows=getRoomRewardRows();
+  table.tBodies[0].innerHTML=renderRoomRewardRows(rows);
+  document.getElementById('roomRewardCount').textContent=`共 ${rows.length} 条`;
+  document.getElementById('roomRewardSummary').innerHTML=renderRoomRewardSummary(rows);
+  for(const button of table.querySelectorAll('[data-room-reward-sort]')){
+    const direction=roomRewardSortDirection(button.dataset.roomRewardSort);
+    button.parentElement.setAttribute('aria-sort',direction);
+    button.classList.toggle('isActive',direction!=='none');
+    button.querySelector('.sortArrow').textContent=direction==='ascending'?'↑':direction==='descending'?'↓':'↕';
+  }
+}
+function sortRoomRewards(key){
+  roomRewardQuery.sortDirection=roomRewardSortDirection(key)==='descending'?'asc':'desc';
+  roomRewardQuery.sortKey=key;
+  refreshRoomRewardResults();
+}
+function setRoomRewardFilter(key,value){
+  roomRewardQuery[key]=value;
+  refreshRoomRewardResults();
+}
+function renderRoomRewardRows(rows){
+  if(!rows.length)return '<tr><td colspan="12"><div class="empty">暂无符合条件的房间奖励记录。</div></td></tr>';
+  return rows.map(x=>`<tr><td>${x.period}</td><td><b>${x.name}</b><div class="muted" style="font-size:11px">房间 ID ${x.room}</div></td><td>${x.owner}</td><td>${displayCountry(x.country)}</td><td>${fmt(x.coins)}</td><td>${x.ctier}</td><td>${x.mic}h</td><td>${x.mtier}</td><td>${x.rewardTier||'—'}</td><td class="money">${x.coinReward?fmt(x.coinReward):'—'}</td><td>${statusBadge(x.eligibility)}${x.eligibilityReason?`<div class="muted" style="font-size:11px;margin-top:4px">${x.eligibilityReason}</div>`:''}</td><td>${x.payoutStatus?statusBadge(x.payoutStatus):'—'}${x.payoutStatus==='Failed'&&x.reason?`<div class="muted" style="font-size:11px;margin-top:4px">${x.reason}</div>`:''}</td></tr>`).join('');
+}
+function exportRoomRewards(){
+  const rows=getRoomRewardRows();
+  if(!rows.length)return toast('暂无可导出的房间奖励记录');
+  downloadCSV('room-contribution-rewards.csv',rows);
+}
+function renderRoomRewards(){
+  const rows=getRoomRewardRows();
+  const searchValue=roomRewardQuery.search.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
+  return `<div id="roomRewardSummary" class="dailyMetricSummary roomRewardSummary" role="group" aria-label="奖励汇总" aria-live="polite">${renderRoomRewardSummary(rows)}</div>
+<div class="rewardPolicyNote"><b>房间周奖励 · UTC+5</b><span>贡献 Coins 和有效麦时同时达标，按较低档位发放一笔 Coins。任一项低于 Lv1，当周无奖励。</span><span>达标且具备资格的房间每周二自动发放至房主。</span></div>
+<div class="filterBar"><select class="select" aria-label="奖励周期"><option>${roomRewardPeriod} · UTC+5</option></select>
+${roomRewardFilter('tier','发奖档位',[['','全部发奖档位'],...roomRewardLevels.map((_,i)=>[`Lv${i+1}`,`Lv${i+1}`]),['none','无发奖档位']])}
+${roomRewardFilter('eligibility','获奖资格',[['','全部获奖资格'],['Eligible','正常'],['Cancelled','已取消']])}
+${roomRewardFilter('payoutStatus','发放状态',[['','全部发放状态'],['Unissued','待发放'],['Issued','已发放'],['Failed','发放失败']])}
+<input class="input" aria-label="搜索房间或房主" placeholder="输入房间 ID / 房间名称 / 房主" value="${searchValue}" oninput="setRoomRewardFilter('search',this.value)"><span class="filterSpacer"></span><span class="countText" id="roomRewardCount" aria-live="polite">共 ${rows.length} 条</span></div>
+<div class="table-responsive tableWrap"><table class="table rewardTable rewardRoomTable">
+<colgroup><col style="width:130px"><col style="width:220px"><col style="width:160px"><col style="width:130px"><col style="width:150px"><col style="width:130px"><col style="width:150px"><col style="width:130px"><col style="width:130px"><col style="width:140px"><col style="width:150px"><col style="width:190px"></colgroup>
+<thead><tr><th>奖励周期</th><th>房间</th><th>房主</th><th>国家 / 地区</th>${roomRewardSortHeader('贡献 Coins','coins')}<th>贡献档位</th>${roomRewardSortHeader('房间有效麦时','mic')}<th>麦时档位</th><th>发奖档位</th><th>Coins 奖励</th><th>获奖资格</th><th>发放状态</th></tr></thead>
+<tbody>${renderRoomRewardRows(rows)}</tbody></table></div>
+<details class="rewardPolicyNote rewardRoomTierReference"><summary>查看奖励档位（待上线）</summary><div class="table-responsive tableWrap"><table class="table rewardTable">
+<thead><tr><th>档位</th><th>贡献 Coins 门槛</th><th>有效麦时门槛</th><th>Coins 奖励</th></tr></thead><tbody>${roomRewardLevels.map((tier,index)=>`<tr><td>Lv${index+1}</td><td>${fmt(tier.coins)}</td><td>${tier.mic}h</td><td class="money">${fmt(tier.reward)}</td></tr>`).join('')}</tbody></table></div></details>`;
+}
 
-function exportRewards(){downloadCSV(state.rewardMain==='invitation'?'invitation-rewards.csv':'room-contribution-rewards.csv',state.rewardMain==='invitation'?(state.invitationTab==='recipient'?invitationByRecipient:invitationByHost):roomRewards)}
+function exportRewards(){if(state.rewardMain==='room')return exportRoomRewards();downloadCSV('invitation-rewards.csv',state.invitationTab==='recipient'?invitationByRecipient:invitationByHost)}
 
 function openDrawer(title,body){document.getElementById('drawerTitle').textContent=title;document.getElementById('drawerBody').innerHTML=body;document.getElementById('drawerBack').classList.add('show')}
 function closeDrawer(){document.getElementById('drawerBack').classList.remove('show')}
@@ -4430,7 +4558,7 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
   window.syncSettlementPeriodOptions();
 
   /* Rewards: query periods use the same component. The demo keeps current reward data, while the picker itself is fully interactive. */
-  state.rewardPeriodByMain=state.rewardPeriodByMain||{invitation:'2026-W35',room:'2026-W35'};
+  state.rewardPeriodByMain=state.rewardPeriodByMain||{invitation:'2026-W35',room:roomRewardPeriod};
   const rewardOptions=[
     {value:'2026-W35',label:'2026-W35',range:'2026-08-24 ~ 2026-08-30'},
     {value:'2026-W34',label:'2026-W34',range:'2026-08-17 ~ 2026-08-23'},
@@ -4442,11 +4570,12 @@ openMember=function(id){const m=members.find(x=>x.id===id);if(!m)return;if(m.rol
     let legacy=filter.querySelector('.rewardPeriodSelect')||filter.querySelector('select');if(!legacy)return;
     legacy.classList.add('unifiedHiddenPeriodSelect');legacy.style.display='none';
     const key=state.rewardMain==='invitation'?'invitation':'room';
+    const options=key==='room'?[{value:roomRewardPeriod,label:roomRewardPeriod}]:rewardOptions;
     let picker=$('rewardUnifiedPeriod');
     if(!picker){
-      picker=makePicker('rewardUnifiedPeriod',rewardOptions,state.rewardPeriodByMain[key],value=>{state.rewardPeriodByMain[key]=value;toast('奖励周期已切换')});
+      picker=makePicker('rewardUnifiedPeriod',options,state.rewardPeriodByMain[key],value=>{state.rewardPeriodByMain[key]=value;toast('奖励周期已切换')});
       filter.insertBefore(picker,legacy);
-    }else updatePicker('rewardUnifiedPeriod',rewardOptions,state.rewardPeriodByMain[key]);
+    }else updatePicker('rewardUnifiedPeriod',options,state.rewardPeriodByMain[key]);
   }
   const renderRewardsV45=window.renderRewards;
   window.renderRewards=function(){const v=renderRewardsV45.apply(this,arguments);const old=$('rewardUnifiedPeriod');if(old){delete registry.rewardUnifiedPeriod;old.remove()}enhanceRewardPeriod();return v};
@@ -5421,6 +5550,7 @@ body[data-business-view="Nora"] .boGlobalSwitchButton,body[data-business-view="D
     return op===globalMode;
   };
 
+  roomRewardInScope=allowed;
   const baseDcManagement=dcManagementRows,baseDcAgency=dcAgencyRows,baseDcHost=dcHostRows;
   dcManagementRows=function(){return baseDcManagement.apply(this,arguments).filter(x=>allowed(x))};
   dcAgencyRows=function(){return baseDcAgency.apply(this,arguments).filter(x=>allowed(x))};
@@ -5458,15 +5588,12 @@ body[data-business-view="Nora"] .boGlobalSwitchButton,body[data-business-view="D
   renderRewards=function(){const out=baseRenderRewards.apply(this,arguments);filterRewardDom();return out};
   function filterRewardDom(){
     if(globalMode==='HQ')return;
+    if(state.rewardMain==='room')return;
     const body=$('#view-rewards table tbody');if(!body)return;
     let visible=0;
     $$('tr',body).forEach(row=>{
-      let rec=null;
-      if(state.rewardMain==='room'){
-        const room=(row.textContent.match(/房间 ID\s*(\d+)/)||[])[1];rec=roomRewards.find(x=>String(x.room)===String(room));
-      }else{
-        const uid=rowUid(row);rec=(state.invitationTab==='recipient'?invitationByRecipient:invitationByHost).find(x=>String(x.uid)===String(uid));
-      }
+      const uid=rowUid(row);
+      const rec=(state.invitationTab==='recipient'?invitationByRecipient:invitationByHost).find(x=>String(x.uid)===String(uid));
       if(rec&&!allowed(rec))row.remove();else visible++;
     });
     if(!visible)body.innerHTML='<tr><td colspan="12"><div class="empty">当前运营视角暂无符合条件的奖励数据。</div></td></tr>';
@@ -5480,7 +5607,7 @@ body[data-business-view="Nora"] .boGlobalSwitchButton,body[data-business-view="D
     if(!rows.length)return toast('暂无可导出的结算数据');
     downloadCSV(`settlement-${state.settlementTab}.csv`,rows);
   };
-  exportRewards=function(){const rows=state.rewardMain==='invitation'?(state.invitationTab==='recipient'?invitationByRecipient:invitationByHost):roomRewards;downloadCSV(state.rewardMain==='invitation'?'invitation-rewards.csv':'room-contribution-rewards.csv',rows.filter(x=>allowed(x)))};
+  exportRewards=function(){if(state.rewardMain==='room')return exportRoomRewards();const rows=state.invitationTab==='recipient'?invitationByRecipient:invitationByHost;downloadCSV('invitation-rewards.csv',rows.filter(x=>allowed(x)))};
 
   const host=$('.topTools');
   const oldChip=$('.userChip',host||document);if(oldChip)oldChip.remove();
@@ -6249,7 +6376,7 @@ body:not([data-business-view="HQ"]) #ctBackendAddBtn,body:not([data-business-vie
   function emptyRow(wrap){
     const body=$('tbody',wrap);return body?$$(':scope > tr',body).find(tr=>tr.querySelector('.empty'))||null:null;
   }
-  function isRealList(wrap){return !!wrap.querySelector('table tbody')&&!wrap.closest('.drawer')&&!wrap.closest('.modal')}
+  function isRealList(wrap){return !!wrap.querySelector('table tbody')&&!wrap.closest('.drawer,.modal,.rewardRoomTierReference')}
   function ownerFor(wrap){return wrap.closest('.boListPanel')||wrap.closest('.ctPanel')||wrap.closest('.panel.boListCard')||wrap.closest('.boStandaloneListCard')||wrap.parentElement}
   function isDataCenter(wrap){return !!wrap.closest('#view-data')}
   function rowSignature(rows){return rows.map(r=>r.textContent.replace(/\s+/g,' ').trim().slice(0,90)).join('¦')}
