@@ -446,11 +446,12 @@ body{font-size:14px!important}
 .batchImport .table .batchImportText{white-space:normal!important;overflow-wrap:anywhere}
 .batchImport .table tbody+tbody tr:first-child td{border-top:1px solid var(--line)}
 .batchImportIssues{
-  margin-top:12px;padding:9px 12px;border:1px solid #ecdaba;border-radius:8px;
-  background:#fffaf1;color:#81550e;font-size:12px;
+  margin-top:12px;padding:9px 12px;border:1px solid #f0bdc5;border-radius:8px;
+  background:#fff3f5;color:#a22032;font-size:12px;
 }
 .batchImportIssues summary{cursor:pointer}
-.batchImportIssues ul{margin:8px 0 0;padding-left:20px;max-height:120px;overflow:auto}
+.batchImportIssues summary span{margin-left:8px;text-decoration:underline;text-underline-offset:2px}
+.batchImportIssues ul{margin:8px 0 0;padding-left:20px;max-height:120px;overflow:auto;overflow-wrap:anywhere}
 @media (max-width:420px){
   .batchImportFile{flex-wrap:wrap;gap:10px}
   .batchImportFileCopy{width:100%}
@@ -2021,13 +2022,14 @@ function openBatchPayment(title, label, source, candidates, selected, submit) {
     try {
       const content = await file.text();
       if (fileInput.files[0] !== file || !fileInput.isConnected) return;
-      const lines = content.trim().split(/\r?\n/);
+      const lines = content.replace(/^\uFEFF/, '').split(/\r?\n/);
+      const firstLine = lines.findIndex(line => line.trim());
       const problems = [];
       const seen = new Set();
       lines.forEach((line, index) => {
         if (!line.trim()) return;
         const [uid, amount, ...extra] = line.split(',').map(cell => cell.trim().replace(/^"|"$/g, '').trim());
-        if (index === 0 && /^(用户\s*ID|UID)$/i.test(uid)) return;
+        if (index === firstLine && /^(用户\s*ID|UID)$/i.test(uid)) return;
         const amountValid = /^\d+(?:\.\d{1,2})?$/.test(amount || '') && Number(amount) > 0;
         const matching = candidateBills.filter(([bill]) => String(bill.uid) === uid);
         const exact = matching.filter(([bill]) => amountValid && Math.round(bill.final * 100) === Math.round(Number(amount) * 100));
@@ -2042,9 +2044,11 @@ function openBatchPayment(title, label, source, candidates, selected, submit) {
           seen.add(bill);
           rows.push(...matchedRows);
         }
-        if (reason) problems.push(`第 ${index + 1} 行 · ${reason}`);
+        if (reason) problems.push(`第 ${index + 1} 行${uid ? ` · UID ${uid}` : ''} · ${reason}`);
       });
-      issues.innerHTML = problems.length ? `<details class="batchImportIssues"><summary>${problems.length} 行未纳入</summary><ul>${problems.map(problem => `<li>${esc(problem)}</li>`).join('')}</ul></details>` : '';
+      issues.innerHTML = problems.length ? `<details class="batchImportIssues"><summary>
+        <b>已跳过 ${problems.length} 行</b><span>查看原因</span>
+      </summary><ul>${problems.map(problem => `<li>${esc(problem)}</li>`).join('')}</ul></details>` : '';
     } catch {
       if (fileInput.files[0] !== file || !fileInput.isConnected) return;
       render('读取名单失败，请更换文件。');
