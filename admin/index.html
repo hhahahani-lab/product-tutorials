@@ -1835,6 +1835,7 @@ function getRoomRewardRows(){
   const {tier,eligibility,payoutStatus,search,sortKey,sortDirection}=roomRewardQuery;
   const keyword=search.trim().toLowerCase();
   const rows=roomRewards.filter(row=>roomRewardInScope(row)
+    && row.coins>=roomRewardLevels[0].coins && row.mic>=roomRewardLevels[0].mic
     && (!tier||(row.rewardTier||'none')===tier)
     && (!eligibility||row.eligibility===eligibility)
     && (!payoutStatus||row.payoutStatus===payoutStatus)
