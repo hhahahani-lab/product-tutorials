@@ -2270,10 +2270,12 @@ html&gt;body{padding:0}&lt;/style&gt;
 
   function join(index, user, { allowSwitch = isManager(), allowLocked = false, fromInvitation = false } = {}) {
     const seat = seats[index];
-    const occupied = seat.user &amp;&amp; seat.user !== user;
-    if (occupied || (seat.locked &amp;&amp; !allowLocked)) {
-      const message = occupied ? &#x27;This seat is already taken.&#x27; : &#x27;This seat is locked.&#x27;;
-      say(fromInvitation ? &#x27;This seat is no longer available.&#x27; : message);
+    if (seat.user &amp;&amp; seat.user !== user) {
+      say(fromInvitation ? &#x27;This seat is no longer available.&#x27; : &#x27;This seat is already taken.&#x27;);
+      return;
+    }
+    if (seat.locked &amp;&amp; !allowLocked) {
+      say(&#x27;This seat is locked.&#x27;);
       return;
     }
     const previous = onStage(user);
