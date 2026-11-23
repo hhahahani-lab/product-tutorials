@@ -6,7 +6,7 @@
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://persistent.oaistatic.com/plugins/visualize/; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://persistent.oaistatic.com/plugins/visualize/charts/; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Yaloka Stage Interactions</title>
-<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}@media(max-width:452px){iframe{height:calc(100dvh - 2rem)!important}}</style>
 
 </head>
 <body>
@@ -1904,7 +1904,6 @@ html&gt;body{padding:0}&lt;/style&gt;
     &lt;div class=&quot;room-content&quot;&gt;
       &lt;div class=&quot;seats&quot; aria-label=&quot;麦位&quot;&gt;&lt;/div&gt;
       &lt;button type=&quot;button&quot; class=&quot;room-info-trigger tap&quot; aria-label=&quot;Room Info&quot;&gt;&lt;/button&gt;
-      &lt;button type=&quot;button&quot; class=&quot;room-settings-trigger tap&quot; aria-label=&quot;Room Settings&quot;&gt;&lt;/button&gt;
       &lt;button type=&quot;button&quot; class=&quot;online-trigger tap&quot; aria-label=&quot;打开在线列表&quot;&gt;&lt;/button&gt;
       &lt;button type=&quot;button&quot; class=&quot;owner-message tap&quot; aria-label=&quot;IM manager 资料卡&quot;&gt;&lt;/button&gt;
       &lt;button type=&quot;button&quot; class=&quot;chat-user tap&quot; aria-label=&quot;公屏昵称 luckymay&quot;&gt;&lt;/button&gt;
@@ -1937,6 +1936,9 @@ html&gt;body{padding:0}&lt;/style&gt;
     #yaloka-stage-review .preview-bar button { padding-inline:6px; }
   }
   #yaloka-stage-review .phone { --accent:#a361ff; position:relative; isolation:isolate; container-type:inline-size; margin:auto; width:min(100%, 352px); aspect-ratio:1280/2844; overflow:hidden; border-radius:18px; background:#21192f; color:#fff; font-size:15px; }
+  @media (max-width:420px) {
+    #yaloka-stage-review .phone { width:min(100%,352px,max(238px,calc((100dvh - 180px) * 1280 / 2844))); }
+  }
   #yaloka-stage-review .room-content,
   #yaloka-stage-review .seats,
   #yaloka-stage-review .overlay,
@@ -1960,8 +1962,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .chat-user { display:flex; align-items:center; gap:5px; left:4.2%; top:65.3%; min-height:36px; color:#f1ce82; font-size:12px; text-shadow:0 1px 3px #171022; }
   #yaloka-stage-review .chat-user .avatar { width:19px; height:19px; }
   #yaloka-stage-review .chat-user .joined { color:#e5daf0; }
-  #yaloka-stage-review .room-info-trigger { left:0; top:4.6%; width:29%; height:5.8%; }
-  #yaloka-stage-review .room-settings-trigger { left:0; bottom:2.2%; width:13%; height:5.4%; }
+  #yaloka-stage-review .room-info-trigger { left:0; top:4.6%; width:32%; height:5.8%; }
   #yaloka-stage-review .gift-trigger { right:0.4%; bottom:2%; height:5.8%; width:13%; }
   #yaloka-stage-review .veil { background:#08061665; }
   #yaloka-stage-review .layer { pointer-events:none; display:flex; align-items:flex-end; justify-content:center; }
@@ -2048,16 +2049,18 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .gift-footer .balance img { width:20px; height:20px; border-radius:50%; }
   #yaloka-stage-review .gift-footer .send-group { padding-right:0; }
   #yaloka-stage-review .gift-footer .send-group .pill { min-height:33px; }
-  #yaloka-stage-review .room-settings { pointer-events:auto; position:absolute; inset:0; background:linear-gradient(#302647,#180f22 27%,#180f22); padding:21px 14px 10px; overflow:auto; }
+  #yaloka-stage-review .room-settings { pointer-events:auto; position:absolute; inset:0; display:flex; flex-direction:column; padding:10.5cqw 4cqw 0; background:radial-gradient(ellipse 85% 20% at 68% -5%,#5b60bb 0%,transparent 100%),linear-gradient(#2c245d,#150d20 15%); }
   #yaloka-stage-review .room-settings-shade { position:absolute; inset:0; background:#07040e8c; }
   #yaloka-stage-review .room-panel-heading { position:relative; display:grid; place-items:center; min-height:46px; font-size:15px; font-weight:500; }
-  #yaloka-stage-review .room-settings .room-panel-heading { margin-bottom:10px; }
+  #yaloka-stage-review .room-settings .room-panel-heading { margin-bottom:4px; flex:none; }
+  #yaloka-stage-review .room-settings .scrollable { flex:1; }
   #yaloka-stage-review .room-panel-back { position:absolute; left:0; top:0; width:44px; height:44px; background:none; border:0; color:white; font-size:27px; line-height:1; }
   #yaloka-stage-review .room-settings-row { display:flex; align-items:center; justify-content:space-between; text-align:left; gap:6px; width:100%; min-height:55px; border:0; padding:0; background:none; color:white; font-size:14px; }
-  #yaloka-stage-review button.room-settings-row { min-height:52px; }
+  #yaloka-stage-review .room-settings-row:first-child { min-height:64px; }
   #yaloka-stage-review .room-settings-row small { color:#c4bbd1; text-align:right; }
-  #yaloka-stage-review .room-settings-row img { width:49px; height:49px; border-radius:8px; }
-  #yaloka-stage-review .room-settings-value { display:flex; align-items:center; justify-content:flex-end; gap:7px; }
+  #yaloka-stage-review .room-settings-row img { width:15cqw; height:15cqw; border-radius:8px; }
+  #yaloka-stage-review .room-settings-value { display:flex; align-items:center; justify-content:flex-end; gap:10px; text-align:right; font-size:13px; }
+  #yaloka-stage-review .room-chevron { display:inline-block; width:9px; height:9px; flex:none; margin-right:4px; border:solid #e9e3f1; border-width:0 2px 2px 0; border-radius:1px; transform:rotate(-45deg); }
   #yaloka-stage-review .room-admin-panel, #yaloka-stage-review .room-info-panel { position:relative; display:flex; flex-direction:column; padding:4px 14px 0; background:linear-gradient(160deg,#3d4469,#454068 15%,#232428 52%); }
   #yaloka-stage-review .room-admin-panel { height:47%; }
   #yaloka-stage-review .room-info-panel { height:76.5%; }
@@ -2077,6 +2080,18 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .room-info-tabs { align-self:center; display:flex; width:62%; border-radius:20px; overflow:hidden; background:#ffffff24; margin:4px 0 14px; }
   #yaloka-stage-review .room-info-tabs button { flex:1; min-height:29px; padding:2px 4px; border:0; background:none; color:#e6e0f1; font-size:12px; }
   #yaloka-stage-review .room-info-tabs button[aria-pressed=&quot;true&quot;] { background:#a361ff; color:#fff; border-radius:20px; }
+  #yaloka-stage-review .room-info-card { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding:11px; border-radius:12px; font-size:13px; }
+  #yaloka-stage-review .room-level-card { background:linear-gradient(165deg,#302322,#163623); border:1px solid #b8c49d46; }
+  #yaloka-stage-review .room-level-emblem { min-width:45px; text-align:center; color:#fff; font-weight:700; font-size:24px; text-shadow:0 1px 2px #25212f; background:linear-gradient(135deg,#b7b7c6,#363443); padding:5px; border-radius:10px; }
+  #yaloka-stage-review .room-level-details { flex:1; min-width:0; }
+  #yaloka-stage-review .room-level-details strong, #yaloka-stage-review .room-owner-label { border-radius:6px; padding:2px 5px; color:#fff; background:#ffffff24; font-size:10px; white-space:nowrap; }
+  #yaloka-stage-review .room-level-progress { height:5px; margin:8px 0; border-radius:3px; background:#ffffff25; border-left:1px solid #a361ff; }
+  #yaloka-stage-review .room-owner-card { min-height:62px; background:linear-gradient(100deg,#4c2c76,#1c0a36); border:1px solid #c1abd846; color:#e5bdff; }
+  #yaloka-stage-review .room-owner-card .avatar { width:40px; height:40px; }
+  #yaloka-stage-review .room-owner-label { background:#633c25; color:#ffd99b; }
+  #yaloka-stage-review .room-announcement { display:block; background:#1b1c21; }
+  #yaloka-stage-review .room-announcement small { display:block; margin-top:6px; color:#c4bfcc; }
+  #yaloka-stage-review .room-info-settings.pill { align-self:center; flex:none; width:85%; min-height:44px; margin:8px 0 3px; }
   #yaloka-stage-review .room-admin-badge { display:block; width:79px; height:auto; border-radius:5px; }
   #yaloka-stage-review .toast { position:absolute; z-index:4; bottom:16%; left:50%; transform:translateX(-50%); width:max-content; max-width:89%; padding:9px 13px; border-radius:10px; background:#191723f2; color:white; text-align:center; font-size:13px; line-height:1.35; box-shadow:0 2px 12px #08041070; pointer-events:none; }
 &lt;/style&gt;
@@ -2093,7 +2108,6 @@ html&gt;body{padding:0}&lt;/style&gt;
   const legendPreview = root.querySelector(&#x27;.preview-legend&#x27;);
   const legendEnabled = legendPreview.querySelector(&#x27;input&#x27;);
   const fillAdminDemo = root.querySelector(&#x27;[data-fill-admins]&#x27;);
-  const roomSettingsEntry = root.querySelector(&#x27;.room-settings-trigger&#x27;);
 
   const people = {
     im: { name:&#x27;IM manager&#x27;, port:&#x27;owner&#x27;, id:&#x27;9111&#x27; },
@@ -2135,7 +2149,6 @@ html&gt;body{padding:0}&lt;/style&gt;
   function renderRoom() {
     legendPreview.hidden = role !== &#x27;visitor&#x27;;
     fillAdminDemo.hidden = !isOwner();
-    roomSettingsEntry.hidden = !isOwner();
     seatsView.innerHTML = seats.map((seat, index) =&gt; {
       const label = seat.user ? people[seat.user].name : seat.locked ? &#x27;Locked seat&#x27; : &#x27;Empty seat&#x27;;
       const x = [8.4,29.2,50,70.8,91.6][index % 5];
@@ -2243,11 +2256,13 @@ html&gt;body{padding:0}&lt;/style&gt;
 
   function roomSettings(behind = false) {
     const labels = [&#x27;Room Avatar&#x27;,&#x27;Room Name&#x27;,&#x27;Announcement&#x27;,&#x27;Room Background&#x27;,&#x27;Room Decoration&#x27;];
-    const values = [img(&#x27;roomIcon&#x27;),&#x27;&lt;small&gt;User9111&lt;/small&gt;&#x27;,&#x27;&lt;small&gt;No room announcement set&lt;/small&gt;&#x27;,&#x27;&#x27;,&#x27;&#x27;];
-    const rows = labels.map((label,index) =&gt; `&lt;div class=&quot;room-settings-row&quot;&gt;&lt;span&gt;${label}&lt;/span&gt;&lt;span class=&quot;room-settings-value&quot;&gt;${values[index]} &lt;span aria-hidden=&quot;true&quot;&gt;›&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;`).join(&#x27;&#x27;);
+    const values = [img(&#x27;roomIcon&#x27;),&#x27;User9111&#x27;,&#x27;&lt;small&gt;No room announcement set&lt;/small&gt;&#x27;,&#x27;&#x27;,&#x27;&#x27;];
+    const chevron = &#x27;&lt;span class=&quot;room-chevron&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&#x27;;
+    const rows = labels.map((label,index) =&gt; `&lt;div class=&quot;room-settings-row&quot;&gt;&lt;span&gt;${label}&lt;/span&gt;&lt;span class=&quot;room-settings-value&quot;&gt;${values[index]}${chevron}&lt;/span&gt;&lt;/div&gt;`).join(&#x27;&#x27;);
     const back = action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;);
-    const admin = action(&#x27;&lt;span&gt;Admin&lt;/span&gt;&lt;span aria-hidden=&quot;true&quot;&gt;›&lt;/span&gt;&#x27;,&#x27;open-room-admin&#x27;,&#x27;class=&quot;room-settings-row&quot;&#x27;);
-    return `&lt;div class=&quot;room-settings&quot; ${behind ? &#x27;inert aria-hidden=&quot;true&quot;&#x27; : &#x27;&#x27;}&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${back}Room Settings&lt;/div&gt;${rows}${admin}&lt;/div&gt;`;
+    const admin = action(`&lt;span&gt;Admin&lt;/span&gt;${chevron}`,&#x27;open-room-admin&#x27;,&#x27;class=&quot;room-settings-row&quot;&#x27;);
+    const blockList = `&lt;div class=&quot;room-settings-row&quot;&gt;&lt;span&gt;Block List&lt;/span&gt;${chevron}&lt;/div&gt;`;
+    return `&lt;div class=&quot;room-settings safe&quot; ${behind ? &#x27;inert aria-hidden=&quot;true&quot;&#x27; : &#x27;&#x27;}&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${back}Room Settings&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;${rows}${admin}${blockList}&lt;/div&gt;&lt;/div&gt;`;
   }
 
   function roomAdminRow(id, list) {
@@ -2279,8 +2294,15 @@ html&gt;body{padding:0}&lt;/style&gt;
     const tabs = action(&#x27;Room Info&#x27;,&#x27;room-info-details&#x27;,`aria-pressed=&quot;${!showAdmins}&quot;`) + action(&#x27;Admin&#x27;,&#x27;room-info-admin&#x27;,`aria-pressed=&quot;${showAdmins}&quot;`);
     const rows = showAdmins
       ? [...roomAdmins].map(id =&gt; roomAdminRow(id,&#x27;info&#x27;)).join(&#x27;&#x27;) || &#x27;&lt;div class=&quot;list-empty&quot;&gt;No room admins yet.&lt;/div&gt;&#x27;
-      : &#x27;&lt;div class=&quot;room-settings-row&quot;&gt;&lt;span&gt;Announcement&lt;/span&gt;&lt;small&gt;No room announcement set&lt;/small&gt;&lt;/div&gt;&#x27;;
-    return `&lt;div class=&quot;panel room-info-panel safe&quot;&gt;&lt;div class=&quot;room-info-header&quot;&gt;${img(&#x27;roomIcon&#x27;)}&lt;div&gt;User9111&lt;small&gt;🇧🇩 ID:9111&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;room-info-tabs&quot; aria-label=&quot;Room information&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;${rows}&lt;/div&gt;&lt;/div&gt;`;
+      : `&lt;div class=&quot;room-info-card room-level-card&quot;&gt;
+          &lt;span class=&quot;room-level-emblem&quot; aria-hidden=&quot;true&quot;&gt;I&lt;/span&gt;
+          &lt;div class=&quot;room-level-details&quot;&gt;&lt;span&gt;Room Level &lt;strong&gt;LV.0&lt;/strong&gt;&lt;/span&gt;&lt;div class=&quot;room-level-progress&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;small&gt;27,870 EXP left to the next level&lt;/small&gt;&lt;/div&gt;
+          &lt;span class=&quot;room-chevron&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;room-info-card room-owner-card&quot;&gt;${avatar(&#x27;im&#x27;)}&lt;span&gt;${people.im.name} &lt;strong class=&quot;room-owner-label&quot;&gt;Owner&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;room-info-card room-announcement&quot;&gt;Announcement&lt;small&gt;No room announcement set&lt;/small&gt;&lt;/div&gt;`;
+    const settings = isOwner() &amp;&amp; !showAdmins ? action(&#x27;Settings&#x27;,&#x27;open-room-settings&#x27;,&#x27;class=&quot;pill primary room-info-settings&quot;&#x27;) : &#x27;&#x27;;
+    return `&lt;div class=&quot;panel room-info-panel safe&quot;&gt;&lt;div class=&quot;room-info-header&quot;&gt;${img(&#x27;roomIcon&#x27;)}&lt;div&gt;User9111&lt;small&gt;🇧🇩 ID:9111&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;room-info-tabs&quot; aria-label=&quot;Room information&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;${rows}&lt;/div&gt;${settings}&lt;/div&gt;`;
   }
 
   function changeRoomAdmin(id, appoint) {
@@ -2463,6 +2485,9 @@ html&gt;body{padding:0}&lt;/style&gt;
       return;
     }
     switch (key) {
+      case &#x27;open-room-settings&#x27;:
+        if (isOwner()) show(&#x27;room-settings&#x27;,{},true);
+        break;
       case &#x27;open-room-admin&#x27;:
         if (isOwner()) show(&#x27;room-admin&#x27;,{tab:&#x27;assigned&#x27;},true);
         break;
@@ -2552,7 +2577,6 @@ html&gt;body{padding:0}&lt;/style&gt;
       if (pending()) show(&#x27;received&#x27;);
     } else if (button.dataset.seat !== undefined) clickSeat(Number(button.dataset.seat));
     else if (button.dataset.action) buttonAction(button.dataset.action,button);
-    else if (button.classList.contains(&#x27;room-settings-trigger&#x27;) &amp;&amp; isOwner()) show(&#x27;room-settings&#x27;);
     else if (button.classList.contains(&#x27;room-info-trigger&#x27;)) show(&#x27;room-info&#x27;,{tab:&#x27;details&#x27;});
     else if (button.classList.contains(&#x27;online-trigger&#x27;)) show(&#x27;list&#x27;);
     else if (button.classList.contains(&#x27;owner-message&#x27;)) show(&#x27;profile&#x27;,{user:&#x27;im&#x27;});
