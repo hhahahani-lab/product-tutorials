@@ -2070,14 +2070,22 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .room-admin-tabs button[aria-pressed=&quot;true&quot;] { color:#fff; }
   #yaloka-stage-review .room-admin-tabs button[aria-pressed=&quot;true&quot;]::after { content:&quot;&quot;; position:absolute; width:7px; height:3px; border-radius:5px; left:calc(50% - 3.5px); bottom:2px; background:#fff; }
   #yaloka-stage-review .room-admin-row { display:flex; gap:8px; align-items:center; min-height:54px; padding:3px 0; font-size:13px; }
+  #yaloka-stage-review .room-admin-online .room-admin-row + .room-admin-row { border-top:1px solid #ffffff14; }
   #yaloka-stage-review .room-admin-row .avatar { width:39px; height:39px; }
   #yaloka-stage-review .room-admin-row .room-admin-name { min-width:0; overflow-wrap:anywhere; }
-  #yaloka-stage-review .room-admin-actions { display:flex; flex-direction:column; flex:none; gap:5px; margin-left:auto; padding-block:4px; }
   #yaloka-stage-review .room-admin-row .pill { margin-left:auto; flex:none; font-size:11px; padding:5px 10px; min-height:32px; }
-  #yaloka-stage-review .room-admin-actions .pill { margin-left:0; }
+  #yaloka-stage-review .room-admin-row .room-role-trigger { min-width:88px; min-height:34px; border:1px solid #b382ff62; background:#a361ff1f; color:#eadcff; }
   #yaloka-stage-review .room-admin-role { display:block; margin-top:3px; font-size:11px; color:#d6cde2; }
   #yaloka-stage-review .senior-admin-badge { display:inline-block; flex:none; padding:2px 6px; border:1px solid #c39558; border-radius:6px; color:#ffe0a1; background:#493255; font-size:10px; font-weight:600; line-height:1.3; white-space:nowrap; }
-  #yaloka-stage-review .settings-option[data-admin-role=&quot;senior&quot;] img { filter:hue-rotate(282deg) saturate(1.3); }
+  #yaloka-stage-review [data-admin-role=&quot;senior&quot;] img { filter:hue-rotate(282deg) saturate(1.3); }
+  #yaloka-stage-review .room-admin-role-panel { height:auto; }
+  #yaloka-stage-review .room-admin-role-panel .room-admin-row { margin:0 0 8px; }
+  #yaloka-stage-review .room-admin-role-options { display:grid; gap:8px; padding-bottom:4px; }
+  #yaloka-stage-review .room-admin-role-options .role-option { display:flex; align-items:center; gap:10px; width:100%; min-height:46px; padding:7px 11px; border:1px solid #ffffff25; border-radius:10px; background:#ffffff13; color:#fff; text-align:left; font-size:13px; }
+  #yaloka-stage-review .role-option img { width:24px; height:24px; border-radius:50%; }
+  #yaloka-stage-review .role-option[aria-pressed=&quot;true&quot;] { border-color:#ab72ff; background:#a361ff24; }
+  #yaloka-stage-review .role-option[aria-pressed=&quot;true&quot;]::after { content:&quot;&quot;; margin-left:auto; width:6px; height:10px; border:solid #e6caff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+  #yaloka-stage-review .overlay:has(.room-admin-role-panel) + .toast { bottom:max(246px,33%); }
   #yaloka-stage-review .room-info-header { display:flex; gap:12px; align-items:center; padding:14px 0 14px; }
   #yaloka-stage-review .room-info-header img { width:54px; height:54px; border-radius:8px; }
   #yaloka-stage-review .room-info-header small { display:block; margin-top:5px; color:#f1edf8; font-size:12px; }
@@ -2195,9 +2203,13 @@ html&gt;body{padding:0}&lt;/style&gt;
   }
 
   function close(all = false, restore = true) {
+    const previous = current();
     if (all) dialogs.length = 0;
     else dialogs.pop();
     renderDialog();
+    if (restore &amp;&amp; !all &amp;&amp; previous?.type === &#x27;room-admin-role&#x27;) {
+      layer.querySelector(`[data-action=&quot;open-admin-role&quot;][data-user=&quot;${previous.user}&quot;]`)?.focus({preventScroll:true});
+    }
     if (restore &amp;&amp; !dialogs.length) {
       const seat = returnFocus?.dataset.seat;
       const target = returnFocus?.isConnected ? returnFocus : seatsView.querySelector(`[data-seat=&quot;${seat}&quot;]`);
@@ -2279,14 +2291,12 @@ html&gt;body{padding:0}&lt;/style&gt;
     const senior = assignedRole === &#x27;senior&#x27;;
     const badge = senior ? &#x27;&lt;span class=&quot;senior-admin-badge&quot;&gt;Senior Admin&lt;/span&gt;&#x27; : img(&#x27;roomAdminBadge&#x27;,&#x27;room-admin-badge&#x27;,&#x27;Room Admin&#x27;);
     let roleLabel = &#x27;&#x27;;
-    if (assignedRole &amp;&amp; list !== &#x27;info&#x27;) {
+    if (assignedRole &amp;&amp; (list === &#x27;online&#x27; || list === &#x27;assigned&#x27;)) {
       roleLabel = `&lt;span class=&quot;room-admin-role&quot;&gt;${senior ? badge : &#x27;Room Admin&#x27;}&lt;/span&gt;`;
     }
     let trailing = &#x27;&#x27;;
     if (list === &#x27;online&#x27; &amp;&amp; id !== &#x27;im&#x27;) {
-      const setAdmin = assignedRole !== &#x27;admin&#x27; ? roomAdminAction(&#x27;Set as Admin&#x27;,id,&#x27;admin&#x27;) : &#x27;&#x27;;
-      const setSenior = !senior ? roomAdminAction(&#x27;Set as Senior Admin&#x27;,id,&#x27;senior&#x27;,&#x27;pill primary&#x27;) : &#x27;&#x27;;
-      trailing = `&lt;div class=&quot;room-admin-actions&quot;&gt;${setAdmin}${setSenior}&lt;/div&gt;`;
+      trailing = action(assignedRole ? &#x27;Change Role&#x27; : &#x27;Set Role&#x27;,&#x27;open-admin-role&#x27;,`class=&quot;pill room-role-trigger&quot; data-user=&quot;${id}&quot;`);
     }
     if (list === &#x27;assigned&#x27;) trailing = roomAdminAction(senior ? &#x27;Remove Senior Admin&#x27; : &#x27;Remove Admin&#x27;,id,&#x27;visitor&#x27;);
     if (list === &#x27;info&#x27;) trailing = badge;
@@ -2303,7 +2313,19 @@ html&gt;body{padding:0}&lt;/style&gt;
     const rows = ids.map(id =&gt; roomAdminRow(id,online ? &#x27;online&#x27; : &#x27;assigned&#x27;)).join(&#x27;&#x27;) || &#x27;&lt;div class=&quot;list-empty&quot;&gt;No room admins yet.&lt;/div&gt;&#x27;;
     const back = action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;);
     const tabs = action(&#x27;Admin&#x27;,&#x27;room-admin-list&#x27;,`aria-pressed=&quot;${!online}&quot;`) + action(&#x27;Online&#x27;,&#x27;room-admin-online&#x27;,`aria-pressed=&quot;${online}&quot;`);
-    return `${roomSettings(true)}&lt;div class=&quot;room-settings-shade&quot;&gt;&lt;/div&gt;&lt;div class=&quot;panel room-admin-panel safe&quot;&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${back}Room Admin&lt;/div&gt;&lt;div class=&quot;room-admin-tabs&quot; aria-label=&quot;Room Admin&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;${rows}&lt;/div&gt;&lt;/div&gt;`;
+    return `${roomSettings(true)}&lt;div class=&quot;room-settings-shade&quot;&gt;&lt;/div&gt;&lt;div class=&quot;panel room-admin-panel safe&quot;&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${back}Room Admin&lt;/div&gt;&lt;div class=&quot;room-admin-tabs&quot; aria-label=&quot;Room Admin&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable${online ? &#x27; room-admin-online&#x27; : &#x27;&#x27;}&quot;&gt;${rows}&lt;/div&gt;&lt;/div&gt;`;
+  }
+
+  function roomAdminRolePanel(user, title) {
+    const back = action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;);
+    const selected = roomAdmins.get(user);
+    const options = [[&#x27;Senior Admin&#x27;,&#x27;senior&#x27;],[&#x27;Room Admin&#x27;,&#x27;admin&#x27;]].map(([label,role]) =&gt;
+      roomAdminAction(`${img(&#x27;settings0&#x27;)}&lt;span&gt;${label}&lt;/span&gt;`,user,role,&#x27;role-option&#x27;,`aria-pressed=&quot;${selected === role}&quot;`)
+    ).join(&#x27;&#x27;);
+    return `${roomSettings(true)}&lt;div class=&quot;room-settings-shade&quot;&gt;&lt;/div&gt;&lt;div class=&quot;panel room-admin-panel room-admin-role-panel safe&quot;&gt;
+      &lt;div class=&quot;room-panel-heading&quot;&gt;${back}${title}&lt;/div&gt;
+      &lt;div class=&quot;scrollable&quot;&gt;${roomAdminRow(user,&#x27;role&#x27;)}&lt;div class=&quot;room-admin-role-options&quot;&gt;${options}&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;`;
   }
 
   function roomInfoPanel(tab) {
@@ -2323,17 +2345,19 @@ html&gt;body{padding:0}&lt;/style&gt;
   }
 
   function changeRoomAdmin(id, assignedRole) {
-    if (!isOwner() || id === &#x27;im&#x27; || (roomAdmins.get(id) ?? &#x27;visitor&#x27;) === assignedRole) return;
+    if (!isOwner() || id === &#x27;im&#x27;) return false;
+    if ((roomAdmins.get(id) ?? &#x27;visitor&#x27;) === assignedRole) return true;
     if (assignedRole === &#x27;senior&#x27; &amp;&amp; seniorAdminCount() &gt;= seniorAdminLimit) {
       say(&#x27;This room can have up to 5 senior admins.&#x27;);
-      return;
+      return false;
     }
     if (assignedRole === &#x27;visitor&#x27;) {
       roomAdmins.delete(id);
     } else {
       roomAdmins.set(id,assignedRole);
     }
-    renderDialog();
+    dismissToast();
+    return true;
   }
 
   function renderDialog(focus = true) {
@@ -2386,6 +2410,10 @@ html&gt;body{padding:0}&lt;/style&gt;
         title = &#x27;Room Admin&#x27;;
         body = roomAdminPanel(dialog.tab);
         break;
+      case &#x27;room-admin-role&#x27;:
+        title = roomAdmins.has(user) ? &#x27;Change Role&#x27; : &#x27;Set Role&#x27;;
+        body = roomAdminRolePanel(user,title);
+        break;
       case &#x27;room-info&#x27;:
         title = &#x27;Room Info&#x27;;
         body = roomInfoPanel(dialog.tab);
@@ -2402,8 +2430,8 @@ html&gt;body{padding:0}&lt;/style&gt;
         title = `${people[user].name} · Settings`;
         const report = [&#x27;Report&#x27;,3];
         const choices = isManager() ? [
-          [&#x27;Admin&#x27;,0,&#x27;admin&#x27;],
           ...(isOwner() ? [[&#x27;Senior Admin&#x27;,0,&#x27;senior&#x27;]] : []),
+          [&#x27;Admin&#x27;,0,&#x27;admin&#x27;],
           [&#x27;Visitor&#x27;,1,&#x27;visitor&#x27;],
           [&#x27;Blacklist&#x27;,2],
           report
@@ -2500,8 +2528,14 @@ html&gt;body{padding:0}&lt;/style&gt;
       return;
     }
     switch (key) {
+      case &#x27;open-admin-role&#x27;:
+        if (isOwner()) show(&#x27;room-admin-role&#x27;,{user:button.dataset.user},true);
+        break;
       case &#x27;change-room-admin&#x27;:
-        changeRoomAdmin(button.dataset.user,button.dataset.adminRole);
+        if (changeRoomAdmin(button.dataset.user,button.dataset.adminRole)) {
+          if (current().type === &#x27;room-admin-role&#x27;) close();
+          else renderDialog();
+        }
         break;
       case &#x27;open-room-settings&#x27;:
         if (isOwner()) show(&#x27;room-settings&#x27;,{},true);
