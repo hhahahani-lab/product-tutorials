@@ -895,7 +895,7 @@ body.salaryTheme .app {
   overflow: hidden;
   padding-bottom: 0;
   margin: 0 auto;
-  background: var(--bg);
+  background: radial-gradient(ellipse 90% 145px at 75% -23px,#7952b9,transparent),radial-gradient(ellipse 100% 137px at 17% -23px,#4346a5,transparent),var(--bg);
   color: var(--text);
 }
 body.salaryTheme .app > .page {
@@ -923,11 +923,12 @@ body.salaryTheme .top {
   min-height: 72px;
   height: auto;
   padding: 20px 60px;
-  background: linear-gradient(140deg, #37348b, #140c24);
+  background: transparent;
+  backdrop-filter: none;
   border: 0;
   color: #fff;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 500;
   line-height: 1.35;
   text-align: center;
   overflow-wrap: anywhere;
@@ -944,11 +945,11 @@ body.salaryTheme .top .r {
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: #d8c6ec;
+  color: white;
   font-size: 28px;
   padding: 0;
 }
-body.salaryTheme .top .l { left: 14px; }
+body.salaryTheme .top .l { left: 12px; font-size: 32px; }
 body.salaryTheme .top .r { right: 14px; }
 body.salaryTheme :is(.panelCard, .roleCard, .section, .hostMemberCard, .teamMemberCard,
   .teamFilterCard, .teamCard, .sourceAnalysisHost, .reviewCard, .reviewApplyCard,
@@ -1488,7 +1489,7 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 <script src="assets/salary-demo-store.js?v=20261107-linked5"></script>
 </head>
 <body class="salaryTheme" data-salary-bill-version="2026-11-04"><div class="app">
-<div class="top"><button class="l" onclick="goBack()" aria-label="Back">‹</button><span id="title">Agency Center</span></div>
+<div class="top"><button class="l" onclick="goBack()" aria-label="Back">‹</button><span id="title">Agency Center</span><button id="agencyAnalysisHelp" class="r" aria-label="Rules" onclick="openAnalysisRules()" hidden>?</button></div>
 
 <section id="home" class="page on dashboardPage">
   <div class="dashPad">
@@ -1625,7 +1626,6 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
       <button id="tabTotalData" class="analysis-tab active" onclick="showAnalysis('total',this)">Total Data</button>
       <button id="tabHostData" class="analysis-tab" onclick="showAnalysis('hostlist',this)">Host Data</button>
     </div>
-    <button class="analysisHelpBtn" onclick="openAnalysisRules()">?</button>
   </div>
 
   <div id="analysis-total" class="analysis-pane">
@@ -1646,9 +1646,14 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
         <input id="analysisHostSearchInput" class="hostSearchInput" inputmode="numeric" placeholder="Enter Host ID" onkeydown="if(event.key==='Enter')renderAnalysisHosts()">
         <button class="hostSearchButton" onclick="renderAnalysisHosts()">Search</button>
       </div>
-      <div class="compactFilterBar" onclick="openCombinedHostFilter()">
-        <div class="compactFilterGroup"><span class="compactFilterLabel">Time</span><button id="compactTime" class="compactChip active">This Week <span>⌄</span></button></div>
-        <div class="compactFilterGroup"><span class="compactFilterLabel">Sort</span><button id="compactSort" class="compactChip active">Coins <span>⌄</span></button><button id="compactValue" class="compactChip">Total Value <span>⌄</span></button><button class="compactChip iconChip" aria-label="Sort order"><span class="sortOrderIcon"><i class="up"></i><i class="down"></i></span></button></div>
+      <div class="agencyFilterRow">
+        <div class="agencyFilterChips">
+          <button id="compactTime" onclick="openCombinedHostFilter()">This Week ▾</button>
+          <button id="compactSort" onclick="openCombinedHostFilter()">Coins ▾</button>
+          <button id="compactValue" onclick="openCombinedHostFilter()">Total Value ▾</button>
+          <button id="compactOrder" onclick="openCombinedHostFilter()">Descending ▾</button>
+        </div>
+        <button class="agencyFilterIcon" aria-label="Filters" onclick="openCombinedHostFilter()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 3h16l-6 7v10l-4-2v-8zM16 12h6m-6 4h6m-6 4h6"/></svg></button>
       </div>
       <div class="hostDataNote">The following data excludes today's data and refreshes daily at 00:15 (UTC+5).</div>
     </div>
@@ -1657,24 +1662,27 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 </section>
 
 <section id="rewards" class="page">
-  <div class="rewardbox">
-    <h3 id="rewardHeadline" style="color:#f3c94e">Rewards available: 18,000 Beans</h3>
-    <div>Choose 1 of the 2 rewards. Choose Beans to get +50% bonus.</div>
-    <div class="rewardcards">
-      <button class="reward rewardCoin" data-reward="Coins" onclick="chooseRewardData(this)">
-        <div class="rewardPic coinPic"><div class="coinStack"><span>●</span><span>●</span><span>●</span></div></div>
-        <div class="rewardName"><span class="rewardMiniIcon coinMini">●</span> Coins</div><strong>12,000</strong>
-      </button>
-      <b class="rewardOr">OR</b>
-      <button class="reward rewardBean selected" data-reward="Beans" onclick="chooseRewardData(this)">
-        <div class="bonusTag">+50%</div><div class="rewardPic beanPic"><div class="beanShape"><span></span><span></span><span></span></div></div>
-        <div class="rewardName"><span class="rewardMiniIcon beanMini">●</span> Beans</div><strong>18,000</strong>
-      </button>
-    </div>
-    <button id="rewardClaimBtn" class="claim active" onclick="requestRewardClaim()">One-click claim</button>
-    <div style="font-size:13px">All times use UTC+0. Rewards can be claimed from Tuesday 01:00 to Sunday 24:00.<br>Monday 00:00 to Tuesday 01:00 is the statistical period.</div>
+  <div class="inviteRewardDemo" aria-label="演示控制">
+    <label for="agencyRewardScenario">演示场景</label>
+    <select id="agencyRewardScenario" onchange="agencyRewardState=this.value;renderAgencyRewards()">
+      <option value="empty">无奖励</option><option value="pending">统计中</option>
+      <option value="available">可领取</option><option value="claimed">已领取</option><option value="expired">已过期</option>
+    </select>
+    <label class="inviteHistoryControl"><input id="agencyRewardHistory" type="checkbox" onchange="renderAgencyRewards()"> 显示历史记录</label>
   </div>
-  <div class="records"><div class="section-title">Rewards Records</div><div class="recHead"><span>Statistical Time</span><span>Rewards</span><span>Status</span></div><div id="rewardRecordList"></div></div>
+  <div class="inviteRewardPanel inviteLastReward">
+    <img class="inviteRewardBanner" src="assets/invitation-rewards-banner.webp" alt="Invitation New Hosts Rewards" width="720" height="204">
+    <h2>Last Week's Reward</h2>
+    <p id="rewardHeadline" class="inviteEmptyMessage" role="status"></p>
+    <p class="inviteRewardPeriod">Last Week: Nov 9–Nov 15</p>
+    <div id="agencyRewardChoices" class="inviteRewardChoices" role="group" aria-label="Reward type"></div>
+    <button id="rewardClaimBtn" class="inviteClaim" onclick="requestRewardClaim()">One-click claim</button>
+    <p id="agencyRewardDeadline" class="inviteEmptyMessage" hidden>Claim by the end of Sunday (UTC+5).</p>
+  </div>
+  <div class="inviteRewardPanel">
+    <h2>Rewards Records</h2>
+    <div id="rewardRecordList"></div>
+  </div>
 </section>
 
 
@@ -1742,52 +1750,24 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 </div>
 
 
-<div id="hostFilterSheet" class="hostFilterSheet" onclick="closeHostFilterSheet(event)">
-  <div class="hostFilterPanel" onclick="event.stopPropagation()">
-    <div class="sheetGrabber" onclick="hideHostFilterSheet()" title="Close"></div>
-
-    <div class="combinedGroup">
-      <div class="combinedLabel">Time</div>
-      <div class="combinedOptions">
-        <button class="combinedOption on" data-group="time">This Week</button>
-        <button class="combinedOption" data-group="time">Yesterday</button>
-      </div>
-    </div>
-
-    <div class="combinedGroup">
-      <div class="combinedLabel">Sort</div>
-      <div class="combinedOptions">
-        <button class="combinedOption on" data-group="sort">Coins</button>
-        <button class="combinedOption" data-group="sort">Consumers</button>
-        <button class="combinedOption" data-group="sort">Valid Hours</button>
-        <button class="combinedOption" data-group="sort">Effective Host</button>
-        <button class="combinedOption on" data-group="value">Total Value</button>
-      </div>
-    </div>
-
-    <div class="combinedGroup">
-      <div class="combinedLabel">Order</div>
-      <div class="combinedOptions orderOptions">
-        <button class="combinedOption on" data-group="order">
-          <span class="orderChoiceIcon descending"><i></i><i></i><i></i></span>
-          Descending
-        </button>
-        <button class="combinedOption" data-group="order">
-          <span class="orderChoiceIcon ascending"><i></i><i></i><i></i></span>
-          Ascending
-        </button>
-      </div>
-    </div>
-
-    <div class="hostFilterActions">
-      <button type="button" onclick="hideHostFilterSheet()">Cancel</button>
-      <button type="button" class="confirm" onclick="applyCombinedHostFilter()">Confirm</button>
-    </div>
+<dialog id="hostFilterSheet" class="agencyAnalysisSheet" aria-label="Host Data filters" onclick="closeAgencyAnalysisBackdrop(event)">
+  <div class="agencySheetBody">
+    <div class="combinedGroup"><h3>Time</h3><div class="combinedOptions">
+      <button class="combinedOption" data-group="time">This Week</button><button class="combinedOption" data-group="time">Yesterday</button>
+    </div></div>
+    <div class="combinedGroup"><h3>Sort</h3><div class="combinedOptions">
+      <button class="combinedOption" data-group="sort">Coins</button><button class="combinedOption" data-group="sort">Consumers</button>
+      <button class="combinedOption" data-group="sort">Valid Hours</button><button class="combinedOption" data-group="sort">Effective Host</button>
+    </div></div>
+    <div class="combinedGroup"><h3>Value</h3><div class="combinedOptions">
+      <button class="combinedOption" data-group="value">Total Value</button>
+    </div></div>
+    <div class="combinedGroup"><h3>Order</h3><div class="combinedOptions">
+      <button class="combinedOption" data-group="order">Descending</button><button class="combinedOption" data-group="order">Ascending</button>
+    </div></div>
   </div>
-</div>
-
-
-
+  <div class="agencySheetActions"><button onclick="hideHostFilterSheet()">Cancel</button><button onclick="applyCombinedHostFilter()">Save</button></div>
+</dialog>
 
 <div id="paymentInfoOverlay" class="payOverlay" onclick="closePaymentInfo(event)">
   <div class="payCard" onclick="event.stopPropagation()">
@@ -1838,34 +1818,46 @@ body.salaryTheme .weekstat .txt { color: var(--muted); font-size: 12px; }
 
 
 
-<section id="analysisRules" class="page">
-  <div class="rulesPage">
-    <h2>Rules</h2>
-
-    <h3>I. Total Data Description</h3>
-    <p><b>1. Time Zone:</b> Unified to the agency's time zone.</p>
-    <p><b>2. Data Refresh:</b> Refreshes daily at 00:15 and does not include the current day. Data is updated until 23:59:59 of the previous day.</p>
-    <p><b>3. Total Data:</b> Combined data of all hosts in my agency.</p>
-    <p><b>4. Hosts:</b> Total number of hosts in the agency.</p>
-    <p><b>5. Coins:</b> Gift coins received by agency hosts.</p>
-    <p><b>6. Consumers:</b> Users who sent gifts to agency hosts.</p>
-    <p><b>7. New Hosts:</b> Hosts who signed as a Host for the first time during the selected period.</p>
-    <p><b>8. Effective Hosts:</b> Hosts with at least 4 Valid Days and 10 Valid Hours during the selected period.</p>
-    <p><b>9. Valid Hours:</b> Total valid on-mic time of agency hosts.</p>
-    <p><b>10. Active Hosts:</b> Hosts with on-mic time greater than 0.</p>
-    <p><b>11. Gifted Hosts:</b> Hosts who received more than 0 diamonds.</p>
-
-    <h3>II. Host Data Description</h3>
-    <p><b>1. Host ID:</b> Search and view data for a specific host in the agency.</p>
-    <p><b>2. Time:</b> Select the statistical period, such as This Week or Yesterday.</p>
-    <p><b>3. Coins:</b> Gift coins received by the host during the selected period.</p>
-    <p><b>4. Consumers:</b> Users who sent gifts to the host during the selected period.</p>
-    <p><b>5. Valid Hours:</b> Valid on-mic time of the host during the selected period.</p>
-    <p><b>6. Effective Host:</b> Shows <b>Qualified</b> when the host has at least 4 Effective Days and 10 Valid Working Hours during the selected period; otherwise shows <b>Not Qualified</b>.</p>
-    <p><b>7. Total Value:</b> Total statistical value used for sorting host data.</p>
-    <p><b>8. Sort Order:</b> Supports Descending and Ascending order.</p>
+<dialog id="analysisRules" class="agencyAnalysisSheet" aria-labelledby="agencyAnalysisRulesTitle" onclick="closeAgencyAnalysisBackdrop(event)">
+  <div class="agencySheetBody">
+    <h2 id="agencyAnalysisRulesTitle">Rules</h2>
+    <h3>I. Data Update</h3>
+    <ol>
+      <li>All dates and times follow UTC+5.</li>
+      <li>Data is refreshed daily at 00:30 (UTC+5).</li>
+      <li>The current day's data is not included. Data is updated through 23:59:59 of the previous day.</li>
+    </ol>
+    <h3>II. Total Data</h3>
+    <ol>
+      <li>Hosts: Total number of Hosts in the current Agency.</li>
+      <li>Coins: Regular Gift Coins are counted at 100%, while Lucky Gift Coins are counted at 10%.<p>Coins = Regular Gift Coins + Lucky Gift Coins × 10%.</p></li>
+      <li>Consumers: Users who sent gifts to Agency Hosts during the selected period.</li>
+      <li>New Hosts: Users who became Hosts for the first time during the selected period. Host transfers or re-signing do not count as New Hosts.</li>
+      <li>Effective Hosts:
+        <ul><li>Lv1–Lv9 Hosts are counted as Effective Hosts after completing 4 Valid Days + 10 Valid Hours.</li>
+        <li>Lv10+ Hosts are counted directly as Effective Hosts once they reach the applicable Target Coins.</li></ul>
+      </li>
+      <li>Valid Hours: Total Valid Hours completed by Agency Hosts during the selected period.</li>
+      <li>Active Hosts: Hosts with on-mic time greater than 0 during the selected period.</li>
+      <li>Gifted Hosts: Hosts who received more than 0 Diamonds during the selected period.</li>
+    </ol>
+    <h3>III. Yesterday's Data</h3>
+    <ol>
+      <li>Yesterday's Data displays Coins, Consumers, Valid Hours, Active Hosts, and Gifted Hosts.</li>
+      <li>The percentage change compares yesterday's data with the day before yesterday.</li>
+      <li>New Hosts and Effective Hosts are displayed only in the weekly data summary.</li>
+    </ol>
+    <h3>IV. Host Data</h3>
+    <ol>
+      <li>Host Data displays production data for each Host during the selected period.</li>
+      <li>Users can search for a specific Host by Host ID.</li>
+      <li>Each Host record displays Coins, Consumers, Valid Hours, and Effective Host status.</li>
+      <li>Coins in Host Data follow the same calculation rule: Coins = Regular Gift Coins + Lucky Gift Coins × 10%.</li>
+      <li>Effective Host Status: Displays Qualified when the Host meets the applicable Effective Host requirements; otherwise, it displays Not Qualified.</li>
+      <li>Host Data supports filtering by statistical period and sorting by the selected metric.</li>
+    </ol>
   </div>
-</section>
+</dialog>
 
 </div><script>
 let pageHistory=['home'];
@@ -1875,6 +1867,7 @@ function setPage(id,t){
   if(!target)return;
   target.classList.add('on');
   document.body.classList.toggle('homeView',id==='home');
+  document.getElementById('agencyAnalysisHelp').hidden = id !== 'analysis';
   document.getElementById('title').textContent=t||({
     home:'Agency Center',
     levelInfo:'Agency Level',
@@ -2028,21 +2021,12 @@ function saveWhatsAppConfig(){
 }
 
 
-function openCombinedHostFilter(){
-  const s=document.getElementById('hostFilterSheet');
-  if(s)s.classList.add('show');
-}
 function hideHostFilterSheet(){
-  const s=document.getElementById('hostFilterSheet');
-  if(s)s.classList.remove('show');
+  document.getElementById('hostFilterSheet').close();
 }
-function closeHostFilterSheet(e){
-  if(e && e.target && e.target.id==='hostFilterSheet'){
-    hideHostFilterSheet();
-  }
-}
-function applyCombinedHostFilter(){
-  hideHostFilterSheet();
+function closeAgencyAnalysisBackdrop(event){
+  const dialog = event.currentTarget;
+  if (event.target === dialog && event.clientY < dialog.getBoundingClientRect().top) dialog.close();
 }
 
 
@@ -2169,7 +2153,9 @@ function savePaymentInfo(){
 
 
 function openAnalysisRules(){
-  openp('analysisRules','Rules');
+  const dialog = document.getElementById('analysisRules');
+  dialog.showModal();
+  dialog.querySelector('.agencySheetBody').scrollTop = 0;
 }
 
 
@@ -2181,14 +2167,6 @@ const agencySourceData={
     {id:'10597320',nick:'Lina Voice',validDay:3,validTime:8.7,goldNum:54320,diamondNum:16296,spendersNum:61,validAnchorNum:0},
     {id:'10261488',nick:'Mariam Star',validDay:6,validTime:27.4,goldNum:148900,diamondNum:44670,spendersNum:173,validAnchorNum:1},
     {id:'10987211',nick:'Noor Party',validDay:2,validTime:6.1,goldNum:57760,diamondNum:17328,spendersNum:48,validAnchorNum:0}
-  ],
-  weekSummary:[['18','Hosts'],['486,320','Coins'],['426','Consumers'],['4','New Hosts'],['11','Effective Hosts'],['188.5h','Valid Hours'],['15','Active Hosts'],['12','Gifted Hosts']],
-  yesterday:[
-    {label:'Coins',value:'82,640',ratio:12.6},
-    {label:'Consumers',value:'138',ratio:8.2},
-    {label:'Valid Hours',value:'31.4h',ratio:-3.1},
-    {label:'Active Hosts',value:'15',ratio:0},
-    {label:'Gifted Hosts',value:'12',ratio:9.1}
   ],
   rewardRecords:[
     {start:'2026-08-10',end:'2026-08-16',type:'Beans',total:'15,000',send:1},
@@ -2233,8 +2211,13 @@ const agencyCharts=[
   {title:'Weekly Diamonds Data',last:[41,45,39,50,55,57,61],now:[48,52,49,61,68,65,73]},
   {title:'Gifted Hosts',last:[7,8,6,9,9,10,10],now:[8,9,9,11,12,11,12]}
 ];
-let selectedRewardData='Beans';
-let rewardClaimAvailable=true;
+let selectedRewardData='Coins';
+let agencyRewardState='empty';
+const agencyRewardAmounts={Coins:12000,Beans:18000};
+const agencyRewardMessages={
+  empty:'No rewards available.',pending:'Calculating rewards…',available:'Choose 1 reward. Beans +50%.',
+  claimed:'Reward received.',expired:'Claim period ended.'
+};
 let reviewFilterValue='All status';
 let analysisFilterState={time:'This Week',sort:'Coins',value:'Total Value',order:'Descending'};
 let confirmDataAction=null;
@@ -2255,40 +2238,90 @@ function renderHostData(){
 }
 function confirmCalendar(){document.getElementById('hostDateRange').textContent='2026-08-17 / 2026-08-23';hideCalendar();renderHostData()}
 
+const agencyAnalysisHosts = [
+  {id:'8982', nick:'主播主播', goldNum:17000, spendersNum:1, validTime:0, validAnchorNum:0},
+  {id:'8853', nick:'luckymay', goldNum:0, spendersNum:0, validTime:0, validAnchorNum:0},
+  {id:'9085', nick:'user7249', goldNum:0, spendersNum:0, validTime:0, validAnchorNum:0}
+];
+const agencyAnalysisYesterday = {goldNum:0, spendersNum:0, validTime:0};
+const agencyWeekSummary = [
+  [agencyAnalysisHosts.length,'Hosts'], ['17,000','Coins'], [1,'Consumers'], [0,'New Hosts'],
+  [0,'Effective Hosts'], ['0.00h','Valid Hours'], [0,'Active Hosts'], [1,'Gifted Hosts']
+];
+const agencyYesterdaySummary = [
+  [0,'Coins',-100], [0,'Consumers',-100], ['0.00h','Valid Hours'], [0,'Active Hosts'], [0,'Gifted Hosts',-100]
+];
+
 function renderTotalAnalysis(){
   const week=document.getElementById('weekSummaryGrid');
-  if(week)week.innerHTML=agencySourceData.weekSummary.map(x=>`<div class="weekstat"><div class="num">${x[0]}</div><div class="analysisMetricLabel">${x[1]}</div></div>`).join('');
+  if(week)week.innerHTML=agencyWeekSummary.map(x=>`<div class="weekstat"><div class="num">${x[0]}</div><div class="analysisMetricLabel">${x[1]}</div></div>`).join('');
   const yes=document.getElementById('yesterdayGrid');
-  if(yes)yes.innerHTML=agencySourceData.yesterday.map(x=>`<div class="ys"><div class="num">${x.value}</div><div class="analysisMetricLabel">${x.label}</div><div class="analysisRatio ${x.ratio>0?'up':x.ratio<0?'down':'flat'}">${x.ratio>0?'↑':x.ratio<0?'↓':'—'} ${Math.abs(x.ratio)}%<small>Compared to the Day Before</small></div></div>`).join('');
+  if (yes) yes.innerHTML = agencyYesterdaySummary.map(([value,label,ratio]) => `<div class="ys"><div class="num">${value}</div><div class="analysisMetricLabel">${label}</div>${ratio === undefined ? '' : `<div class="analysisRatio down">↓ ${Math.abs(ratio).toFixed(2)}%<small>Compared to the Day Before</small></div>`}</div>`).join('');
 }
 function showAnalysis(which,el){
   document.querySelectorAll('#analysis .analysis-tab').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');
   const total=document.getElementById('analysis-total'),host=document.getElementById('analysis-hostlist');if(total)total.style.display=which==='total'?'block':'none';if(host)host.style.display=which==='hostlist'?'block':'none';
+  document.getElementById('analysis').scrollTop = 0;
   if(which==='hostlist')renderAnalysisHosts();else renderTotalAnalysis();
 }
 function analysisSortValue(h,key){if(key==='Consumers')return h.spendersNum;if(key==='Valid Hours')return h.validTime;if(key==='Effective Host')return h.validAnchorNum;return h.goldNum}
 function renderAnalysisHosts(){
-  const q=(document.getElementById('analysisHostSearchInput')?.value||'').trim();let list=q?agencySourceData.hosts.filter(h=>h.id.includes(q)):agencySourceData.hosts;
+  const q=(document.getElementById('analysisHostSearchInput')?.value||'').trim();let list=q?agencyAnalysisHosts.filter(h=>h.id===q):agencyAnalysisHosts;
+  if (analysisFilterState.time === 'Yesterday') list = list.map(host => ({...host,...agencyAnalysisYesterday}));
   const asc=analysisFilterState.order==='Ascending';const key=analysisFilterState.sort;list=[...list].sort((a,b)=>(asc?1:-1)*(analysisSortValue(a,key)-analysisSortValue(b,key)));
   const box=document.getElementById('analysisHostList');if(!box)return;
-  box.innerHTML=list.length?list.map(h=>`<article class="sourceAnalysisHost"><div class="sourceAnalysisHostHead"><b>${h.nick}</b><span>Host ID: ${h.id}</span></div><div class="sourceAnalysisGrid"><div><b>${fmtData(h.goldNum)}</b><span>Coins</span></div><div><b>${fmtData(h.spendersNum)}</b><span>Consumers</span></div><div><b>${h.validTime}h</b><span>Valid Hours</span></div><div><b class="${h.validAnchorNum?'validYes':'validNo'}">${h.validAnchorNum?'Qualified':'Not Qualified'}</b><span>Effective Host</span></div></div></article>`).join(''):'<div class="sourceEmpty">No more data</div>';
+  box.innerHTML=list.length?list.map(h=>`<article class="sourceAnalysisHost"><div class="sourceAnalysisHostHead"><b>${h.nick}</b><span>Host ID: ${h.id}</span></div><div class="sourceAnalysisGrid"><div><b>${fmtData(h.goldNum)}</b><span>Coins</span></div><div><b>${fmtData(h.spendersNum)}</b><span>Consumers</span></div><div><b>${Number(h.validTime).toFixed(2)}h</b><span>Valid Hours</span></div><div><b class="${h.validAnchorNum?'validYes':'validNo'}">${h.validAnchorNum?'Qualified':'Not Qualified'}</b><span>Effective Host</span></div></div></article>`).join(''):'<div class="sourceEmpty">No more data</div>';
 }
 function selectCombinedOption(btn){
   const group=btn.dataset.group;if(!group)return;document.querySelectorAll(`#hostFilterSheet [data-group="${group}"]`).forEach(x=>x.classList.remove('on'));btn.classList.add('on');
 }
 function openCombinedHostFilter(){
-  document.querySelectorAll('#hostFilterSheet .combinedOption[data-group]').forEach(btn=>{const g=btn.dataset.group;btn.classList.toggle('on',btn.textContent.trim().includes(analysisFilterState[g]));});
-  document.getElementById('hostFilterSheet')?.classList.add('show');
+  document.querySelectorAll('#hostFilterSheet .combinedOption[data-group]').forEach(btn=>{const g=btn.dataset.group;btn.classList.toggle('on',btn.textContent.trim()===analysisFilterState[g]);});
+  const dialog = document.getElementById('hostFilterSheet');
+  dialog.showModal();
+  dialog.querySelector('.agencySheetBody').scrollTop = 0;
 }
 function applyCombinedHostFilter(){
   ['time','sort','value','order'].forEach(g=>{const el=document.querySelector(`#hostFilterSheet .combinedOption.on[data-group="${g}"]`);if(el)analysisFilterState[g]=el.textContent.trim();});
-  document.getElementById('compactTime').innerHTML=analysisFilterState.time+' <span>⌄</span>';document.getElementById('compactSort').innerHTML=analysisFilterState.sort+' <span>⌄</span>';document.getElementById('compactValue').innerHTML=analysisFilterState.value+' <span>⌄</span>';
+  for (const [key,id] of Object.entries({time:'compactTime',sort:'compactSort',value:'compactValue',order:'compactOrder'})) {
+    document.getElementById(id).textContent = analysisFilterState[key] + ' ▾';
+  }
   hideHostFilterSheet();renderAnalysisHosts();
 }
 
-function chooseRewardData(btn){if(!rewardClaimAvailable)return;document.querySelectorAll('#rewards .reward').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');selectedRewardData=btn.dataset.reward;document.getElementById('rewardHeadline').textContent=`Rewards available: ${selectedRewardData==='Beans'?'18,000 Beans':'12,000 Coins'}`}
-function renderRewardRecordsData(){const box=document.getElementById('rewardRecordList');if(box)box.innerHTML=agencySourceData.rewardRecords.map(r=>`<div class="rewardRecordRow"><span>${r.start}<br>${r.end}</span><span><b>${r.type}</b><br>${r.total}</span><span class="claimed">${r.send?'Claimed':'Unclaimed'}</span></div>`).join('')}
-function requestRewardClaim(){if(!rewardClaimAvailable)return;showDataConfirm('Choose Reward',`Confirm to receive <b>${selectedRewardData==='Beans'?'18,000 Beans':'12,000 Coins'}</b>?`,'Confirm',()=>{rewardClaimAvailable=false;document.getElementById('rewardHeadline').textContent='There are no rewards to claim currently.';document.getElementById('rewardClaimBtn').disabled=true;toastData('✓ Claim successful')})}
+function renderAgencyRewards(){
+  const available = agencyRewardState === 'available';
+  const claimed = agencyRewardState === 'claimed';
+  const expired = agencyRewardState === 'expired';
+  document.getElementById('rewardHeadline').textContent = agencyRewardMessages[agencyRewardState];
+  document.getElementById('agencyRewardScenario').value = agencyRewardState;
+  document.getElementById('rewardClaimBtn').disabled = !available;
+  document.getElementById('agencyRewardDeadline').hidden = !available;
+  document.getElementById('agencyRewardChoices').innerHTML = Object.entries(agencyRewardAmounts).map(([type,amount],index)=>`${index ? '<span class="inviteRewardOr">OR</span>' : ''}
+    <label class="inviteRewardChoice">
+      <input type="radio" name="agency-reward" aria-label="${type}" ${selectedRewardData===type?'checked':''} ${claimed||expired?'disabled':''} onchange="selectedRewardData='${type}'">
+      <span class="inviteRewardArt"><img src="assets/invitation-rewards-${type.toLowerCase()}.webp" alt="" width="309" height="247">${index?'<small>+50%</small>':''}</span>
+      <b>${type}</b><strong>${agencyRewardState==='pending'?'--':agencyRewardState==='empty'?'0':fmtData(amount)}</strong>
+    </label>`).join('');
+  const records = document.getElementById('agencyRewardHistory').checked
+    ? agencySourceData.rewardRecords.map(r=>[`${r.start}<br>${r.end}`,`${r.total} ${r.type}`,r.send?'Claimed':'Unclaimed']) : [];
+  if (claimed) records.unshift(['Nov 9–Nov 15', `${fmtData(agencyRewardAmounts[selectedRewardData])} ${selectedRewardData}`, 'Claimed']);
+  if (expired) records.unshift(['Nov 9–Nov 15', 'Coins 12,000 / Beans 18,000', 'Expired']);
+  document.getElementById('rewardRecordList').innerHTML = records.length ? records.map(([period,amount,status])=>`
+    <div class="inviteRewardRecord"><span>${period}</span><b>${amount}</b><span>${status}</span></div>`).join('') :
+    '<p class="inviteEmptyMessage inviteRecordsEmpty">No reward records yet.</p>';
+}
+function requestRewardClaim(){
+  if (agencyRewardState !== 'available') return;
+  const type = selectedRewardData;
+  showDataConfirm('Choose Reward',`Confirm to receive <b>${fmtData(agencyRewardAmounts[type])} ${type}</b>?`,'Confirm',()=>{
+    if (agencyRewardState !== 'available') return;
+    selectedRewardData = type;
+    agencyRewardState = 'claimed';
+    renderAgencyRewards();
+    toastData('✓ Claim successful');
+  });
+}
 
 function salaryStatusData(s){return s===1?['Under Review','review']:s===2?['Agency Confirmed','ok']:s===3?['Agency Rejected','no']:['Already Payout','ok']}
 function renderSalaryRecords(){
@@ -2297,7 +2330,7 @@ function renderSalaryRecords(){
 }
 function requestSalaryUpdate(id,status){const b=agencySourceData.salaryBills.find(x=>x.id===id);if(!b)return;showDataConfirm(status===2?'Confirm Salary Bill':'Reject Salary Bill',`Total Salary: <b>$${fmtData(b.total)}</b><br>Payment Method: ${b.method} · $${fmtData(b.amount ?? b.shouldPay)}`,(status===2?'Confirm':'Reject'),()=>{b.status=status;renderSalaryRecords();toastData(status===2?'✓ Salary bill confirmed':'Salary bill rejected')})}
 function openAnchorSalaryData(periodId){document.getElementById('anchorSalaryPeriod').textContent=periodId+' · 2026-08-17 - 2026-08-23';renderAnchorSalaryData();openp('anchorSalary','Host Salary Bills')}
-function renderAnchorSalaryData(){const box=document.getElementById('anchorSalaryList');if(!box)return;box.innerHTML=agencySourceData.hosts.slice(0,4).map(h=>{const hostSalary=(h.goldNum/1000).toFixed(2),agencySalary=(h.goldNum*.00016).toFixed(2);return `<div class="hostSalaryCardNew"><div class="hostSalaryHeadNew"><b>${h.nick}</b><small>ID: ${h.id} · 2026-08-17 - 2026-08-23</small></div><div class="hostSalaryGridNew"><div><b>${fmtData(h.goldNum)}</b><span>Total Coins</span></div><div><b>${fmtData(h.diamondNum)}</b><span>Total Diamonds</span></div><div><b>$${hostSalary}</b><span>Host Salary</span></div><div><b>$${agencySalary}</b><span>Agent Salary</span></div><div><b>${h.validDay}</b><span>Valid Days</span></div><div><b>${h.validTime}h</b><span>Valid Hours</span></div></div><div class="achievementNew"><b class="${h.validAnchorNum?'validYes':'validNo'}">${h.validAnchorNum?'Working Time Achieved':'Working Time Not Met'}</b><small>Result is determined by the valid-day and valid-hour requirements.</small></div></div>`}).join('')}
+function renderAnchorSalaryData(){const box=document.getElementById('anchorSalaryList');if(!box)return;box.innerHTML=agencySourceData.hosts.slice(0,4).map(h=>{const hostSalary=(h.goldNum/1000).toFixed(2),agencySalary=(h.goldNum*.00016).toFixed(2);return `<div class="hostSalaryCardNew"><div class="hostSalaryHeadNew"><b>${h.nick}</b><small>ID: ${h.id} · 2026-08-17 - 2026-08-23</small></div><div class="hostSalaryGridNew"><div><b>${fmtData(h.goldNum)}</b><span>Total Coins</span></div><div><b>${fmtData(h.diamondNum)}</b><span>Total Diamonds</span></div><div><b>$${hostSalary}</b><span>Host Salary</span></div><div><b>$${agencySalary}</b><span>Agent Salary</span></div><div><b>${h.validDay}</b><span>Valid Days</span></div><div><b>${Number(h.validTime).toFixed(2)}h</b><span>Valid Hours</span></div></div><div class="achievementNew"><b class="${h.validAnchorNum?'validYes':'validNo'}">${h.validAnchorNum?'Working Time Achieved':'Working Time Not Met'}</b><small>Result is determined by the valid-day and valid-hour requirements.</small></div></div>`}).join('')}
 
 function applicationStatusData(v){return v===0?['Under review','review']:v===1?['Approval ✓','ok']:['Not pass','no']}
 function renderApplicationsData(){
@@ -2383,7 +2416,7 @@ function savePaymentInfo(){
 // Ensure filter options are interactive without changing their visual shell.
 document.querySelectorAll('#hostFilterSheet .combinedOption[data-group]').forEach(btn=>btn.onclick=()=>selectCombinedOption(btn));
 renderPaymentSummary();renderPaymentMethodList();
-renderAgencyCharts();renderHostData();renderTotalAnalysis();renderAnalysisHosts();renderRewardRecordsData();renderSalaryRecords();renderAnchorSalaryData();renderApplicationsData();
+renderAgencyCharts();renderHostData();renderTotalAnalysis();renderAnalysisHosts();renderAgencyRewards();renderSalaryRecords();renderAnchorSalaryData();renderApplicationsData();
 
 document.body.classList.add('homeView');
 
@@ -2872,4 +2905,89 @@ renderSalaryRecords();
   refresh();
 })();
 </script>
+<style>
+body.salaryTheme #agencyAnalysisHelp[hidden]{display:none}
+body.salaryTheme #agencyAnalysisHelp{right:16px;width:24px;height:24px;border:1.5px solid white;border-radius:50%;color:white;font-size:15px}
+body.salaryTheme #analysis{--agency-data-card:linear-gradient(90deg,#4b2a77,#190434);--agency-data-muted:#b0a3bf;--agency-data-yellow:#fff01a;padding:0 0 16px}
+body.salaryTheme #analysis .analysisTabsWrap{position:sticky;top:0;z-index:3;border:0;margin:0;background:#140c21;padding:0 13px}
+body.salaryTheme #analysis .analysis-tabs{display:flex;justify-content:flex-start;gap:20px!important;padding:0!important;border:0;background:none;box-shadow:none}
+body.salaryTheme #analysis .analysis-tab{position:relative;flex:none;border:0!important;border-radius:0;background:none;padding:0 0 8px!important;min-height:48px;font-size:17px!important;font-weight:500!important;color:#a098ad!important}
+body.salaryTheme #analysis .analysis-tab.active{color:#a565f4!important;background:none}
+body.salaryTheme #analysis .analysis-tab.active::after{content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:20px;height:3px;border-radius:99px;background:#a565f4}
+body.salaryTheme #analysis .analysis-pane{padding:12px 13px 0}
+body.salaryTheme #analysis .hostDataTop{padding:0}
+body.salaryTheme #analysis :is(.smallnote,.hostDataNote){padding:0!important;margin:0 0 13px;color:var(--agency-data-muted)!important;font-size:13px!important;line-height:1.35}
+body.salaryTheme #analysis .section,body.salaryTheme #analysis .sourceAnalysisHost{margin:0 0 19px;border-radius:14px;border:1px solid #7c579c;background:var(--agency-data-card);padding:12px;box-shadow:none}
+body.salaryTheme #analysis :is(.section-title,.sourceAnalysisHostHead b){color:white;font-size:17px;font-weight:600}
+body.salaryTheme #analysis .section-title{margin:0 0 12px;padding:0!important;border:0;color:white!important;font-size:17px!important}
+body.salaryTheme #analysis :is(.weekbox,.yesterday,.sourceAnalysisGrid){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;padding:0;margin:0;background:none;border:0;box-shadow:none}
+body.salaryTheme #analysis :is(.weekstat,.ys,.sourceAnalysisGrid>div){min-width:0;min-height:67px;padding:10px 11px;border:0!important;border-radius:11px;background:#ffffff29!important;display:flex;align-items:flex-start;justify-content:center;flex-direction:column;text-align:left}
+body.salaryTheme #analysis .yesterday .ys:last-child{grid-column:1/-1}
+body.salaryTheme #analysis :is(.num,.sourceAnalysisGrid b){font-size:21px;line-height:1.2;font-weight:500;color:var(--agency-data-yellow);overflow-wrap:anywhere}
+body.salaryTheme #analysis .sourceAnalysisGrid b{font-size:clamp(13px,4.1vw,17px)}
+body.salaryTheme #analysis .sourceAnalysisGrid .validNo,body.salaryTheme #analysis .analysisRatio.down{color:#ff6259}
+body.salaryTheme #analysis .sourceAnalysisGrid .validYes{color:#78e0ae}
+body.salaryTheme #analysis :is(.analysisMetricLabel,.sourceAnalysisGrid span,.sourceAnalysisHostHead span){color:var(--agency-data-muted);font-size:13px;line-height:1.25}
+body.salaryTheme #analysis :is(.analysisMetricLabel,.sourceAnalysisGrid span){margin-top:6px}
+body.salaryTheme #analysis .analysisRatio{margin-top:5px;font-size:13px}
+body.salaryTheme #analysis .analysisRatio small{display:block;color:var(--agency-data-muted);font-size:11px;margin-top:3px}
+body.salaryTheme #analysis .sourceAnalysisHostHead{margin:0 0 12px;gap:8px;padding:5px 4px;border:0}
+body.salaryTheme #analysis .sourceAnalysisHostHead span{white-space:nowrap}
+body.salaryTheme #analysis .sourceAnalysisHostList{display:block;padding:0}
+body.salaryTheme #analysis .analysisHostSearch{display:grid;grid-template-columns:minmax(0,1fr) auto!important;gap:9px;margin:0}
+body.salaryTheme #analysis .analysisHostSearch :is(input,button){height:46px!important;border-radius:99px!important;font-size:15px!important}
+body.salaryTheme #analysis .analysisHostSearch input{width:100%;padding:0 15px;background:#ffffff1b;border:1px solid #ffffff55;font-weight:400}
+body.salaryTheme #analysis .analysisHostSearch button{padding:0 16px;background:#a565f4;color:white;border:0;box-shadow:none}
+.agencyFilterRow{display:flex;gap:8px;align-items:center;margin:12px 0 17px}
+.agencyFilterChips{display:flex;gap:7px;min-width:0;flex:1;overflow-x:auto;scrollbar-width:none}
+.agencyFilterChips button{flex:none;white-space:nowrap;padding:5px 10px;color:white;background:#ffffff1b;border:1px solid #ffffff55;border-radius:99px;font-size:14px}
+.agencyFilterIcon{display:grid;place-items:center;width:30px;height:32px;padding:0;color:white;background:none;border:0}
+.agencyAnalysisSheet{position:fixed;inset:auto 0 0;margin:0 auto;width:min(100%,430px);max-width:none;max-height:72dvh;overflow:hidden;padding:0;border:0;border-radius:22px 22px 0 0;background:linear-gradient(#513177,#170d23);color:white}
+.agencyAnalysisSheet[open]{display:flex;flex-direction:column}
+.agencyAnalysisSheet::backdrop{background:#000a}
+.agencySheetBody{overflow:auto;scrollbar-width:none;overscroll-behavior:contain;padding:19px 16px}
+.agencySheetBody h3{font-size:17px;margin:0 0 12px;font-weight:600}
+.agencyAnalysisSheet .combinedGroup{margin:0 0 16px}
+.agencyAnalysisSheet .combinedGroup:last-child{margin-bottom:0}
+.agencyAnalysisSheet .combinedOptions{display:flex;flex-wrap:wrap;gap:8px}
+.agencyAnalysisSheet .combinedOption{border:1px solid transparent;border-radius:99px;min-height:39px;padding:0 13px;background:#ffffff26;color:white;font-size:15px;font-weight:400}
+.agencyAnalysisSheet .combinedOption.on{border-color:#b385ff;background:#a565f475;color:white}
+.agencySheetActions{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:5px 16px calc(18px + env(safe-area-inset-bottom))}
+.agencySheetActions button{border:0;border-radius:99px;background:#ffffff33;color:white;min-height:50px;font-size:17px}
+.agencySheetActions button:last-child{background:#a565f4}
+#analysisRules h2,#analysisRules h3{color:#fff01a}
+#analysisRules h2{margin:0 0 16px;font-size:20px}
+#analysisRules ol{padding-left:21px;margin-bottom:19px;color:#cbbbd8}
+#analysisRules li{margin-bottom:9px;font-size:14px;line-height:1.4}
+</style>
+<style>
+#rewards{--reward-yellow:#fff01a;--reward-muted:#c8bcd5;padding:16px 4.25% calc(20px + env(safe-area-inset-bottom))}
+body.salaryTheme #rewards .inviteRewardPanel{padding:clamp(14px,4.4vw,21px);border:1px solid #8562ac;border-radius:20px;background:linear-gradient(90deg,#4b2a77,#190434)}
+.inviteRewardPanel + .inviteRewardPanel{margin-top:20px}
+.inviteRewardPanel h2{margin:0;color:white;font-size:clamp(15px,4.2vw,19px);font-weight:600;line-height:1.2}
+.inviteRewardPeriod{color:var(--reward-muted);margin:12px 0;font-size:clamp(13px,4vw,17px)}
+.inviteRewardBanner{display:block;width:100%;height:auto;border-radius:9px}
+.inviteLastReward h2{margin-top:20px;text-align:center;color:var(--reward-yellow)}
+.inviteEmptyMessage{color:var(--reward-muted);margin:8px 0 0;text-align:center;font-size:12px}
+.inviteRewardChoices{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin:19px 0}
+.inviteRewardChoice{display:grid;justify-items:center;gap:7px;position:relative;min-width:0;padding:18px 8px;border:1.5px solid transparent;border-radius:12px;background:#ffffff30;color:white;cursor:pointer}
+.inviteRewardChoice:has(input:checked){border-color:var(--reward-yellow)}
+.inviteRewardChoice:has(input:focus-visible){outline:2px solid white;outline-offset:2px}
+.inviteRewardChoice input{position:absolute;opacity:0;width:1px;height:1px}
+.inviteRewardArt{width:75%;position:relative}
+.inviteRewardArt img{display:block;width:100%;height:auto;border-radius:8px}
+.inviteRewardArt small{position:absolute;top:-9px;right:0;padding:2px 7px;border:1px solid #ffcd68;border-radius:9px 9px 3px 9px;background:#f3314d;color:#fff0a0;font-size:10px}
+.inviteRewardOr{font-size:16px;font-weight:600}
+.inviteRewardChoice strong{font-size:16px}
+.inviteClaim{width:100%;min-height:49px;border:0;border-radius:99px;background:#86713e;color:#251336;font-size:19px;font-weight:600}
+.inviteRewardDemo{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 10px;margin-bottom:14px;padding:8px 10px;border:1px dashed #80649c;border-radius:10px;color:#d6c7e6}
+.inviteRewardDemo label{font-size:12px}
+.inviteHistoryControl{grid-column:1/-1;display:flex;align-items:center;gap:4px}
+body.salaryTheme .inviteRewardDemo select{font-size:13px;min-height:36px}
+.inviteRewardRecord{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;margin-top:16px;padding:12px 0 0;border-top:1px solid #ffffff35;font-size:12px}
+.inviteRewardRecord b{color:var(--reward-yellow)}
+.inviteClaim:not(:disabled){background:#fff01a}
+.inviteClaim:disabled{cursor:default}
+.inviteRecordsEmpty{margin:20px 0}
+</style>
 </body></html>
