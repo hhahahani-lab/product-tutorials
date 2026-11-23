@@ -1897,7 +1897,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &lt;button type=&quot;button&quot; data-role=&quot;visitor&quot; aria-pressed=&quot;false&quot;&gt;普通用户&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class=&quot;room-preview-controls&quot;&gt;
-    &lt;button type=&quot;button&quot; data-fill-admins&gt;模拟已有 5 人&lt;/button&gt;
+    &lt;button type=&quot;button&quot; data-fill-admins&gt;模拟已有 5 名高级管理员&lt;/button&gt;
   &lt;/div&gt;
   &lt;label class=&quot;preview-legend&quot; hidden&gt;&lt;input type=&quot;checkbox&quot; data-legend&gt; 模拟 LEGEND 防锁麦&lt;/label&gt;
   &lt;div class=&quot;phone&quot; aria-label=&quot;Yaloka 语音房&quot;&gt;
@@ -2072,8 +2072,12 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .room-admin-row { display:flex; gap:8px; align-items:center; min-height:54px; padding:3px 0; font-size:13px; }
   #yaloka-stage-review .room-admin-row .avatar { width:39px; height:39px; }
   #yaloka-stage-review .room-admin-row .room-admin-name { min-width:0; overflow-wrap:anywhere; }
+  #yaloka-stage-review .room-admin-actions { display:flex; flex-direction:column; flex:none; gap:5px; margin-left:auto; padding-block:4px; }
   #yaloka-stage-review .room-admin-row .pill { margin-left:auto; flex:none; font-size:11px; padding:5px 10px; min-height:32px; }
-  #yaloka-stage-review .room-admin-row .pill:disabled { opacity:.72; }
+  #yaloka-stage-review .room-admin-actions .pill { margin-left:0; }
+  #yaloka-stage-review .room-admin-role { display:block; margin-top:3px; font-size:11px; color:#d6cde2; }
+  #yaloka-stage-review .senior-admin-badge { display:inline-block; flex:none; padding:2px 6px; border:1px solid #c39558; border-radius:6px; color:#ffe0a1; background:#493255; font-size:10px; font-weight:600; line-height:1.3; white-space:nowrap; }
+  #yaloka-stage-review .settings-option[data-admin-role=&quot;senior&quot;] img { filter:hue-rotate(282deg) saturate(1.3); }
   #yaloka-stage-review .room-info-header { display:flex; gap:12px; align-items:center; padding:14px 0 14px; }
   #yaloka-stage-review .room-info-header img { width:54px; height:54px; border-radius:8px; }
   #yaloka-stage-review .room-info-header small { display:block; margin-top:5px; color:#f1edf8; font-size:12px; }
@@ -2115,7 +2119,9 @@ html&gt;body{padding:0}&lt;/style&gt;
     guest: { name:&#x27;Guest&#x27;, port:null }
   };
   const exampleAdmins = Array.from({ length:5 }, (_, index) =&gt; `demo-${index + 1}`);
-  const roomAdmins = new Set();
+  const roomAdmins = new Map();
+  const seniorAdminLimit = 5;
+  const seniorAdminCount = () =&gt; [...roomAdmins.values()].filter(role =&gt; role === &#x27;senior&#x27;).length;
   const gifts = [
     [&#x27;Boba Tea 4U&#x27;,16000],[&#x27;Flower 4U&#x27;,17000],[&#x27;Heart Diamond&#x27;,700],[&#x27;Lipstick&#x27;,500],
     [&#x27;Latte&#x27;,500],[&#x27;Perfume&#x27;,1000],[&#x27;Lucky Charm&#x27;,2000],[&#x27;Sundae&#x27;,100]
@@ -2140,7 +2146,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   const current = () =&gt; dialogs[dialogs.length - 1];
   const action = (label, key, extra = &#x27;&#x27;) =&gt; `&lt;button type=&quot;button&quot; data-action=&quot;${key}&quot; ${extra}&gt;${label}&lt;/button&gt;`;
   const pill = (label, key, primary = false) =&gt; action(label,key,`class=&quot;pill${primary ? &#x27; primary&#x27; : &#x27;&#x27;}&quot;`);
-  const img = (asset, cls = &#x27;&#x27;) =&gt; `&lt;img class=&quot;${cls}&quot; src=&quot;${images[asset]}&quot; alt=&quot;&quot;&gt;`;
+  const img = (asset, cls = &#x27;&#x27;, alt = &#x27;&#x27;) =&gt; `&lt;img class=&quot;${cls}&quot; src=&quot;${images[asset]}&quot; alt=&quot;${alt}&quot;&gt;`;
   const avatar = user =&gt; `&lt;span class=&quot;avatar&quot; aria-hidden=&quot;true&quot;&gt;${people[user].port ? img(people[user].port) : &#x27;G&#x27;}&lt;/span&gt;`;
 
   room.style.backgroundImage = `url(&quot;${images.room}&quot;)`;
@@ -2267,22 +2273,33 @@ html&gt;body{padding:0}&lt;/style&gt;
 
   function roomAdminRow(id, list) {
     const person = people[id];
-    const name = person?.name ?? `Admin ${id.split(&#x27;-&#x27;).at(-1)}`;
+    const name = person?.name ?? `User ${id.split(&#x27;-&#x27;).at(-1)}`;
     const portrait = id === &#x27;im&#x27; ? `&lt;span class=&quot;avatar&quot;&gt;${img(&#x27;roomIcon&#x27;)}&lt;/span&gt;` : person ? avatar(id) : &#x27;&lt;span class=&quot;avatar&quot; aria-hidden=&quot;true&quot;&gt;A&lt;/span&gt;&#x27;;
+    const assignedRole = roomAdmins.get(id);
+    const senior = assignedRole === &#x27;senior&#x27;;
+    const badge = senior ? &#x27;&lt;span class=&quot;senior-admin-badge&quot;&gt;Senior Admin&lt;/span&gt;&#x27; : img(&#x27;roomAdminBadge&#x27;,&#x27;room-admin-badge&#x27;,&#x27;Room Admin&#x27;);
+    let roleLabel = &#x27;&#x27;;
+    if (assignedRole &amp;&amp; list !== &#x27;info&#x27;) {
+      roleLabel = `&lt;span class=&quot;room-admin-role&quot;&gt;${senior ? badge : &#x27;Room Admin&#x27;}&lt;/span&gt;`;
+    }
     let trailing = &#x27;&#x27;;
     if (list === &#x27;online&#x27; &amp;&amp; id !== &#x27;im&#x27;) {
-      trailing = roomAdmins.has(id)
-        ? &#x27;&lt;button class=&quot;pill primary&quot; type=&quot;button&quot; disabled&gt;Already admin&lt;/button&gt;&#x27;
-        : pill(&#x27;Set as Admin&#x27;,`appoint-admin-${id}`,true);
+      const setAdmin = assignedRole !== &#x27;admin&#x27; ? roomAdminAction(&#x27;Set as Admin&#x27;,id,&#x27;admin&#x27;) : &#x27;&#x27;;
+      const setSenior = !senior ? roomAdminAction(&#x27;Set as Senior Admin&#x27;,id,&#x27;senior&#x27;,&#x27;pill primary&#x27;) : &#x27;&#x27;;
+      trailing = `&lt;div class=&quot;room-admin-actions&quot;&gt;${setAdmin}${setSenior}&lt;/div&gt;`;
     }
-    if (list === &#x27;assigned&#x27;) trailing = pill(&#x27;Remove Admin&#x27;,`remove-admin-${id}`);
-    if (list === &#x27;info&#x27;) trailing = img(&#x27;roomAdminBadge&#x27;,&#x27;room-admin-badge&#x27;);
-    return `&lt;div class=&quot;room-admin-row&quot;&gt;${portrait}&lt;span class=&quot;room-admin-name&quot;&gt;${name}${id === &#x27;im&#x27; ? &#x27; (Me)&#x27; : &#x27;&#x27;}&lt;/span&gt;${trailing}&lt;/div&gt;`;
+    if (list === &#x27;assigned&#x27;) trailing = roomAdminAction(senior ? &#x27;Remove Senior Admin&#x27; : &#x27;Remove Admin&#x27;,id,&#x27;visitor&#x27;);
+    if (list === &#x27;info&#x27;) trailing = badge;
+    return `&lt;div class=&quot;room-admin-row&quot;&gt;${portrait}&lt;span class=&quot;room-admin-name&quot;&gt;${name}${id === &#x27;im&#x27; ? &#x27; (Me)&#x27; : &#x27;&#x27;}${roleLabel}&lt;/span&gt;${trailing}&lt;/div&gt;`;
+  }
+
+  function roomAdminAction(label, id, assignedRole, classes = &#x27;pill&#x27;, pressed = &#x27;&#x27;) {
+    return action(label,&#x27;change-room-admin&#x27;,`class=&quot;${classes}&quot; data-user=&quot;${id}&quot; data-admin-role=&quot;${assignedRole}&quot; ${pressed}`);
   }
 
   function roomAdminPanel(tab) {
     const online = tab === &#x27;online&#x27;;
-    const ids = online ? [...Object.keys(people).filter(id =&gt; id !== &#x27;im&#x27;),&#x27;im&#x27;] : [...roomAdmins];
+    const ids = online ? [...Object.keys(people).filter(id =&gt; id !== &#x27;im&#x27;),&#x27;im&#x27;] : [...roomAdmins.keys()];
     const rows = ids.map(id =&gt; roomAdminRow(id,online ? &#x27;online&#x27; : &#x27;assigned&#x27;)).join(&#x27;&#x27;) || &#x27;&lt;div class=&quot;list-empty&quot;&gt;No room admins yet.&lt;/div&gt;&#x27;;
     const back = action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;);
     const tabs = action(&#x27;Admin&#x27;,&#x27;room-admin-list&#x27;,`aria-pressed=&quot;${!online}&quot;`) + action(&#x27;Online&#x27;,&#x27;room-admin-online&#x27;,`aria-pressed=&quot;${online}&quot;`);
@@ -2293,7 +2310,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     const showAdmins = tab === &#x27;admin&#x27;;
     const tabs = action(&#x27;Room Info&#x27;,&#x27;room-info-details&#x27;,`aria-pressed=&quot;${!showAdmins}&quot;`) + action(&#x27;Admin&#x27;,&#x27;room-info-admin&#x27;,`aria-pressed=&quot;${showAdmins}&quot;`);
     const rows = showAdmins
-      ? [...roomAdmins].map(id =&gt; roomAdminRow(id,&#x27;info&#x27;)).join(&#x27;&#x27;) || &#x27;&lt;div class=&quot;list-empty&quot;&gt;No room admins yet.&lt;/div&gt;&#x27;
+      ? [...roomAdmins.keys()].map(id =&gt; roomAdminRow(id,&#x27;info&#x27;)).join(&#x27;&#x27;) || &#x27;&lt;div class=&quot;list-empty&quot;&gt;No room admins yet.&lt;/div&gt;&#x27;
       : `&lt;div class=&quot;room-info-card room-level-card&quot;&gt;
           &lt;span class=&quot;room-level-emblem&quot; aria-hidden=&quot;true&quot;&gt;I&lt;/span&gt;
           &lt;div class=&quot;room-level-details&quot;&gt;&lt;span&gt;Room Level &lt;strong&gt;LV.0&lt;/strong&gt;&lt;/span&gt;&lt;div class=&quot;room-level-progress&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;small&gt;27,870 EXP left to the next level&lt;/small&gt;&lt;/div&gt;
@@ -2305,17 +2322,16 @@ html&gt;body{padding:0}&lt;/style&gt;
     return `&lt;div class=&quot;panel room-info-panel safe&quot;&gt;&lt;div class=&quot;room-info-header&quot;&gt;${img(&#x27;roomIcon&#x27;)}&lt;div&gt;User9111&lt;small&gt;🇧🇩 ID:9111&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;room-info-tabs&quot; aria-label=&quot;Room information&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;${rows}&lt;/div&gt;${settings}&lt;/div&gt;`;
   }
 
-  function changeRoomAdmin(id, appoint) {
-    if (!isOwner() || id === &#x27;im&#x27;) return;
-    if (appoint) {
-      if (roomAdmins.has(id)) return;
-      if (roomAdmins.size &gt;= 5) {
-        say(&#x27;This room can have up to 5 admins.&#x27;);
-        return;
-      }
-      roomAdmins.add(id);
-    } else {
+  function changeRoomAdmin(id, assignedRole) {
+    if (!isOwner() || id === &#x27;im&#x27; || (roomAdmins.get(id) ?? &#x27;visitor&#x27;) === assignedRole) return;
+    if (assignedRole === &#x27;senior&#x27; &amp;&amp; seniorAdminCount() &gt;= seniorAdminLimit) {
+      say(&#x27;This room can have up to 5 senior admins.&#x27;);
+      return;
+    }
+    if (assignedRole === &#x27;visitor&#x27;) {
       roomAdmins.delete(id);
+    } else {
+      roomAdmins.set(id,assignedRole);
     }
     renderDialog();
   }
@@ -2384,14 +2400,21 @@ html&gt;body{padding:0}&lt;/style&gt;
         break;
       case &#x27;settings&#x27;: {
         title = `${people[user].name} · Settings`;
-        const labels = [&#x27;Admin&#x27;,&#x27;Visitor&#x27;,&#x27;Blacklist&#x27;,&#x27;Report&#x27;];
-        const choices = isManager() ? [0,1,2,3] : [3];
-        const selectedRole = roomAdmins.has(user) ? 0 : 1;
-        const options = choices.map(index =&gt; {
-          const item = `${img(&#x27;settings&#x27;+index)}&lt;span&gt;${labels[index]}&lt;/span&gt;`;
-          const classes = &#x27;settings-option&#x27; + (index === selectedRole ? &#x27; current&#x27; : &#x27;&#x27;);
-          if (isOwner() &amp;&amp; index &lt; 2) {
-            return action(item,index === 0 ? `appoint-admin-${user}` : `remove-admin-${user}`,`class=&quot;${classes}&quot; aria-pressed=&quot;${index === selectedRole}&quot;`);
+        const report = [&#x27;Report&#x27;,3];
+        const choices = isManager() ? [
+          [&#x27;Admin&#x27;,0,&#x27;admin&#x27;],
+          ...(isOwner() ? [[&#x27;Senior Admin&#x27;,0,&#x27;senior&#x27;]] : []),
+          [&#x27;Visitor&#x27;,1,&#x27;visitor&#x27;],
+          [&#x27;Blacklist&#x27;,2],
+          report
+        ] : [report];
+        const selectedRole = roomAdmins.get(user) ?? &#x27;visitor&#x27;;
+        const options = choices.map(([label,icon,assignedRole]) =&gt; {
+          const item = `${img(&#x27;settings&#x27;+icon)}&lt;span&gt;${label}&lt;/span&gt;`;
+          const selected = assignedRole === selectedRole;
+          const classes = &#x27;settings-option&#x27; + (selected ? &#x27; current&#x27; : &#x27;&#x27;);
+          if (isOwner() &amp;&amp; assignedRole) {
+            return roomAdminAction(item,user,assignedRole,classes,`aria-pressed=&quot;${selected}&quot;`);
           }
           return `&lt;div class=&quot;${classes}&quot;&gt;${item}&lt;/div&gt;`;
         }).join(&#x27;&#x27;);
@@ -2476,15 +2499,10 @@ html&gt;body{padding:0}&lt;/style&gt;
       say(&#x27;Invitation sent&#x27;);
       return;
     }
-    if (key.startsWith(&#x27;appoint-admin-&#x27;)) {
-      changeRoomAdmin(key.slice(&#x27;appoint-admin-&#x27;.length),true);
-      return;
-    }
-    if (key.startsWith(&#x27;remove-admin-&#x27;)) {
-      changeRoomAdmin(key.slice(&#x27;remove-admin-&#x27;.length),false);
-      return;
-    }
     switch (key) {
+      case &#x27;change-room-admin&#x27;:
+        changeRoomAdmin(button.dataset.user,button.dataset.adminRole);
+        break;
       case &#x27;open-room-settings&#x27;:
         if (isOwner()) show(&#x27;room-settings&#x27;,{},true);
         break;
@@ -2560,8 +2578,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   fillAdminDemo.addEventListener(&#x27;click&#x27;, () =&gt; {
     if (!isOwner()) return;
     for (const id of exampleAdmins) {
-      if (roomAdmins.size &gt;= 5) break;
-      roomAdmins.add(id);
+      if (seniorAdminCount() &gt;= seniorAdminLimit) break;
+      roomAdmins.set(id,&#x27;senior&#x27;);
     }
     if (current()) renderDialog(false);
   });
