@@ -1896,6 +1896,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &lt;button type=&quot;button&quot; data-role=&quot;admin&quot; aria-pressed=&quot;false&quot;&gt;管理员（含高级管理员）&lt;/button&gt;
     &lt;button type=&quot;button&quot; data-role=&quot;visitor&quot; aria-pressed=&quot;false&quot;&gt;普通用户&lt;/button&gt;
   &lt;/div&gt;
+  &lt;label class=&quot;preview-legend&quot; hidden&gt;&lt;input type=&quot;checkbox&quot; data-legend&gt; 模拟 LEGEND 防锁麦&lt;/label&gt;
   &lt;div class=&quot;phone&quot; aria-label=&quot;Yaloka 语音房&quot;&gt;
     &lt;div class=&quot;room-content&quot;&gt;
       &lt;div class=&quot;seats&quot; aria-label=&quot;麦位&quot;&gt;&lt;/div&gt;
@@ -1922,6 +1923,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .preview-bar button { border:1px solid #827698; background:light-dark(#f4eefb,#302841); color:light-dark(#342447,#f0e5ff); border-radius:8px; padding:7px 10px; min-height:34px; }
   #yaloka-stage-review .preview-bar button[aria-pressed=&quot;true&quot;] { background:#6934a6; color:#fff; border-color:#6934a6; }
   #yaloka-stage-review .preview-bar .has-invite::after { content:&quot;&quot;; display:inline-block; border-radius:50%; width:6px; height:6px; margin-left:5px; background:#f6a053; vertical-align:2px; }
+  #yaloka-stage-review .preview-legend { display:flex; align-items:center; justify-content:center; width:max-content; gap:5px; min-height:26px; margin:-4px auto 8px; font-size:12px; }
+  #yaloka-stage-review .preview-legend input { accent-color:#6934a6; }
   @media (max-width:420px) {
     #yaloka-stage-review .preview-bar span { flex:0 0 100%; margin-right:0; text-align:center; }
     #yaloka-stage-review .preview-bar button { padding-inline:6px; }
@@ -2047,6 +2050,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   const layer = root.querySelector(&#x27;.layer&#x27;);
   const toast = root.querySelector(&#x27;.toast&#x27;);
   const roles = [...root.querySelectorAll(&#x27;[data-role]&#x27;)];
+  const legendPreview = root.querySelector(&#x27;.preview-legend&#x27;);
+  const legendEnabled = legendPreview.querySelector(&#x27;input&#x27;);
 
   const people = {
     im: { name:&#x27;IM manager&#x27;, port:&#x27;owner&#x27;, id:&#x27;9111&#x27; },
@@ -2083,6 +2088,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   root.querySelector(&#x27;.chat-user&#x27;).innerHTML = `${avatar(&#x27;lucky&#x27;)}&lt;span&gt;luckymay &lt;span class=&quot;joined&quot;&gt;Joined&lt;/span&gt;&lt;/span&gt;`;
 
   function renderRoom() {
+    legendPreview.hidden = role !== &#x27;visitor&#x27;;
     seatsView.innerHTML = seats.map((seat, index) =&gt; {
       const label = seat.user ? people[seat.user].name : seat.locked ? &#x27;Locked seat&#x27; : &#x27;Empty seat&#x27;;
       const x = [8.4,29.2,50,70.8,91.6][index % 5];
@@ -2262,14 +2268,12 @@ html&gt;body{padding:0}&lt;/style&gt;
     }
   }
 
-  function join(index, user, { allowSwitch = isManager() } = {}) {
+  function join(index, user, { allowSwitch = isManager(), allowLocked = false, fromInvitation = false } = {}) {
     const seat = seats[index];
-    if (seat.user &amp;&amp; seat.user !== user) {
-      say(&#x27;This seat is already taken.&#x27;);
-      return;
-    }
-    if (seat.locked) {
-      say(&#x27;This seat is locked.&#x27;);
+    const occupied = seat.user &amp;&amp; seat.user !== user;
+    if (occupied || (seat.locked &amp;&amp; !allowLocked)) {
+      const message = occupied ? &#x27;This seat is already taken.&#x27; : &#x27;This seat is locked.&#x27;;
+      say(fromInvitation ? &#x27;This seat is no longer available.&#x27; : message);
       return;
     }
     const previous = onStage(user);
@@ -2291,7 +2295,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     else if (seat.user &amp;&amp; isManager()) show(&#x27;profile&#x27;,{user:seat.user});
     else if (seat.user) openGift(seat.user);
     else if (isManager()) show(&#x27;seat&#x27;,{index});
-    else join(index,myUser(),{ allowSwitch:true });
+    else join(index,myUser(),{ allowSwitch:true, allowLocked:legendEnabled.checked });
   }
 
   function openGift(user, fromPanel = false) {
@@ -2372,7 +2376,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         invites.delete(myUser());
         renderRoom();
         close(true,false);
-        join(requested,myUser());
+        join(requested,myUser(),{ fromInvitation:true });
         break;
       }
     }
