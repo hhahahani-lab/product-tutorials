@@ -2057,6 +2057,21 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .room-panel-back { position:absolute; left:0; top:0; width:44px; height:44px; background:none; border:0; color:white; font-size:27px; line-height:1; }
   #yaloka-stage-review .room-panel-help { position:absolute; right:0; top:0; display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; background:none; color:#eee7ff; }
   #yaloka-stage-review .room-panel-help span { display:grid; place-items:center; width:19px; height:19px; border:1px solid currentColor; border-radius:50%; font-size:12px; font-weight:600; line-height:1; }
+  #yaloka-stage-review .admin-permissions { border-radius:10px 10px 0 0; }
+  #yaloka-stage-review .admin-permissions:focus-visible { outline:2px solid #b887ff; outline-offset:-2px; }
+  #yaloka-stage-review .permissions-table { width:100%; table-layout:fixed; border-spacing:0; color:#f3edf9; font-size:12px; line-height:1.4; }
+  #yaloka-stage-review .permissions-table col:first-child { width:50%; }
+  #yaloka-stage-review .permissions-table th, #yaloka-stage-review .permissions-table td { padding:8px 6px; overflow-wrap:anywhere; }
+  #yaloka-stage-review .permissions-table thead th { position:sticky; top:0; z-index:1; padding-block:10px; background:#403059; color:#f4eaff; font-size:11px; font-weight:700; }
+  #yaloka-stage-review .permissions-table th:first-child { text-align:left; padding-left:10px; }
+  #yaloka-stage-review .permissions-table th[scope=&quot;row&quot;] { background:#21192d; font-weight:500; }
+  #yaloka-stage-review .permissions-table td { background:#21192d; text-align:center; font-weight:600; }
+  #yaloka-stage-review .permissions-table tbody tr:nth-child(odd):not(.permission-category) &gt; * { background:#271e33; }
+  #yaloka-stage-review .permissions-table .permission-category th { padding-block:8px; background:#30243f; color:#e1c9ff; font-weight:700; }
+  #yaloka-stage-review .permissions-table .permission-yes { color:#a5e6ba; }
+  #yaloka-stage-review .permissions-table .permission-no { color:#bfb6ca; }
+  #yaloka-stage-review .permissions-table .permission-limited { color:#f5d499; font-size:10px; }
+  #yaloka-stage-review .permission-category small { display:block; margin-top:3px; color:#d2c5df; font-size:10px; font-weight:400; }
   #yaloka-stage-review .room-settings-row { display:flex; align-items:center; justify-content:space-between; text-align:left; gap:6px; width:100%; min-height:55px; border:0; padding:0; background:none; color:white; font-size:14px; }
   #yaloka-stage-review .room-settings-row:first-child { min-height:64px; }
   #yaloka-stage-review .room-settings-row small { color:#c4bbd1; text-align:right; }
@@ -2405,7 +2420,49 @@ html&gt;body{padding:0}&lt;/style&gt;
         break;
       case &#x27;room-admin-help&#x27;:
         title = &#x27;Admin Permissions&#x27;;
-        body = `&lt;section class=&quot;room-settings safe&quot;&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;)}${title}&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;&lt;/div&gt;&lt;/section&gt;`;
+        body = `&lt;section class=&quot;room-settings safe&quot;&gt;
+          &lt;div class=&quot;room-panel-heading&quot;&gt;${action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;)}${title}&lt;/div&gt;
+          &lt;div class=&quot;scrollable admin-permissions&quot; tabindex=&quot;0&quot; aria-label=&quot;Permissions comparison&quot;&gt;
+            &lt;table class=&quot;permissions-table&quot; aria-label=&quot;Room admin permissions&quot;&gt;
+              &lt;colgroup&gt;&lt;col&gt;&lt;col&gt;&lt;col&gt;&lt;/colgroup&gt;
+              &lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Permission&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Room Admin&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Senior Admin&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+              &lt;tbody&gt;
+                &lt;tr class=&quot;permission-category&quot;&gt;&lt;th scope=&quot;rowgroup&quot; colspan=&quot;3&quot;&gt;Admin management&lt;/th&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Set or remove a Room Admin&lt;/th&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Set or remove a Senior Admin&lt;/th&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;/tr&gt;
+              &lt;/tbody&gt;
+              &lt;tbody&gt;
+                &lt;tr class=&quot;permission-category&quot;&gt;&lt;th scope=&quot;rowgroup&quot; colspan=&quot;3&quot;&gt;Seat management&lt;/th&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Lock or unlock an empty seat&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Lock or unlock all empty seats&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Invite a user to a seat&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Remove a member from a seat&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+              &lt;/tbody&gt;
+              &lt;tbody&gt;
+                &lt;tr class=&quot;permission-category&quot;&gt;&lt;th scope=&quot;rowgroup&quot; colspan=&quot;3&quot;&gt;Member moderation&lt;small&gt;Muting, temporary removal and bans apply only to members with a lower room role.&lt;/small&gt;&lt;/th&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Mute a member&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Temporarily remove a member from the room&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Ban or unban a member&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;View the block list&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Moderate the room owner or members with a higher role&lt;/th&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;/tr&gt;
+              &lt;/tbody&gt;
+              &lt;tbody&gt;
+                &lt;tr class=&quot;permission-category&quot;&gt;&lt;th scope=&quot;rowgroup&quot; colspan=&quot;3&quot;&gt;Room controls&lt;/th&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Change the room avatar&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Change the room name&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Edit the room announcement&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Switch or close games&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Switch the room type&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Play music&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Clear chat&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Clear seat gift values&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Equip or remove existing room decorations&lt;/th&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Lock or unlock the room&lt;/th&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;td class=&quot;permission-yes&quot;&gt;Yes&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Change the number of seats&lt;/th&gt;&lt;td class=&quot;permission-no&quot;&gt;No&lt;/td&gt;&lt;td class=&quot;permission-limited&quot;&gt;Certain official room scenarios only&lt;/td&gt;&lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;`;
         break;
       case &#x27;room-info&#x27;:
         title = &#x27;Room Info&#x27;;
@@ -2644,7 +2701,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       close();
     }
     if (event.key !== &#x27;Tab&#x27;) return;
-    const nodes = [...layer.querySelectorAll(&#x27;button:not(:disabled)&#x27;)];
+    const nodes = [...layer.querySelectorAll(&#x27;button:not(:disabled), [tabindex=&quot;0&quot;]&#x27;)];
     const endpoint = event.shiftKey ? nodes[0] : nodes[nodes.length-1];
     if (!nodes.length || document.activeElement === endpoint) {
       event.preventDefault();
