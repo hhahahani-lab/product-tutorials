@@ -2075,21 +2075,18 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .room-admin-row .avatar { width:39px; height:39px; }
   #yaloka-stage-review .room-admin-row .room-admin-name { min-width:0; overflow-wrap:anywhere; }
   #yaloka-stage-review .room-admin-row .pill { margin-left:auto; flex:none; font-size:11px; padding:5px 10px; min-height:32px; }
-  #yaloka-stage-review .room-role-split { --slant:12px; --side-padding:7px; display:flex; flex:none; margin-left:auto; overflow:hidden; border:1px solid #787985; border-radius:24px; background:#787985; }
-  #yaloka-stage-review .room-role-split .room-role-option { display:flex; flex:none; align-items:center; gap:4px; min-height:36px; border:0; padding:0 var(--side-padding); background:#3b3c44; color:#d0d0d7; font-size:11px; font-weight:600; white-space:nowrap; }
+  #yaloka-stage-review .room-role-split { --slant:12px; --side-padding:12px; display:flex; flex:none; margin-left:auto; overflow:hidden; border:1px solid #787985; border-radius:24px; background:#787985; }
+  #yaloka-stage-review .room-role-split .room-role-option { flex:none; min-height:36px; border:0; padding:0 var(--side-padding); background:#3b3c44; color:#d0d0d7; font-size:11px; font-weight:600; white-space:nowrap; }
   #yaloka-stage-review .room-role-option:first-child { padding-right:calc(var(--side-padding) + var(--slant) / 2); clip-path:polygon(0 0,100% 0,calc(100% - var(--slant)) 100%,0 100%); }
   #yaloka-stage-review .room-role-option:last-child { margin-left:calc(1px - var(--slant)); padding-left:calc(var(--side-padding) + var(--slant) / 2); clip-path:polygon(var(--slant) 0,100% 0,100% 100%,0 100%); }
-  #yaloka-stage-review .room-role-option::before { content:&quot;&quot;; flex:none; width:6px; height:9px; border:solid currentColor; border-width:0 2px 2px 0; transform:rotate(45deg) translateY(-1px); visibility:hidden; }
   #yaloka-stage-review .room-role-split .room-role-option[aria-pressed=&quot;true&quot;] { background:#9148e5; color:#fff; }
-  #yaloka-stage-review .room-role-option[aria-pressed=&quot;true&quot;]::before { visibility:visible; }
   #yaloka-stage-review .room-role-split .room-role-option:focus-visible { outline-offset:-3px; text-decoration:underline; text-underline-offset:3px; }
   @container (max-width:280px) {
     #yaloka-stage-review .room-admin-online .room-admin-row { gap:6px; }
     #yaloka-stage-review .room-admin-online .avatar { width:32px; height:32px; }
     #yaloka-stage-review .room-admin-online .room-admin-name { font-size:12px; line-height:1.35; }
-    #yaloka-stage-review .room-role-split { --slant:10px; --side-padding:4px; }
-    #yaloka-stage-review .room-role-split .room-role-option { gap:2px; font-size:10px; }
-    #yaloka-stage-review .room-role-option::before { width:4px; height:7px; }
+    #yaloka-stage-review .room-role-split { --slant:10px; --side-padding:7px; }
+    #yaloka-stage-review .room-role-split .room-role-option { font-size:10px; }
   }
   #yaloka-stage-review .room-admin-role { display:block; margin-top:3px; font-size:11px; color:#d6cde2; }
   #yaloka-stage-review .settings-option[data-admin-role=&quot;senior&quot;] img { filter:hue-rotate(282deg) saturate(1.3); }
