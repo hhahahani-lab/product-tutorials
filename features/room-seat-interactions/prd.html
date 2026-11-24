@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Yaloka 语音房麦位与资料卡交互 PRD</title>
+<title>Yaloka 语音房交互与管理员权限 PRD</title>
 <style>
   :root {
     color-scheme:light;
@@ -57,6 +57,7 @@
   .permissions-table thead th { background:#e9dff7; color:#4d2d72; }
   .permissions-table th:first-child { text-align:left; padding-left:.8rem; }
   .permissions-table th[scope="row"] { font-weight:500; }
+  .permission-label { display:block; margin-top:.1rem; color:#635873; font-size:.78rem; line-height:1.35; }
   .permissions-table tbody tr:nth-child(odd):not(.permission-category) > * { background:#f8f5fc; }
   .permissions-table .permission-category th { background:#f1ecfa; color:#4d2d72; }
   .permissions-table .permission-mark { font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; line-height:1; }
@@ -86,10 +87,18 @@
 <body>
 <div class="document">
 <header class="doc-header">
-  <p class="meta">2026-11-23 · Yaloka App 语音房</p>
-  <h1>Yaloka 语音房麦位与资料卡交互 PRD</h1>
-  <p>本次调整覆盖上麦、换麦、锁麦、邀请上麦，以及从麦位和公屏进入送礼面板或资料卡的操作，并开放非官方房间设置高级管理员。本文中的「管理员」包含高级管理员。麦位的英文统一用 <strong lang="en">seat</strong>。以下截图为调整后的可交互原型。</p>
-  <nav aria-label="目录"><a href="#seats">1. 点空麦位、锁麦与换麦</a><a href="#invite">2. 邀请上麦</a><a href="#avatars">3. 点麦位头像</a><a href="#profiles">4. 公屏昵称与资料卡设置</a><a href="#room-admin">5. 高级管理员</a></nav>
+  <p class="meta">2026-11-24 · Yaloka App 语音房</p>
+  <h1>Yaloka 语音房交互与管理员权限 PRD</h1>
+  <p>本次调整覆盖麦位操作、送礼与资料卡入口，以及非官方房间的高级管理员设置。文中的「管理员」包含高级管理员。麦位操作的英文统一用 <strong lang="en">seat</strong>，调整麦位数量沿用线上名称 <strong lang="en">Mic mode</strong>。</p>
+  <p>Demo 提供房主、管理员（含高级管理员）和普通用户三个视角。管理员视角用于演示两种管理员共用的麦位交互，具体权限见对照表。<a href="index.html">打开交互 Demo</a></p>
+  <nav aria-label="目录">
+    <a href="#seats">1. 点空麦位、锁麦与换麦</a>
+    <a href="#invite">2. 邀请上麦</a>
+    <a href="#avatars">3. 点麦位头像</a>
+    <a href="#profiles">4. 公屏昵称与资料卡设置</a>
+    <a href="#room-admin">5. 高级管理员</a>
+    <a href="#admin-permissions">管理员权限对照表</a>
+  </nav>
 </header>
 <main>
 <section id="seats" aria-labelledby="seats-title">
@@ -196,7 +205,7 @@
 <h2 id="room-admin-title">5. 非官方房间设置高级管理员</h2>
 <p>非官方房间仅房主可以在 App 内设置高级管理员（<strong lang="en">Senior Admin</strong>）。每个非官方房间最多 5 名高级管理员，名额由服务端在两个入口统一校验。普通房间管理员（<strong lang="en">Room Admin</strong>）不占用这 5 个名额。取消高级管理员身份后释放名额。官方房间的高级管理员在后台设置，数量不限。</p>
 <p>每个用户在同一房间只能拥有一个身份。<strong>Senior Admin</strong> 和 <strong>Room Admin</strong> 互斥，设置成功后以新身份替换原身份。高级管理员改为普通房间管理员时释放一个高级管理员名额。</p>
-<p>高级管理员的权限沿用线上规则。房间设置与资料卡使用现有入口，房间设置和房间资料均展示当前房间的同一份名单。</p>
+<p>房主可从房间设置或用户资料卡设置高级管理员。房间设置和房间资料的 <strong>Admin</strong> 标签展示同一份名单。两种管理员的权限见<a href="#admin-permissions">权限对照表</a>。</p>
 <div class="gallery">
 <figure class="figure">
 <figcaption>图 14 房间资料底部的 Settings</figcaption>
@@ -247,40 +256,40 @@
 </div>
 <section id="admin-permissions" aria-labelledby="admin-permissions-title">
 <h3 id="admin-permissions-title">管理员权限对照表</h3>
-<p>临时踢出房间、禁言／解除禁言、关闭／开启麦克风和禁止进房／解封仅适用于房间身份低于自己的成员。非官方房间由房主设置或移除高级管理员，官方房间在后台管理。本版高级管理员可调整麦位数量，含非官方房间。</p>
+<p>临时踢出房间、禁言／解除禁言、关闭／开启麦克风和禁止进房／解封仅适用于房间身份低于自己的成员。本版高级管理员可调整麦位数量，含非官方房间。</p>
 <table class="permissions-table" aria-label="房间管理员权限对照表">
   <colgroup><col><col><col></colgroup>
   <thead><tr><th scope="col">房间权限</th><th scope="col">房间管理员</th><th scope="col">房间高级管理员</th></tr></thead>
   <tbody>
     <tr class="permission-category"><th scope="rowgroup" colspan="3">管理员管理</th></tr>
-    <tr><th scope="row">设置／移除普通管理员</th><td><span class="permission-mark" role="img" aria-label="不可以">❌</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">设置／移除普通管理员<small class="permission-label" lang="en">Set / remove Room Admin</small></th><td><span class="permission-mark" role="img" aria-label="不可以">❌</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
   </tbody>
   <tbody>
     <tr class="permission-category"><th scope="rowgroup" colspan="3">麦位管理</th></tr>
-    <tr><th scope="row">锁定／解锁单个空麦位</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">批量锁定／解锁空麦位</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">邀请上麦</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">让用户下麦</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">锁定／解锁单个空麦位<small class="permission-label" lang="en">Lock / unlock seat</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">批量锁定／解锁空麦位<small class="permission-label" lang="en">Lock / unlock all seats</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">邀请上麦<small class="permission-label" lang="en">Invite to a seat</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">让用户下麦<small class="permission-label" lang="en">Remove from seat</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
   </tbody>
   <tbody>
     <tr class="permission-category"><th scope="rowgroup" colspan="3">成员管理</th></tr>
-    <tr><th scope="row">临时踢出房间</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">禁言／解除禁言</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">关闭／开启麦克风</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">查看封禁列表</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">禁止进房／解封</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">临时踢出房间<small class="permission-label" lang="en">Kick out the room</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">禁言／解除禁言<small class="permission-label" lang="en">Ban / unban messages</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">关闭／开启麦克风<small class="permission-label" lang="en">Mute / unmute mic</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">查看封禁列表<small class="permission-label" lang="en">View block list</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">禁止进房／解封<small class="permission-label" lang="en">Block / unblock entry</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
   </tbody>
   <tbody>
     <tr class="permission-category"><th scope="rowgroup" colspan="3">房间管理</th></tr>
-    <tr><th scope="row">修改房间头像</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">修改房名</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">修改房间公告</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">播放音乐</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">清屏</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">清除麦位礼物值</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">更换房间装扮</th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">锁定／解锁房间</th><td><span class="permission-mark" role="img" aria-label="不可以">❌</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
-    <tr><th scope="row">调整麦位数量</th><td><span class="permission-mark" role="img" aria-label="不可以">❌</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">修改房间头像<small class="permission-label" lang="en">Room avatar</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">修改房名<small class="permission-label" lang="en">Room name</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">修改房间公告<small class="permission-label" lang="en">Room announcement</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">播放音乐<small class="permission-label" lang="en">Play music</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">清屏<small class="permission-label" lang="en">Clear public message</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">清除麦位礼物值<small class="permission-label" lang="en">Clear seat gift values</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">更换房间装扮<small class="permission-label" lang="en">Room decoration</small></th><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">锁定／解锁房间<small class="permission-label" lang="en">Lock / unlock room</small></th><td><span class="permission-mark" role="img" aria-label="不可以">❌</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
+    <tr><th scope="row">调整麦位数量<small class="permission-label" lang="en">Mic mode</small></th><td><span class="permission-mark" role="img" aria-label="不可以">❌</span></td><td><span class="permission-mark" role="img" aria-label="可以">✅</span></td></tr>
   </tbody>
 </table>
 </section>
