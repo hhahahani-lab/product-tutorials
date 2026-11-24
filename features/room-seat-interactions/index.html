@@ -2055,6 +2055,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   #yaloka-stage-review .room-settings .room-panel-heading { margin-bottom:4px; flex:none; }
   #yaloka-stage-review .room-settings .scrollable { flex:1; }
   #yaloka-stage-review .room-panel-back { position:absolute; left:0; top:0; width:44px; height:44px; background:none; border:0; color:white; font-size:27px; line-height:1; }
+  #yaloka-stage-review .room-panel-help { position:absolute; right:0; top:0; display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; background:none; color:#eee7ff; }
+  #yaloka-stage-review .room-panel-help span { display:grid; place-items:center; width:19px; height:19px; border:1px solid currentColor; border-radius:50%; font-size:12px; font-weight:600; line-height:1; }
   #yaloka-stage-review .room-settings-row { display:flex; align-items:center; justify-content:space-between; text-align:left; gap:6px; width:100%; min-height:55px; border:0; padding:0; background:none; color:white; font-size:14px; }
   #yaloka-stage-review .room-settings-row:first-child { min-height:64px; }
   #yaloka-stage-review .room-settings-row small { color:#c4bbd1; text-align:right; }
@@ -2210,9 +2212,13 @@ html&gt;body{padding:0}&lt;/style&gt;
   }
 
   function close(all = false, restore = true) {
+    const returningFromAdminHelp = !all &amp;&amp; current()?.type === &#x27;room-admin-help&#x27;;
     if (all) dialogs.length = 0;
     else dialogs.pop();
     renderDialog();
+    if (restore &amp;&amp; returningFromAdminHelp) {
+      layer.querySelector(&#x27;[data-action=&quot;open-admin-help&quot;]&#x27;)?.focus({preventScroll:true});
+    }
     if (restore &amp;&amp; !dialogs.length) {
       const seat = returnFocus?.dataset.seat;
       const target = returnFocus?.isConnected ? returnFocus : seatsView.querySelector(`[data-seat=&quot;${seat}&quot;]`);
@@ -2293,17 +2299,14 @@ html&gt;body{padding:0}&lt;/style&gt;
     const assignedRole = roomAdmins.get(id);
     const senior = assignedRole === &#x27;senior&#x27;;
     const badge = senior ? img(&#x27;seniorAdminBadge&#x27;,&#x27;room-admin-badge senior-admin-badge&#x27;,&#x27;Senior Admin&#x27;) : img(&#x27;roomAdminBadge&#x27;,&#x27;room-admin-badge&#x27;,&#x27;Room Admin&#x27;);
-    let roleLabel = &#x27;&#x27;;
-    if (assignedRole &amp;&amp; list === &#x27;assigned&#x27;) {
-      roleLabel = `&lt;span class=&quot;room-admin-role&quot;&gt;${senior ? badge : &#x27;Room Admin&#x27;}&lt;/span&gt;`;
-    }
+    const roleLabel = list === &#x27;assigned&#x27; ? `&lt;span class=&quot;room-admin-role&quot;&gt;${badge}&lt;/span&gt;` : &#x27;&#x27;;
     let trailing = &#x27;&#x27;;
     if (list === &#x27;online&#x27; &amp;&amp; id !== &#x27;im&#x27;) {
       const seniorButton = roomAdminAction(&#x27;Senior Admin&#x27;,id,&#x27;senior&#x27;,&#x27;room-role-option&#x27;,`aria-pressed=&quot;${senior}&quot;`);
       const adminButton = roomAdminAction(&#x27;Admin&#x27;,id,&#x27;admin&#x27;,&#x27;room-role-option&#x27;,`aria-pressed=&quot;${assignedRole === &#x27;admin&#x27;}&quot;`);
       trailing = `&lt;div class=&quot;room-role-split&quot; role=&quot;group&quot; aria-label=&quot;Admin role for ${name}&quot;&gt;${seniorButton}${adminButton}&lt;/div&gt;`;
     }
-    if (list === &#x27;assigned&#x27;) trailing = roomAdminAction(senior ? &#x27;Remove Senior Admin&#x27; : &#x27;Remove Admin&#x27;,id,&#x27;visitor&#x27;);
+    if (list === &#x27;assigned&#x27;) trailing = roomAdminAction(&#x27;Remove&#x27;,id,&#x27;visitor&#x27;);
     if (list === &#x27;info&#x27;) trailing = badge;
     return `&lt;div class=&quot;room-admin-row&quot;&gt;${portrait}&lt;span class=&quot;room-admin-name&quot;&gt;${name}${id === &#x27;im&#x27; ? &#x27; (Me)&#x27; : &#x27;&#x27;}${roleLabel}&lt;/span&gt;${trailing}&lt;/div&gt;`;
   }
@@ -2317,8 +2320,9 @@ html&gt;body{padding:0}&lt;/style&gt;
     const ids = online ? [...Object.keys(people).filter(id =&gt; id !== &#x27;im&#x27;),&#x27;im&#x27;] : [...roomAdmins.keys()];
     const rows = ids.map(id =&gt; roomAdminRow(id,online ? &#x27;online&#x27; : &#x27;assigned&#x27;)).join(&#x27;&#x27;) || &#x27;&lt;div class=&quot;list-empty&quot;&gt;No room admins yet.&lt;/div&gt;&#x27;;
     const back = action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;);
+    const help = action(&#x27;&lt;span aria-hidden=&quot;true&quot;&gt;?&lt;/span&gt;&#x27;,&#x27;open-admin-help&#x27;,&#x27;class=&quot;room-panel-help&quot; aria-label=&quot;Admin Permissions&quot;&#x27;);
     const tabs = action(&#x27;Admin&#x27;,&#x27;room-admin-list&#x27;,`aria-pressed=&quot;${!online}&quot;`) + action(&#x27;Online&#x27;,&#x27;room-admin-online&#x27;,`aria-pressed=&quot;${online}&quot;`);
-    return `${roomSettings(true)}&lt;div class=&quot;room-settings-shade&quot;&gt;&lt;/div&gt;&lt;div class=&quot;panel room-admin-panel safe&quot;&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${back}Room Admin&lt;/div&gt;&lt;div class=&quot;room-admin-tabs&quot; aria-label=&quot;Room Admin&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable${online ? &#x27; room-admin-online&#x27; : &#x27;&#x27;}&quot;&gt;${rows}&lt;/div&gt;&lt;/div&gt;`;
+    return `${roomSettings(true)}&lt;div class=&quot;room-settings-shade&quot;&gt;&lt;/div&gt;&lt;div class=&quot;panel room-admin-panel safe&quot;&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${back}Admin${help}&lt;/div&gt;&lt;div class=&quot;room-admin-tabs&quot; aria-label=&quot;Admin&quot;&gt;${tabs}&lt;/div&gt;&lt;div class=&quot;scrollable${online ? &#x27; room-admin-online&#x27; : &#x27;&#x27;}&quot;&gt;${rows}&lt;/div&gt;&lt;/div&gt;`;
   }
 
   function roomInfoPanel(tab) {
@@ -2399,8 +2403,12 @@ html&gt;body{padding:0}&lt;/style&gt;
         body = roomSettings();
         break;
       case &#x27;room-admin&#x27;:
-        title = &#x27;Room Admin&#x27;;
+        title = &#x27;Admin&#x27;;
         body = roomAdminPanel(dialog.tab);
+        break;
+      case &#x27;room-admin-help&#x27;:
+        title = &#x27;Admin Permissions&#x27;;
+        body = `&lt;section class=&quot;room-settings safe&quot;&gt;&lt;div class=&quot;room-panel-heading&quot;&gt;${action(&#x27;‹&#x27;,&#x27;close&#x27;,&#x27;class=&quot;room-panel-back&quot; aria-label=&quot;Back&quot;&#x27;)}${title}&lt;/div&gt;&lt;div class=&quot;scrollable&quot;&gt;&lt;/div&gt;&lt;/section&gt;`;
         break;
       case &#x27;room-info&#x27;:
         title = &#x27;Room Info&#x27;;
@@ -2535,6 +2543,9 @@ html&gt;body{padding:0}&lt;/style&gt;
         break;
       case &#x27;open-room-admin&#x27;:
         if (isOwner()) show(&#x27;room-admin&#x27;,{tab:&#x27;assigned&#x27;},true);
+        break;
+      case &#x27;open-admin-help&#x27;:
+        show(&#x27;room-admin-help&#x27;,{},true);
         break;
       case &#x27;room-admin-list&#x27;:
       case &#x27;room-admin-online&#x27;:
