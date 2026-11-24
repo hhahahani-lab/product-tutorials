@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Permissions</title>
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100dvh; display:grid; place-items:center; background:#101019; font-family:Roboto,Arial,sans-serif; }
+  .screen { position:relative; isolation:isolate; container-type:inline-size; width:min(100%,352px); height:min(782px,100dvh); overflow:hidden; border-radius:18px; color:#fff; }
+  .room-panel-heading h1 { margin:0; font:inherit; }
+  .room-panel-back:focus-visible { outline:2px solid #d5b0ff; outline-offset:-3px; border-radius:8px; }
+  .scrollable { min-height:0; overflow:auto; scrollbar-width:none; }
+  .safe::after { content:""; position:sticky; display:block; bottom:5px; margin:11px auto 5px; width:40%; height:3px; border-radius:10px; background:#ffffff91; }
+  .room-settings { pointer-events:auto; position:absolute; inset:0; display:flex; flex-direction:column; padding:10.5cqw 4cqw 0; background:radial-gradient(ellipse 85% 20% at 68% -5%,#5b60bb 0%,transparent 100%),linear-gradient(#2c245d,#150d20 15%); }
+  .room-panel-heading { position:relative; display:grid; place-items:center; min-height:46px; font-size:15px; font-weight:500; }
+  .room-settings .room-panel-heading { margin-bottom:4px; flex:none; }
+  .room-settings .scrollable { flex:1; }
+  .room-panel-back { position:absolute; left:0; top:0; width:44px; height:44px; background:none; border:0; color:white; font-size:27px; line-height:1; }
+  .admin-permissions { border-radius:10px 10px 0 0; }
+  .admin-permissions:focus-visible { outline:2px solid #b887ff; outline-offset:-2px; }
+  .permissions-table { width:100%; table-layout:fixed; border-spacing:0; color:#f3edf9; font-size:12px; line-height:1.4; }
+  .permissions-table col:first-child { width:50%; }
+  .permissions-table th, .permissions-table td { padding:8px 6px; overflow-wrap:anywhere; }
+  .permissions-table thead th { position:sticky; top:0; z-index:1; padding-block:10px; background:#403059; color:#f4eaff; font-size:11px; font-weight:700; }
+  .permissions-table th:first-child { text-align:left; padding-left:10px; }
+  .permissions-table th[scope="row"] { background:#21192d; font-weight:500; }
+  .permissions-table td { background:#21192d; text-align:center; font-weight:600; }
+  .permissions-table tbody tr:nth-child(odd):not(.permission-category) > * { background:#271e33; }
+  .permissions-table .permission-category th { padding-block:8px; background:#30243f; color:#e1c9ff; font-weight:700; }
+  .permissions-table .permission-mark { font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; font-size:14px; line-height:1; }
+  .permission-category small { display:block; margin-top:3px; color:#d2c5df; font-size:10px; font-weight:400; }
+  @media (max-width:480px) {
+    .screen { width:100%; height:100dvh; border-radius:0; }
+  }
+</style>
+</head>
+<body>
+<main class="screen">
+  <section class="room-settings safe" aria-labelledby="page-title">
+    <header class="room-panel-heading">
+      <button type="button" class="room-panel-back" aria-label="Back">‹</button>
+      <h1 id="page-title">Admin Permissions</h1>
+    </header>
+    <div class="scrollable admin-permissions" tabindex="0" aria-label="Permissions comparison">
+      <table class="permissions-table" aria-label="Room admin permissions">
+      <colgroup><col><col><col></colgroup>
+      <thead><tr><th scope="col">Permission</th><th scope="col">Room Admin</th><th scope="col">Senior Admin</th></tr></thead>
+      <tbody>
+        <tr class="permission-category"><th scope="rowgroup" colspan="3">Admin management</th></tr>
+        <tr><th scope="row">Set / remove Room Admin</th><td><span class="permission-mark" role="img" aria-label="Not allowed">❌</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+      </tbody>
+      <tbody>
+        <tr class="permission-category"><th scope="rowgroup" colspan="3">Seat management<small>Seat locks apply to empty seats.</small></th></tr>
+        <tr><th scope="row">Lock / unlock seat</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Lock / unlock all seats</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Invite to a seat</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Remove from seat</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+      </tbody>
+      <tbody>
+        <tr class="permission-category"><th scope="rowgroup" colspan="3">Member moderation<small>Actions on members apply only to members with a lower room role.</small></th></tr>
+        <tr><th scope="row">Kick out the room</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Ban / unban messages</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Mute / unmute mic</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">View block list</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Block / unblock entry</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+      </tbody>
+      <tbody>
+        <tr class="permission-category"><th scope="rowgroup" colspan="3">Room controls</th></tr>
+        <tr><th scope="row">Room avatar</th><td><span class="permission-mark" role="img" aria-label="Not allowed">❌</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Room name</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Room announcement</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Play music</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Clear public message</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Clear seat gift values</th><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Background</th><td><span class="permission-mark" role="img" aria-label="Not allowed">❌</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Room decoration</th><td><span class="permission-mark" role="img" aria-label="Not allowed">❌</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Lock / unlock room</th><td><span class="permission-mark" role="img" aria-label="Not allowed">❌</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+        <tr><th scope="row">Mic mode</th><td><span class="permission-mark" role="img" aria-label="Not allowed">❌</span></td><td><span class="permission-mark" role="img" aria-label="Allowed">✅</span></td></tr>
+      </tbody>
+                  </table>
+    </div>
+  </section>
+</main>
+<script>
+  const back = document.querySelector('.room-panel-back');
+  back.disabled = history.length < 2;
+  back.addEventListener('click', () => history.back());
+</script>
+</body>
+</html>
