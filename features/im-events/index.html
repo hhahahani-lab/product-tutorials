@@ -527,7 +527,8 @@ SOFTWARE.
   const emptySwitch = root.querySelector("#im-demo-no-events");
   const emptyNoticesSwitch = root.querySelector("#im-demo-no-notices");
 
-  const demoTime = "2026-11-26T12:55:00+05:00";
+  const demoStart = Date.parse("2026-11-26T12:55:00+05:00");
+  const openedAt = Date.now();
   const events = [
     { id: "christmas", name: "Christmas Gift Hunt", start: "2026-11-26T12:00:00+05:00", end: "2026-12-25T23:59:59+05:00",
       art: "christmas", visible: true, summary: "Collect festive gifts during the event." },
@@ -557,6 +558,7 @@ SOFTWARE.
   ];
   const pages = [];
   let unread = notices.filter(notice => notice.unread).length;
+  let displayedEventIds;
 
   function fullTime(date) {
     return date.slice(0, 16).replace("T", " ") + " (UTC+5)";
@@ -566,8 +568,24 @@ SOFTWARE.
     return date.slice(5, 16).replace("-", "/").replace("T", " ");
   }
 
-  function live(event) {
-    return event.visible && Date.parse(event.start) <= Date.parse(demoTime) && Date.parse(demoTime) < Date.parse(event.end);
+  function demoNow() {
+    return demoStart + (Date.now() - openedAt);
+  }
+
+  function live(event, now = demoNow()) {
+    return event.visible && Date.parse(event.start) <= now && now < Date.parse(event.end);
+  }
+
+  function remainingTime(milliseconds) {
+    const minutes = Math.floor(milliseconds / 60_000);
+    if (minutes < 1) return "<1m";
+    const days = Math.floor(minutes / 1440);
+    const hours = Math.floor(minutes / 60) % 24;
+    const minutesPart = `${String(minutes % 60).padStart(2, "0")}m`;
+    const hoursPart = `${String(hours).padStart(2, "0")}h`;
+    if (days) return `${days}d ${hoursPart} ${minutesPart}`;
+    if (hours) return `${hoursPart} ${minutesPart}`;
+    return minutesPart;
   }
 
   function avatar(avatarY) {
@@ -617,19 +635,28 @@ SOFTWARE.
   }
 
   function renderEvents() {
-    const ongoing = emptySwitch.checked ? [] : events.filter(live);
-    eventsList.hidden = ongoing.length === 0;
-    emptyEvents.hidden = ongoing.length > 0;
-    eventsList.innerHTML = ongoing.map(event => `
-      <article class="im-event">
-        <button class="im-event-card cursor-interaction" type="button" data-event="${event.id}"
-          aria-label="${event.name}" aria-describedby="im-start-${event.id}">
-          ${bannerMarkup(event)}
-          <span class="im-event-date" id="im-start-${event.id}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            <span>Start time <time datetime="${event.start}">${fullTime(event.start)}</time></span>
-          </span>
-        </button>
-      </article>`).join("");
+    const now = demoNow();
+    const ongoing = emptySwitch.checked ? [] : events.filter(event => live(event, now));
+    const eventIds = ongoing.map(event => event.id).join(",");
+    if (displayedEventIds !== eventIds) {
+      displayedEventIds = eventIds;
+      eventsList.hidden = ongoing.length === 0;
+      emptyEvents.hidden = ongoing.length > 0;
+      eventsList.innerHTML = ongoing.map(event => `
+        <article class="im-event">
+          <button class="im-event-card cursor-interaction" type="button" data-event="${event.id}"
+            aria-label="${event.name}" aria-describedby="im-ends-${event.id}">
+            ${bannerMarkup(event)}
+            <span class="im-event-date" id="im-ends-${event.id}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Ends in <time datetime="${event.end}"></time></span>
+            </span>
+          </button>
+        </article>`).join("");
+    }
+    for (const countdown of eventsList.querySelectorAll("time")) {
+      const time = remainingTime(Date.parse(countdown.dateTime) - now);
+      if (countdown.textContent !== time) countdown.textContent = time;
+    }
   }
 
   function selectTab(tab) {
@@ -768,6 +795,7 @@ SOFTWARE.
     `<li class="im-row">${avatar(person.avatarY)}${rowCopy(person.name)}</li>`).join("");
   renderMessages();
   renderEvents();
+  setInterval(renderEvents, 1000);
 })();
 </script>
 </body>
